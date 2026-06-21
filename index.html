@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP Physics Practice Hub</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; background-color: #fcfcfc; color: #333; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; text-align: center; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .btn { display: inline-block; background: #007BFF; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; margin-top: 10px; font-weight: bold; }
+        .btn:hover { background: #0056b3; }
+        .daily-box { background: #eef7ff; border: 1px solid #bce0ff; }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 AP Physics Practice Portal</h1>
+    <p>Welcome to <strong>physics-foryou</strong>! Choose an exam below to start practicing, or tackle the daily challenge.</p>
+
+    <div class="card daily-box">
+        <h3>📅 Question of the Day</h3>
+        <p>Test your conceptual knowledge with a new question every 24 hours.</p>
+        <a href="daily.html" class="btn">Answer Today's Question</a>
+    </div>
+
+    <h2>Select Your Exam</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>AP Physics 1</h3>
+            <p>Algebra-based mechanics, waves, and basic circuits.</p>
+            <a href="#" class="btn">Start Test</a>
+        </div>
+        <div class="card">
+            <h3>AP Physics 2</h3>
+            <p>Fluids, thermodynamics, optics, and electricity.</p>
+            <a href="#" class="btn">Start Test</a>
+        </div>
+        <div class="card">
+            <h3>AP Physics C: Mech</h3>
+            <p>Calculus-based mechanics: $$\tau = I\alpha$$</p>
+            <a href="#" class="btn">Start Test</a>
+        </div>
+        <div class="card">
+            <h3>AP Physics C: E&M</h3>
+            <p>Calculus-based electricity and magnetism: $$\oint \vec{E} \cdot d\vec{A} = \frac{Q_{encl}}{\varepsilon_0}$$</p>
+            <a href="#" class="btn">Start Test</a>
+        </div>
+    </div>
+
+</body>
+</html>
