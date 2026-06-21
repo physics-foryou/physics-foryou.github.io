@@ -3,50 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AP Physics Practice Hub</title>
+    <title>Physics Simulation Hub</title>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; background-color: #fcfcfc; color: #333; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
-        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; text-align: center; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .btn { display: inline-block; background: #007BFF; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; margin-top: 10px; font-weight: bold; }
-        .btn:hover { background: #0056b3; }
-        .daily-box { background: #eef7ff; border: 1px solid #bce0ff; }
+        /* Base Simulation Theme Colors */
+        :root {
+            --bg-color: #6a7f93;        /* The light steel blue background */
+            --panel-bg: #1c1a27;        /* The deep dark purple/black panel background */
+            --header-bg: #3c3957;       /* The medium purple window header */
+            --text-main: #d1d2d6;       /* Bright light gray text */
+            --text-dim: #9ba1a6;        /* Subdued label text */
+            --accent-blue: #007BFF;
+        }
+
+        body {
+            font-family: 'Consolas', 'Courier New', monospace; /* Monospace font like a terminal */
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 15px;
+            color: var(--text-main);
+            box-sizing: border-box;
+        }
+
+        /* Top Bar Menu Simulation */
+        .top-menu {
+            font-size: 14px;
+            padding: 4px 10px;
+            margin-bottom: 15px;
+            color: #000;
+        }
+        .top-menu span {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        /* Main Window Grid Workspace */
+        .workspace {
+            display: grid;
+            grid-template-columns: 240px 1fr 340px; /* Three columns layout just like the image */
+            gap: 15px;
+            align-items: start;
+        }
+
+        /* Reusable Window Panel Style */
+        .panel {
+            background-color: var(--panel-bg);
+            border: 1px solid #444;
+            border-radius: 3px;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* Panel Header bar with tiny close 'X' style */
+        .panel-header {
+            background-color: var(--header-bg);
+            padding: 6px 10px;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #555;
+            cursor: default;
+        }
+        .panel-header::before {
+            content: "▼ ";
+            font-size: 10px;
+        }
+        .panel-close {
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .panel-content {
+            padding: 12px;
+            font-size: 13px;
+        }
+
+        /* Status items & Key-Value Lists */
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .status-label { color: var(--text-dim); }
+        .status-value { font-weight: bold; }
+
+        /* Interactive Buttons */
+        .btn {
+            display: block;
+            width: 100%;
+            background-color: #2b283d;
+            border: 1px solid #5c5978;
+            color: var(--text-main);
+            padding: 8px;
+            margin-top: 10px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background-color: var(--header-bg);
+            border-color: #7b789c;
+        }
+        .btn-active {
+            background-color: #3b4e70;
+            border-color: #5d7cb3;
+        }
+
+        /* Center column structure */
+        .center-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Responsive styling for smaller screens */
+        @media (max-width: 900px) {
+            .workspace { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <h1>🚀 AP Physics Practice Portal</h1>
-    <p>Welcome to <strong>physics-foryou</strong>! Choose an exam below to start practicing, or tackle the daily challenge.</p>
-
-    <div class="card daily-box">
-        <h3>📅 Question of the Day</h3>
-        <p>Test your conceptual knowledge with a new question every 24 hours.</p>
-        <a href="daily.html" class="btn">Answer Today's Question</a>
+    <div class="top-menu">
+        <strong>Workspace</strong> &nbsp;&nbsp; <span>View</span> <span>Hardware</span> <span>NetworkTables</span> <span>Plot</span> <span>Window</span>
     </div>
 
-    <h2>Select Your Exam</h2>
-    <div class="grid">
-        <div class="card">
-            <h3>AP Physics 1</h3>
-            <p>Algebra-based mechanics, waves, and basic circuits.</p>
-            <a href="#" class="btn">Start Test</a>
+    <div class="workspace">
+
+        <div class="center-column">
+            <div class="panel">
+                <div class="panel-header">System State <span class="panel-close">✕</span></div>
+                <div class="panel-content">
+                    <a href="#" class="btn">Disconnected</a>
+                    <a href="#" class="btn">Disabled</a>
+                    <a href="#" class="btn">Autonomous</a>
+                    <a href="#" class="btn btn-active">Teleoperated</a>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Session Stats <span class="panel-close">✕</span></div>
+                <div class="panel-content">
+                    <div class="status-row"><span class="status-label">Streak:</span><span class="status-value">5 Days</span></div>
+                    <div class="status-row"><span class="status-label">Correct:</span><span class="status-value">84%</span></div>
+                    <div class="status-row"><span class="status-label">Time Elapsed:</span><span class="status-value">42.15s</span></div>
+                </div>
+            </div>
         </div>
-        <div class="card">
-            <h3>AP Physics 2</h3>
-            <p>Fluids, thermodynamics, optics, and electricity.</p>
-            <a href="#" class="btn">Start Test</a>
+
+        <div class="center-column">
+            <div class="panel">
+                <div class="panel-header">Main Hub Info <span class="panel-close">✕</span></div>
+                <div class="panel-content">
+                    <h2 style="margin-top: 0; color: #fff;">🚀 AP Physics Practice Portal</h2>
+                    <p>System initialized successfully. Choose an active testing module below or complete the daily telemetry check.</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">📅 Daily Challenge Telemetry <span class="panel-close">✕</span></div>
+                <div class="panel-content" style="background-color: #171c26;">
+                    <p style="color: #6ba6ff; font-weight: bold; margin-top: 0;">Today's Focus: Mechanics</p>
+                    <p>Test your conceptual knowledge with a new core calculation every 24 hours.</p>
+                    <a href="daily.html" class="btn btn-active" style="width: auto; display: inline-block; padding: 8px 20px;">Initialize Daily Test</a>
+                </div>
+            </div>
         </div>
-        <div class="card">
-            <h3>AP Physics C: Mech</h3>
-            <p>Calculus-based mechanics: $$\tau = I\alpha$$</p>
-            <a href="#" class="btn">Start Test</a>
+
+        <div class="panel">
+            <div class="panel-header">Available Exam Channels <span class="panel-close">✕</span></div>
+            <div class="panel-content">
+                
+                <p style="color: var(--text-dim); font-size: 11px; margin-top: 0;">SELECT MODULE TO DEPLOY:</p>
+                
+                <div style="margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                    <div class="status-row"><strong>AP Physics 1</strong></div>
+                    <span style="font-size: 11px; color: var(--text-dim);">Algebra-based foundations.</span>
+                    <a href="#" class="btn">Load Physics 1</a>
+                </div>
+
+                <div style="margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                    <div class="status-row"><strong>AP Physics 2</strong></div>
+                    <span style="font-size: 11px; color: var(--text-dim);">Fluids & Thermodynamics.</span>
+                    <a href="#" class="btn">Load Physics 2</a>
+                </div>
+
+                <div style="margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                    <div class="status-row"><strong>AP Physics C: Mech</strong></div>
+                    <span style="font-size: 11px; color: var(--text-dim);">Calculus: $$\tau = I\alpha$$</span>
+                    <a href="#" class="btn">Load Mech Exam</a>
+                </div>
+
+                <div>
+                    <div class="status-row"><strong>AP Physics C: E&M</strong></div>
+                    <span style="font-size: 11px; color: var(--text-dim);">Calculus: $$\oint \vec{E} \cdot d\vec{A}$$</span>
+                    <a href="#" class="btn">Load E&M Exam</a>
+                </div>
+
+            </div>
         </div>
-        <div class="card">
-            <h3>AP Physics C: E&M</h3>
-            <p>Calculus-based electricity and magnetism: $$\oint \vec{E} \cdot d\vec{A} = \frac{Q_{encl}}{\varepsilon_0}$$</p>
-            <a href="#" class="btn">Start Test</a>
-        </div>
+
     </div>
 
 </body>
