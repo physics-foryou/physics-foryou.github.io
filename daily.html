@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Telemetry Check</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-color: #6a7f93;        
+            --panel-bg: #1c1a27;        
+            --header-bg: #3c3957;       
+            --text-main: #d1d2d6;
+            --text-dim: #9ba1a6;
+        }
+        body {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-main);
+        }
+        .workspace { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .panel { background-color: var(--panel-bg); border: 1px solid #444; border-radius: 3px; overflow: hidden; }
+        .panel-header { background-color: var(--header-bg); padding: 8px 12px; font-size: 14px; font-weight: bold; border-bottom: 1px solid #555; display: flex; justify-content: space-between;}
+        .panel-content { padding: 20px; }
+        .timer-box { font-size: 18px; color: #ff6b6b; font-weight: bold; }
+        .choice-btn { display: block; width: 100%; text-align: left; background: #2b283d; border: 1px solid #5c5978; color: var(--text-main); padding: 12px; margin: 8px 0; cursor: pointer; font-family: inherit; border-radius: 2px; }
+        .choice-btn:hover { background-color: var(--header-bg); }
+        .nav-btn { background-color: #3b4e70; border: 1px solid #5d7cb3; color: white; padding: 8px 16px; text-decoration: none; font-family: inherit; font-size: 13px; display: inline-block; margin-top: 15px;}
+    </style>
+</head>
+<body>
+
+    <div class="workspace">
+        <div class="panel">
+            <div class="panel-header">
+                <span>⏱️ EXAM PACING CORE</span>
+                <span id="timer" class="timer-box">00:00</span>
+            </div>
+            <div class="panel-content">
+                <h3 id="subject-title" style="margin-top:0; color:#6ba6ff;">Loading Course Telemetry...</h3>
+                <p id="question-text">Loading question data...</p>
+                
+                <div id="choices-container">
+                    </div>
+
+                <a href="index.html" class="nav-btn">◀ Return to Hub</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Parse URL to know what subject the user clicked
+        const urlParams = new URLSearchParams(window.location.search);
+        const subject = urlParams.get('subject') || 'ap1';
+        
+        // Map display names and timers (AP1/2 get 1.8 mins = 108s, AP C gets 1.3 mins = 78s)
+        const configurations = {
+            ap1: { name: "AP Physics 1: Algebra-Based", time: 108 },
+            ap2: { name: "AP Physics 2: Algebra-Based", time: 108 },
+            mech: { name: "AP C: Mechanics (Calculus)", time: 78 },
+            em: { name: "AP C: Electricity & Magnetism", time: 78 }
+        };
+
+        document.getElementById('subject-title').innerText = configurations[subject].name + " - Daily Challenge";
+
+        // 2. Simple Countdown Timer Logic
+        let timeRemaining = configurations[subject].time;
+        const timerElement = document.getElementById('timer');
+
+        function updateTimer() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            timerElement.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeRemaining <= 0) {
+                clearInterval(countdown);
+                timerElement.innerText = "TIME EXPIRED";
+            } else {
+                timeRemaining--;
+            }
+        }
+        updateTimer();
+        const countdown = setInterval(updateTimer, 1000);
+
+        // Placeholder question for test display
+        document.getElementById('question-text').innerHTML = "Sample Diagnostic Matrix Question: <br><br> An object is moving with an initial velocity vector $$\\vec{v} = 3\\hat{i} + 4\\hat{j}$$ when an acceleration field acts upon it. What is its structural speed?";
+        const container = document.getElementById('choices-container');
+        ["5 m/s", "7 m/s", "1 m/s", "25 m/s"].forEach(choice => {
+            container.innerHTML += `<button class="choice-btn">${choice}</button>`;
+        });
+    </script>
+</body>
+</html>
