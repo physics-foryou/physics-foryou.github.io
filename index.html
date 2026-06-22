@@ -79,6 +79,16 @@
         }
         .action-btn:hover { background-color: #3b734b; }
 
+        /* Integrated Inline Warning Label */
+        .inline-warning {
+            color: #ff6b6b;
+            font-size: 13px;
+            margin-top: 8px;
+            margin-bottom: -4px;
+            display: none;
+            font-weight: bold;
+        }
+
         .exam-row {
             border-bottom: 1px solid #333;
             padding: 12px 0;
@@ -123,7 +133,10 @@
         <div class="panel">
             <div class="panel-header">📅 Daily Question Configuration</div>
             <div class="panel-content">
-                <p style="margin-top: 0;">Select your AP Physics course to get today's question:</p>
+                <p style="margin-top: 0; margin-bottom: 0;">Select your AP Physics course to get today's question:</p>
+                
+                <div id="course-warning" class="inline-warning">⚠️ Please select a course before starting your daily question.</div>
+                
                 <div class="selector-group">
                     <button class="select-btn" onclick="setSubject('ap1', event)">AP Physics 1</button>
                     <button class="select-btn" onclick="setSubject('ap2', event)">AP Physics 2</button>
@@ -221,13 +234,15 @@
 
         function setSubject(subject, e) {
             selectedSubject = subject;
+            // Instantly hide warning label if they tap a choice
+            document.getElementById('course-warning').style.display = 'none';
             document.querySelectorAll('.select-btn').forEach(btn => btn.classList.remove('active'));
             e.target.classList.add('active');
         }
 
         function launchDailyTest() {
             if (!selectedSubject) {
-                alert("Please select an AP Physics course before starting your daily question!");
+                document.getElementById('course-warning').style.display = 'block';
                 return;
             }
             window.location.href = `daily.html?subject=${selectedSubject}`;
