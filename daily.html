@@ -66,8 +66,9 @@
         .choice-btn { display: block; width: 100%; text-align: left; background: #2b283d; border: 1px solid #5c5978; color: var(--text-main); padding: 14px; margin: 10px 0; cursor: pointer; font-family: inherit; border-radius: 2px; font-size: 14px; }
         .choice-btn:hover { background-color: var(--header-bg); }
         .choice-btn.selected { border-color: #007BFF; background-color: #1a293d; }
-        .choice-btn.correct { border-color: #478557 !important; background-color: #1c3824 !important; color: #fff; }
-        .choice-btn.incorrect { border-color: #a83232 !important; background-color: #421b1b !important; }
+        .choice-btn.correct { border-color: #478557 !important; background-color: #1c3824 !important; color: #fff; cursor: default; }
+        .choice-btn.incorrect { border-color: #a83232 !important; background-color: #421b1b !important; cursor: default; }
+        .choice-btn.disabled:hover { background-color: #2b283d; cursor: default; }
 
         .action-bar {
             display: flex;
@@ -151,6 +152,10 @@
         let currentConfig = configs[subject];
         document.getElementById('subject-title').innerText = `${currentConfig.name} Daily Problem`;
 
+        // Generate a date string key so progress locks reset automatically tomorrow
+        const todayKey = new Date().toISOString().split('T')[0];
+        const storageStorageKey = `daily_ans_${subject}_${todayKey}`;
+
         let questionData = { question: "No questions added to this category yet!", choices: [], correctIndex: 0, explanation: "N/A" };
         if (currentConfig.pool && currentConfig.pool.length > 0) {
             const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
@@ -170,6 +175,36 @@
         let isSubmitted = false;
         let timeRemaining = currentConfig.time;
         let overtimeSeconds = 0;
+        let countdown;
+
+        // Check if an answer was already submitted today before loading the timer loop
+        const savedAnswer = localStorage.getItem(storageStorageKey);
+        
+        if (savedAnswer !== null) {
+            isSubmitted = true;
+            selectedIndex = parseInt(savedAnswer, 10);
+            document.getElementById('timer').innerText = "COMPLETED";
+            
+            // Instantly apply colors to choices and display explanations without needing a click
+            setTimeout(() => {
+                const buttons = document.querySelectorAll('.choice-btn');
+                buttons.forEach((btn, idx) => {
+                    if (idx === questionData.correctIndex) {
+                        btn.classList.add('correct');
+                    } else if (idx === selectedIndex) {
+                        btn.classList.add('incorrect');
+                    } else {
+                        btn.classList.add('disabled');
+                    }
+                });
+                document.getElementById('explanation-text').innerHTML = questionData.explanation;
+                document.getElementById('explanation-box').style.display = 'block';
+                if(window.MathJax) { MathJax.typesetPromise(); }
+            }, 50);
+        } else {
+            // Only setup and ignite the interval loop if the user hasn't submitted yet
+            countdown = setInterval(runTimerClock, 1000);
+        }
 
         function selectChoice(btnElement, idx) {
             if (isSubmitted) return;
@@ -184,6 +219,9 @@
             isSubmitted = true;
             clearInterval(countdown);
             
+            // Save selection to LocalStorage
+            localStorage.setItem(storageStorageKey, selectedIndex);
+            
             document.getElementById('submit-btn').style.display = 'none';
             const buttons = document.querySelectorAll('.choice-btn');
             
@@ -193,6 +231,8 @@
                     btn.classList.add('correct');
                 } else if (idx === selectedIndex) {
                     btn.classList.add('incorrect');
+                } else {
+                    btn.classList.add('disabled');
                 }
             });
 
@@ -213,7 +253,6 @@
                 if (timeRemaining === 30) {
                     timerElement.classList.add('timer-warning');
                     notificationElement.style.display = 'block';
-                    // Maintained visibility display parameter to disappear exactly at 6 seconds (6000ms)
                     setTimeout(() => { notificationElement.style.display = 'none'; }, 6000);
                 }
                 timeRemaining--;
@@ -223,8 +262,6 @@
                 timerElement.innerText = `OVERTIME: +${overtimeSeconds}s`;
             }
         }
-        runTimerClock();
-        const countdown = setInterval(runTimerClock, 1000);
     </script>
 </body>
 </html>
