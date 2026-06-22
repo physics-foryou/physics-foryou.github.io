@@ -192,10 +192,10 @@
         let ap1CombinedPool = [];
         if (typeof ap1DailyPool !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(ap1DailyPool);
         
-        // Dynamically gathers ap1DailyPoolBatch1 through ap1DailyPoolBatch10 if present
+        // Dynamically gathers dailyProblemPoolBatch1 through dailyProblemPoolBatch10 if present
         for (let i = 1; i <= 10; i++) {
-            if (typeof window[`ap1DailyPoolBatch${i}`] !== 'undefined') {
-                ap1CombinedPool = ap1CombinedPool.concat(window[`ap1DailyPoolBatch${i}`]);
+            if (typeof window[`dailyProblemPoolBatch${i}`] !== 'undefined') {
+                ap1CombinedPool = ap1CombinedPool.concat(window[`dailyProblemPoolBatch${i}`]);
             }
         }
         
@@ -216,7 +216,15 @@
         if (currentConfig.pool && currentConfig.pool.length > 0) {
             const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
             const questionIndex = dayOfYear % currentConfig.pool.length;
-            questionData = currentConfig.pool[questionIndex];
+            const rawQuestion = currentConfig.pool[questionIndex];
+            
+            // --- PROPERTY TRANSLATION FROM DATABASE AP1.JS MAP TO THE WEB INTERFACE ---
+            questionData = {
+                ...rawQuestion,
+                choices: rawQuestion.options || [], // Translates options to choices
+                // Translates letter strings ("A", "B", "C", "D") to array indices (0, 1, 2, 3)
+                correctIndex: rawQuestion.correctAnswer ? (rawQuestion.correctAnswer.charCodeAt(0) - 65) : 0 
+            };
         }
 
         if (questionData.image && questionData.image.trim() !== "") {
@@ -227,6 +235,7 @@
 
         document.getElementById('question-text').innerHTML = questionData.question;
         const container = document.getElementById('choices-container');
+        container.innerHTML = ""; // Clear loader text
         questionData.choices.forEach((choice, idx) => {
             container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
         });
@@ -236,7 +245,7 @@
         document.getElementById('meta-topic').innerText = questionData.topic || "N/A";
         document.getElementById('meta-skill').innerText = questionData.skill || "N/A";
         document.getElementById('meta-id').innerText = questionData.id || "N/A";
-        document.getElementById('explanation-text').innerHTML = questionData.explanation;
+        document.getElementById('explanation-text').innerHTML = questionData.explanation || "N/A";
 
         const diffSpan = document.getElementById('difficulty-span');
         const diffLevel = (questionData.difficulty || "Easy").toLowerCase();
