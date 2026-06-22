@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Telemetry Check</title>
+    <title>Daily Telemetry Workspace</title>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="daily-pool/ap1.js"></script>
     <style>
         :root {
             --bg-color: #6a7f93;        
@@ -20,14 +21,23 @@
             padding: 20px;
             color: var(--text-main);
         }
-        .workspace { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
-        .panel { background-color: var(--panel-bg); border: 1px solid #444; border-radius: 3px; overflow: hidden; }
-        .panel-header { background-color: var(--header-bg); padding: 8px 12px; font-size: 14px; font-weight: bold; border-bottom: 1px solid #555; display: flex; justify-content: space-between;}
+        .workspace { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .panel { background-color: var(--panel-bg); border: 1px solid #444; border-radius: 3px; overflow: hidden; box-shadow: 4px 4px 10px rgba(0,0,0,0.3); }
+        .panel-header { background-color: var(--header-bg); padding: 10px 14px; font-size: 14px; font-weight: bold; border-bottom: 1px solid #555; display: flex; justify-content: space-between; align-items: center;}
         .panel-content { padding: 20px; }
-        .timer-box { font-size: 18px; color: #ff6b6b; font-weight: bold; }
-        .choice-btn { display: block; width: 100%; text-align: left; background: #2b283d; border: 1px solid #5c5978; color: var(--text-main); padding: 12px; margin: 8px 0; cursor: pointer; font-family: inherit; border-radius: 2px; }
+        .timer-box { font-size: 16px; color: #a8ffb2; font-weight: bold; }
+        .timer-expired { color: #ff6b6b; }
+        
+        .choice-btn { display: block; width: 100%; text-align: left; background: #2b283d; border: 1px solid #5c5978; color: var(--text-main); padding: 14px; margin: 10px 0; cursor: pointer; font-family: inherit; border-radius: 2px; font-size: 14px; }
         .choice-btn:hover { background-color: var(--header-bg); }
-        .nav-btn { background-color: #3b4e70; border: 1px solid #5d7cb3; color: white; padding: 8px 16px; text-decoration: none; font-family: inherit; font-size: 13px; display: inline-block; margin-top: 15px;}
+        .choice-btn.selected { border-color: #007BFF; background-color: #1a293d; }
+        .choice-btn.correct { border-color: #478557 !important; background-color: #1c3824 !important; color: #fff; }
+        .choice-btn.incorrect { border-color: #a83232 !important; background-color: #421b1b !important; }
+
+        .action-btn { background-color: #2e593a; border: 1px solid #478557; color: white; padding: 10px 20px; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: bold; display: none; margin-top: 15px; }
+        .nav-btn { background-color: #2b283d; border: 1px solid #5c5978; color: var(--text-dim); padding: 8px 16px; text-decoration: none; font-family: inherit; font-size: 13px; display: inline-block; margin-top: 15px; margin-right: 10px;}
+        .nav-btn:hover { color: #fff; }
+        #explanation-box { background: #171621; border-left: 4px solid #3b4e70; padding: 15px; margin-top: 20px; display: none; font-size: 13px; line-height: 1.5; }
     </style>
 </head>
 <body>
@@ -35,61 +45,114 @@
     <div class="workspace">
         <div class="panel">
             <div class="panel-header">
-                <span>⏱️ EXAM PACING CORE</span>
+                <span>⚡ CORE DIAGNOSTIC RUNTIME</span>
                 <span id="timer" class="timer-box">00:00</span>
             </div>
             <div class="panel-content">
-                <h3 id="subject-title" style="margin-top:0; color:#6ba6ff;">Loading Course Telemetry...</h3>
-                <p id="question-text">Loading question data...</p>
+                <h3 id="subject-title" style="margin-top:0; color:#6ba6ff;">Configuring Engine...</h3>
+                <div id="question-text" style="font-size: 15px; margin-bottom: 20px; line-height: 1.5;">Fetching question vector...</div>
                 
-                <div id="choices-container">
-                    </div>
+                <div id="choices-container"></div>
 
-                <a href="index.html" class="nav-btn">◀ Return to Hub</a>
+                <button id="submit-btn" class="action-btn" onclick="submitAnswer()">Submit Telemetry Data</button>
+                
+                <div id="explanation-box">
+                    <strong style="color: #6ba6ff;">Diagnostic Log Explanation:</strong>
+                    <p id="explanation-text" style="margin: 5px 0 0 0;"></p>
+                </div>
+
+                <hr style="border: none; border-top: 1px solid #333; margin-top: 25px;">
+                <a href="index.html" class="nav-btn">◀ Abort & Return Hub</a>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. Parse URL to know what subject the user clicked
         const urlParams = new URLSearchParams(window.location.search);
         const subject = urlParams.get('subject') || 'ap1';
         
-        // Map display names and timers (AP1/2 get 1.8 mins = 108s, AP C gets 1.3 mins = 78s)
-        const configurations = {
-            ap1: { name: "AP Physics 1: Algebra-Based", time: 108 },
-            ap2: { name: "AP Physics 2: Algebra-Based", time: 108 },
-            mech: { name: "AP C: Mechanics (Calculus)", time: 78 },
-            em: { name: "AP C: Electricity & Magnetism", time: 78 }
+        const configs = {
+            ap1: { name: "AP Physics 1", time: 108, pool: typeof ap1DailyPool !== 'undefined' ? ap1DailyPool : [] },
+            ap2: { name: "AP Physics 2", time: 108, pool: [] },
+            mech: { name: "AP C: Mechanics", time: 78, pool: [] },
+            em: { name: "AP C: E&M", time: 78, pool: [] }
         };
 
-        document.getElementById('subject-title').innerText = configurations[subject].name + " - Daily Challenge";
+        let currentConfig = configs[subject];
+        document.getElementById('subject-title').innerText = `${currentConfig.name} - Telemetry Check`;
 
-        // 2. Simple Countdown Timer Logic
-        let timeRemaining = configurations[subject].time;
-        const timerElement = document.getElementById('timer');
+        // Date-Based Question Picker logic
+        let questionData = { question: "No data found in selected course pool module.", choices: [], correctIndex: 0, explanation: "N/A" };
+        if (currentConfig.pool.length > 0) {
+            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+            const questionIndex = dayOfYear % currentConfig.pool.length;
+            questionData = currentConfig.pool[questionIndex];
+        }
 
-        function updateTimer() {
-            const minutes = Math.floor(timeRemaining / 60);
-            const seconds = timeRemaining % 60;
-            timerElement.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        // Render the Selected Question Data
+        document.getElementById('question-text').innerHTML = questionData.question;
+        const container = document.getElementById('choices-container');
+        questionData.choices.forEach((choice, idx) => {
+            container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
+        });
+
+        // Equation conversion check
+        if(window.MathJax) { MathJax.typeset(); }
+
+        // Core Tracking States
+        let selectedIndex = null;
+        let isSubmitted = false;
+        let timeRemaining = currentConfig.time;
+        let overtimeSeconds = 0;
+
+        function selectChoice(btnElement, idx) {
+            if (isSubmitted) return;
+            selectedIndex = idx;
+            document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+            btnElement.classList.add('selected');
+            document.getElementById('submit-btn').style.display = 'inline-block';
+        }
+
+        function submitAnswer() {
+            if (selectedIndex === null || isSubmitted) return;
+            isSubmitted = true;
+            clearInterval(countdown); // Halt countdown clock immediately
             
-            if (timeRemaining <= 0) {
-                clearInterval(countdown);
-                timerElement.innerText = "TIME EXPIRED";
-            } else {
+            document.getElementById('submit-btn').style.display = 'none';
+            const buttons = document.querySelectorAll('.choice-btn');
+            
+            // Loop choices to flag pass/fail visual boundaries
+            buttons.forEach((btn, idx) => {
+                btn.classList.remove('selected');
+                if (idx === questionData.correctIndex) {
+                    btn.classList.add('correct');
+                } else if (idx === selectedIndex) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            // Output explanations
+            document.getElementById('explanation-text').innerHTML = questionData.explanation;
+            document.getElementById('explanation-box').style.display = 'block';
+            if(window.MathJax) { MathJax.typeset(); }
+        }
+
+        // Dual-Mode Countdown & Overtime System Timer Engine
+        const timerElement = document.getElementById('timer');
+        function runTimerClock() {
+            if (timeRemaining >= 0) {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                timerElement.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 timeRemaining--;
+            } else {
+                timerElement.classList.add('timer-expired');
+                overtimeSeconds++;
+                timerElement.innerText = `OVERTIME: +${overtimeSeconds}s`;
             }
         }
-        updateTimer();
-        const countdown = setInterval(updateTimer, 1000);
-
-        // Placeholder question for test display
-        document.getElementById('question-text').innerHTML = "Sample Diagnostic Matrix Question: <br><br> An object is moving with an initial velocity vector $$\\vec{v} = 3\\hat{i} + 4\\hat{j}$$ when an acceleration field acts upon it. What is its structural speed?";
-        const container = document.getElementById('choices-container');
-        ["5 m/s", "7 m/s", "1 m/s", "25 m/s"].forEach(choice => {
-            container.innerHTML += `<button class="choice-btn">${choice}</button>`;
-        });
+        runTimerClock();
+        const countdown = setInterval(runTimerClock, 1000);
     </script>
 </body>
 </html>
