@@ -4,7 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Question Room</title>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <script src="daily-pool/ap1.js"></script>
     <script src="daily-pool/ap2.js"></script>
@@ -26,12 +40,30 @@
             padding: 20px;
             color: var(--text-main);
         }
-        .workspace { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .workspace { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; position: relative; }
         .panel { background-color: var(--panel-bg); border: 1px solid #444; border-radius: 3px; overflow: hidden; box-shadow: 4px 4px 10px rgba(0,0,0,0.3); }
         .panel-header { background-color: var(--header-bg); padding: 10px 14px; font-size: 14px; font-weight: bold; border-bottom: 1px solid #555; display: flex; justify-content: space-between; align-items: center;}
         .panel-content { padding: 20px; }
-        .timer-box { font-size: 16px; color: #a8ffb2; font-weight: bold; }
-        .timer-expired { color: #ff6b6b; }
+        
+        /* White default timer */
+        .timer-box { font-size: 16px; color: #ffffff; font-weight: bold; transition: color 0.3s ease; }
+        .timer-warning { color: #ff6b6b !important; }
+        
+        /* Floating Unobtrusive Notification Bar */
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #421b1b;
+            border: 1px solid #a83232;
+            color: #ffb3b3;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            display: none;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
         
         .choice-btn { display: block; width: 100%; text-align: left; background: #2b283d; border: 1px solid #5c5978; color: var(--text-main); padding: 14px; margin: 10px 0; cursor: pointer; font-family: inherit; border-radius: 2px; font-size: 14px; }
         .choice-btn:hover { background-color: var(--header-bg); }
@@ -45,13 +77,13 @@
         #explanation-box { background: #171621; border-left: 4px solid #3b4e70; padding: 15px; margin-top: 20px; display: none; font-size: 13px; line-height: 1.5; }
     </style>
 </head>
-<body>
+<body class="tex2jax_ignore">
 
-    <div class="workspace">
+    <div class="workspace tex2jax_process">
         <div class="panel">
             <div class="panel-header">
-                <span>⏱️ Timer</span>
-                <span id="timer" class="timer-box">00:00</span>
+                <span>⏱️ Pacing</span>
+                <span id="timer" class="timer-box">02:00</span>
             </div>
             <div class="panel-content">
                 <h3 id="subject-title" style="margin-top:0; color:#6ba6ff;">Loading...</h3>
@@ -72,21 +104,22 @@
         </div>
     </div>
 
+    <div id="notification" class="toast-notification">⚠️ Notice: 30 seconds remaining on core pacing limit.</div>
+
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const subject = urlParams.get('subject') || 'ap1';
         
         const configs = {
-            ap1: { name: "AP Physics 1", time: 108, pool: typeof ap1DailyPool !== 'undefined' ? ap1DailyPool : [] },
-            ap2: { name: "AP Physics 2", time: 108, pool: typeof ap2DailyPool !== 'undefined' ? ap2DailyPool : [] },
-            mech: { name: "AP C: Mechanics", time: 78, pool: typeof mechDailyPool !== 'undefined' ? mechDailyPool : [] },
-            em: { name: "AP C: E&M", time: 78, pool: typeof emDailyPool !== 'undefined' ? emDailyPool : [] }
+            ap1: { name: "AP Physics 1", time: 120, pool: typeof ap1DailyPool !== 'undefined' ? ap1DailyPool : [] },
+            ap2: { name: "AP Physics 2", time: 120, pool: typeof ap2DailyPool !== 'undefined' ? ap2DailyPool : [] },
+            mech: { name: "AP C: Mechanics", time: 120, pool: typeof mechDailyPool !== 'undefined' ? mechDailyPool : [] },
+            em: { name: "AP C: E&M", time: 120, pool: typeof emDailyPool !== 'undefined' ? emDailyPool : [] }
         };
 
         let currentConfig = configs[subject];
-        document.getElementById('subject-title').innerText = `${currentConfig.name} - Daily Challenge`;
+        document.getElementById('subject-title').innerText = `${currentConfig.name} Daily Problem`;
 
-        // Load correct question
         let questionData = { question: "No questions added to this category yet!", choices: [], correctIndex: 0, explanation: "N/A" };
         if (currentConfig.pool && currentConfig.pool.length > 0) {
             const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
@@ -100,13 +133,15 @@
             container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
         });
 
-        if(window.MathJax) { MathJax.typeset(); }
+        // Safe equation conversion
+        setTimeout(() => { if(window.MathJax) { MathJax.typesetPromise(); } }, 100);
 
         let selectedIndex = null;
         let isSubmitted = false;
         let timeRemaining = currentConfig.time;
         let overtimeSeconds = 0;
 
+        // Separating selecting vs submitting
         function selectChoice(btnElement, idx) {
             if (isSubmitted) return;
             selectedIndex = idx;
@@ -134,18 +169,27 @@
 
             document.getElementById('explanation-text').innerHTML = questionData.explanation;
             document.getElementById('explanation-box').style.display = 'block';
-            if(window.MathJax) { MathJax.typeset(); }
+            if(window.MathJax) { MathJax.typesetPromise(); }
         }
 
         const timerElement = document.getElementById('timer');
+        const notificationElement = document.getElementById('notification');
+
         function runTimerClock() {
             if (timeRemaining >= 0) {
                 const minutes = Math.floor(timeRemaining / 60);
                 const seconds = timeRemaining % 60;
                 timerElement.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Color changing alert at 30 seconds remaining
+                if (timeRemaining === 30) {
+                    timerElement.classList.add('timer-warning');
+                    notificationElement.style.display = 'block';
+                    setTimeout(() => { notificationElement.style.fadeOut = true; notificationElement.style.display = 'none'; }, 5000);
+                }
                 timeRemaining--;
             } else {
-                timerElement.classList.add('timer-expired');
+                timerElement.classList.add('timer-warning');
                 overtimeSeconds++;
                 timerElement.innerText = `OVERTIME: +${overtimeSeconds}s`;
             }
