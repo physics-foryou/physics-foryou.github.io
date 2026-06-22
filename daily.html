@@ -63,11 +63,10 @@
             z-index: 1000;
         }
 
-        /* Question Image Formatting */
         .question-image-container {
             text-align: center;
             margin-bottom: 20px;
-            display: none; /* Hidden unless an image exists */
+            display: none;
         }
         .question-image {
             max-width: 100%;
@@ -119,6 +118,11 @@
         .nav-btn:hover { color: #fff; background-color: var(--header-bg); }
         
         #explanation-box { background: #171621; border-left: 4px solid #3b4e70; padding: 15px; margin-top: 20px; display: none; font-size: 13px; line-height: 1.5; }
+        
+        /* Difficulty container item rows */
+        .difficulty-row { margin-bottom: 12px; font-size: 14px; }
+        .difficulty-label { color: #6ba6ff; font-weight: bold; }
+        
         .difficulty-tag { display: inline-block; padding: 2px 6px; font-size: 11px; font-weight: bold; border-radius: 3px; margin-left: 5px; text-transform: uppercase;}
         .diff-easy { background-color: #1c3824; color: #a8ffb2; border: 1px solid #478557; }
         .diff-medium { background-color: #42311b; color: #ffdca8; border: 1px solid #b37d14; }
@@ -145,11 +149,14 @@
                 <div id="choices-container"></div>
                 
                 <div id="explanation-box">
-                    <div style="margin-bottom: 10px; display: flex; align-items: center;">
-                        <strong style="color: #6ba6ff;">Explanation</strong>
+                    <div class="difficulty-row">
+                        <span class="difficulty-label">Difficulty:</span>
                         <span id="difficulty-span" class="difficulty-tag"></span>
                     </div>
-                    <p id="explanation-text" style="margin: 5px 0 0 0;"></p>
+                    <div style="margin-top: 8px;">
+                        <strong style="color: #6ba6ff;">Explanation:</strong>
+                        <p id="explanation-text" style="margin: 5px 0 0 0;"></p>
+                    </div>
                 </div>
 
                 <hr style="border: none; border-top: 1px solid #333; margin-top: 25px;">
@@ -188,7 +195,6 @@
             questionData = currentConfig.pool[questionIndex];
         }
 
-        // Render Image if path exists
         if (questionData.image && questionData.image.trim() !== "") {
             const imgElement = document.getElementById('question-img');
             imgElement.src = questionData.image;
@@ -209,7 +215,6 @@
         let overtimeSeconds = 0;
         let countdown;
 
-        // Apply visual difficulty tag properties
         const diffSpan = document.getElementById('difficulty-span');
         const diffLevel = (questionData.difficulty || "Easy").toLowerCase();
         diffSpan.innerText = diffLevel;
