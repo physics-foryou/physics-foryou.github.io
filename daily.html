@@ -119,6 +119,7 @@
         
         #explanation-box { background: #171621; border-left: 4px solid #3b4e70; padding: 15px; margin-top: 20px; display: none; font-size: 13px; line-height: 1.6; }
         
+        /* Information Stacking Metadata Styles */
         .meta-line { margin-bottom: 8px; }
         .meta-label { color: #6ba6ff; font-weight: bold; }
         .meta-val { color: var(--text-main); }
@@ -187,9 +188,18 @@
         const urlParams = new URLSearchParams(window.location.search);
         const subject = urlParams.get('subject') || 'ap1';
         
-        // --- FIXED: SAFE SCOPE RESOLUTION FOR CONST BATCHES ---
+        // --- FIXED MATCHING LOGIC FOR ALL POOL Naming Styles ---
         let ap1CombinedPool = [];
         if (typeof ap1DailyPool !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(ap1DailyPool);
+        
+        // Gathers window-bound batches if any exist
+        for (let i = 1; i <= 10; i++) {
+            if (typeof window[`ap1DailyPoolBatch${i}`] !== 'undefined') {
+                ap1CombinedPool = ap1CombinedPool.concat(window[`ap1DailyPoolBatch${i}`]);
+            }
+        }
+        
+        // FIX #1: Explicit checks for 'dailyProblemPoolBatch' style since top-level 'const' avoids the window object
         if (typeof dailyProblemPoolBatch1 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch1);
         if (typeof dailyProblemPoolBatch2 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch2);
         if (typeof dailyProblemPoolBatch3 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch3);
@@ -218,14 +228,20 @@
         if (currentConfig.pool && currentConfig.pool.length > 0) {
             const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
             const questionIndex = dayOfYear % currentConfig.pool.length;
-            const rawQuestion = currentConfig.pool[questionIndex];
-            
-            // --- PROPERTY TRANSLATION ---
-            questionData = {
-                ...rawQuestion,
-                choices: rawQuestion.options || [], 
-                correctIndex: rawQuestion.correctAnswer ? (rawQuestion.correctAnswer.charCodeAt(0) - 65) : 0 
-            };
+            questionData = { ...currentConfig.pool[questionIndex] }; // Deep copy
+        }
+
+        // --- FIX #2 & #3: AUTOMATIC DATA STRUCTURE NORMALIZATION LAYER ---
+        if (questionData) {
+            // Map alternative 'options' key to standard 'choices' key
+            if (!questionData.choices && questionData.options) {
+                questionData.choices = questionData.options;
+            }
+            // Map alternative letter index 'correctAnswer' (A, B, C, D) to numerical index (0, 1, 2, 3)
+            if (questionData.correctIndex === undefined && questionData.correctAnswer) {
+                const letterMap = { 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
+                questionData.correctIndex = letterMap[questionData.correctAnswer.toUpperCase()] ?? 0;
+            }
         }
 
         if (questionData.image && questionData.image.trim() !== "") {
@@ -236,12 +252,17 @@
 
         document.getElementById('question-text').innerHTML = questionData.question;
         const container = document.getElementById('choices-container');
-        container.innerHTML = ""; 
         
-        questionData.choices.forEach((choice, idx) => {
-            container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
-        });
+        // Safe execution loop
+        if (questionData.choices && questionData.choices.length > 0) {
+            questionData.choices.forEach((choice, idx) => {
+                container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
+            });
+        } else {
+            container.innerHTML = `<div style="color: #ff6b6b; padding: 10px 0;">Error loading choices for this question item.</div>`;
+        }
 
+        // Hydrate target structured metrics text containers
         document.getElementById('meta-unit').innerText = questionData.unit || "N/A";
         document.getElementById('meta-topic').innerText = questionData.topic || "N/A";
         document.getElementById('meta-skill').innerText = questionData.skill || "N/A";
