@@ -119,7 +119,6 @@
         
         #explanation-box { background: #171621; border-left: 4px solid #3b4e70; padding: 15px; margin-top: 20px; display: none; font-size: 13px; line-height: 1.6; }
         
-        /* Information Stacking Metadata Styles */
         .meta-line { margin-bottom: 8px; }
         .meta-label { color: #6ba6ff; font-weight: bold; }
         .meta-val { color: var(--text-main); }
@@ -188,16 +187,19 @@
         const urlParams = new URLSearchParams(window.location.search);
         const subject = urlParams.get('subject') || 'ap1';
         
-        // --- MATCHING LOGIC FOR AP1 BATCHES ---
+        // --- FIXED: SAFE SCOPE RESOLUTION FOR CONST BATCHES ---
         let ap1CombinedPool = [];
         if (typeof ap1DailyPool !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(ap1DailyPool);
-        
-        // Dynamically gathers dailyProblemPoolBatch1 through dailyProblemPoolBatch10 if present
-        for (let i = 1; i <= 10; i++) {
-            if (typeof window[`dailyProblemPoolBatch${i}`] !== 'undefined') {
-                ap1CombinedPool = ap1CombinedPool.concat(window[`dailyProblemPoolBatch${i}`]);
-            }
-        }
+        if (typeof dailyProblemPoolBatch1 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch1);
+        if (typeof dailyProblemPoolBatch2 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch2);
+        if (typeof dailyProblemPoolBatch3 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch3);
+        if (typeof dailyProblemPoolBatch4 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch4);
+        if (typeof dailyProblemPoolBatch5 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch5);
+        if (typeof dailyProblemPoolBatch6 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch6);
+        if (typeof dailyProblemPoolBatch7 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch7);
+        if (typeof dailyProblemPoolBatch8 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch8);
+        if (typeof dailyProblemPoolBatch9 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch9);
+        if (typeof dailyProblemPoolBatch10 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch10);
         
         const configs = {
             ap1: { name: "AP Physics 1", time: 120, pool: ap1CombinedPool },
@@ -218,11 +220,10 @@
             const questionIndex = dayOfYear % currentConfig.pool.length;
             const rawQuestion = currentConfig.pool[questionIndex];
             
-            // --- PROPERTY TRANSLATION FROM DATABASE AP1.JS MAP TO THE WEB INTERFACE ---
+            // --- PROPERTY TRANSLATION ---
             questionData = {
                 ...rawQuestion,
-                choices: rawQuestion.options || [], // Translates options to choices
-                // Translates letter strings ("A", "B", "C", "D") to array indices (0, 1, 2, 3)
+                choices: rawQuestion.options || [], 
                 correctIndex: rawQuestion.correctAnswer ? (rawQuestion.correctAnswer.charCodeAt(0) - 65) : 0 
             };
         }
@@ -235,12 +236,12 @@
 
         document.getElementById('question-text').innerHTML = questionData.question;
         const container = document.getElementById('choices-container');
-        container.innerHTML = ""; // Clear loader text
+        container.innerHTML = ""; 
+        
         questionData.choices.forEach((choice, idx) => {
             container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
         });
 
-        // Hydrate target structured metrics text containers
         document.getElementById('meta-unit').innerText = questionData.unit || "N/A";
         document.getElementById('meta-topic').innerText = questionData.topic || "N/A";
         document.getElementById('meta-skill').innerText = questionData.skill || "N/A";
