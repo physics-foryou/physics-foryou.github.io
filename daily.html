@@ -188,31 +188,8 @@
         const urlParams = new URLSearchParams(window.location.search);
         const subject = urlParams.get('subject') || 'ap1';
         
-        // --- FIXED MATCHING LOGIC FOR ALL POOL Naming Styles ---
-        let ap1CombinedPool = [];
-        if (typeof ap1DailyPool !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(ap1DailyPool);
-        
-        // Gathers window-bound batches if any exist
-        for (let i = 1; i <= 10; i++) {
-            if (typeof window[`ap1DailyPoolBatch${i}`] !== 'undefined') {
-                ap1CombinedPool = ap1CombinedPool.concat(window[`ap1DailyPoolBatch${i}`]);
-            }
-        }
-        
-        // FIX #1: Explicit checks for 'dailyProblemPoolBatch' style since top-level 'const' avoids the window object
-        if (typeof dailyProblemPoolBatch1 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch1);
-        if (typeof dailyProblemPoolBatch2 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch2);
-        if (typeof dailyProblemPoolBatch3 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch3);
-        if (typeof dailyProblemPoolBatch4 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch4);
-        if (typeof dailyProblemPoolBatch5 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch5);
-        if (typeof dailyProblemPoolBatch6 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch6);
-        if (typeof dailyProblemPoolBatch7 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch7);
-        if (typeof dailyProblemPoolBatch8 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch8);
-        if (typeof dailyProblemPoolBatch9 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch9);
-        if (typeof dailyProblemPoolBatch10 !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(dailyProblemPoolBatch10);
-        
         const configs = {
-            ap1: { name: "AP Physics 1", time: 120, pool: ap1CombinedPool },
+            ap1: { name: "AP Physics 1", time: 120, pool: typeof ap1DailyPool !== 'undefined' ? ap1DailyPool : [] },
             ap2: { name: "AP Physics 2", time: 120, pool: typeof ap2DailyPool !== 'undefined' ? ap2DailyPool : [] },
             mech: { name: "AP C: Mechanics", time: 120, pool: typeof mechDailyPool !== 'undefined' ? mechDailyPool : [] },
             em: { name: "AP C: E&M", time: 120, pool: typeof emDailyPool !== 'undefined' ? emDailyPool : [] }
@@ -228,20 +205,7 @@
         if (currentConfig.pool && currentConfig.pool.length > 0) {
             const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
             const questionIndex = dayOfYear % currentConfig.pool.length;
-            questionData = { ...currentConfig.pool[questionIndex] }; // Deep copy
-        }
-
-        // --- FIX #2 & #3: AUTOMATIC DATA STRUCTURE NORMALIZATION LAYER ---
-        if (questionData) {
-            // Map alternative 'options' key to standard 'choices' key
-            if (!questionData.choices && questionData.options) {
-                questionData.choices = questionData.options;
-            }
-            // Map alternative letter index 'correctAnswer' (A, B, C, D) to numerical index (0, 1, 2, 3)
-            if (questionData.correctIndex === undefined && questionData.correctAnswer) {
-                const letterMap = { 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
-                questionData.correctIndex = letterMap[questionData.correctAnswer.toUpperCase()] ?? 0;
-            }
+            questionData = currentConfig.pool[questionIndex];
         }
 
         if (questionData.image && questionData.image.trim() !== "") {
@@ -252,22 +216,16 @@
 
         document.getElementById('question-text').innerHTML = questionData.question;
         const container = document.getElementById('choices-container');
-        
-        // Safe execution loop
-        if (questionData.choices && questionData.choices.length > 0) {
-            questionData.choices.forEach((choice, idx) => {
-                container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
-            });
-        } else {
-            container.innerHTML = `<div style="color: #ff6b6b; padding: 10px 0;">Error loading choices for this question item.</div>`;
-        }
+        questionData.choices.forEach((choice, idx) => {
+            container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
+        });
 
         // Hydrate target structured metrics text containers
         document.getElementById('meta-unit').innerText = questionData.unit || "N/A";
         document.getElementById('meta-topic').innerText = questionData.topic || "N/A";
         document.getElementById('meta-skill').innerText = questionData.skill || "N/A";
         document.getElementById('meta-id').innerText = questionData.id || "N/A";
-        document.getElementById('explanation-text').innerHTML = questionData.explanation || "N/A";
+        document.getElementById('explanation-text').innerHTML = questionData.explanation;
 
         const diffSpan = document.getElementById('difficulty-span');
         const diffLevel = (questionData.difficulty || "Easy").toLowerCase();
