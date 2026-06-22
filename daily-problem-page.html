@@ -20,7 +20,7 @@
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
-    <script src="daily-pool/ap1.js"></script>
+    <script src="ap-physics-1/ap1.js"></script>
     <script src="daily-pool/ap2.js"></script>
     <script src="daily-pool/mech.js"></script>
     <script src="daily-pool/em.js"></script>
@@ -176,7 +176,7 @@
                 <hr style="border: none; border-top: 1px solid #333; margin-top: 25px;">
                 
                 <div class="action-bar">
-                    <a href="index.html" class="nav-btn">◀ Go Back Home</a>
+                    <a href="home-page.html" class="nav-btn">◀ Go Back Home</a>
                     <button id="submit-btn" class="action-btn" onclick="submitAnswer()">Submit Answer</button>
                 </div>
             </div>
@@ -199,7 +199,6 @@
         let currentConfig = configs[subject];
         document.getElementById('subject-title').innerText = `${currentConfig.name} Daily Problem`;
 
-        // FIXED: Calculated strictly via user's Local Time System instead of UTC
         const now = new Date();
         const localYear = now.getFullYear();
         const localMonth = String(now.getMonth() + 1).padStart(2, '0');
@@ -327,7 +326,6 @@
             }
         }
 
-        // Real-Time Local Midnight Tracking Engine
         function runMidnightCountdown() {
             const currentTime = new Date();
             const nextMidnight = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate() + 1, 0, 0, 0);
