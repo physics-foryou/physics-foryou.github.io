@@ -234,7 +234,6 @@
 
         function setSubject(subject, e) {
             selectedSubject = subject;
-            // Instantly hide warning label if they tap a choice
             document.getElementById('course-warning').style.display = 'none';
             document.querySelectorAll('.select-btn').forEach(btn => btn.classList.remove('active'));
             e.target.classList.add('active');
@@ -245,7 +244,8 @@
                 document.getElementById('course-warning').style.display = 'block';
                 return;
             }
-            window.location.href = `daily.html?subject=${selectedSubject}`;
+            // Pointing to your new filename
+            window.location.href = `daily-problem-page.html?subject=${selectedSubject}`;
         }
     </script>
 </body>
