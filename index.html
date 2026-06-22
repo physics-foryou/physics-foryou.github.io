@@ -6,9 +6,9 @@
     <title>Physics For You</title>
     <style>
         :root {
-            --bg-color: #6a7f93;        /* Simulation workspace background */
-            --panel-bg: #1c1a27;        /* Dark panel color */
-            --header-bg: #3c3957;       /* Window header color */
+            --bg-color: #6a7f93;        
+            --panel-bg: #1c1a27;        
+            --header-bg: #3c3957;       
             --text-main: #d1d2d6;
             --text-dim: #9ba1a6;
         }
@@ -22,14 +22,13 @@
         }
 
         .workspace {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
-        /* Reusable Simulation Panel */
         .panel {
             background-color: var(--panel-bg);
             border: 1px solid #444;
@@ -49,7 +48,6 @@
 
         .panel-content { padding: 15px; }
 
-        /* Daily Selector Elements */
         .selector-group {
             display: flex;
             gap: 10px;
@@ -68,7 +66,6 @@
             border-color: #5d7cb3;
         }
 
-        /* Start Action Button */
         .action-btn {
             background-color: #2e593a;
             border: 1px solid #478557;
@@ -82,7 +79,7 @@
         }
         .action-btn:hover { background-color: #3b734b; }
 
-        /* Exam Grid */
+        /* Fixed Exam & Sandbox Rows for uniform alignment */
         .exam-row {
             border-bottom: 1px solid #333;
             padding: 12px 0;
@@ -92,11 +89,12 @@
         }
         .exam-row:last-child { border-bottom: none; }
         
-        .exam-title { font-weight: bold; min-width: 180px; }
+        .exam-title { font-weight: bold; width: 220px; flex-shrink: 0; }
         
         .test-buttons {
             display: flex;
             gap: 8px;
+            flex-wrap: nowrap;
         }
         .test-link {
             background: #2b283d;
@@ -106,8 +104,18 @@
             text-decoration: none;
             font-size: 12px;
             border-radius: 2px;
+            text-align: center;
+            min-width: 55px;
         }
         .test-link:hover { background-color: var(--header-bg); }
+
+        /* Style variations for Difficulty options */
+        .btn-easy { border-color: #478557; }
+        .btn-easy:hover { background-color: #2e593a; }
+        .btn-med { border-color: #b37d14; }
+        .btn-med:hover { background-color: #805603; }
+        .btn-hard { border-color: #a83232; }
+        .btn-hard:hover { background-color: #731f1f; }
     </style>
 </head>
 <body>
@@ -118,14 +126,12 @@
             <div class="panel-header">📅 Daily Question Configuration</div>
             <div class="panel-content">
                 <p style="margin-top: 0;">Select your AP Physics division to fetch today's telemetry data:</p>
-                
                 <div class="selector-group">
                     <button class="select-btn active" onclick="setSubject('ap1')">AP Physics 1</button>
                     <button class="select-btn" onclick="setSubject('ap2')">AP Physics 2</button>
                     <button class="select-btn" onclick="setSubject('mech')">APC: Mech</button>
                     <button class="select-btn" onclick="setSubject('em')">APC: E&M</button>
                 </div>
-
                 <a href="daily.html" id="start-daily" class="action-btn">Initialize Daily Test</a>
             </div>
         </div>
@@ -133,7 +139,6 @@
         <div class="panel">
             <div class="panel-header">📝 Practice Exam Matrix</div>
             <div class="panel-content">
-                
                 <div class="exam-row">
                     <span class="exam-title">AP Physics 1</span>
                     <div class="test-buttons">
@@ -143,7 +148,6 @@
                         <a href="test.html?subject=ap1&exam=4" class="test-link">Test 4</a>
                     </div>
                 </div>
-
                 <div class="exam-row">
                     <span class="exam-title">AP Physics 2</span>
                     <div class="test-buttons">
@@ -153,7 +157,6 @@
                         <a href="test.html?subject=ap2&exam=4" class="test-link">Test 4</a>
                     </div>
                 </div>
-
                 <div class="exam-row">
                     <span class="exam-title">AP C: Mechanics</span>
                     <div class="test-buttons">
@@ -163,9 +166,69 @@
                         <a href="test.html?subject=mech&exam=4" class="test-link">Test 4</a>
                     </div>
                 </div>
-
                 <div class="exam-row">
                     <span class="exam-title">AP C: E&M</span>
                     <div class="test-buttons">
                         <a href="test.html?subject=em&exam=1" class="test-link">Test 1</a>
-                        <a href="test.html
+                        <a href="test.html?subject=em&exam=2" class="test-link">Test 2</a>
+                        <a href="test.html?subject=em&exam=3" class="test-link">Test 3</a>
+                        <a href="test.html?subject=em&exam=4" class="test-link">Test 4</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">🎯 Custom Difficulty Practice Arena</div>
+            <div class="panel-content">
+                <div class="exam-row">
+                    <span class="exam-title">AP Physics 1</span>
+                    <div class="test-buttons">
+                        <a href="sandbox.html?subject=ap1&diff=easy" class="test-link btn-easy">Easy</a>
+                        <a href="sandbox.html?subject=ap1&diff=med" class="test-link btn-med">Medium</a>
+                        <a href="sandbox.html?subject=ap1&diff=hard" class="test-link btn-hard">Hard</a>
+                    </div>
+                </div>
+                <div class="exam-row">
+                    <span class="exam-title">AP Physics 2</span>
+                    <div class="test-buttons">
+                        <a href="sandbox.html?subject=ap2&diff=easy" class="test-link btn-easy">Easy</a>
+                        <a href="sandbox.html?subject=ap2&diff=med" class="test-link btn-med">Medium</a>
+                        <a href="sandbox.html?subject=ap2&diff=hard" class="test-link btn-hard">Hard</a>
+                    </div>
+                </div>
+                <div class="exam-row">
+                    <span class="exam-title">AP C: Mechanics</span>
+                    <div class="test-buttons">
+                        <a href="sandbox.html?subject=mech&diff=easy" class="test-link btn-easy">Easy</a>
+                        <a href="sandbox.html?subject=mech&diff=med" class="test-link btn-med">Medium</a>
+                        <a href="sandbox.html?subject=mech&diff=hard" class="test-link btn-hard">Hard</a>
+                    </div>
+                </div>
+                <div class="exam-row">
+                    <span class="exam-title">AP C: E&M</span>
+                    <div class="test-buttons">
+                        <a href="sandbox.html?subject=em&diff=easy" class="test-link btn-easy">Easy</a>
+                        <a href="sandbox.html?subject=em&diff=med" class="test-link btn-med">Medium</a>
+                        <a href="sandbox.html?subject=em&diff=hard" class="test-link btn-hard">Hard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSubject = 'ap1';
+        function setSubject(subject) {
+            currentSubject = subject;
+            document.querySelectorAll('.select-btn').forEach(btn => btn.classList.remove('active'));
+            if(event) {
+                event.target.classList.add('active');
+            }
+            document.getElementById('start-daily').href = `daily.html?subject=${subject}`;
+        }
+        setSubject('ap1');
+    </script>
+</body>
+</html>
