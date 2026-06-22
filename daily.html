@@ -117,11 +117,12 @@
         }
         .nav-btn:hover { color: #fff; background-color: var(--header-bg); }
         
-        #explanation-box { background: #171621; border-left: 4px solid #3b4e70; padding: 15px; margin-top: 20px; display: none; font-size: 13px; line-height: 1.5; }
+        #explanation-box { background: #171621; border-left: 4px solid #3b4e70; padding: 15px; margin-top: 20px; display: none; font-size: 13px; line-height: 1.6; }
         
-        /* Difficulty container item rows */
-        .difficulty-row { margin-bottom: 12px; font-size: 14px; }
-        .difficulty-label { color: #6ba6ff; font-weight: bold; }
+        /* Information Stacking Metadata Styles */
+        .meta-line { margin-bottom: 8px; }
+        .meta-label { color: #6ba6ff; font-weight: bold; }
+        .meta-val { color: var(--text-main); }
         
         .difficulty-tag { display: inline-block; padding: 2px 6px; font-size: 11px; font-weight: bold; border-radius: 3px; margin-left: 5px; text-transform: uppercase;}
         .diff-easy { background-color: #1c3824; color: #a8ffb2; border: 1px solid #478557; }
@@ -149,13 +150,25 @@
                 <div id="choices-container"></div>
                 
                 <div id="explanation-box">
-                    <div class="difficulty-row">
-                        <span class="difficulty-label">Difficulty:</span>
+                    <div class="meta-line">
+                        <span class="meta-label">Difficulty:</span>
                         <span id="difficulty-span" class="difficulty-tag"></span>
                     </div>
-                    <div style="margin-top: 8px;">
-                        <strong style="color: #6ba6ff;">Explanation:</strong>
-                        <p id="explanation-text" style="margin: 5px 0 0 0;"></p>
+                    <div class="meta-line">
+                        <span class="meta-label">Unit:</span> <span id="meta-unit" class="meta-val"></span>
+                    </div>
+                    <div class="meta-line">
+                        <span class="meta-label">Topic:</span> <span id="meta-topic" class="meta-val"></span>
+                    </div>
+                    <div class="meta-line">
+                        <span class="meta-label">Skill:</span> <span id="meta-skill" class="meta-val"></span>
+                    </div>
+                    <div class="meta-line" style="margin-top: 12px; margin-bottom: 12px;">
+                        <span class="meta-label" style="display: block; margin-bottom: 4px;">Explanation:</span>
+                        <p id="explanation-text" style="margin: 0;"></p>
+                    </div>
+                    <div class="meta-line" style="border-top: 1px dashed #333; padding-top: 8px; font-size: 11px;">
+                        <span class="meta-label" style="color: var(--text-dim);">Question ID:</span> <span id="meta-id" style="color: var(--text-dim);"></span>
                     </div>
                 </div>
 
@@ -188,7 +201,7 @@
         const todayKey = new Date().toISOString().split('T')[0];
         const storageStorageKey = `daily_ans_${subject}_${todayKey}`;
 
-        let questionData = { question: "No questions added to this category yet!", image: "", choices: [], correctIndex: 0, difficulty: "Easy", explanation: "N/A" };
+        let questionData = { id: "N/A", unit: "N/A", topic: "N/A", skill: "N/A", question: "No questions added yet!", image: "", choices: [], correctIndex: 0, difficulty: "Easy", explanation: "N/A" };
         if (currentConfig.pool && currentConfig.pool.length > 0) {
             const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
             const questionIndex = dayOfYear % currentConfig.pool.length;
@@ -207,6 +220,18 @@
             container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
         });
 
+        // Hydrate target structured metrics text containers
+        document.getElementById('meta-unit').innerText = questionData.unit || "N/A";
+        document.getElementById('meta-topic').innerText = questionData.topic || "N/A";
+        document.getElementById('meta-skill').innerText = questionData.skill || "N/A";
+        document.getElementById('meta-id').innerText = questionData.id || "N/A";
+        document.getElementById('explanation-text').innerHTML = questionData.explanation;
+
+        const diffSpan = document.getElementById('difficulty-span');
+        const diffLevel = (questionData.difficulty || "Easy").toLowerCase();
+        diffSpan.innerText = diffLevel;
+        diffSpan.className = `difficulty-tag diff-${diffLevel}`;
+
         setTimeout(() => { if(window.MathJax) { MathJax.typesetPromise(); } }, 100);
 
         let selectedIndex = null;
@@ -214,11 +239,6 @@
         let timeRemaining = currentConfig.time;
         let overtimeSeconds = 0;
         let countdown;
-
-        const diffSpan = document.getElementById('difficulty-span');
-        const diffLevel = (questionData.difficulty || "Easy").toLowerCase();
-        diffSpan.innerText = diffLevel;
-        diffSpan.className = `difficulty-tag diff-${diffLevel}`;
 
         const savedAnswer = localStorage.getItem(storageStorageKey);
         
@@ -238,7 +258,6 @@
                         btn.classList.add('disabled');
                     }
                 });
-                document.getElementById('explanation-text').innerHTML = questionData.explanation;
                 document.getElementById('explanation-box').style.display = 'block';
                 if(window.MathJax) { MathJax.typesetPromise(); }
             }, 50);
@@ -275,7 +294,6 @@
                 }
             });
 
-            document.getElementById('explanation-text').innerHTML = questionData.explanation;
             document.getElementById('explanation-box').style.display = 'block';
             if(window.MathJax) { MathJax.typesetPromise(); }
         }
