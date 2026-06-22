@@ -79,7 +79,6 @@
         }
         .action-btn:hover { background-color: #3b734b; }
 
-        /* Fixed Exam & Sandbox Rows for uniform alignment */
         .exam-row {
             border-bottom: 1px solid #333;
             padding: 12px 0;
@@ -109,7 +108,6 @@
         }
         .test-link:hover { background-color: var(--header-bg); }
 
-        /* Style variations for Difficulty options */
         .btn-easy { border-color: #478557; }
         .btn-easy:hover { background-color: #2e593a; }
         .btn-med { border-color: #b37d14; }
@@ -127,12 +125,12 @@
             <div class="panel-content">
                 <p style="margin-top: 0;">Select your AP Physics division to fetch today's telemetry data:</p>
                 <div class="selector-group">
-                    <button class="select-btn active" onclick="setSubject('ap1')">AP Physics 1</button>
-                    <button class="select-btn" onclick="setSubject('ap2')">AP Physics 2</button>
-                    <button class="select-btn" onclick="setSubject('mech')">APC: Mech</button>
-                    <button class="select-btn" onclick="setSubject('em')">APC: E&M</button>
+                    <button class="select-btn" onclick="setSubject('ap1', event)">AP Physics 1</button>
+                    <button class="select-btn" onclick="setSubject('ap2', event)">AP Physics 2</button>
+                    <button class="select-btn" onclick="setSubject('mech', event)">APC: Mech</button>
+                    <button class="select-btn" onclick="setSubject('em', event)">APC: E&M</button>
                 </div>
-                <a href="daily.html" id="start-daily" class="action-btn">Initialize Daily Test</a>
+                <button class="action-btn" onclick="launchDailyTest()">Initialize Daily Test</button>
             </div>
         </div>
 
@@ -219,16 +217,24 @@
     </div>
 
     <script>
-        let currentSubject = 'ap1';
-        function setSubject(subject) {
-            currentSubject = subject;
+        let selectedSubject = null;
+
+        function setSubject(subject, e) {
+            selectedSubject = subject;
+            // Clear prior button highlights
             document.querySelectorAll('.select-btn').forEach(btn => btn.classList.remove('active'));
-            if(event) {
-                event.target.classList.add('active');
-            }
-            document.getElementById('start-daily').href = `daily.html?subject=${subject}`;
+            // Highlight current button selection
+            e.target.classList.add('active');
         }
-        setSubject('ap1');
+
+        function launchDailyTest() {
+            if (!selectedSubject) {
+                alert("⚠️ System Warning: Please select an AP Physics course division before initializing telemetry checks.");
+                return;
+            }
+            // Navigate forward with user variables attached
+            window.location.href = `daily.html?subject=${selectedSubject}`;
+        }
     </script>
 </body>
 </html>
