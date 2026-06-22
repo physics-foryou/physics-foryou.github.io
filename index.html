@@ -123,14 +123,14 @@
         <div class="panel">
             <div class="panel-header">📅 Daily Question Configuration</div>
             <div class="panel-content">
-                <p style="margin-top: 0;">Select your AP Physics division to fetch today's telemetry data:</p>
+                <p style="margin-top: 0;">Select your AP Physics course to get today's question:</p>
                 <div class="selector-group">
                     <button class="select-btn" onclick="setSubject('ap1', event)">AP Physics 1</button>
                     <button class="select-btn" onclick="setSubject('ap2', event)">AP Physics 2</button>
                     <button class="select-btn" onclick="setSubject('mech', event)">APC: Mech</button>
                     <button class="select-btn" onclick="setSubject('em', event)">APC: E&M</button>
                 </div>
-                <button class="action-btn" onclick="launchDailyTest()">Initialize Daily Test</button>
+                <button class="action-btn" onclick="launchDailyTest()">Start Daily Question</button>
             </div>
         </div>
 
@@ -159,82 +159,4 @@
                     <span class="exam-title">AP C: Mechanics</span>
                     <div class="test-buttons">
                         <a href="test.html?subject=mech&exam=1" class="test-link">Test 1</a>
-                        <a href="test.html?subject=mech&exam=2" class="test-link">Test 2</a>
-                        <a href="test.html?subject=mech&exam=3" class="test-link">Test 3</a>
-                        <a href="test.html?subject=mech&exam=4" class="test-link">Test 4</a>
-                    </div>
-                </div>
-                <div class="exam-row">
-                    <span class="exam-title">AP C: E&M</span>
-                    <div class="test-buttons">
-                        <a href="test.html?subject=em&exam=1" class="test-link">Test 1</a>
-                        <a href="test.html?subject=em&exam=2" class="test-link">Test 2</a>
-                        <a href="test.html?subject=em&exam=3" class="test-link">Test 3</a>
-                        <a href="test.html?subject=em&exam=4" class="test-link">Test 4</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="panel">
-            <div class="panel-header">🎯 Custom Difficulty Practice Arena</div>
-            <div class="panel-content">
-                <div class="exam-row">
-                    <span class="exam-title">AP Physics 1</span>
-                    <div class="test-buttons">
-                        <a href="sandbox.html?subject=ap1&diff=easy" class="test-link btn-easy">Easy</a>
-                        <a href="sandbox.html?subject=ap1&diff=med" class="test-link btn-med">Medium</a>
-                        <a href="sandbox.html?subject=ap1&diff=hard" class="test-link btn-hard">Hard</a>
-                    </div>
-                </div>
-                <div class="exam-row">
-                    <span class="exam-title">AP Physics 2</span>
-                    <div class="test-buttons">
-                        <a href="sandbox.html?subject=ap2&diff=easy" class="test-link btn-easy">Easy</a>
-                        <a href="sandbox.html?subject=ap2&diff=med" class="test-link btn-med">Medium</a>
-                        <a href="sandbox.html?subject=ap2&diff=hard" class="test-link btn-hard">Hard</a>
-                    </div>
-                </div>
-                <div class="exam-row">
-                    <span class="exam-title">AP C: Mechanics</span>
-                    <div class="test-buttons">
-                        <a href="sandbox.html?subject=mech&diff=easy" class="test-link btn-easy">Easy</a>
-                        <a href="sandbox.html?subject=mech&diff=med" class="test-link btn-med">Medium</a>
-                        <a href="sandbox.html?subject=mech&diff=hard" class="test-link btn-hard">Hard</a>
-                    </div>
-                </div>
-                <div class="exam-row">
-                    <span class="exam-title">AP C: E&M</span>
-                    <div class="test-buttons">
-                        <a href="sandbox.html?subject=em&diff=easy" class="test-link btn-easy">Easy</a>
-                        <a href="sandbox.html?subject=em&diff=med" class="test-link btn-med">Medium</a>
-                        <a href="sandbox.html?subject=em&diff=hard" class="test-link btn-hard">Hard</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        let selectedSubject = null;
-
-        function setSubject(subject, e) {
-            selectedSubject = subject;
-            // Clear prior button highlights
-            document.querySelectorAll('.select-btn').forEach(btn => btn.classList.remove('active'));
-            // Highlight current button selection
-            e.target.classList.add('active');
-        }
-
-        function launchDailyTest() {
-            if (!selectedSubject) {
-                alert("⚠️ System Warning: Please select an AP Physics course division before initializing telemetry checks.");
-                return;
-            }
-            // Navigate forward with user variables attached
-            window.location.href = `daily.html?subject=${selectedSubject}`;
-        }
-    </script>
-</body>
-</html>
+                        <a href="test.html?subject=
