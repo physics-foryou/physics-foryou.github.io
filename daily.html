@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Telemetry Workspace</title>
+    <title>Daily Question Room</title>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
     <script src="daily-pool/ap1.js"></script>
+    <script src="daily-pool/ap2.js"></script>
+    <script src="daily-pool/mech.js"></script>
+    <script src="daily-pool/em.js"></script>
+    
     <style>
         :root {
             --bg-color: #6a7f93;        
@@ -45,24 +50,24 @@
     <div class="workspace">
         <div class="panel">
             <div class="panel-header">
-                <span>⚡ CORE DIAGNOSTIC RUNTIME</span>
+                <span>⏱️ Timer</span>
                 <span id="timer" class="timer-box">00:00</span>
             </div>
             <div class="panel-content">
-                <h3 id="subject-title" style="margin-top:0; color:#6ba6ff;">Configuring Engine...</h3>
-                <div id="question-text" style="font-size: 15px; margin-bottom: 20px; line-height: 1.5;">Fetching question vector...</div>
+                <h3 id="subject-title" style="margin-top:0; color:#6ba6ff;">Loading...</h3>
+                <div id="question-text" style="font-size: 15px; margin-bottom: 20px; line-height: 1.5;">Finding today's question...</div>
                 
                 <div id="choices-container"></div>
 
-                <button id="submit-btn" class="action-btn" onclick="submitAnswer()">Submit Telemetry Data</button>
+                <button id="submit-btn" class="action-btn" onclick="submitAnswer()">Submit Answer</button>
                 
                 <div id="explanation-box">
-                    <strong style="color: #6ba6ff;">Diagnostic Log Explanation:</strong>
+                    <strong style="color: #6ba6ff;">Explanation:</strong>
                     <p id="explanation-text" style="margin: 5px 0 0 0;"></p>
                 </div>
 
                 <hr style="border: none; border-top: 1px solid #333; margin-top: 25px;">
-                <a href="index.html" class="nav-btn">◀ Abort & Return Hub</a>
+                <a href="index.html" class="nav-btn">◀ Go Back Home</a>
             </div>
         </div>
     </div>
@@ -73,33 +78,30 @@
         
         const configs = {
             ap1: { name: "AP Physics 1", time: 108, pool: typeof ap1DailyPool !== 'undefined' ? ap1DailyPool : [] },
-            ap2: { name: "AP Physics 2", time: 108, pool: [] },
-            mech: { name: "AP C: Mechanics", time: 78, pool: [] },
-            em: { name: "AP C: E&M", time: 78, pool: [] }
+            ap2: { name: "AP Physics 2", time: 108, pool: typeof ap2DailyPool !== 'undefined' ? ap2DailyPool : [] },
+            mech: { name: "AP C: Mechanics", time: 78, pool: typeof mechDailyPool !== 'undefined' ? mechDailyPool : [] },
+            em: { name: "AP C: E&M", time: 78, pool: typeof emDailyPool !== 'undefined' ? emDailyPool : [] }
         };
 
         let currentConfig = configs[subject];
-        document.getElementById('subject-title').innerText = `${currentConfig.name} - Telemetry Check`;
+        document.getElementById('subject-title').innerText = `${currentConfig.name} - Daily Challenge`;
 
-        // Date-Based Question Picker logic
-        let questionData = { question: "No data found in selected course pool module.", choices: [], correctIndex: 0, explanation: "N/A" };
-        if (currentConfig.pool.length > 0) {
+        // Load correct question
+        let questionData = { question: "No questions added to this category yet!", choices: [], correctIndex: 0, explanation: "N/A" };
+        if (currentConfig.pool && currentConfig.pool.length > 0) {
             const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
             const questionIndex = dayOfYear % currentConfig.pool.length;
             questionData = currentConfig.pool[questionIndex];
         }
 
-        // Render the Selected Question Data
         document.getElementById('question-text').innerHTML = questionData.question;
         const container = document.getElementById('choices-container');
         questionData.choices.forEach((choice, idx) => {
             container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
         });
 
-        // Equation conversion check
         if(window.MathJax) { MathJax.typeset(); }
 
-        // Core Tracking States
         let selectedIndex = null;
         let isSubmitted = false;
         let timeRemaining = currentConfig.time;
@@ -116,12 +118,11 @@
         function submitAnswer() {
             if (selectedIndex === null || isSubmitted) return;
             isSubmitted = true;
-            clearInterval(countdown); // Halt countdown clock immediately
+            clearInterval(countdown);
             
             document.getElementById('submit-btn').style.display = 'none';
             const buttons = document.querySelectorAll('.choice-btn');
             
-            // Loop choices to flag pass/fail visual boundaries
             buttons.forEach((btn, idx) => {
                 btn.classList.remove('selected');
                 if (idx === questionData.correctIndex) {
@@ -131,13 +132,11 @@
                 }
             });
 
-            // Output explanations
             document.getElementById('explanation-text').innerHTML = questionData.explanation;
             document.getElementById('explanation-box').style.display = 'block';
             if(window.MathJax) { MathJax.typeset(); }
         }
 
-        // Dual-Mode Countdown & Overtime System Timer Engine
         const timerElement = document.getElementById('timer');
         function runTimerClock() {
             if (timeRemaining >= 0) {
