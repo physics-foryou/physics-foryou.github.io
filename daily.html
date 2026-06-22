@@ -188,8 +188,19 @@
         const urlParams = new URLSearchParams(window.location.search);
         const subject = urlParams.get('subject') || 'ap1';
         
+        // --- MATCHING LOGIC FOR AP1 BATCHES ---
+        let ap1CombinedPool = [];
+        if (typeof ap1DailyPool !== 'undefined') ap1CombinedPool = ap1CombinedPool.concat(ap1DailyPool);
+        
+        // Dynamically gathers ap1DailyPoolBatch1 through ap1DailyPoolBatch10 if present
+        for (let i = 1; i <= 10; i++) {
+            if (typeof window[`ap1DailyPoolBatch${i}`] !== 'undefined') {
+                ap1CombinedPool = ap1CombinedPool.concat(window[`ap1DailyPoolBatch${i}`]);
+            }
+        }
+        
         const configs = {
-            ap1: { name: "AP Physics 1", time: 120, pool: typeof ap1DailyPool !== 'undefined' ? ap1DailyPool : [] },
+            ap1: { name: "AP Physics 1", time: 120, pool: ap1CombinedPool },
             ap2: { name: "AP Physics 2", time: 120, pool: typeof ap2DailyPool !== 'undefined' ? ap2DailyPool : [] },
             mech: { name: "AP C: Mechanics", time: 120, pool: typeof mechDailyPool !== 'undefined' ? mechDailyPool : [] },
             em: { name: "AP C: E&M", time: 120, pool: typeof emDailyPool !== 'undefined' ? emDailyPool : [] }
