@@ -3,49 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physics Simulation Hub</title>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Physics For You</title>
     <style>
-        /* Base Simulation Theme Colors */
         :root {
-            --bg-color: #6a7f93;        /* The light steel blue background */
-            --panel-bg: #1c1a27;        /* The deep dark purple/black panel background */
-            --header-bg: #3c3957;       /* The medium purple window header */
-            --text-main: #d1d2d6;       /* Bright light gray text */
-            --text-dim: #9ba1a6;        /* Subdued label text */
-            --accent-blue: #007BFF;
+            --bg-color: #6a7f93;        /* Simulation workspace background */
+            --panel-bg: #1c1a27;        /* Dark panel color */
+            --header-bg: #3c3957;       /* Window header color */
+            --text-main: #d1d2d6;
+            --text-dim: #9ba1a6;
         }
 
         body {
-            font-family: 'Consolas', 'Courier New', monospace; /* Monospace font like a terminal */
+            font-family: 'Consolas', 'Courier New', monospace;
             background-color: var(--bg-color);
             margin: 0;
-            padding: 15px;
+            padding: 20px;
             color: var(--text-main);
-            box-sizing: border-box;
         }
 
-        /* Top Bar Menu Simulation */
-        .top-menu {
-            font-size: 14px;
-            padding: 4px 10px;
-            margin-bottom: 15px;
-            color: #000;
-        }
-        .top-menu span {
-            margin-right: 15px;
-            cursor: pointer;
-        }
-
-        /* Main Window Grid Workspace */
         .workspace {
-            display: grid;
-            grid-template-columns: 240px 1fr 340px; /* Three columns layout just like the image */
-            gap: 15px;
-            align-items: start;
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        /* Reusable Window Panel Style */
+        /* Reusable Simulation Panel */
         .panel {
             background-color: var(--panel-bg);
             border: 1px solid #444;
@@ -54,161 +38,134 @@
             overflow: hidden;
         }
 
-        /* Panel Header bar with tiny close 'X' style */
         .panel-header {
             background-color: var(--header-bg);
-            padding: 6px 10px;
-            font-size: 13px;
+            padding: 8px 12px;
+            font-size: 14px;
             font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             border-bottom: 1px solid #555;
-            cursor: default;
         }
-        .panel-header::before {
-            content: "▼ ";
-            font-size: 10px;
-        }
-        .panel-close {
-            font-size: 11px;
-            color: var(--text-dim);
-        }
+        .panel-header::before { content: "▼ "; font-size: 10px; }
 
-        .panel-content {
-            padding: 12px;
-            font-size: 13px;
-        }
+        .panel-content { padding: 15px; }
 
-        /* Status items & Key-Value Lists */
-        .status-row {
+        /* Daily Selector Elements */
+        .selector-group {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
+            gap: 10px;
+            margin: 15px 0;
         }
-        .status-label { color: var(--text-dim); }
-        .status-value { font-weight: bold; }
-
-        /* Interactive Buttons */
-        .btn {
-            display: block;
-            width: 100%;
-            background-color: #2b283d;
+        .select-btn {
+            background: #2b283d;
             border: 1px solid #5c5978;
             color: var(--text-main);
-            padding: 8px;
-            margin-top: 10px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 2px;
-            box-sizing: border-box;
-            font-size: 12px;
-            font-weight: bold;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-family: inherit;
         }
-        .btn:hover {
-            background-color: var(--header-bg);
-            border-color: #7b789c;
-        }
-        .btn-active {
+        .select-btn.active {
             background-color: #3b4e70;
             border-color: #5d7cb3;
         }
 
-        /* Center column structure */
-        .center-column {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        /* Start Action Button */
+        .action-btn {
+            background-color: #2e593a;
+            border: 1px solid #478557;
+            color: #fff;
+            padding: 10px 20px;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
         }
+        .action-btn:hover { background-color: #3b734b; }
 
-        /* Responsive styling for smaller screens */
-        @media (max-width: 900px) {
-            .workspace { grid-template-columns: 1fr; }
+        /* Exam Grid */
+        .exam-row {
+            border-bottom: 1px solid #333;
+            padding: 12px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+        .exam-row:last-child { border-bottom: none; }
+        
+        .exam-title { font-weight: bold; min-width: 180px; }
+        
+        .test-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .test-link {
+            background: #2b283d;
+            border: 1px solid #5c5978;
+            color: var(--text-main);
+            padding: 6px 12px;
+            text-decoration: none;
+            font-size: 12px;
+            border-radius: 2px;
+        }
+        .test-link:hover { background-color: var(--header-bg); }
     </style>
 </head>
 <body>
 
-    <div class="top-menu">
-        <strong>Workspace</strong> &nbsp;&nbsp; <span>View</span> <span>Hardware</span> <span>NetworkTables</span> <span>Plot</span> <span>Window</span>
-    </div>
-
     <div class="workspace">
 
-        <div class="center-column">
-            <div class="panel">
-                <div class="panel-header">System State <span class="panel-close">✕</span></div>
-                <div class="panel-content">
-                    <a href="#" class="btn">Disconnected</a>
-                    <a href="#" class="btn">Disabled</a>
-                    <a href="#" class="btn">Autonomous</a>
-                    <a href="#" class="btn btn-active">Teleoperated</a>
+        <div class="panel">
+            <div class="panel-header">📅 Daily Question Configuration</div>
+            <div class="panel-content">
+                <p style="margin-top: 0;">Select your AP Physics division to fetch today's telemetry data:</p>
+                
+                <div class="selector-group">
+                    <button class="select-btn active" onclick="setSubject('ap1')">AP Physics 1</button>
+                    <button class="select-btn" onclick="setSubject('ap2')">AP Physics 2</button>
+                    <button class="select-btn" onclick="setSubject('mech')">APC: Mech</button>
+                    <button class="select-btn" onclick="setSubject('em')">APC: E&M</button>
                 </div>
-            </div>
 
-            <div class="panel">
-                <div class="panel-header">Session Stats <span class="panel-close">✕</span></div>
-                <div class="panel-content">
-                    <div class="status-row"><span class="status-label">Streak:</span><span class="status-value">5 Days</span></div>
-                    <div class="status-row"><span class="status-label">Correct:</span><span class="status-value">84%</span></div>
-                    <div class="status-row"><span class="status-label">Time Elapsed:</span><span class="status-value">42.15s</span></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="center-column">
-            <div class="panel">
-                <div class="panel-header">Main Hub Info <span class="panel-close">✕</span></div>
-                <div class="panel-content">
-                    <h2 style="margin-top: 0; color: #fff;">🚀 AP Physics Practice Portal</h2>
-                    <p>System initialized successfully. Choose an active testing module below or complete the daily telemetry check.</p>
-                </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-header">📅 Daily Challenge Telemetry <span class="panel-close">✕</span></div>
-                <div class="panel-content" style="background-color: #171c26;">
-                    <p style="color: #6ba6ff; font-weight: bold; margin-top: 0;">Today's Focus: Mechanics</p>
-                    <p>Test your conceptual knowledge with a new core calculation every 24 hours.</p>
-                    <a href="daily.html" class="btn btn-active" style="width: auto; display: inline-block; padding: 8px 20px;">Initialize Daily Test</a>
-                </div>
+                <a href="daily.html" id="start-daily" class="action-btn">Initialize Daily Test</a>
             </div>
         </div>
 
         <div class="panel">
-            <div class="panel-header">Available Exam Channels <span class="panel-close">✕</span></div>
+            <div class="panel-header">📝 Practice Exam Matrix</div>
             <div class="panel-content">
                 
-                <p style="color: var(--text-dim); font-size: 11px; margin-top: 0;">SELECT MODULE TO DEPLOY:</p>
-                
-                <div style="margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">
-                    <div class="status-row"><strong>AP Physics 1</strong></div>
-                    <span style="font-size: 11px; color: var(--text-dim);">Algebra-based foundations.</span>
-                    <a href="#" class="btn">Load Physics 1</a>
+                <div class="exam-row">
+                    <span class="exam-title">AP Physics 1</span>
+                    <div class="test-buttons">
+                        <a href="test.html?subject=ap1&exam=1" class="test-link">Test 1</a>
+                        <a href="test.html?subject=ap1&exam=2" class="test-link">Test 2</a>
+                        <a href="test.html?subject=ap1&exam=3" class="test-link">Test 3</a>
+                        <a href="test.html?subject=ap1&exam=4" class="test-link">Test 4</a>
+                    </div>
                 </div>
 
-                <div style="margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">
-                    <div class="status-row"><strong>AP Physics 2</strong></div>
-                    <span style="font-size: 11px; color: var(--text-dim);">Fluids & Thermodynamics.</span>
-                    <a href="#" class="btn">Load Physics 2</a>
+                <div class="exam-row">
+                    <span class="exam-title">AP Physics 2</span>
+                    <div class="test-buttons">
+                        <a href="test.html?subject=ap2&exam=1" class="test-link">Test 1</a>
+                        <a href="test.html?subject=ap2&exam=2" class="test-link">Test 2</a>
+                        <a href="test.html?subject=ap2&exam=3" class="test-link">Test 3</a>
+                        <a href="test.html?subject=ap2&exam=4" class="test-link">Test 4</a>
+                    </div>
                 </div>
 
-                <div style="margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">
-                    <div class="status-row"><strong>AP Physics C: Mech</strong></div>
-                    <span style="font-size: 11px; color: var(--text-dim);">Calculus: $$\tau = I\alpha$$</span>
-                    <a href="#" class="btn">Load Mech Exam</a>
+                <div class="exam-row">
+                    <span class="exam-title">AP C: Mechanics</span>
+                    <div class="test-buttons">
+                        <a href="test.html?subject=mech&exam=1" class="test-link">Test 1</a>
+                        <a href="test.html?subject=mech&exam=2" class="test-link">Test 2</a>
+                        <a href="test.html?subject=mech&exam=3" class="test-link">Test 3</a>
+                        <a href="test.html?subject=mech&exam=4" class="test-link">Test 4</a>
+                    </div>
                 </div>
 
-                <div>
-                    <div class="status-row"><strong>AP Physics C: E&M</strong></div>
-                    <span style="font-size: 11px; color: var(--text-dim);">Calculus: $$\oint \vec{E} \cdot d\vec{A}$$</span>
-                    <a href="#" class="btn">Load E&M Exam</a>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-</body>
-</html>
+                <div class="exam-row">
+                    <span class="exam-title">AP C: E&M</span>
+                    <div class="test-buttons">
+                        <a href="test.html?subject=em&exam=1" class="test-link">Test 1</a>
+                        <a href="test.html
