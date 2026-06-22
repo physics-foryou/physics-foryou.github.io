@@ -1,4 +1,4 @@
-window.ap1DailyPool = [
+const ap1DailyPool = [
     // Q1: Hard | Energy and Momentum of Rotating Systems | ans=C (idx=2)
     {
         id: "AP001-ROTEN-K2P9X",
