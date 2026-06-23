@@ -186,74 +186,87 @@
     <div id="notification" class="toast-notification">⚠️ Notice: 30 seconds remaining</div>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const subject = urlParams.get('subject') || 'ap1';
-        
-        const configs = {
-            ap1: { name: "AP Physics 1", time: 120, pool: typeof ap1DailyPool !== 'undefined' ? ap1DailyPool : [] },
-            ap2: { name: "AP Physics 2", time: 120, pool: typeof ap2DailyPool !== 'undefined' ? ap2DailyPool : [] },
-            mech: { name: "AP C: Mechanics", time: 120, pool: typeof mechDailyPool !== 'undefined' ? mechDailyPool : [] },
-            em: { name: "AP C: E&M", time: 120, pool: typeof emDailyPool !== 'undefined' ? emDailyPool : [] }
-        };
-
-        let currentConfig = configs[subject];
-        document.getElementById('subject-title').innerText = `${currentConfig.name} Daily Problem`;
-
-        const now = new Date();
-        const localYear = now.getFullYear();
-        const localMonth = String(now.getMonth() + 1).padStart(2, '0');
-        const localDay = String(now.getDate()).padStart(2, '0');
-        const todayKey = `${localYear}-${localMonth}-${localDay}`;
-        const storageKey = `daily_ans_${subject}_${todayKey}`;
-
-        let questionData = { id: "N/A", unit: "N/A", topic: "N/A", skill: "N/A", question: "No questions added yet!", image: "", choices: [], correctIndex: 0, difficulty: "Easy", explanation: "N/A" };
-        if (currentConfig.pool && currentConfig.pool.length > 0) {
-            const startOfYear = new Date(localYear, 0, 1);
-            const diffInMs = now - startOfYear;
-            const dayOfYear = Math.floor(diffInMs / (1000 * 60 * 60 * 24)) + 1;
-            const questionIndex = dayOfYear % currentConfig.pool.length;
-            questionData = currentConfig.pool[questionIndex];
-        }
-
-        if (questionData.image && questionData.image.trim() !== "") {
-            const imgElement = document.getElementById('question-img');
-            imgElement.src = questionData.image;
-            document.getElementById('image-container').style.display = 'block';
-        }
-
-        document.getElementById('question-text').innerHTML = questionData.question;
-        const container = document.getElementById('choices-container');
-        questionData.choices.forEach((choice, idx) => {
-            container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
-        });
-
-        document.getElementById('meta-unit').innerText = questionData.unit || "N/A";
-        document.getElementById('meta-topic').innerText = questionData.topic || "N/A";
-        document.getElementById('meta-skill').innerText = questionData.skill || "N/A";
-        document.getElementById('meta-id').innerText = questionData.id || "N/A";
-        document.getElementById('explanation-text').innerHTML = questionData.explanation;
-
-        const diffSpan = document.getElementById('difficulty-span');
-        const diffLevel = (questionData.difficulty || "Easy").toLowerCase();
-        diffSpan.innerText = diffLevel;
-        diffSpan.className = `difficulty-tag diff-${diffLevel}`;
-
-        setTimeout(() => { if(window.MathJax) { MathJax.typesetPromise(); } }, 100);
-
+        // Global State
         let selectedIndex = null;
         let isSubmitted = false;
-        let timeRemaining = currentConfig.time;
+        let timeRemaining = 120;
         let overtimeSeconds = 0;
         let countdown;
+        let questionData = {};
+        let storageKey = '';
+        let subject = 'ap1';
 
-        const savedAnswer = localStorage.getItem(storageKey);
-        
-        if (savedAnswer !== null) {
-            isSubmitted = true;
-            selectedIndex = parseInt(savedAnswer, 10);
-            document.getElementById('timer').innerText = "COMPLETED";
+        // Wait entirely for external script loading to settle execution order issues
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            subject = urlParams.get('subject') || 'ap1';
             
-            setTimeout(() => {
+            const configs = {
+                ap1: { name: "AP Physics 1", time: 120, pool: typeof ap1DailyPool !== 'undefined' ? ap1DailyPool : [] },
+                ap2: { name: "AP Physics 2", time: 120, pool: typeof ap2DailyPool !== 'undefined' ? ap2DailyPool : [] },
+                mech: { name: "AP C: Mechanics", time: 120, pool: typeof mechDailyPool !== 'undefined' ? mechDailyPool : [] },
+                em: { name: "AP C: E&M", time: 120, pool: typeof emDailyPool !== 'undefined' ? emDailyPool : [] }
+            };
+
+            let currentConfig = configs[subject];
+            timeRemaining = currentConfig.time;
+            document.getElementById('subject-title').innerText = `${currentConfig.name} Daily Problem`;
+
+            const now = new Date();
+            const localYear = now.getFullYear();
+            const localMonth = String(now.getMonth() + 1).padStart(2, '0');
+            const localDay = String(now.getDate()).padStart(2, '0');
+            const todayKey = `${localYear}-${localMonth}-${localDay}`;
+            storageKey = `daily_ans_${subject}_${todayKey}`;
+
+            if (currentConfig.pool && currentConfig.pool.length > 0) {
+                const startOfYear = new Date(localYear, 0, 1);
+                const diffInMs = now - startOfYear;
+                const dayOfYear = Math.floor(diffInMs / (1000 * 60 * 60 * 24)) + 1;
+                const questionIndex = dayOfYear % currentConfig.pool.length;
+                questionData = currentConfig.pool[questionIndex];
+            } else {
+                questionData = { id: "N/A", unit: "N/A", topic: "N/A", skill: "N/A", question: "No questions found in pool file!", image: "", choices: [], correctIndex: 0, difficulty: "Easy", explanation: "N/A" };
+            }
+
+            // Render content
+            if (questionData.image && questionData.image.trim() !== "") {
+                const imgElement = document.getElementById('question-img');
+                imgElement.src = questionData.image;
+                document.getElementById('image-container').style.display = 'block';
+            }
+
+            document.getElementById('question-text').innerHTML = questionData.question;
+            const container = document.getElementById('choices-container');
+            container.innerHTML = ''; // Clear fallback
+            
+            if (questionData.choices) {
+                questionData.choices.forEach((choice, idx) => {
+                    container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
+                });
+            }
+
+            document.getElementById('meta-unit').innerText = questionData.unit || "N/A";
+            document.getElementById('meta-topic').innerText = questionData.topic || "N/A";
+            document.getElementById('meta-skill').innerText = questionData.skill || "N/A";
+            document.getElementById('meta-id').innerText = questionData.id || "N/A";
+            document.getElementById('explanation-text').innerHTML = questionData.explanation;
+
+            const diffSpan = document.getElementById('difficulty-span');
+            const diffLevel = (questionData.difficulty || "Easy").toLowerCase();
+            diffSpan.innerText = diffLevel;
+            diffSpan.className = `difficulty-tag diff-${diffLevel}`;
+
+            // Trigger MathJax Processing
+            setTimeout(() => { if(window.MathJax) { MathJax.typesetPromise(); } }, 100);
+
+            // Handle LocalStorage tracking
+            const savedAnswer = localStorage.getItem(storageKey);
+            if (savedAnswer !== null) {
+                isSubmitted = true;
+                selectedIndex = parseInt(savedAnswer, 10);
+                document.getElementById('timer').innerText = "COMPLETED";
+                
                 const buttons = document.querySelectorAll('.choice-btn');
                 buttons.forEach((btn, idx) => {
                     if (idx === questionData.correctIndex) {
@@ -265,11 +278,11 @@
                     }
                 });
                 document.getElementById('explanation-box').style.display = 'block';
-                if(window.MathJax) { MathJax.typesetPromise(); }
-            }, 50);
-        } else {
-            countdown = setInterval(runTimerClock, 1000);
-        }
+                setTimeout(() => { if(window.MathJax) { MathJax.typesetPromise(); } }, 100);
+            } else {
+                countdown = setInterval(runTimerClock, 1000);
+            }
+        };
 
         function selectChoice(btnElement, idx) {
             if (isSubmitted) return;
