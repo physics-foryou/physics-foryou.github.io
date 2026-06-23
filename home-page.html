@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practice Exam Session | Physics For You</title>
+    <title>Physics For You</title>
     
     <script src="settings/theme.js"></script>
 
@@ -21,404 +21,393 @@
             font-family: 'Consolas', 'Courier New', monospace;
             background-color: var(--bg-color);
             margin: 0;
-            padding: 0;
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Fixed Top Exam Dashboard Header Grid */
-        .exam-top-bar {
-            background-color: var(--panel-bg);
-            border-bottom: 2px solid var(--border-color);
-            padding: 12px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-
-        .exam-section-title {
-            font-size: 14px;
-            font-weight: bold;
+            padding: 30px 20px;
             color: var(--text-main);
         }
 
-        .exam-timer-container {
+        /* Top Title Branding Container */
+        .branding-header {
             text-align: center;
+            margin-bottom: 35px;
         }
 
-        .timer-display {
-            font-size: 20px;
+        .main-app-title {
+            font-size: 28px;
             font-weight: bold;
-            letter-spacing: 0.5px;
+            margin: 0 0 8px 0;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
         }
 
-        .timer-toggle-btn {
-            background: none;
-            border: 1px solid var(--text-dim);
+        .main-app-desc {
+            font-size: 14px;
+            margin: 0 auto;
+            max-width: 700px;
             color: var(--text-dim);
-            padding: 2px 8px;
-            font-size: 11px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: inherit;
-            margin-top: 3px;
+            line-height: 1.5;
         }
-        .timer-toggle-btn:hover { background-color: rgba(0,0,0,0.05); }
 
-        /* Scrollable main layout section wrapper container */
-        .exam-body-container {
-            flex: 1;
+        /* Centered Layout Wrapper */
+        .workspace-wrapper {
+            position: relative;
+            max-width: 800px; /* Keeps the main content block size comfortable and centered */
+            margin: 0 auto;
+        }
+
+        /* Left Side Floating Sidebar Settings */
+        .sidebar-floating {
+            position: absolute;
+            left: -285px; /* Floats it out into the empty space on the left */
+            top: 0;
+            width: 250px;
             display: flex;
             flex-direction: column;
-            padding: 40px 20px;
-            overflow-y: auto;
-            align-items: center;
+            gap: 20px;
         }
 
-        /* Matches your main layout panels styling */
-        .question-card {
+        /* Shared Card Panel styling */
+        .panel {
             background-color: var(--panel-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background-color: var(--header-bg);
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Interactive indicator arrow */
+        .panel-header::before { 
+            content: "▼"; 
+            font-size: 9px; 
+            display: inline-block;
+            transition: transform 0.25s ease;
+        }
+        
+        /* Rotate arrow when panel container is closed */
+        .panel.collapsed .panel-header::before {
+            transform: rotate(-90deg);
+        }
+
+        /* Transition wrapper for smooth opening/closing heights */
+        .panel-collapse {
+            max-height: 1000px; /* Large enough value to hold content */
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .panel.collapsed .panel-collapse {
+            max-height: 0px !important;
+        }
+
+        .panel-content { padding: 20px; }
+
+        .setting-row {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .theme-select {
+            font-family: inherit;
+            background: var(--panel-bg);
+            border: 1px solid var(--text-dim);
+            color: var(--text-main);
+            padding: 8px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
             width: 100%;
-            max-width: 800px;
-            padding: 30px;
             box-sizing: border-box;
         }
 
-        .question-tools-row {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
-            margin-bottom: 25px;
-            font-size: 13px;
-            color: var(--text-dim);
-        }
-
-        .tool-btn {
-            background: none;
-            border: none;
-            color: var(--text-dim);
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .tool-btn:hover { color: var(--text-main); }
-
-        .question-stem {
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        /* Choice options structural list deck */
-        .choices-stack {
+        /* Right Side Content Elements - Now Perfectly Centered */
+        .center-content-stack {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 20px;
+            width: 100%;
         }
 
-        .choice-row {
+        .selector-group {
             display: flex;
-            align-items: center;
-            gap: 14px;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .select-btn {
             background: var(--panel-bg);
             border: 1px solid var(--text-dim);
-            border-radius: 24px; /* Princeton Review style pill configurations */
-            padding: 12px 20px;
+            color: var(--text-main);
+            padding: 8px 16px;
             cursor: pointer;
-            transition: all 0.15s ease;
-            user-select: none;
-        }
-        .choice-row:hover { background-color: rgba(0,0,0,0.04); }
-
-        .choice-row.selected {
-            border-color: var(--header-bg);
-            background-color: rgba(27, 42, 71, 0.05);
-        }
-
-        .choice-bubble {
-            width: 24px;
-            height: 24px;
-            border: 1px solid var(--text-dim);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            background: var(--panel-bg);
-            flex-shrink: 0;
-        }
-
-        .choice-row.selected .choice-bubble {
-            background-color: var(--header-bg);
-            color: #ffffff;
-            border-color: var(--header-bg);
-        }
-
-        .choice-text {
-            font-size: 14px;
-        }
-
-        /* AP Multi-Select Warning Alert Frame */
-        .multi-banner {
-            background-color: #fef3c7;
-            border: 1px solid #f59e0b;
-            color: #92400e;
-            padding: 10px 14px;
+            font-family: inherit;
             border-radius: 4px;
-            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .select-btn:hover { background-color: rgba(0,0,0,0.06); }
+        .select-btn.active {
+            background-color: var(--header-bg);
+            border-color: var(--header-bg);
+            color: #ffffff;
             font-weight: bold;
-            margin-bottom: 20px;
-            display: none;
         }
 
-        /* Sticky bottom control footer utility bar */
-        .exam-footer-bar {
-            background-color: var(--panel-bg);
-            border-top: 2px solid var(--border-color);
-            padding: 12px 24px;
+        .action-btn {
+            background-color: var(--header-bg);
+            border: 1px solid var(--header-bg);
+            color: #fff;
+            padding: 10px 22px;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: opacity 0.2s;
+        }
+        .action-btn:hover { opacity: 0.9; }
+
+        .inline-warning {
+            color: #e05252;
+            font-size: 13px;
+            margin-top: 8px;
+            margin-bottom: -4px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .exam-row {
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 10;
         }
-
-        .footer-btn {
-            background-color: var(--header-bg);
-            border: 1px solid var(--header-bg);
-            color: #ffffff;
-            padding: 8px 18px;
-            font-family: inherit;
-            font-weight: bold;
-            font-size: 13px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .footer-btn:hover { opacity: 0.9; }
+        .exam-row:last-child { border-bottom: none; }
+        .exam-title { font-weight: bold; width: 220px; flex-shrink: 0; color: var(--text-main); }
         
-        .footer-btn-secondary {
-            background-color: transparent;
+        .test-buttons { display: flex; gap: 8px; }
+        
+        .test-link {
+            background: var(--panel-bg);
             border: 1px solid var(--text-dim);
             color: var(--text-main);
+            padding: 6px 14px;
+            text-decoration: none;
+            font-size: 12px;
+            border-radius: 4px;
+            text-align: center;
+            min-width: 55px;
+            transition: all 0.2s;
         }
-        .footer-btn-secondary:hover { background-color: rgba(0,0,0,0.05); }
+        .test-link:hover { background-color: rgba(0,0,0,0.06); }
 
-        .footer-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
+        .btn-easy { border-color: #31c48d; color: #1e4620; background-color: #def7ec; }
+        .btn-easy:hover { opacity: 0.85; }
+        .btn-med { border-color: #f59e0b; color: #92400e; background-color: #fef3c7; }
+        .btn-med:hover { opacity: 0.85; }
+        .btn-hard { border-color: #f98080; color: #7a1e1e; background-color: #fde8e8; }
+        .btn-hard:hover { opacity: 0.85; }
+
+        /* Responsive Design: Wrap neatly onto smaller screen dimensions */
+        @media (max-width: 1360px) {
+            .workspace-wrapper {
+                max-width: 800px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+            .sidebar-floating {
+                position: static;
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <header class="exam-top-bar">
-        <div class="exam-section-title" id="course-title-display">AP Physics Course</div>
+    <div class="branding-header">
+        <h1 class="main-app-title">AP Master Page Practice & Review</h1>
+        <p class="main-app-desc">Select your course path below to challenge yourself with daily problems, full-length practice exams, custom difficulty problems, and more to prepare yourself for upcoming AP exams.</p>
+    </div>
+
+    <div class="workspace-wrapper">
         
-        <div class="exam-timer-container">
-            <div class="timer-display" id="clock-countdown">45:00</div>
-            <button class="timer-toggle-btn" id="toggle-clock-btn" onclick="toggleClockVisibility()">Hide Time</button>
-        </div>
-
-        <div>
-            <button class="footer-btn footer-btn-secondary" style="padding: 4px 12px; font-size: 12px;" onclick="exitExamSession()">Exit</button>
-        </div>
-    </header>
-
-    <main class="exam-body-container">
-        <div class="question-card">
-            
-            <div class="question-tools-row">
-                <div><strong>Question <span id="current-num-display">1</span></strong></div>
-                <div><span id="flag-status-label" style="font-weight: bold; color: #f59e0b;"></span></div>
-            </div>
-
-            <div class="multi-banner" id="multi-choice-warning">
-                ⚠️ Multi-Select Item: Choose exactly TWO correct option options below.
-            </div>
-
-            <div class="question-stem" id="active-stem-block">
-                Loading exam materials from dataset arrays...
-            </div>
-
-            <div class="choices-stack" id="active-options-block">
+        <aside class="sidebar-floating">
+            <div class="panel">
+                <div class="panel-header" onclick="togglePanel(this)">Settings</div>
+                <div class="panel-collapse">
+                    <div class="panel-content">
+                        <div class="setting-row">
+                            <label for="theme-dropdown" style="font-size: 12px; font-weight: bold; opacity: 0.85;">Color Palette Theme:</label>
+                            <select id="theme-dropdown" class="theme-select" onchange="changeTheme(this.value)">
+                                <option value="navy">Navy & Pale Gray</option>
+                                <option value="dark">Dark Slate</option>
+                                <option value="purple">Midnight Purple</option>
+                                <option value="dollar">Dollar</option>
+                                <option value="dots">Dots</option>
+                                <option value="paper">Paper</option>
+                                <option value="repose_dark">Repose Dark</option>
+                                <option value="alpine">Alpine</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="panel">
+                <div class="panel-header" onclick="togglePanel(this)">Exam Score Calculator</div>
+                <div class="panel-collapse">
+                    <div class="panel-content" style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="calculator.html?subject=ap1" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">AP1</a>
+                        <a href="calculator.html?subject=ap2" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">AP2</a>
+                        <a href="calculator.html?subject=mech" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">APC: Mech</a>
+                        <a href="calculator.html?subject=em" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">APC: E&M</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
 
-        </div>
-    </main>
+        <main class="center-content-stack">
+            
+            <div class="panel">
+                <div class="panel-header" onclick="togglePanel(this)">Daily Problem</div>
+                <div class="panel-collapse">
+                    <div class="panel-content">
+                        <p style="margin-top: 0; margin-bottom: 0;">Select your course to get today's problem:</p>
+                        <div id="course-warning" class="inline-warning">Please select a course before starting your daily problem.</div>
+                        
+                        <div class="selector-group">
+                            <button class="select-btn" onclick="setSubject('ap1', event)">AP Physics 1</button>
+                            <button class="select-btn" onclick="setSubject('ap2', event)">AP Physics 2</button>
+                            <button class="select-btn" onclick="setSubject('mech', event)">APC: Mech</button>
+                            <button class="select-btn" onclick="setSubject('em', event)">APC: E&M</button>
+                        </div>
+                        <button class="action-btn" onclick="launchDailyTest()">Start Daily Problem</button>
+                    </div>
+                </div>
+            </div>
 
-    <footer class="exam-footer-bar">
-        <div style="font-size: 13px; color: var(--text-dim);" id="progress-indicator">
-            Question 1 of 4
-        </div>
+            <div class="panel">
+                <div class="panel-header" onclick="togglePanel(this)">Practice Exams</div>
+                <div class="panel-collapse">
+                    <div class="panel-content">
+                        <div class="exam-row">
+                            <span class="exam-title">AP Physics 1</span>
+                            <div class="test-buttons">
+                                <a href="practice-exam-session.html?subject=ap1&exam=1" class="test-link">Test 1</a>
+                                <a href="practice-exam-session.html?subject=ap1&exam=2" class="test-link">Test 2</a>
+                                <a href="practice-exam-session.html?subject=ap1&exam=3" class="test-link">Test 3</a>
+                                <a href="practice-exam-session.html?subject=ap1&exam=4" class="test-link">Test 4</a>
+                            </div>
+                        </div>
+                        <div class="exam-row">
+                            <span class="exam-title">AP Physics 2</span>
+                            <div class="test-buttons">
+                                <a href="practice-exam-session.html?subject=ap2&exam=1" class="test-link">Test 1</a>
+                                <a href="practice-exam-session.html?subject=ap2&exam=2" class="test-link">Test 2</a>
+                                <a href="practice-exam-session.html?subject=ap2&exam=3" class="test-link">Test 3</a>
+                                <a href="practice-exam-session.html?subject=ap2&exam=4" class="test-link">Test 4</a>
+                            </div>
+                        </div>
+                        <div class="exam-row">
+                            <span class="exam-title">AP C: Mechanics</span>
+                            <div class="test-buttons">
+                                <a href="practice-exam-session.html?subject=mech&exam=1" class="test-link">Test 1</a>
+                                <a href="practice-exam-session.html?subject=mech&exam=2" class="test-link">Test 2</a>
+                                <a href="practice-exam-session.html?subject=mech&exam=3" class="test-link">Test 3</a>
+                                <a href="practice-exam-session.html?subject=mech&exam=4" class="test-link">Test 4</a>
+                            </div>
+                        </div>
+                        <div class="exam-row">
+                            <span class="exam-title">AP C: E&M</span>
+                            <div class="test-buttons">
+                                <a href="practice-exam-session.html?subject=em&exam=1" class="test-link">Test 1</a>
+                                <a href="practice-exam-session.html?subject=em&exam=2" class="test-link">Test 2</a>
+                                <a href="practice-exam-session.html?subject=em&exam=3" class="test-link">Test 3</a>
+                                <a href="practice-exam-session.html?subject=em&exam=4" class="test-link">Test 4</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div style="display: flex; gap: 10px;">
-            <button class="footer-btn footer-btn-secondary" onclick="stepPreviousQuestion()" id="back-nav-btn">Back</button>
-            <button class="footer-btn" onclick="stepNextQuestion()" id="forward-nav-btn">Next</button>
-        </div>
-    </footer>
+            <div class="panel">
+                <div class="panel-header" onclick="togglePanel(this)">Custom Difficulty Practice Problems</div>
+                <div class="panel-collapse">
+                    <div class="panel-content">
+                        <div class="exam-row">
+                            <span class="exam-title">AP Physics 1</span>
+                            <div class="test-buttons">
+                                <a href="sandbox.html?subject=ap1&diff=easy" class="test-link btn-easy">Easy</a>
+                                <a href="sandbox.html?subject=ap1&diff=med" class="test-link btn-med">Medium</a>
+                                <a href="sandbox.html?subject=ap1&diff=hard" class="test-link btn-hard">Hard</a>
+                            </div>
+                        </div>
+                        <div class="exam-row">
+                            <span class="exam-title">AP Physics 2</span>
+                            <div class="test-buttons">
+                                <a href="sandbox.html?subject=ap2&diff=easy" class="test-link btn-easy">Easy</a>
+                                <a href="sandbox.html?subject=ap2&diff=med" class="test-link btn-med">Medium</a>
+                                <a href="sandbox.html?subject=ap2&diff=hard" class="test-link btn-hard">Hard</a>
+                            </div>
+                        </div>
+                        <div class="exam-row">
+                            <span class="exam-title">AP C: Mechanics</span>
+                            <div class="test-buttons">
+                                <a href="sandbox.html?subject=mech&diff=easy" class="test-link btn-easy">Easy</a>
+                                <a href="sandbox.html?subject=mech&diff=med" class="test-link btn-med">Medium</a>
+                                <a href="sandbox.html?subject=mech&diff=hard" class="test-link btn-hard">Hard</a>
+                            </div>
+                        </div>
+                        <div class="exam-row">
+                            <span class="exam-title">AP C: E&M</span>
+                            <div class="test-buttons">
+                                <a href="sandbox.html?subject=em&diff=easy" class="test-link btn-easy">Easy</a>
+                                <a href="sandbox.html?subject=em&diff=med" class="test-link btn-med">Medium</a>
+                                <a href="sandbox.html?subject=em&diff=hard" class="test-link btn-hard">Hard</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
 
     <script>
-        // Parse current incoming request configurations
-        const urlParams = new URLSearchParams(window.location.search);
-        const subjectCode = urlParams.get('subject') || 'ap1';
-        const examId = urlParams.get('exam') || '1';
+        let selectedSubject = null;
 
-        let activeIndex = 0;
-        let examQuestionsPool = [];
-        let savedAnswersMap = {}; 
-        let timeRemaining = 45 * 60; // 45 Minutes baseline countdown clock
-        let clockTimerState = true;
-        let countdownInterval;
-
-        const subjectLabelsMap = {
-            'ap1': 'AP Physics 1',
-            'ap2': 'AP Physics 2',
-            'mech': 'AP C: Mechanics',
-            'em': 'AP C: Electricity & Magnetism'
-        };
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const displayTitle = subjectLabelsMap[subjectCode] || 'AP Physics';
-            document.getElementById('course-title-display').innerText = `${displayTitle} — Practice Exam ${examId}`;
-            
-            startCountdownTimer();
-            loadMockQuestionPool();
-            renderActiveExamQuestion();
-        });
-
-        function loadMockQuestionPool() {
-            // Placeholder dataset structure matching your universal dynamic pool logic architectural approach
-            examQuestionsPool = [
-                {
-                    stem: "A cart travels along a horizontal track with a constant acceleration path. Which of the following parameters must adapt at a constant linear rate with respect to time variables?",
-                    isMulti: false,
-                    choices: { A: "Kinetic Energy", B: "Instantaneous Velocity", C: "Linear Position Displacement", D: "Mechanical Power Output" }
-                },
-                {
-                    stem: "A block of mass M is dropped from rest from height H above a light vertical spring. What total properties remain conserved during the system path before compression mechanics interact? (Neglect air resistances structural models)",
-                    isMulti: false,
-                    choices: { A: "Total Momentum only", B: "Mechanical Energy parameters only", C: "Both Momentum and Mechanical Energy profiles", D: "Neither Momentum nor Mechanical Energy values" }
-                },
-                {
-                    stem: "AP MULTI-SELECT PREVIEW: Which of the following parameters are quantified using vector calculation models? Select exactly TWO pathways.",
-                    isMulti: true,
-                    choices: { A: "Linear Momentum Vectors", B: "Electric Potential Fields", C: "Gravitational Field Strengths", D: "Rotational Kinetic Energy Scales" }
-                }
-            ];
+        // Function to toggle panels smoothly
+        function togglePanel(headerElement) {
+            const panel = headerElement.closest('.panel');
+            panel.classList.toggle('collapsed');
         }
 
-        function renderActiveExamQuestion() {
-            const item = examQuestionsPool[activeIndex];
-            if (!item) return;
-
-            document.getElementById('current-num-display').innerText = activeIndex + 1;
-            document.getElementById('progress-indicator').innerText = `Question ${activeIndex + 1} of ${examQuestionsPool.length}`;
-            document.getElementById('active-stem-block').innerText = item.stem;
-            document.getElementById('multi-choice-warning').style.display = item.isMulti ? 'block' : 'none';
-
-            const container = document.getElementById('active-options-block');
-            container.innerHTML = '';
-
-            Object.keys(item.choices).forEach(key => {
-                const choiceRow = document.createElement('div');
-                choiceRow.className = 'choice-row';
-                
-                if (savedAnswersMap[activeIndex] && savedAnswersMap[activeIndex].includes(key)) {
-                    choiceRow.classList.add('selected');
-                }
-
-                choiceRow.innerHTML = `
-                    <div class="choice-bubble">${key}</div>
-                    <div class="choice-text">${item.choices[key]}</div>
-                `;
-
-                choiceRow.onclick = () => selectOption(key, item.isMulti, choiceRow);
-                container.appendChild(choiceRow);
-            });
-
-            document.getElementById('back-nav-btn').disabled = (activeIndex === 0);
-            document.getElementById('forward-nav-btn').innerText = (activeIndex === examQuestionsPool.length - 1) ? 'Submit Exam' : 'Next';
+        function setSubject(subject, e) {
+            selectedSubject = subject;
+            document.getElementById('course-warning').style.display = 'none';
+            document.querySelectorAll('.select-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
         }
 
-        function selectOption(key, isMulti, element) {
-            if (!savedAnswersMap[activeIndex]) savedAnswersMap[activeIndex] = [];
-
-            if (!isMulti) {
-                savedAnswersMap[activeIndex] = [key];
-                document.querySelectorAll('.choice-row').forEach(r => r.classList.remove('selected'));
-                element.classList.add('selected');
-            } else {
-                if (savedAnswersMap[activeIndex].includes(key)) {
-                    savedAnswersMap[activeIndex] = savedAnswersMap[activeIndex].filter(v => v !== key);
-                    element.classList.remove('selected');
-                } else {
-                    if (savedAnswersMap[activeIndex].length < 2) {
-                        savedAnswersMap[activeIndex].push(key);
-                        element.classList.add('selected');
-                    } else {
-                        alert("Multi-select questions require exactly two answers. Deselect a chosen option first.");
-                    }
-                }
+        function launchDailyTest() {
+            if (!selectedSubject) {
+                document.getElementById('course-warning').style.display = 'block';
+                return;
             }
-        }
-
-        function stepPreviousQuestion() {
-            if (activeIndex > 0) {
-                activeIndex--;
-                renderActiveExamQuestion();
-            }
-        }
-
-        function stepNextQuestion() {
-            if (activeIndex < examQuestionsPool.length - 1) {
-                activeIndex++;
-                renderActiveExamQuestion();
-            } else {
-                alert("Exam completed! Navigating back to structural dashboard.");
-                window.location.href = "home-page.html";
-            }
-        }
-
-        function toggleClockVisibility() {
-            const clock = document.getElementById('clock-countdown');
-            const btn = document.getElementById('toggle-clock-btn');
-            clockTimerState = !clockTimerState;
-            clock.style.visibility = clockTimerState ? 'visible' : 'hidden';
-            btn.innerText = clockTimerState ? 'Hide Time' : 'Show Time';
-        }
-
-        function startCountdownTimer() {
-            countdownInterval = setInterval(() => {
-                if (timeRemaining <= 0) {
-                    clearInterval(countdownInterval);
-                    alert("Time's up!");
-                    window.location.href = "home-page.html";
-                    return;
-                }
-                timeRemaining--;
-                const min = Math.floor(timeRemaining / 60);
-                const sec = timeRemaining % 60;
-                document.getElementById('clock-countdown').innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
-            }, 1000);
-        }
-
-        function exitExamSession() {
-            if (confirm("Exit session? Unsubmitted answers won't save.")) {
-                window.location.href = "home-page.html";
-            }
+            window.location.href = `daily-problem-page.html?subject=${selectedSubject}`;
         }
     </script>
 </body>
