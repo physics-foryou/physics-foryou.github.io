@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Question Room</title>
-    
-    <script src="settings/theme.js"></script>
-    
+
     <script>
         window.MathJax = {
             tex: {
@@ -20,332 +18,311 @@
             }
         };
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
-    <script src="ap1/ap1-daily-pool.js"></script>
-    <script src="daily-pool/ap2.js"></script>
-    <script src="daily-pool/mech.js"></script>
-    <script src="daily-pool/em.js"></script>
-    
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es/tex-mml-chtml.js"></script>
+
     <style>
+        /* These align with your setup styling variables */
         :root {
-            --bg-color: #eef2f5;        
-            --panel-bg: #ffffff;        
-            --header-bg: #1b2a47;       
-            --text-main: #1c2533;       
-            --text-dim: #626f80;        
-            --border-color: rgba(0,0,0,0.15);
+            --bg-color: #6a7f93;
+            --panel-bg: #1c1a27;
+            --header-bg: #3c3957;
+            --text-main: #d1d2d6;
+            --text-dim: #9ba1a6;
+            --border-color: rgba(255, 255, 255, 0.15);
         }
+
         body {
             font-family: 'Consolas', 'Courier New', monospace;
             background-color: var(--bg-color);
             margin: 0;
             padding: 20px;
             color: var(--text-main);
+            overflow-x: hidden;
         }
-        .workspace { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; position: relative; }
-        .panel { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-        .panel-header { background-color: var(--header-bg); padding: 12px 16px; font-size: 14px; font-weight: bold; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; color: #ffffff; }
-        .panel-content { padding: 24px; }
-        
-        .timer-box { font-size: 16px; color: #ffffff; font-weight: bold; transition: color 0.3s ease; }
-        .timer-warning { color: #ff6b6b !important; }
-        
-        .toast-notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #fff0f0;
-            border: 1px solid #e05252;
-            color: #a82c2c;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-size: 13px;
-            display: none;
-            box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
-            z-index: 1000;
+
+        /* Container keeping layout neat and centered */
+        .workspace-container {
+            max-width: 800px;
+            margin: 40px auto;
+            position: relative;
+        }
+
+        .panel {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background-color: var(--header-bg);
+            padding: 12px 16px;
+            font-size: 14px;
             font-weight: bold;
         }
 
-        .question-image-container { text-align: center; margin-bottom: 20px; display: none; }
-        .question-image {
-            max-width: 100%;
-            max-height: 350px;
+        .panel-content {
+            padding: 20px;
+        }
+
+        /* Floating Fixed Tab Button on the Right Side */
+        .ref-sheet-tab {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--header-bg);
+            color: var(--text-main);
             border: 1px solid var(--border-color);
-            border-radius: 4px;
-            background-color: var(--bg-color);
+            border-right: none;
+            padding: 15px 10px;
+            cursor: pointer;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-weight: bold;
+            font-size: 12px;
+            z-index: 999;
+            box-shadow: -2px 4px 10px rgba(0,0,0,0.3);
+            display: none; /* Controlled dynamically via JavaScript */
         }
-        
-        .choice-btn { display: block; width: 100%; text-align: left; background: rgba(0,0,0,0.02); border: 1px solid var(--text-dim); color: var(--text-main); padding: 14px; margin: 10px 0; cursor: pointer; font-family: inherit; border-radius: 4px; font-size: 14px; transition: all 0.2s; }
-        .choice-btn:hover { background-color: rgba(0,0,0,0.08); }
-        .choice-btn.selected { border-color: var(--text-main); background-color: rgba(0,0,0,0.12); font-weight: bold; }
-        .choice-btn.correct { border-color: #1e4620 !important; background-color: #def7ec !important; color: #1e4620 !important; font-weight: bold; cursor: default; }
-        .choice-btn.incorrect { border-color: #7a1e1e !important; background-color: #fde8e8 !important; color: #7a1e1e !important; cursor: default; }
-        .choice-btn.disabled:hover { background-color: rgba(0,0,0,0.02); cursor: default; }
 
-        .action-bar { display: flex; align-items: center; gap: 12px; margin-top: 15px; }
-
-        .action-btn { 
-            background-color: var(--header-bg); 
-            border: 1px solid var(--header-bg); 
-            color: white; 
-            padding: 10px 22px; 
-            cursor: pointer; 
-            font-family: inherit; 
-            font-size: 13px; 
-            font-weight: bold; 
-            border-radius: 4px;
-            visibility: hidden;
-            transition: background 0.2s;
+        /* Slide-Out Drawer Panel Styling */
+        .ref-drawer {
+            position: fixed;
+            top: 0;
+            right: -550px; /* Hidden offscreen initially */
+            width: 500px;
+            height: 100%;
+            background-color: var(--panel-bg);
+            border-left: 2px solid var(--header-bg);
+            box-shadow: -5px 0 25px rgba(0,0,0,0.4);
+            transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
         }
-        .action-btn:hover { opacity: 0.9; }
 
-        .nav-btn { 
-            background-color: var(--panel-bg); 
-            border: 1px solid var(--text-dim); 
-            color: var(--text-main); 
-            padding: 9px 18px; 
-            text-decoration: none; 
-            font-family: inherit; 
-            font-size: 13px; 
-            display: inline-block;
-            border-radius: 4px;
-            transition: all 0.2s;
+        .ref-drawer.open {
+            right: 0;
         }
-        .nav-btn:hover { background-color: rgba(0,0,0,0.08); }
-        
-        #explanation-box { background: rgba(0,0,0,0.02); border-left: 4px solid var(--header-bg); border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 16px; margin-top: 25px; display: none; font-size: 13px; line-height: 1.6; border-radius: 0 4px 4px 0; }
-        
-        .meta-line { margin-bottom: 8px; }
-        .meta-label { color: var(--text-main); font-weight: bold; opacity: 0.85; }
-        .meta-val { color: var(--text-main); }
-        
-        .difficulty-tag { display: inline-block; padding: 2px 6px; font-size: 11px; font-weight: bold; border-radius: 3px; margin-left: 5px; text-transform: uppercase;}
-        .diff-easy { background-color: #def7ec; color: #1e4620; border: 1px solid #31c48d; }
-        .diff-medium { background-color: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
-        .diff-hard { background-color: #fde8e8; color: #7a1e1e; border: 1px solid #f98080; }
+
+        .drawer-header {
+            background-color: var(--header-bg);
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-drawer-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .drawer-scroll-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        /* Tables Custom Aesthetic inside the drawer */
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .ref-table th, .ref-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .ref-table th {
+            background-color: var(--header-bg);
+            color: var(--text-main);
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 1px dashed var(--text-dim);
+            margin: 15px 0 8px 0;
+            padding-bottom: 3px;
+            color: var(--text-dim);
+        }
     </style>
 </head>
-<body class="tex2jax_ignore">
+<body class="tex2jax_process">
 
-    <div class="workspace tex2jax_process">
+    <button id="ref-tab-trigger" class="ref-sheet-tab" onclick="toggleRefDrawer()">
+        📄 AP PHYSICS 1 REFERENCE SHEET
+    </button>
+
+    <div id="ref-drawer-panel" class="ref-drawer">
+        <div class="drawer-header">
+            <span>ADVANCED PLACEMENT PHYSICS 1 TABLE</span>
+            <button class="close-drawer-btn" onclick="toggleRefDrawer()">×</button>
+        </div>
+        <div class="drawer-scroll-body">
+            
+            <div class="section-title">Constants and Conversion Factors</div>
+            <table class="ref-table">
+                <tr>
+                    <td>Universal gravitational constant</td>
+                    <td>$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2)$</td>
+                </tr>
+                <tr>
+                    <td>Acceleration due to gravity at Earth's surface</td>
+                    <td>$g = 9.8 \text{ m/s}^2$</td>
+                </tr>
+                <tr>
+                    <td>Gravitational field strength at Earth's surface</td>
+                    <td>$g = 9.8 \text{ N/kg}$</td>
+                </tr>
+            </table>
+
+            <div class="section-title">Unit Symbols</div>
+            <table class="ref-table">
+                <tr>
+                    <td><strong>meter</strong>, m</td>
+                    <td><strong>kilogram</strong>, kg</td>
+                    <td><strong>second</strong>, s</td>
+                    <td><strong>ampere</strong>, A</td>
+                </tr>
+                <tr>
+                    <td><strong>hertz</strong>, Hz</td>
+                    <td><strong>newton</strong>, N</td>
+                    <td><strong>joule</strong>, J</td>
+                    <td><strong>watt</strong>, W</td>
+                </tr>
+                <tr>
+                    <td><strong>coulomb</strong>, C</td>
+                    <td><strong>volt</strong>, V</td>
+                    <td><strong>ohm</strong>, $\Omega$</td>
+                    <td><strong>degree Celsius</strong>, $^\circ\text{C}$</td>
+                </tr>
+            </table>
+
+            <div class="section-title">Mechanics Formulas</div>
+            <table class="ref-table">
+                <tr>
+                    <td>$v_x = v_{x0} + a_x t$</td>
+                    <td>$x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$</td>
+                </tr>
+                <tr>
+                    <td>$v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$</td>
+                    <td>$\vec{a} = \frac{\sum \vec{F}}{m} = \frac{\vec{F}_{\text{net}}}{m}$</td>
+                </tr>
+                <tr>
+                    <td>$|\vec{F}_g| = \mu |\vec{F}_n|$</td>
+                    <td>$a_c = \frac{v^2}{r}$</td>
+                </tr>
+                <tr>
+                    <td>$\vec{p} = m\vec{v}$</td>
+                    <td>$\Delta \vec{p} = \vec{F}\Delta t$</td>
+                </tr>
+                <tr>
+                    <td>$K = \frac{1}{2}mv^2$</td>
+                    <td>$\Delta E = W = F_{\parallel}d = F d \cos\theta$</td>
+                </tr>
+                <tr>
+                    <td>$P = \frac{\Delta E}{\Delta t}$</td>
+                    <td>$\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$</td>
+                </tr>
+                <tr>
+                    <td>$\omega = \omega_0 + \alpha t$</td>
+                    <td>$x = A \cos(2\pi f t)$</td>
+                </tr>
+                <tr>
+                    <td>$\vec{\alpha} = \frac{\sum\vec{\tau}}{I} = \frac{\vec{\tau}_{\text{net}}}{I}$</td>
+                    <td>$\tau = F_{\perp}r = Fr\sin\theta$</td>
+                </tr>
+                <tr>
+                    <td>$L = I\omega$</td>
+                    <td>$\Delta L = \tau\Delta t$</td>
+                </tr>
+                <tr>
+                    <td>$K = \frac{1}{2}I\omega^2$</td>
+                    <td>$|\vec{F}_s| = k|x|$</td>
+                </tr>
+                <tr>
+                    <td>$U_s = \frac{1}{2}kx^2$</td>
+                    <td>$\rho = \frac{m}{V}$</td>
+                </tr>
+                <tr>
+                    <td>$\Delta U_g = mg\Delta y$</td>
+                    <td>$T = \frac{1}{f} = \frac{2\pi}{\omega}$</td>
+                </tr>
+                <tr>
+                    <td>$T_s = 2\pi \sqrt{\frac{m}{k}}$</td>
+                    <td>$T_p = 2\pi \sqrt{\frac{l}{g}}$</td>
+                </tr>
+                <tr>
+                    <td>$|\vec{F}_g| = G\frac{m_1 m_2}{r^2}$</td>
+                    <td>$\vec{g} = \frac{\vec{F}_g}{m}$</td>
+                </tr>
+                <tr>
+                    <td colspan="2">$U_g = -\frac{G m_1 m_2}{r}$</td>
+                </tr>
+            </table>
+
+            <div class="section-title">Electricity Formulas</div>
+            <table class="ref-table">
+                <tr>
+                    <td>$|\vec{F}_e| = k\frac{|q_1 q_2|}{r^2}$</td>
+                    <td>$I = \frac{\Delta q}{\Delta t}$</td>
+                </tr>
+                <tr>
+                    <td>$R = \frac{\rho l}{A}$</td>
+                    <td>$I = \frac{\Delta V}{R}$</td>
+                </tr>
+                <tr>
+                    <td>$P = I\Delta V$</td>
+                    <td>$I_{\text{series}} = I_1 = I_2 = I_3 = \dots$</td>
+                </tr>
+                <tr>
+                    <td>$R_{\text{series}} = \sum R_i$</td>
+                    <td>$\frac{1}{R_{\text{parallel}}} = \sum \frac{1}{R_i}$</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="workspace-container">
         <div class="panel">
-            <div class="panel-header">
-                <span>Pacing</span>
-                <span id="timer" class="timer-box">02:00</span>
-            </div>
+            <div class="panel-header">Daily AP Question Workspace</div>
             <div class="panel-content">
-                <h3 id="subject-title" style="margin-top:0; color: var(--text-main); margin-bottom: 4px;">Loading...</h3>
-                
-                <div id="midnight-countdown" style="font-size: 12px; color: var(--text-dim); margin-bottom: 18px; display: none;">New Question in: --:--:--</div>
-                
-                <div id="image-container" class="question-image-container">
-                    <img id="question-img" src="" class="question-image" alt="Question Diagram">
-                </div>
-
-                <div id="question-text" style="font-size: 15px; margin-bottom: 20px; line-height: 1.5;">Finding today's question...</div>
-                
-                <div id="choices-container"></div>
-                
-                <div id="explanation-box">
-                    <div class="meta-line">
-                        <span class="meta-label">Difficulty:</span>
-                        <span id="difficulty-span" class="difficulty-tag"></span>
-                    </div>
-                    <div class="meta-line">
-                        <span class="meta-label">Unit:</span> <span id="meta-unit" class="meta-val"></span>
-                    </div>
-                    <div class="meta-line">
-                        <span class="meta-label">Topic:</span> <span id="meta-topic" class="meta-val"></span>
-                    </div>
-                    <div class="meta-line">
-                        <span class="meta-label">Skill:</span> <span id="meta-skill" class="meta-val"></span>
-                    </div>
-                    <div class="meta-line" style="margin-top: 12px; margin-bottom: 12px;">
-                        <span class="meta-label" style="display: block; margin-bottom: 4px;">Explanation:</span>
-                        <p id="explanation-text" style="margin: 0;"></p>
-                    </div>
-                    <div class="meta-line" style="border-top: 1px dashed var(--border-color); padding-top: 8px; font-size: 11px;">
-                        <span class="meta-label" style="color: var(--text-dim);">Question ID:</span> <span id="meta-id" style="color: var(--text-dim);"></span>
-                    </div>
-                </div>
-
-                <hr style="border: none; border-top: 1px solid var(--border-color); margin-top: 25px;">
-                
-                <div class="action-bar">
-                    <a href="home-page.html" class="nav-btn">◀ Go Back Home</a>
-                    <button id="submit-btn" class="action-btn" onclick="submitAnswer()">Submit Answer</button>
-                </div>
+                <p>Your practice problem text will display right over here...</p>
             </div>
         </div>
     </div>
 
-    <div id="notification" class="toast-notification">⚠️ Notice: 30 seconds remaining</div>
-
     <script>
-        let selectedIndex = null;
-        let isSubmitted = false;
-        let timeRemaining = 120;
-        let overtimeSeconds = 0;
-        let countdown;
-        let questionData = {};
-        let storageKey = '';
-        let subject = 'ap1';
+        // Reads URL query parameters (?subject=ap1)
+        const urlParams = new URLSearchParams(window.location.search);
+        const activeSubject = urlParams.get('subject');
 
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            subject = urlParams.get('subject') || 'ap1';
-            
-            const configs = {
-                ap1: { name: "AP Physics 1", time: 120, pool: typeof ap1DailyPool !== 'undefined' ? ap1DailyPool : [] },
-                ap2: { name: "AP Physics 2", time: 120, pool: typeof ap2DailyPool !== 'undefined' ? ap2DailyPool : [] },
-                mech: { name: "AP C: Mechanics", time: 120, pool: typeof mechDailyPool !== 'undefined' ? mechDailyPool : [] },
-                em: { name: "AP C: E&M", time: 120, pool: typeof emDailyPool !== 'undefined' ? emDailyPool : [] }
-            };
-
-            let currentConfig = configs[subject];
-            timeRemaining = currentConfig.time;
-            document.getElementById('subject-title').innerText = `${currentConfig.name} Daily Problem`;
-
-            const now = new Date();
-            const localYear = now.getFullYear();
-            const localMonth = String(now.getMonth() + 1).padStart(2, '0');
-            const localDay = String(now.getDate()).padStart(2, '0');
-            const todayKey = `${localYear}-${localMonth}-${localDay}`;
-            storageKey = `daily_ans_${subject}_${todayKey}`;
-
-            if (currentConfig.pool && currentConfig.pool.length > 0) {
-                const startOfYear = new Date(localYear, 0, 1);
-                const diffInMs = now - startOfYear;
-                const dayOfYear = Math.floor(diffInMs / (1000 * 60 * 60 * 24)) + 1;
-                const questionIndex = dayOfYear % currentConfig.pool.length;
-                questionData = currentConfig.pool[questionIndex];
-            } else {
-                questionData = { id: "N/A", unit: "N/A", topic: "N/A", skill: "N/A", question: "No questions found in pool file!", image: "", choices: [], correctIndex: 0, difficulty: "Easy", explanation: "N/A" };
-            }
-
-            if (questionData.image && questionData.image.trim() !== "") {
-                const imgElement = document.getElementById('question-img');
-                imgElement.src = questionData.image;
-                document.getElementById('image-container').style.display = 'block';
-            }
-
-            document.getElementById('question-text').innerHTML = questionData.question;
-            const container = document.getElementById('choices-container');
-            container.innerHTML = ''; 
-            
-            if (questionData.choices) {
-                questionData.choices.forEach((choice, idx) => {
-                    container.innerHTML += `<button class="choice-btn" onclick="selectChoice(this, ${idx})">${choice}</button>`;
-                });
-            }
-
-            document.getElementById('meta-unit').innerText = questionData.unit || "N/A";
-            document.getElementById('meta-topic').innerText = questionData.topic || "N/A";
-            document.getElementById('meta-skill').innerText = questionData.skill || "N/A";
-            document.getElementById('meta-id').innerText = questionData.id || "N/A";
-            document.getElementById('explanation-text').innerHTML = questionData.explanation;
-
-            const diffSpan = document.getElementById('difficulty-span');
-            const diffLevel = (questionData.difficulty || "Easy").toLowerCase();
-            diffSpan.innerText = diffLevel;
-            diffSpan.className = `difficulty-tag diff-${diffLevel}`;
-
-            setTimeout(() => { if(window.MathJax) { MathJax.typesetPromise(); } }, 100);
-
-            const savedAnswer = localStorage.getItem(storageKey);
-            if (savedAnswer !== null) {
-                isSubmitted = true;
-                selectedIndex = parseInt(savedAnswer, 10);
-                document.getElementById('timer').innerText = "COMPLETED";
-                document.getElementById('midnight-countdown').style.display = 'block';
-                
-                const buttons = document.querySelectorAll('.choice-btn');
-                buttons.forEach((btn, idx) => {
-                    if (idx === questionData.correctIndex) {
-                        btn.classList.add('correct');
-                    } else if (idx === selectedIndex) {
-                        btn.classList.add('incorrect');
-                    } else {
-                        btn.classList.add('disabled');
-                    }
-                });
-                document.getElementById('explanation-box').style.display = 'block';
-                setTimeout(() => { if(window.MathJax) { MathJax.typesetPromise(); } }, 100);
-            } else {
-                countdown = setInterval(runTimerClock, 1000);
-            }
-        };
-
-        function selectChoice(btnElement, idx) {
-            if (isSubmitted) return;
-            selectedIndex = idx;
-            document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
-            btnElement.classList.add('selected');
-            document.getElementById('submit-btn').style.visibility = 'visible';
+        // Check if the current course is exactly AP Physics 1
+        if (activeSubject === 'ap1') {
+            document.getElementById('ref-tab-trigger').style.display = 'block';
         }
 
-        function submitAnswer() {
-            if (selectedIndex === null || isSubmitted) return;
-            isSubmitted = true;
-            clearInterval(countdown);
-            
-            localStorage.setItem(storageKey, selectedIndex);
-            document.getElementById('submit-btn').style.display = 'none';
-            document.getElementById('midnight-countdown').style.display = 'block';
-            
-            const buttons = document.querySelectorAll('.choice-btn');
-            buttons.forEach((btn, idx) => {
-                btn.classList.remove('selected');
-                if (idx === questionData.correctIndex) {
-                    btn.classList.add('correct');
-                } else if (idx === selectedIndex) {
-                    btn.classList.add('incorrect');
-                } else {
-                    btn.classList.add('disabled');
-                }
-            });
-
-            document.getElementById('explanation-box').style.display = 'block';
-            if(window.MathJax) { MathJax.typesetPromise(); }
+        // Action slider function toggler
+        function toggleRefDrawer() {
+            const drawer = document.getElementById('ref-drawer-panel');
+            drawer.classList.toggle('open');
         }
-
-        const timerElement = document.getElementById('timer');
-        const notificationElement = document.getElementById('notification');
-
-        function runTimerClock() {
-            if (timeRemaining >= 0) {
-                const minutes = Math.floor(timeRemaining / 60);
-                const seconds = timeRemaining % 60;
-                timerElement.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (timeRemaining === 30) {
-                    timerElement.classList.add('timer-warning');
-                    notificationElement.style.display = 'block';
-                    setTimeout(() => { notificationElement.style.display = 'none'; }, 6000);
-                }
-                timeRemaining--;
-            } else {
-                timerElement.classList.add('timer-warning');
-                overtimeSeconds++;
-                timerElement.innerText = `OVERTIME: +${overtimeSeconds}s`;
-            }
-        }
-
-        function runMidnightCountdown() {
-            const currentTime = new Date();
-            const nextMidnight = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate() + 1, 0, 0, 0);
-            const timeDiff = nextMidnight - currentTime;
-
-            const h = Math.floor(timeDiff / (1000 * 60 * 60));
-            const m = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((timeDiff % (1000 * 60)) / 1000);
-
-            document.getElementById('midnight-countdown').innerText = 
-                `New Question in: ${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        }
-        runMidnightCountdown();
-        setInterval(runMidnightCountdown, 1000);
     </script>
 </body>
 </html>
