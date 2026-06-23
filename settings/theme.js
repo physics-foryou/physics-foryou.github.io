@@ -11,8 +11,10 @@ const themes = {
 };
 
 function applyGlobalTheme() {
-    const savedTheme = localStorage.getItem('site-theme') || 'navy';
-    const theme = themes[savedTheme] || themes.navy;
+    // Replaced 'navy' fallback string with 'paper'
+    const savedTheme = localStorage.getItem('site-theme') || 'paper';
+    // Replaced themes.navy fallback object with themes.paper
+    const theme = themes[savedTheme] || themes.paper;
     const root = document.documentElement;
     root.style.setProperty('--bg-color', theme.bg);
     root.style.setProperty('--panel-bg', theme.panel);
