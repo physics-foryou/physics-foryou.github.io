@@ -21,6 +21,7 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <script src="ap1/ap1-daily-pool.js"></script>
+    <script src="daily-pool/ap2.js"></script>
     <script src="daily-pool/mech.js"></script>
     <script src="daily-pool/em.js"></script>
     
@@ -139,7 +140,7 @@
             <div class="panel-content">
                 <h3 id="subject-title" style="margin-top:0; color:#6ba6ff; margin-bottom: 4px;">Loading...</h3>
                 
-                <div id="midnight-countdown" style="font-size: 12px; color: var(--text-dim); margin-bottom: 18px;">New Question in: --:--:--</div>
+                <div id="midnight-countdown" style="font-size: 12px; color: var(--text-dim); margin-bottom: 18px; display: none;">New Question in: --:--:--</div>
                 
                 <div id="image-container" class="question-image-container">
                     <img id="question-img" src="" class="question-image" alt="Question Diagram">
@@ -261,6 +262,9 @@
                 selectedIndex = parseInt(savedAnswer, 10);
                 document.getElementById('timer').innerText = "COMPLETED";
                 
+                // Show the next-problem countdown if already completed
+                document.getElementById('midnight-countdown').style.display = 'block';
+                
                 const buttons = document.querySelectorAll('.choice-btn');
                 buttons.forEach((btn, idx) => {
                     if (idx === questionData.correctIndex) {
@@ -294,8 +298,11 @@
             localStorage.setItem(storageKey, selectedIndex);
             
             document.getElementById('submit-btn').style.display = 'none';
-            const buttons = document.querySelectorAll('.choice-btn');
             
+            // Show midnight countdown instantly upon click
+            document.getElementById('midnight-countdown').style.display = 'block';
+            
+            const buttons = document.querySelectorAll('.choice-btn');
             buttons.forEach((btn, idx) => {
                 btn.classList.remove('selected');
                 if (idx === questionData.correctIndex) {
