@@ -30,6 +30,20 @@
             gap: 20px;
         }
 
+        /* Creates a grid layout on top so settings sits compactly on the left */
+        .top-row-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 600px) {
+            .top-row-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .panel {
             background-color: var(--panel-bg);
             border: 1px solid #cbd5e1;
@@ -52,7 +66,7 @@
         /* Settings Dropdown Styling */
         .theme-select {
             font-family: inherit;
-            background: #f8fafc;
+            background: var(--panel-bg);
             border: 1px solid #cbd5e1;
             color: var(--text-main);
             padding: 6px 12px;
@@ -66,8 +80,10 @@
             gap: 10px;
             margin: 15px 0;
         }
+        
+        /* Fixed Button Visibility with var(--text-main) */
         .select-btn {
-            background: #f8fafc;
+            background: var(--panel-bg);
             border: 1px solid #cbd5e1;
             color: var(--text-main);
             padding: 8px 16px;
@@ -77,7 +93,7 @@
             transition: all 0.2s;
         }
         .select-btn:hover {
-            background-color: #edf2f7;
+            background-color: rgba(0,0,0,0.08);
             border-color: #94a3b8;
         }
         .select-btn.active {
@@ -127,8 +143,10 @@
             gap: 8px;
             flex-wrap: nowrap;
         }
+        
+        /* Fixed Matrix Links Visibility */
         .test-link {
-            background: #f8fafc;
+            background: var(--panel-bg);
             border: 1px solid #cbd5e1;
             color: var(--text-main);
             padding: 6px 14px;
@@ -139,30 +157,33 @@
             min-width: 55px;
             transition: all 0.2s;
         }
-        .test-link:hover { background-color: #edf2f7; border-color: #94a3b8; }
+        .test-link:hover { background-color: rgba(0,0,0,0.08); border-color: #94a3b8; }
 
-        .btn-easy { border-color: #31c48d; color: #1e4620; }
-        .btn-easy:hover { background-color: #def7ec; }
-        .btn-med { border-color: #f59e0b; color: #92400e; }
-        .btn-med:hover { background-color: #fef3c7; }
-        .btn-hard { border-color: #f98080; color: #7a1e1e; }
-        .btn-hard:hover { background-color: #fde8e8; }
+        .btn-easy { border-color: #31c48d; color: #1e4620; background-color: #def7ec; }
+        .btn-easy:hover { opacity: 0.85; }
+        .btn-med { border-color: #f59e0b; color: #92400e; background-color: #fef3c7; }
+        .btn-med:hover { opacity: 0.85; }
+        .btn-hard { border-color: #f98080; color: #7a1e1e; background-color: #fde8e8; }
+        .btn-hard:hover { opacity: 0.85; }
     </style>
 </head>
 <body>
 
     <div class="workspace">
 
-        <div class="panel">
-            <div class="panel-header">System Settings</div>
-            <div class="panel-content" style="display: flex; align-items: center; gap: 15px;">
-                <label for="theme-dropdown" style="font-size: 13px; font-weight: bold;">Color Palette Theme:</label>
-                <select id="theme-dropdown" class="theme-select" onchange="changeTheme(this.value)">
-                    <option value="navy">Navy & Pale Gray</option>
-                    <option value="dark">Classic Dark Slate</option>
-                    <option value="purple">Midnight Purple</option>
-                </select>
+        <div class="top-row-grid">
+            <div class="panel">
+                <div class="panel-header">Settings</div>
+                <div class="panel-content" style="display: flex; align-items: center; gap: 15px;">
+                    <label for="theme-dropdown" style="font-size: 13px; font-weight: bold;">Theme:</label>
+                    <select id="theme-dropdown" class="theme-select" onchange="changeTheme(this.value)">
+                        <option value="navy">Navy & Pale Gray</option>
+                        <option value="dark">Classic Dark Slate</option>
+                        <option value="purple">Midnight Purple</option>
+                    </select>
+                </div>
             </div>
+            <div></div>
         </div>
 
         <div class="panel">
