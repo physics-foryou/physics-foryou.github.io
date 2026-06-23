@@ -5,7 +5,6 @@ const themes = {
     purple: { bg: "#120e16", panel: "#1f1926", header: "#5c3d75", text: "#f3eff5", dim: "#a89cb3", border: "#3d2e4d" },
     dollar: { bg: "#d0d0c5", panel: "#e2e2d9", header: "#667a66", text: "#4c5470", dim: "#828274", border: "#b5b5a7" },
     dots: { bg: "#282a36", panel: "#1f212b", header: "#bd93f9", text: "#a4b3db", dim: "#6272a4", border: "#44475a" },
-    oblivion: { bg: "#f1f1f1", panel: "#ffffff", header: "#333333", text: "#5d5d5d", dim: "#a1a1a1", border: "#dcdcdc" },
     paper: { bg: "#eeeeee", panel: "#ffffff", header: "#444444", text: "#444444", dim: "#b2b2b2", border: "#cccccc" },
     repose_dark: { bg: "#2f3338", panel: "#3f444a", header: "#8f96a0", text: "#d6dbdf", dim: "#8f96a0", border: "#565e66" },
     alpine: { bg: "#fafafa", panel: "#ffffff", header: "#6c6f93", text: "#6c6f93", dim: "#a4a7c5", border: "#e0e0e6" }
