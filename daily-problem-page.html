@@ -143,9 +143,14 @@
             text-orientation: mixed;
             font-weight: bold;
             font-size: 12px;
-            z-index: 1001; /* Bumped just enough to keep it clickable over the opened drawer area */
+            z-index: 1001; 
             box-shadow: -2px 4px 12px rgba(0,0,0,0.1);
             display: none; 
+            transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .ref-sheet-tab.drawer-open {
+            right: 680px; /* Shifts left dynamically alongside the open drawer width */
         }
 
         .ref-drawer {
@@ -173,15 +178,6 @@
             justify-content: space-between;
             align-items: center;
             color: #ffffff;
-        }
-
-        .close-drawer-btn {
-            background: none;
-            border: none;
-            color: #ffffff;
-            font-size: 20px;
-            cursor: pointer;
-            font-weight: bold;
         }
 
         .drawer-page-toggle {
@@ -281,7 +277,6 @@
     <div id="ref-drawer-panel" class="ref-drawer">
         <div class="drawer-header">
             <span>AP PHYSICS 1 REFERENCE SHEET</span>
-            <button class="close-drawer-btn" onclick="toggleRefDrawer()">×</button>
         </div>
 
         <div class="drawer-page-toggle">
@@ -784,7 +779,10 @@
 
         function toggleRefDrawer() {
             const drawer = document.getElementById('ref-drawer-panel');
+            const tabTrigger = document.getElementById('ref-tab-trigger');
+            
             drawer.classList.toggle('open');
+            tabTrigger.classList.toggle('drawer-open');
         }
 
         function switchRefPage(pageNum) {
