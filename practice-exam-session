@@ -1,1 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Exam Session | Physics For You</title>
+    
+    <script src="settings/theme.js"></script>
 
+    <style>
+        :root {
+            --bg-color: #eef2f5;        
+            --panel-bg: #ffffff;        
+            --header-bg: #1b2a47;       
+            --text-main: #1c2533;       
+            --text-dim: #626f80;        
+            --border-color: rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Bar: Distraction-free exam monitor */
+        .exam-top-bar {
+            background-color: var(--panel-bg);
+            border-bottom: 2px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .exam-section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .exam-timer-container {
+            text-align: center;
+        }
+
+        .timer-display {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .timer-toggle-btn {
+            background: none;
+            border: 1px solid var(--text-dim);
+            color: var(--text-dim);
+            padding: 2px 8px;
+            font-size: 11px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            margin-top: 3px;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Main split-screen question workspace area */
+        .exam-body-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 20px;
+            overflow-y: auto;
+            align-items: center;
+        }
+
+        .question-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            width: 100%;
+            max-width: 900px;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        /* Tools utility row inside problem card */
+        .question-tools-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        .tool-btn {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .tool-btn:hover { color: var(--text-main); }
+
+        .question-stem {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* Choice item structures mapped heavily to your look & feel */
+        .choices-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .choice-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--panel-bg);
+            border: 1px solid var(--text-dim);
+            border-radius: 24px; /* Pill shaped items like Princeton Review reference */
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+
+        .choice-row:hover {
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        .choice-row.selected {
+            border-color: var(--header-bg);
+            background-color: rgba(27, 42, 71, 0.05);
+            font-weight: bold;
+        }
+
+        .choice-bubble {
+            width: 22px;
+            height: 22px;
+            border: 1px solid var(--text-dim);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            background: var(--panel-bg);
+            flex-shrink: 0;
+        }
+
+        .choice-row.selected .choice-bubble {
+            background-color: var(--header-bg);
+            color: #ffffff;
+            border-color: var(--header-bg);
+        }
+
+        .choice-text {
+            font-size: 14px;
+        }
+
+        /* Bottom Control System Dashboard HUD */
+        .exam-footer-bar {
+            background-color: var(--panel-bg);
+            border-top: 2px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .student-signature {
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        /* Pop-up dynamic item list menu utility toggler */
+        .navigator-menu-trigger {
+            background-color: var(--header-bg);
+            color: #ffffff;
+            border: 1px solid var(--header-bg);
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-buttons-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-btn {
+            background-color: var(--header-bg);
+            border: 1px solid var(--header-bg);
+            color: #ffffff;
+            padding: 8px 18px;
+            font-family: inherit;
+            font-weight: bold;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .footer-btn:hover { opacity: 0.9; }
+        .footer-btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--text-dim);
+            color: var(--text-main);
+        }
+        .footer-btn-secondary:hover { background-color: rgba(0,0,0,0.05); }
+
+        /* Multi-select styling notice warning */
+        .multi-banner {
+            background-color: #fef3c7;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="exam-top-bar">
+        <div class="exam-section-title" id="course-title-display">AP Physics Course</div>
+        
+        <div class="exam-timer-container">
+            <div class="timer-display" id="clock-countdown">45:00</div>
+            <button class="timer-toggle-btn" id="toggle-clock-btn" onclick="toggleClockVisibility()">Hide Time</button>
+        </div>
+
+        <div class="top-bar-right">
+            <button class="footer-btn footer-btn-secondary" style="padding: 4px 12px;" onclick="terminateSessionEarly()">Exit Exam</button>
+        </div>
+    </header>
+
+    <main class="exam-body-container">
+        <div class="question-card">
+            
+            <div class="question-tools-row">
+                <div>
+                    <strong>Question <span id="current-num-display">1</span></strong>
+                </div>
+                <div>
+                    <button class="tool-btn" onclick="toggleFlaggedStatus()">🔖 Mark for Review</button>
+                </div>
+            </div>
+
+            <div class="multi-banner" id="multi-choice-warning">
+                ⚠️ Multi-Select Item: Choose exactly TWO correct option variables below.
+            </div>
+
+            <div class="question-text question-stem" id="active-stem-block">
+                Sourcing database components...
+            </div>
+
+            <div class="choices-stack" id="active-options-block">
+                </div>
+
+        </div>
+    </main>
+
+    <footer class="exam-footer-bar">
+        <div class="student-signature">Testing Sandbox Session</div>
+
+        <div>
+            <button class="navigator-menu-trigger" onclick="openNavigatorMap()">
+                Question Grid <span id="progress-ratio-indicator">(1 of 4)</span> ▲
+            </button>
+        </div>
+
+        <div class="nav-buttons-group">
+            <button class="footer-btn footer-btn-secondary" onclick="stepPreviousQuestion()" id="back-nav-btn">Back</button>
+            <button class="footer-btn" onclick="stepNextQuestion()" id="forward-nav-btn">Next</button>
+        </div>
+    </footer>
+
+    <script>
+        // Parameters extracted out of incoming window router values
+        const params = new URLSearchParams(window.location.search);
+        const coursePath = params.get('subject') || 'ap1';
+        const targetExamID = params.get('exam') || '1';
+
+        // Interface Configurations Tracking Matrices
+        let activeIndex = 0;
+        let examQuestionsPool = [];
+        let savedAnswersMap = {}; // Stores user selections dynamically: { index: [selected choices] }
+        let timeRemaining = 45 * 60; // 45 Minutes baseline clock template allocation
+        let clockTimerState = true;
+        let countdownTickerInterval;
+
+        const dynamicCourseTitleMap = {
+            'ap1': 'AP Physics 1: Section I',
+            'ap2': 'AP Physics 2: Section I',
+            'mech': 'APC Mechanics: Section I',
+            'em': 'APC Electricity & Magnetism: Section I'
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('course-title-display').innerText = `${dynamicCourseTitleMap[coursePath] || 'AP Physics'} — Practice Exam ${targetExamID}`;
+            
+            startCountdownTimer();
+            loadMockQuestionPool();
+            renderActiveExamQuestion();
+        });
+
+        function loadMockQuestionPool() {
+            // Placeholder dataset structure matching your plans for the upcoming data files
+            examQuestionsPool = [
+                {
+                    stem: "An object is moving horizontally with a constant acceleration. Which of the following quantities must change at a constant linear rate with respect to time?",
+                    isMulti: false,
+                    choices: { A: "Kinetic Energy", B: "Velocity", C: "Displacement", D: "Mechanical Power Output" }
+                },
+                {
+                    stem: "A block of mass M is dropped from rest from height H above a light vertical spring. What quantities are conserved during the entire fall up until the spring reaches maximum configuration compressions? (Neglect air resistance)",
+                    isMulti: false,
+                    choices: { A: "Momentum only", B: "Mechanical Energy only", C: "Both Momentum and Mechanical Energy", D: "Neither Momentum nor Mechanical Energy" }
+                },
+                {
+                    stem: "AP PHYSICS 1/2 MULTI-SELECT SPECIAL: Which of the following core parameters are vector models? Select exactly TWO paths.",
+                    isMulti: true,
+                    choices: { A: "Linear Momentum", B: "Electric Potential Difference", C: "Gravitational Field Strength", D: "Rotational Kinetic Energy" }
+                },
+                {
+                    stem: "A satellite orbits a planet in a stable circular path of radius R. If the orbital radius is expanded to 4R, by what scale value factor will the necessary orbital velocity profile adjust?",
+                    isMulti: false,
+                    choices: { A: "It decreases by a factor of 4", B: "It decreases by a factor of 2", C: "It increases by a factor of 2", D: "It stays exactly identical" }
+                }
+            ];
+        }
+
+        function renderActiveExamQuestion() {
+            const currentItem = examQuestionsPool[activeIndex];
+            if (!currentItem) return;
+
+            // Interface text updates
+            document.getElementById('current-num-display').innerText = activeIndex + 1;
+            document.getElementById('progress-ratio-indicator').innerText = `(${activeIndex + 1} of ${examQuestionsPool.length})`;
+            document.getElementById('active-stem-block').innerText = currentItem.stem;
+            
+            // Check visibility filter configurations on multi-select indicators
+            document.getElementById('multi-choice-warning').style.display = currentItem.isMulti ? 'block' : 'none';
+
+            // Target block cleaning sequence
+            const stackBlock = document.getElementById('active-options-block');
+            stackBlock.innerHTML = '';
+
+            // Render option blocks dynamically
+            Object.keys(currentItem.choices).forEach(key => {
+                const choiceWrapper = document.createElement('div');
+                choiceWrapper.className = 'choice-row';
+                
+                // Keep selections highlighted if student visits this question again
+                if (savedAnswersMap[activeIndex] && savedAnswersMap[activeIndex].includes(key)) {
+                    choiceWrapper.classList.add('selected');
+                }
+
+                choiceWrapper.innerHTML = `
+                    <div class="choice-bubble">${key}</div>
+                    <div class="choice-text">${currentItem.choices[key]}</div>
+                `;
+
+                choiceWrapper.onclick = () => selectOptionHandler(key, currentItem.isMulti, choiceWrapper);
+                stackBlock.appendChild(choiceWrapper);
+            });
+
+            // Adjust navigation control buttons state attributes
+            document.getElementById('back-nav-btn').disabled = (activeIndex === 0);
+            document.getElementById('forward-nav-btn').innerText = (activeIndex === examQuestionsPool.length - 1) ? 'Submit Exam' : 'Next';
+        }
+
+        function selectOptionHandler(selectedKey, isMultiSelect, elementNode) {
+            if (!savedAnswersMap[activeIndex]) {
+                savedAnswersMap[activeIndex] = [];
+            }
+
+            if (!isMultiSelect) {
+                // Radio option choice mode
+                savedAnswersMap[activeIndex] = [selectedKey];
+                document.querySelectorAll('.choice-row').forEach(row => row.classList.remove('selected'));
+                elementNode.classList.add('selected');
+            } else {
+                // Multi-select option checkbox mode
+                if (savedAnswersMap[activeIndex].includes(selectedKey)) {
+                    savedAnswersMap[activeIndex] = savedAnswersMap[activeIndex].filter(item => item !== selectedKey);
+                    elementNode.classList.remove('selected');
+                } else {
+                    if (savedAnswersMap[activeIndex].length < 2) {
+                        savedAnswersMap[activeIndex].push(selectedKey);
+                        elementNode.classList.add('selected');
+                    } else {
+                        alert("Multi-select questions require exactly two selected items. Deselect an option first.");
+                    }
+                }
+            }
+        }
+
+        function stepPreviousQuestion() {
+            if (activeIndex > 0) {
+                activeIndex--;
+                renderActiveExamQuestion();
+            }
+        }
+
+        function stepNextQuestion() {
+            if (activeIndex < examQuestionsPool.length - 1) {
+                activeIndex++;
+                renderActiveExamQuestion();
+            } else {
+                processExamSubmissionComplete();
+            }
+        }
+
+        function toggleClockVisibility() {
+            const displayNode = document.getElementById('clock-countdown');
+            const toggleBtn = document.getElementById('toggle-clock-btn');
+            clockTimerState = !clockTimerState;
+            
+            if (clockTimerState) {
+                displayNode.style.visibility = 'visible';
+                toggleBtn.innerText = 'Hide Time';
+            } else {
+                displayNode.style.visibility = 'hidden';
+                toggleBtn.innerText = 'Show Time';
+            }
+        }
+
+        function startCountdownTimer() {
+            countdownTickerInterval = setInterval(() => {
+                if (timeRemaining <= 0) {
+                    clearInterval(countdownTickerInterval);
+                    alert("Time has expired! Submitting your answers automatically.");
+                    processExamSubmissionComplete();
+                    return;
+                }
+                timeRemaining--;
+                
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                document.getElementById('clock-countdown').innerText = 
+                    `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+
+        function toggleFlaggedStatus() {
+            alert("Question marked for manual review! This status will be visible inside your navigation index layout array.");
+        }
+
+        function openNavigatorMap() {
+            alert("This pops open a dashboard list of all questions (1 to 40) so students can click any number to jump straight to that problem!");
+        }
+
+        function terminateSessionEarly() {
+            if (confirm("Are you sure you want to exit? Your answers will not be scored.")) {
+                window.location.href = "home-page.html";
+            }
+        }
+
+        function processExamSubmissionComplete() {
+            clearInterval(countdownTickerInterval);
+            alert("Exam complete! Collecting configuration packets... Redirecting to performance scores overview page next!");
+            // This is where you will redirect them to your upcoming exam results evaluation page
+            window.location.href = "home-page.html"; 
+        }
+    </script>
+</body>
+</html>
