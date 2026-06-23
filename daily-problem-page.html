@@ -17,6 +17,9 @@
             options: {
                 ignoreHtmlClass: 'tex2jax_ignore',
                 processHtmlClass: 'tex2jax_process'
+            },
+            chtml: {
+                scale: 1.15 /* This globally scales up all LaTeX math/equations/numbers */
             }
         };
     </script>
@@ -226,7 +229,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 25px;
-            font-size: 14px;
+            font-size: 14.5px;
         }
 
         .ref-table th, .ref-table td {
@@ -250,7 +253,7 @@
         }
 
         .symbols-right-pane {
-            font-size: 13px;
+            font-size: 13.5px;
             line-height: 1.6;
             background-color: rgba(0,0,0,0.01);
             border: 1px solid var(--border-color);
@@ -290,7 +293,7 @@
                 <h2 style="font-size: 16px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold; text-transform: uppercase;">
                     Constants and Conversion Factors
                 </h2>
-                <table class="ref-table" style="font-size: 14.5px;">
+                <table class="ref-table">
                     <tr>
                         <td style="width: 50%; padding: 14px;">
                             Universal gravitational constant,<br>
@@ -312,7 +315,7 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
                     <div>
                         <div style="font-weight: bold; margin-bottom: 8px; font-size: 13px; text-transform: uppercase;">Prefixes</div>
-                        <table class="ref-table" style="margin-bottom: 0; font-size: 14px;">
+                        <table class="ref-table" style="margin-bottom: 0;">
                             <tr><th>Factor</th><th>Prefix</th><th>Symbol</th></tr>
                             <tr><td>$10^{12}$</td><td>tera</td><td>T</td></tr>
                             <tr><td>$10^9$</td><td>giga</td><td>G</td></tr>
@@ -327,7 +330,7 @@
                     </div>
                     <div>
                         <div style="font-weight: bold; margin-bottom: 8px; font-size: 13px; text-transform: uppercase;">Unit Symbols</div>
-                        <table class="ref-table" style="margin-bottom: 0; font-size: 14px;">
+                        <table class="ref-table" style="margin-bottom: 0;">
                             <tr><td>hertz,</td><td>Hz</td><td>newton,</td><td>N</td></tr>
                             <tr><td>joule,</td><td>J</td><td>pascal,</td><td>Pa</td></tr>
                             <tr><td>kilogram,</td><td>kg</td><td>second,</td><td>s</td></tr>
@@ -337,7 +340,7 @@
                 </div>
 
                 <div style="font-weight: bold; margin-bottom: 8px; font-size: 13px; text-transform: uppercase;">Values of Trigonometric Functions for Common Angles</div>
-                <table class="ref-table" style="text-align: center; font-size: 14px;">
+                <table class="ref-table" style="text-align: center;">
                     <tr>
                         <th style="width: 16%;">$\theta$</th>
                         <th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th>
