@@ -242,7 +242,6 @@
             font-weight: bold;
         }
 
-        /* Three-track layout for columns. Fixes large empty gaps. */
         .official-two-col-container {
             display: grid;
             grid-template-columns: max-content max-content 1fr;
@@ -301,25 +300,26 @@
                 <table class="ref-table">
                     <tr>
                         <td style="width: 50%;">Proton mass, $m_p = 1.67 \times 10^{-27} \text{ kg}$</td>
-                        <td style="width: 50%;">Electron charge magnitude, $e = 1.60 \times 10^{-19} \text{ C}$</td>
+                        <td style="width: 50%;">Universal gravitational constant, $G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2) = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
                     </tr>
                     <tr>
                         <td>Neutron mass, $m_n = 1.67 \times 10^{-27} \text{ kg}$</td>
-                        <td>Universal gravitational constant, $G = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
+                        <td>Magnitude of the acceleration due to gravity at Earth’s surface, $g = 9.8 \text{ m/s}^2$</td>
                     </tr>
                     <tr>
                         <td>Electron mass, $m_e = 9.11 \times 10^{-31} \text{ kg}$</td>
-                        <td>Acceleration due to gravity at Earth’s surface, $g = 9.8 \text{ m/s}^2$</td>
+                        <td>Magnitude of the gravitational field strength at Earth’s surface, $g = 9.8 \text{ N/kg}$</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">1 atmosphere of pressure, $1 \text{ atm} = 1.0 \times 10^5 \text{ N/m}^2 = 1.0 \times 10^5 \text{ Pa}$</td>
                     </tr>
                 </table>
 
                 <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
                 <table class="ref-table">
                     <tr>
-                        <td>meter, $\text{m}$<br>kilogram, $\text{kg}$<br>second, $\text{s}$<br>ampere, $\text{A}$</td>
-                        <td>kelvin, $\text{K}$<br>hertz, $\text{Hz}$<br>newton, $\text{N}$<br>joule, $\text{J}$</td>
-                        <td>watt, $\text{W}$<br>coulomb, $\text{C}$<br>volt, $\text{V}$<br>ohm, $\Omega$</td>
-                        <td>degree Celsius, $^\circ\text{C}$</td>
+                        <td>hertz, $\text{Hz}$<br>joule, $\text{J}$<br>kilogram, $\text{kg}$<br>meter, $\text{m}$</td>
+                        <td>newton, $\text{N}$<br>pascal, $\text{Pa}$<br>second, $\text{s}$<br>watt, $\text{W}$</td>
                     </tr>
                 </table>
 
@@ -350,6 +350,14 @@
                         <td>$10^{-12}$</td><td>pico</td><td>p</td>
                     </tr>
                 </table>
+
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">EXAM CONVENTIONS</div>
+                <div style="font-size: 12px; line-height: 1.6; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color);">
+                    • The frame of reference of any problem is assumed to be inertial unless otherwise stated.<br>
+                    • Air resistance is assumed to be negligible unless otherwise stated.<br>
+                    • Springs and strings are assumed to be ideal unless otherwise stated.<br>
+                    • Fluids are assumed to be ideal, and pipes are assumed to be completely filled by fluid, unless otherwise stated.
+                </div>
             </div>
             <div id="ref-page-2" class="ref-page-content">
                 <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
@@ -365,6 +373,7 @@
                         $\vec{x}_{\text{cm}} = \frac{\sum m_i \vec{x}_i}{\sum m_i}$<br><br>
                         
                         $\vec{a}_{\text{sys}} = \frac{\sum \vec{F}}{m_{\text{sys}}} = \frac{\vec{F}_{\text{net}}}{m_{\text{sys}}}$<br>
+                        $\left| \vec{F}_g \right| = G \frac{m_1 m_2}{r^2}$<br>
                         $\left| \vec{F}_f \right| \le \mu \left| \vec{F}_n \right|$<br>
                         $\vec{F}_s = -k \Delta\vec{x}$<br><br>
                         
@@ -373,7 +382,7 @@
                         $K = \frac{1}{2} m v^2$<br>
                         $W = F_{\parallel} d = F d \cos\theta$<br>
                         $\Delta K = \sum W_i = \sum F_{\parallel,i} d_i$<br>
-                        $U_s = \frac{1}{2} k (\Delta x)^2$<br><br>
+                        $U_s = \frac{1}{2} k (\Delta x)^2$ <br><br>
                         
                         $U_g = -\frac{G m_1 m_2}{r}$<br>
                         $\Delta U_g = m g \Delta y$<br><br>
@@ -390,7 +399,8 @@
                     <div class="equations-column">
                         $\omega = \omega_0 + \alpha t$<br>
                         $\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$<br>
-                        $\omega^2 = \omega_0^2 + 2\alpha(\theta - \theta_0)$<br>
+                        $\omega^2 = \omega_0^2 + 2\alpha(\theta - \theta_0)$<br><br>
+                        
                         $v = r\omega$<br>
                         $a_{\tau} = r\alpha$<br>
                         $\tau = r_{\perp} F = r F \sin\theta$<br>
@@ -412,8 +422,13 @@
                         $x = A \cos(2\pi f t)$<br>
                         $x = A \sin(2\pi f t)$<br><br>
                         
-                        $\left| \vec{F}_g \right| = G \frac{m_1 m_2}{r^2}$<br>
-                        $\vec{g} = \frac{\vec{F}_g}{m}$
+                        $\rho = \frac{m}{V}$<br>
+                        $P = \frac{F_{\perp}}{A}$<br>
+                        $P = P_0 + \rho g h$<br>
+                        $P_{\text{gauge}} = \rho g h$<br>
+                        $F_b = \rho V g$<br>
+                        $A_1 v_1 = A_2 v_2$<br>
+                        $P_1 + \rho g y_1 + \frac{1}{2}\rho v_1^2 = P_2 + \rho g y_2 + \frac{1}{2}\rho v_2^2$
                     </div>
 
                     <div class="symbols-right-pane">
@@ -449,6 +464,7 @@
                         $y$ = position / height / displacement<br>
                         $\alpha$ = angular acceleration<br>
                         $\mu$ = coefficient of friction<br>
+                        $\rho$ = density<br>
                         $\theta$ = angle or angular position<br>
                         $\tau$ = torque<br>
                         $\omega$ = angular velocity / angular frequency
