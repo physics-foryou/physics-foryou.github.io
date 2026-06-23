@@ -27,11 +27,11 @@
     
     <style>
         :root {
-            --bg-color: #eef2f5;        /* Pale Gray Canvas */
-            --panel-bg: #ffffff;        /* Pure White Workspace Card */
-            --header-bg: #1b2a47;       /* Deep Navy Accent */
-            --text-main: #1c2533;       /* Contrast Dark text */
-            --text-dim: #626f80;        /* Muted Blue-Gray text */
+            --bg-color: #eef2f5;        
+            --panel-bg: #ffffff;        
+            --header-bg: #1b2a47;       
+            --text-main: #1c2533;       
+            --text-dim: #626f80;        
         }
         body {
             font-family: 'Consolas', 'Courier New', monospace;
@@ -41,7 +41,7 @@
             color: var(--text-main);
         }
         .workspace { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; position: relative; }
-        .panel { background-color: var(--panel-bg); border: 1px solid #d0d7de; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 12px rgba(27,42,71,0.08); }
+        .panel { background-color: var(--panel-bg); border: 1px solid #cbd5e1; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 12px rgba(27,42,71,0.08); }
         .panel-header { background-color: var(--header-bg); padding: 12px 16px; font-size: 14px; font-weight: bold; border-bottom: 1px solid var(--header-bg); display: flex; justify-content: space-between; align-items: center; color: #ffffff; }
         .panel-content { padding: 24px; }
         
@@ -72,17 +72,17 @@
         .question-image {
             max-width: 100%;
             max-height: 350px;
-            border: 1px solid #d0d7de;
+            border: 1px solid #cbd5e1;
             border-radius: 4px;
             background-color: #f6f8fa;
         }
         
-        .choice-btn { display: block; width: 100%; text-align: left; background: #f8fafc; border: 1px solid #cbd5e1; color: var(--text-main); padding: 14px; margin: 10px 0; cursor: pointer; font-family: inherit; border-radius: 4px; font-size: 14px; transition: all 0.2s; }
-        .choice-btn:hover { background-color: #edf2f7; border-color: #94a3b8; }
-        .choice-btn.selected { border-color: #1b2a47; background-color: #e2e8f0; font-weight: bold; }
+        .choice-btn { display: block; width: 100%; text-align: left; background: rgba(0,0,0,0.02); border: 1px solid #cbd5e1; color: var(--text-main); padding: 14px; margin: 10px 0; cursor: pointer; font-family: inherit; border-radius: 4px; font-size: 14px; transition: all 0.2s; }
+        .choice-btn:hover { background-color: rgba(0,0,0,0.05); }
+        .choice-btn.selected { border-color: var(--text-main); background-color: rgba(0,0,0,0.08); font-weight: bold; }
         .choice-btn.correct { border-color: #1e4620 !important; background-color: #def7ec !important; color: #1e4620; font-weight: bold; cursor: default; }
         .choice-btn.incorrect { border-color: #7a1e1e !important; background-color: #fde8e8 !important; color: #7a1e1e; cursor: default; }
-        .choice-btn.disabled:hover { background-color: #f8fafc; border-color: #cbd5e1; cursor: default; }
+        .choice-btn.disabled:hover { background-color: rgba(0,0,0,0.02); border-color: #cbd5e1; cursor: default; }
 
         .action-bar {
             display: flex;
@@ -92,8 +92,8 @@
         }
 
         .action-btn { 
-            background-color: #1b2a47; 
-            border: 1px solid #111a2e; 
+            background-color: var(--header-bg); 
+            border: 1px solid var(--header-bg); 
             color: white; 
             padding: 10px 22px; 
             cursor: pointer; 
@@ -104,10 +104,10 @@
             visibility: hidden;
             transition: background 0.2s;
         }
-        .action-btn:hover { background-color: #2a3f64; }
+        .action-btn:hover { opacity: 0.9; }
 
         .nav-btn { 
-            background-color: #f1f5f9; 
+            background-color: rgba(0,0,0,0.03); 
             border: 1px solid #cbd5e1; 
             color: var(--text-dim); 
             padding: 9px 18px; 
@@ -118,12 +118,12 @@
             border-radius: 4px;
             transition: all 0.2s;
         }
-        .nav-btn:hover { color: var(--text-main); background-color: #e2e8f0; border-color: #94a3b8; }
+        .nav-btn:hover { color: var(--text-main); background-color: rgba(0,0,0,0.07); }
         
-        #explanation-box { background: #f8fafc; border-left: 4px solid #1b2a47; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 16px; margin-top: 25px; display: none; font-size: 13px; line-height: 1.6; border-radius: 0 4px 4px 0; }
+        #explanation-box { background: rgba(0,0,0,0.01); border-left: 4px solid var(--header-bg); border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; padding: 16px; margin-top: 25px; display: none; font-size: 13px; line-height: 1.6; border-radius: 0 4px 4px 0; }
         
         .meta-line { margin-bottom: 8px; }
-        .meta-label { color: #1b2a47; font-weight: bold; }
+        .meta-label { color: var(--header-bg); font-weight: bold; }
         .meta-val { color: var(--text-main); }
         
         .difficulty-tag { display: inline-block; padding: 2px 6px; font-size: 11px; font-weight: bold; border-radius: 3px; margin-left: 5px; text-transform: uppercase;}
@@ -141,7 +141,7 @@
                 <span id="timer" class="timer-box">02:00</span>
             </div>
             <div class="panel-content">
-                <h3 id="subject-title" style="margin-top:0; color:#1b2a47; margin-bottom: 4px;">Loading...</h3>
+                <h3 id="subject-title" style="margin-top:0; color: var(--header-bg); margin-bottom: 4px;">Loading...</h3>
                 
                 <div id="midnight-countdown" style="font-size: 12px; color: var(--text-dim); margin-bottom: 18px; display: none;">New Question in: --:--:--</div>
                 
@@ -176,7 +176,7 @@
                     </div>
                 </div>
 
-                <hr style="border: none; border-top: 1px solid #e2e8f0; margin-top: 25px;">
+                <hr style="border: none; border-top: 1px solid #cbd5e1; margin-top: 25px;">
                 
                 <div class="action-bar">
                     <a href="index.html" class="nav-btn">◀ Go Back Home</a>
@@ -198,7 +198,27 @@
         let storageKey = '';
         let subject = 'ap1';
 
+        // Shared themes definition
+        const themes = {
+            navy: { bg: "#eef2f5", panel: "#ffffff", header: "#1b2a47", text: "#1c2533", dim: "#626f80" },
+            dark: { bg: "#6a7f93", panel: "#1c1a27", header: "#3c3957", text: "#d1d2d6", dim: "#9ba1a6" },
+            purple: { bg: "#120e16", panel: "#1f1926", header: "#5c3d75", text: "#f3eff5", dim: "#a89cb3" }
+        };
+
+        function applyGlobalTheme() {
+            const savedTheme = localStorage.getItem('site-theme') || 'navy';
+            const theme = themes[savedTheme] || themes.navy;
+            const root = document.documentElement;
+            root.style.setProperty('--bg-color', theme.bg);
+            root.style.setProperty('--panel-bg', theme.panel);
+            root.style.setProperty('--header-bg', theme.header);
+            root.style.setProperty('--text-main', theme.text);
+            root.style.setProperty('--text-dim', theme.dim);
+        }
+
         window.onload = function() {
+            applyGlobalTheme(); // Run the palette selector dynamically
+
             const urlParams = new URLSearchParams(window.location.search);
             subject = urlParams.get('subject') || 'ap1';
             
