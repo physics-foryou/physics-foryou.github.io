@@ -6,11 +6,11 @@
     <title>Physics For You</title>
     <style>
         :root {
-            --bg-color: #6a7f93;        
-            --panel-bg: #1c1a27;        
-            --header-bg: #3c3957;       
-            --text-main: #d1d2d6;
-            --text-dim: #9ba1a6;
+            --bg-color: #eef2f5;        /* Pale Gray Canvas */
+            --panel-bg: #ffffff;        /* Pure White Container */
+            --header-bg: #1b2a47;       /* Deep Navy Accent Header */
+            --text-main: #1c2533;       /* High-contrast Main Text */
+            --text-dim: #626f80;        /* Blue-Gray Muted Text */
         }
 
         body {
@@ -31,22 +31,23 @@
 
         .panel {
             background-color: var(--panel-bg);
-            border: 1px solid #444;
-            border-radius: 3px;
-            box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+            border: 1px solid #d0d7de;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(27,42,71,0.06);
             overflow: hidden;
         }
 
         .panel-header {
             background-color: var(--header-bg);
-            padding: 8px 12px;
+            padding: 12px 16px;
             font-size: 14px;
             font-weight: bold;
-            border-bottom: 1px solid #555;
+            border-bottom: 1px solid var(--header-bg);
+            color: #ffffff;
         }
         .panel-header::before { content: "▼ "; font-size: 10px; }
 
-        .panel-content { padding: 15px; }
+        .panel-content { padding: 20px; }
 
         .selector-group {
             display: flex;
@@ -54,34 +55,43 @@
             margin: 15px 0;
         }
         .select-btn {
-            background: #2b283d;
-            border: 1px solid #5c5978;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
             color: var(--text-main);
-            padding: 6px 12px;
+            padding: 8px 16px;
             cursor: pointer;
             font-family: inherit;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .select-btn:hover {
+            background-color: #edf2f7;
+            border-color: #94a3b8;
         }
         .select-btn.active {
-            background-color: #3b4e70;
-            border-color: #5d7cb3;
+            background-color: #1b2a47;
+            border-color: #111a2e;
+            color: #ffffff;
+            font-weight: bold;
         }
 
         .action-btn {
-            background-color: #2e593a;
-            border: 1px solid #478557;
+            background-color: #1b2a47;
+            border: 1px solid #111a2e;
             color: #fff;
-            padding: 10px 20px;
+            padding: 10px 22px;
             font-family: inherit;
             font-weight: bold;
             cursor: pointer;
             display: inline-block;
             text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.2s;
         }
-        .action-btn:hover { background-color: #3b734b; }
+        .action-btn:hover { background-color: #2a3f64; }
 
-        /* Integrated Inline Warning Label */
         .inline-warning {
-            color: #ff6b6b;
+            color: #e05252;
             font-size: 13px;
             margin-top: 8px;
             margin-bottom: -4px;
@@ -90,15 +100,15 @@
         }
 
         .exam-row {
-            border-bottom: 1px solid #333;
-            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 14px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .exam-row:last-child { border-bottom: none; }
         
-        .exam-title { font-weight: bold; width: 220px; flex-shrink: 0; }
+        .exam-title { font-weight: bold; width: 220px; flex-shrink: 0; color: var(--text-main); }
         
         .test-buttons {
             display: flex;
@@ -106,24 +116,25 @@
             flex-wrap: nowrap;
         }
         .test-link {
-            background: #2b283d;
-            border: 1px solid #5c5978;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
             color: var(--text-main);
-            padding: 6px 12px;
+            padding: 6px 14px;
             text-decoration: none;
             font-size: 12px;
-            border-radius: 2px;
+            border-radius: 4px;
             text-align: center;
             min-width: 55px;
+            transition: all 0.2s;
         }
-        .test-link:hover { background-color: var(--header-bg); }
+        .test-link:hover { background-color: #edf2f7; border-color: #94a3b8; }
 
-        .btn-easy { border-color: #478557; }
-        .btn-easy:hover { background-color: #2e593a; }
-        .btn-med { border-color: #b37d14; }
-        .btn-med:hover { background-color: #805603; }
-        .btn-hard { border-color: #a83232; }
-        .btn-hard:hover { background-color: #731f1f; }
+        .btn-easy { border-color: #31c48d; color: #1e4620; }
+        .btn-easy:hover { background-color: #def7ec; }
+        .btn-med { border-color: #f59e0b; color: #92400e; }
+        .btn-med:hover { background-color: #fef3c7; }
+        .btn-hard { border-color: #f98080; color: #7a1e1e; }
+        .btn-hard:hover { background-color: #fde8e8; }
     </style>
 </head>
 <body>
@@ -244,7 +255,6 @@
                 document.getElementById('course-warning').style.display = 'block';
                 return;
             }
-            // Pointing to your new filename
             window.location.href = `daily-problem-page.html?subject=${selectedSubject}`;
         }
     </script>
