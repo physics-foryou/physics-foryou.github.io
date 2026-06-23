@@ -60,6 +60,9 @@
             left: -285px; /* Floats it out into the empty space on the left */
             top: 0;
             width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         /* Shared Card Panel styling */
@@ -78,8 +81,37 @@
             font-weight: bold;
             color: #ffffff;
             letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .panel-header::before { content: "▼ "; font-size: 9px; margin-right: 4px; }
+        
+        /* Interactive indicator arrow */
+        .panel-header::before { 
+            content: "▼"; 
+            font-size: 9px; 
+            display: inline-block;
+            transition: transform 0.25s ease;
+        }
+        
+        /* Rotate arrow when panel container is closed */
+        .panel.collapsed .panel-header::before {
+            transform: rotate(-90deg);
+        }
+
+        /* Transition wrapper for smooth opening/closing heights */
+        .panel-collapse {
+            max-height: 1000px; /* Large enough value to hold content */
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .panel.collapsed .panel-collapse {
+            max-height: 0px !important;
+        }
+
         .panel-content { padding: 20px; }
 
         .setting-row {
@@ -214,31 +246,36 @@
         
         <aside class="sidebar-floating">
             <div class="panel">
-                <div class="panel-header">Settings</div>
-                <div class="panel-content">
-                    <div class="setting-row">
-                        <label for="theme-dropdown" style="font-size: 12px; font-weight: bold; opacity: 0.85;">Color Palette Theme:</label>
-                        <select id="theme-dropdown" class="theme-select" onchange="changeTheme(this.value)">
-                            <option value="navy">Navy & Pale Gray</option>
-                            <option value="dark">Classic Dark Slate</option>
-                            <option value="purple">Midnight Purple</option>
-                            <option value="dollar">Dollar</option>
-                            <option value="dots">Dots</option>
-                            <option value="oblivion">Oblivion</option>
-                            <option value="paper">Paper</option>
-                            <option value="repose_dark">Repose Dark</option>
-                            <option value="alpine">Alpine</option>
-                        </select>
+                <div class="panel-header" onclick="togglePanel(this)">Settings</div>
+                <div class="panel-collapse">
+                    <div class="panel-content">
+                        <div class="setting-row">
+                            <label for="theme-dropdown" style="font-size: 12px; font-weight: bold; opacity: 0.85;">Color Palette Theme:</label>
+                            <select id="theme-dropdown" class="theme-select" onchange="changeTheme(this.value)">
+                                <option value="navy">Navy & Pale Gray</option>
+                                <option value="dark">Classic Dark Slate</option>
+                                <option value="purple">Midnight Purple</option>
+                                <option value="dollar">Dollar</option>
+                                <option value="dots">Dots</option>
+                                <option value="oblivion">Oblivion</option>
+                                <option value="paper">Paper</option>
+                                <option value="repose_dark">Repose Dark</option>
+                                <option value="alpine">Alpine</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="panel" style="margin-top: 20px;">
-                <div class="panel-header">Exam Score Calculator</div>
-                <div class="panel-content" style="display: flex; flex-direction: column; gap: 10px;">
-                    <a href="calculator.html?subject=ap1" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">AP1</a>
-                    <a href="calculator.html?subject=ap2" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">AP2</a>
-                    <a href="calculator.html?subject=mech" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">APC: Mech</a>
-                    <a href="calculator.html?subject=em" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">APC: E&M</a>
+            
+            <div class="panel">
+                <div class="panel-header" onclick="togglePanel(this)">Exam Score Calculator</div>
+                <div class="panel-collapse">
+                    <div class="panel-content" style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="calculator.html?subject=ap1" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">AP1</a>
+                        <a href="calculator.html?subject=ap2" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">AP2</a>
+                        <a href="calculator.html?subject=mech" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">APC: Mech</a>
+                        <a href="calculator.html?subject=em" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">APC: E&M</a>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -246,96 +283,102 @@
         <main class="center-content-stack">
             
             <div class="panel">
-                <div class="panel-header">Daily Problem</div>
-                <div class="panel-content">
-                    <p style="margin-top: 0; margin-bottom: 0;">Select your course to get today's problem:</p>
-                    <div id="course-warning" class="inline-warning">Please select a course before starting your daily problem.</div>
-                    
-                    <div class="selector-group">
-                        <button class="select-btn" onclick="setSubject('ap1', event)">AP Physics 1</button>
-                        <button class="select-btn" onclick="setSubject('ap2', event)">AP Physics 2</button>
-                        <button class="select-btn" onclick="setSubject('mech', event)">APC: Mech</button>
-                        <button class="select-btn" onclick="setSubject('em', event)">APC: E&M</button>
-                    </div>
-                    <button class="action-btn" onclick="launchDailyTest()">Start Daily Problem</button>
-                </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-header">Practice Exams</div>
-                <div class="panel-content">
-                    <div class="exam-row">
-                        <span class="exam-title">AP Physics 1</span>
-                        <div class="test-buttons">
-                            <a href="test.html?subject=ap1&exam=1" class="test-link">Test 1</a>
-                            <a href="test.html?subject=ap1&exam=2" class="test-link">Test 2</a>
-                            <a href="test.html?subject=ap1&exam=3" class="test-link">Test 3</a>
-                            <a href="test.html?subject=ap1&exam=4" class="test-link">Test 4</a>
+                <div class="panel-header" onclick="togglePanel(this)">Daily Problem</div>
+                <div class="panel-collapse">
+                    <div class="panel-content">
+                        <p style="margin-top: 0; margin-bottom: 0;">Select your course to get today's problem:</p>
+                        <div id="course-warning" class="inline-warning">Please select a course before starting your daily problem.</div>
+                        
+                        <div class="selector-group">
+                            <button class="select-btn" onclick="setSubject('ap1', event)">AP Physics 1</button>
+                            <button class="select-btn" onclick="setSubject('ap2', event)">AP Physics 2</button>
+                            <button class="select-btn" onclick="setSubject('mech', event)">APC: Mech</button>
+                            <button class="select-btn" onclick="setSubject('em', event)">APC: E&M</button>
                         </div>
-                    </div>
-                    <div class="exam-row">
-                        <span class="exam-title">AP Physics 2</span>
-                        <div class="test-buttons">
-                            <a href="test.html?subject=ap2&exam=1" class="test-link">Test 1</a>
-                            <a href="test.html?subject=ap2&exam=2" class="test-link">Test 2</a>
-                            <a href="test.html?subject=ap2&exam=3" class="test-link">Test 3</a>
-                            <a href="test.html?subject=ap2&exam=4" class="test-link">Test 4</a>
-                        </div>
-                    </div>
-                    <div class="exam-row">
-                        <span class="exam-title">AP C: Mechanics</span>
-                        <div class="test-buttons">
-                            <a href="test.html?subject=mech&exam=1" class="test-link">Test 1</a>
-                            <a href="test.html?subject=mech&exam=2" class="test-link">Test 2</a>
-                            <a href="test.html?subject=mech&exam=3" class="test-link">Test 3</a>
-                            <a href="test.html?subject=mech&exam=4" class="test-link">Test 4</a>
-                        </div>
-                    </div>
-                    <div class="exam-row">
-                        <span class="exam-title">AP C: E&M</span>
-                        <div class="test-buttons">
-                            <a href="test.html?subject=em&exam=1" class="test-link">Test 1</a>
-                            <a href="test.html?subject=em&exam=2" class="test-link">Test 2</a>
-                            <a href="test.html?subject=em&exam=3" class="test-link">Test 3</a>
-                            <a href="test.html?subject=em&exam=4" class="test-link">Test 4</a>
-                        </div>
+                        <button class="action-btn" onclick="launchDailyTest()">Start Daily Problem</button>
                     </div>
                 </div>
             </div>
 
             <div class="panel">
-                <div class="panel-header">Custom Difficulty Practice Problems</div>
-                <div class="panel-content">
-                    <div class="exam-row">
-                        <span class="exam-title">AP Physics 1</span>
-                        <div class="test-buttons">
-                            <a href="sandbox.html?subject=ap1&diff=easy" class="test-link btn-easy">Easy</a>
-                            <a href="sandbox.html?subject=ap1&diff=med" class="test-link btn-med">Medium</a>
-                            <a href="sandbox.html?subject=ap1&diff=hard" class="test-link btn-hard">Hard</a>
+                <div class="panel-header" onclick="togglePanel(this)">Practice Exams</div>
+                <div class="panel-collapse">
+                    <div class="panel-content">
+                        <div class="exam-row">
+                            <span class="exam-title">AP Physics 1</span>
+                            <div class="test-buttons">
+                                <a href="test.html?subject=ap1&exam=1" class="test-link">Test 1</a>
+                                <a href="test.html?subject=ap1&exam=2" class="test-link">Test 2</a>
+                                <a href="test.html?subject=ap1&exam=3" class="test-link">Test 3</a>
+                                <a href="test.html?subject=ap1&exam=4" class="test-link">Test 4</a>
+                            </div>
+                        </div>
+                        <div class="exam-row">
+                            <span class="exam-title">AP Physics 2</span>
+                            <div class="test-buttons">
+                                <a href="test.html?subject=ap2&exam=1" class="test-link">Test 1</a>
+                                <a href="test.html?subject=ap2&exam=2" class="test-link">Test 2</a>
+                                <a href="test.html?subject=ap2&exam=3" class="test-link">Test 3</a>
+                                <a href="test.html?subject=ap2&exam=4" class="test-link">Test 4</a>
+                            </div>
+                        </div>
+                        <div class="exam-row">
+                            <span class="exam-title">AP C: Mechanics</span>
+                            <div class="test-buttons">
+                                <a href="test.html?subject=mech&exam=1" class="test-link">Test 1</a>
+                                <a href="test.html?subject=mech&exam=2" class="test-link">Test 2</a>
+                                <a href="test.html?subject=mech&exam=3" class="test-link">Test 3</a>
+                                <a href="test.html?subject=mech&exam=4" class="test-link">Test 4</a>
+                            </div>
+                        </div>
+                        <div class="exam-row">
+                            <span class="exam-title">AP C: E&M</span>
+                            <div class="test-buttons">
+                                <a href="test.html?subject=em&exam=1" class="test-link">Test 1</a>
+                                <a href="test.html?subject=em&exam=2" class="test-link">Test 2</a>
+                                <a href="test.html?subject=em&exam=3" class="test-link">Test 3</a>
+                                <a href="test.html?subject=em&exam=4" class="test-link">Test 4</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="exam-row">
-                        <span class="exam-title">AP Physics 2</span>
-                        <div class="test-buttons">
-                            <a href="sandbox.html?subject=ap2&diff=easy" class="test-link btn-easy">Easy</a>
-                            <a href="sandbox.html?subject=ap2&diff=med" class="test-link btn-med">Medium</a>
-                            <a href="sandbox.html?subject=ap2&diff=hard" class="test-link btn-hard">Hard</a>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header" onclick="togglePanel(this)">Custom Difficulty Practice Problems</div>
+                <div class="panel-collapse">
+                    <div class="panel-content">
+                        <div class="exam-row">
+                            <span class="exam-title">AP Physics 1</span>
+                            <div class="test-buttons">
+                                <a href="sandbox.html?subject=ap1&diff=easy" class="test-link btn-easy">Easy</a>
+                                <a href="sandbox.html?subject=ap1&diff=med" class="test-link btn-med">Medium</a>
+                                <a href="sandbox.html?subject=ap1&diff=hard" class="test-link btn-hard">Hard</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="exam-row">
-                        <span class="exam-title">AP C: Mechanics</span>
-                        <div class="test-buttons">
-                            <a href="sandbox.html?subject=mech&diff=easy" class="test-link btn-easy">Easy</a>
-                            <a href="sandbox.html?subject=mech&diff=med" class="test-link btn-med">Medium</a>
-                            <a href="sandbox.html?subject=mech&diff=hard" class="test-link btn-hard">Hard</a>
+                        <div class="exam-row">
+                            <span class="exam-title">AP Physics 2</span>
+                            <div class="test-buttons">
+                                <a href="sandbox.html?subject=ap2&diff=easy" class="test-link btn-easy">Easy</a>
+                                <a href="sandbox.html?subject=ap2&diff=med" class="test-link btn-med">Medium</a>
+                                <a href="sandbox.html?subject=ap2&diff=hard" class="test-link btn-hard">Hard</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="exam-row">
-                        <span class="exam-title">AP C: E&M</span>
-                        <div class="test-buttons">
-                            <a href="sandbox.html?subject=em&diff=easy" class="test-link btn-easy">Easy</a>
-                            <a href="sandbox.html?subject=em&diff=med" class="test-link btn-med">Medium</a>
-                            <a href="sandbox.html?subject=em&diff=hard" class="test-link btn-hard">Hard</a>
+                        <div class="exam-row">
+                            <span class="exam-title">AP C: Mechanics</span>
+                            <div class="test-buttons">
+                                <a href="sandbox.html?subject=mech&diff=easy" class="test-link btn-easy">Easy</a>
+                                <a href="sandbox.html?subject=mech&diff=med" class="test-link btn-med">Medium</a>
+                                <a href="sandbox.html?subject=mech&diff=hard" class="test-link btn-hard">Hard</a>
+                            </div>
+                        </div>
+                        <div class="exam-row">
+                            <span class="exam-title">AP C: E&M</span>
+                            <div class="test-buttons">
+                                <a href="sandbox.html?subject=em&diff=easy" class="test-link btn-easy">Easy</a>
+                                <a href="sandbox.html?subject=em&diff=med" class="test-link btn-med">Medium</a>
+                                <a href="sandbox.html?subject=em&diff=hard" class="test-link btn-hard">Hard</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -346,6 +389,12 @@
 
     <script>
         let selectedSubject = null;
+
+        // Function to toggle panels smoothly
+        function togglePanel(headerElement) {
+            const panel = headerElement.closest('.panel');
+            panel.classList.toggle('collapsed');
+        }
 
         function setSubject(subject, e) {
             selectedSubject = subject;
