@@ -20,7 +20,7 @@
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
-    <script src="ap-physics-1/ap1-daily-pool.js"></script>
+    <script src="daily-pool/ap1-daily-pool.js"></script>
     <script src="daily-pool/ap2.js"></script>
     <script src="daily-pool/mech.js"></script>
     <script src="daily-pool/em.js"></script>
@@ -176,7 +176,7 @@
                 <hr style="border: none; border-top: 1px solid #333; margin-top: 25px;">
                 
                 <div class="action-bar">
-                    <a href="home-page.html" class="nav-btn">◀ Go Back Home</a>
+                    <a href="index.html" class="nav-btn">◀ Go Back Home</a>
                     <button id="submit-btn" class="action-btn" onclick="submitAnswer()">Submit Answer</button>
                 </div>
             </div>
@@ -186,7 +186,6 @@
     <div id="notification" class="toast-notification">⚠️ Notice: 30 seconds remaining</div>
 
     <script>
-        // Global State
         let selectedIndex = null;
         let isSubmitted = false;
         let timeRemaining = 120;
@@ -196,7 +195,6 @@
         let storageKey = '';
         let subject = 'ap1';
 
-        // Wait entirely for external script loading to settle execution order issues
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             subject = urlParams.get('subject') || 'ap1';
@@ -229,7 +227,6 @@
                 questionData = { id: "N/A", unit: "N/A", topic: "N/A", skill: "N/A", question: "No questions found in pool file!", image: "", choices: [], correctIndex: 0, difficulty: "Easy", explanation: "N/A" };
             }
 
-            // Render content
             if (questionData.image && questionData.image.trim() !== "") {
                 const imgElement = document.getElementById('question-img');
                 imgElement.src = questionData.image;
@@ -238,7 +235,7 @@
 
             document.getElementById('question-text').innerHTML = questionData.question;
             const container = document.getElementById('choices-container');
-            container.innerHTML = ''; // Clear fallback
+            container.innerHTML = ''; 
             
             if (questionData.choices) {
                 questionData.choices.forEach((choice, idx) => {
@@ -257,10 +254,8 @@
             diffSpan.innerText = diffLevel;
             diffSpan.className = `difficulty-tag diff-${diffLevel}`;
 
-            // Trigger MathJax Processing
             setTimeout(() => { if(window.MathJax) { MathJax.typesetPromise(); } }, 100);
 
-            // Handle LocalStorage tracking
             const savedAnswer = localStorage.getItem(storageKey);
             if (savedAnswer !== null) {
                 isSubmitted = true;
