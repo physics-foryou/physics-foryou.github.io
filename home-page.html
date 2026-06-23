@@ -30,7 +30,7 @@
             gap: 20px;
         }
 
-        /* Creates a grid layout on top so settings sits compactly on the left */
+        /* Top row layout to keep settings left-aligned */
         .top-row-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -46,9 +46,9 @@
 
         .panel {
             background-color: var(--panel-bg);
-            border: 1px solid #cbd5e1;
+            border: 1px solid rgba(0,0,0,0.15);
             border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(27,42,71,0.06);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             overflow: hidden;
         }
 
@@ -67,7 +67,7 @@
         .theme-select {
             font-family: inherit;
             background: var(--panel-bg);
-            border: 1px solid #cbd5e1;
+            border: 1px solid var(--text-dim);
             color: var(--text-main);
             padding: 6px 12px;
             border-radius: 4px;
@@ -81,10 +81,9 @@
             margin: 15px 0;
         }
         
-        /* Fixed Button Visibility with var(--text-main) */
         .select-btn {
             background: var(--panel-bg);
-            border: 1px solid #cbd5e1;
+            border: 1px solid var(--text-dim);
             color: var(--text-main);
             padding: 8px 16px;
             cursor: pointer;
@@ -94,7 +93,6 @@
         }
         .select-btn:hover {
             background-color: rgba(0,0,0,0.08);
-            border-color: #94a3b8;
         }
         .select-btn.active {
             background-color: var(--header-bg);
@@ -128,7 +126,7 @@
         }
 
         .exam-row {
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
             padding: 14px 0;
             display: flex;
             justify-content: space-between;
@@ -144,10 +142,9 @@
             flex-wrap: nowrap;
         }
         
-        /* Fixed Matrix Links Visibility */
         .test-link {
             background: var(--panel-bg);
-            border: 1px solid #cbd5e1;
+            border: 1px solid var(--text-dim);
             color: var(--text-main);
             padding: 6px 14px;
             text-decoration: none;
@@ -157,7 +154,7 @@
             min-width: 55px;
             transition: all 0.2s;
         }
-        .test-link:hover { background-color: rgba(0,0,0,0.08); border-color: #94a3b8; }
+        .test-link:hover { background-color: rgba(0,0,0,0.08); }
 
         .btn-easy { border-color: #31c48d; color: #1e4620; background-color: #def7ec; }
         .btn-easy:hover { opacity: 0.85; }
@@ -180,6 +177,12 @@
                         <option value="navy">Navy & Pale Gray</option>
                         <option value="dark">Classic Dark Slate</option>
                         <option value="purple">Midnight Purple</option>
+                        <option value="dollar">Dollar</option>
+                        <option value="dots">Dots</option>
+                        <option value="oblivion">Oblivion</option>
+                        <option value="paper">Paper</option>
+                        <option value="repose_dark">Repose Dark</option>
+                        <option value="alpine">Alpine</option>
                     </select>
                 </div>
             </div>
@@ -288,11 +291,17 @@
     <script>
         let selectedSubject = null;
 
-        // Theme palette configurations
+        // Theme palette configurations with custom updates for the 6 new themes
         const themes = {
             navy: { bg: "#eef2f5", panel: "#ffffff", header: "#1b2a47", text: "#1c2533", dim: "#626f80" },
             dark: { bg: "#6a7f93", panel: "#1c1a27", header: "#3c3957", text: "#d1d2d6", dim: "#9ba1a6" },
-            purple: { bg: "#120e16", panel: "#1f1926", header: "#5c3d75", text: "#f3eff5", dim: "#a89cb3" }
+            purple: { bg: "#120e16", panel: "#1f1926", header: "#5c3d75", text: "#f3eff5", dim: "#a89cb3" },
+            dollar: { bg: "#d0d0c5", panel: "#e2e2d9", header: "#667a66", text: "#4c5470", dim: "#828274" },
+            dots: { bg: "#282a36", panel: "#1f212b", header: "#bd93f9", text: "#a4b3db", dim: "#6272a4" },
+            oblivion: { bg: "#f1f1f1", panel: "#ffffff", header: "#333333", text: "#5d5d5d", dim: "#a1a1a1" },
+            paper: { bg: "#444444", panel: "#333333", header: "#f2f2f2", text: "#b2b2b2", dim: "#666666" },
+            repose_dark: { bg: "#cfcfc4", panel: "#bcbcb0", header: "#2f3338", text: "#4f5459", dim: "#828277" },
+            alpine: { bg: "#fafafa", panel: "#ffffff", header: "#6c6f93", text: "#6c6f93", dim: "#a4a7c5" }
         };
 
         function applyTheme(themeKey) {
@@ -304,7 +313,6 @@
             root.style.setProperty('--text-main', theme.text);
             root.style.setProperty('--text-dim', theme.dim);
             
-            // Sync dropdown value visually
             document.getElementById('theme-dropdown').value = themeKey;
         }
 
@@ -328,7 +336,6 @@
             window.location.href = `daily-problem-page.html?subject=${selectedSubject}`;
         }
 
-        // Check for saved user theme when page loads
         window.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('site-theme') || 'navy';
             applyTheme(savedTheme);
