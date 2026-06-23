@@ -125,7 +125,7 @@
         .diff-medium { background-color: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
         .diff-hard { background-color: #fde8e8; color: #7a1e1e; border: 1px solid #f98080; }
 
-        /* --- STYLING FOR COMPONENT SHEET DRAWERS --- */
+        /* --- STYLING FOR REFERENCE SHEET DRAWERS --- */
         .ref-sheet-tab {
             position: fixed;
             right: 0;
@@ -226,30 +226,29 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .ref-table th, .ref-table td {
             border: 1px solid var(--border-color);
-            padding: 8px;
+            padding: 6px 8px;
             text-align: left;
-            vertical-align: middle;
+            vertical-align: top;
             color: var(--text-main);
         }
 
         .ref-table th {
-            background-color: var(--header-bg);
-            color: #ffffff;
+            background-color: rgba(0, 0, 0, 0.04);
+            font-weight: bold;
         }
 
         .section-title {
             font-size: 13px;
             font-weight: bold;
-            text-transform: uppercase;
-            border-bottom: 1px dashed var(--text-dim);
+            border-bottom: 2px solid var(--header-bg);
             margin: 15px 0 8px 0;
             padding-bottom: 3px;
-            color: var(--text-dim);
+            color: var(--header-bg);
         }
 
         .ref-page-content {
@@ -280,157 +279,157 @@
         <div class="drawer-scroll-body tex2jax_process">
             
             <div id="ref-page-1" class="ref-page-content active">
-                <div class="section-title">Constants and Conversion Factors</div>
+                
+                <div class="section-title">ADVANCED PLACEMENT PHYSICS 1 TABLE OF INFORMATION</div>
+                
+                <div style="font-weight: bold; margin-bottom: 5px;">CONSTANTS AND CONVERSION FACTORS</div>
                 <table class="ref-table">
                     <tr>
-                        <td>Proton mass</td>
-                        <td>$m_p = 1.67 \times 10^{-27} \text{ kg}$</td>
+                        <td>Proton mass, $m_p = 1.67 \times 10^{-27} \text{ kg}$</td>
+                        <td>Electron charge magnitude, $e = 1.60 \times 10^{-19} \text{ C}$</td>
                     </tr>
                     <tr>
-                        <td>Neutron mass</td>
-                        <td>$m_n = 1.67 \times 10^{-27} \text{ kg}$</td>
+                        <td>Neutron mass, $m_n = 1.67 \times 10^{-27} \text{ kg}$</td>
+                        <td>Universal gravitational constant, $G = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
                     </tr>
                     <tr>
-                        <td>Electron mass</td>
-                        <td>$m_e = 9.11 \times 10^{-31} \text{ kg}$</td>
+                        <td>Electron mass, $m_e = 9.11 \times 10^{-31} \text{ kg}$</td>
+                        <td>Acceleration due to gravity at Earth’s surface, $g = 9.8 \text{ m/s}^2$</td>
                     </tr>
                     <tr>
-                        <td>Speed of light</td>
-                        <td>$c = 3.00 \times 10^8 \text{ m/s}$</td>
-                    </tr>
-                    <tr>
-                        <td>Electron charge magnitude</td>
-                        <td>$e = 1.60 \times 10^{-19} \text{ C}$</td>
-                    </tr>
-                    <tr>
-                        <td>Universal gravitational constant</td>
-                        <td>$G = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
-                    </tr>
-                    <tr>
-                        <td>Acceleration due to gravity at Earth's surface</td>
-                        <td>$g = 9.8 \text{ m/s}^2$</td>
+                        <td colspan="2">Speed of light, $c = 3.00 \times 10^8 \text{ m/s}$</td>
                     </tr>
                 </table>
 
-                <div class="section-title">Unit Symbols</div>
+                <div style="font-weight: bold; margin-bottom: 5px;">UNIT SYMBOLS</div>
                 <table class="ref-table">
                     <tr>
-                        <td>m = meter</td>
-                        <td>kg = kilogram</td>
-                        <td>s = second</td>
-                        <td>A = ampere</td>
-                    </tr>
-                    <tr>
-                        <td>K = kelvin</td>
-                        <td>Hz = hertz</td>
-                        <td>N = newton</td>
-                        <td>J = joule</td>
-                    </tr>
-                    <tr>
-                        <td>W = watt</td>
-                        <td>C = coulomb</td>
-                        <td>V = volt</td>
-                        <td>$\Omega$ = ohm</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">$^\circ\text{C}$ = degree Celsius</td>
-                        <td colspan="2">\text{Pa} = pascal</td>
+                        <td>meter, $\text{m}$<br>kilogram, $\text{kg}$<br>second, $\text{s}$<br>ampere, $\text{A}$</td>
+                        <td>kelvin, $\text{K}$<br>hertz, $\text{Hz}$<br>newton, $\text{N}$<br>joule, $\text{J}$</td>
+                        <td>watt, $\text{W}$<br>coulomb, $\text{C}$<br>volt, $\text{V}$<br>ohm, $\Omega$</td>
+                        <td>degree Celsius, $^\circ\text{C}$<br>pascal, $\text{Pa}$</td>
                     </tr>
                 </table>
 
-                <div class="section-title">Prefixes</div>
+                <div style="font-weight: bold; margin-bottom: 5px;">PREFIXES</div>
                 <table class="ref-table">
-                    <tr><th>Factor</th><th>Prefix</th><th>Symbol</th><th>Factor</th><th>Prefix</th><th>Symbol</th></tr>
-                    <tr><td>$10^{12}$</td><td>tera</td><td>T</td><td>$10^{-2}$</td><td>centi</td><td>c</td></tr>
-                    <tr><td>$10^9$</td><td>giga</td><td>G</td><td>$10^{-3}$</td><td>milli</td><td>m</td></tr>
-                    <tr><td>$10^6$</td><td>mega</td><td>M</td><td>$10^{-6}$</td><td>micro</td><td>$\mu$</td></tr>
-                    <tr><td>$10^3$</td><td>kilo</td><td>k</td><td>$10^{-9}$</td><td>nano</td><td>n</td></tr>
-                    <tr><td>$10^{-12}$</td><td>pico</td><td>p</td><td></td><td></td><td></td></tr>
+                    <tr>
+                        <th>Factor</th><th>Prefix</th><th>Symbol</th>
+                        <th>Factor</th><th>Prefix</th><th>Symbol</th>
+                    </tr>
+                    <tr>
+                        <td>$10^{12}$</td><td>tera</td><td>T</td>
+                        <td>$10^{-2}$</td><td>centi</td><td>c</td>
+                    </tr>
+                    <tr>
+                        <td>$10^9$</td><td>giga</td><td>G</td>
+                        <td>$10^{-3}$</td><td>milli</td><td>m</td>
+                    </tr>
+                    <tr>
+                        <td>$10^6$</td><td>mega</td><td>M</td>
+                        <td>$10^{-6}$</td><td>micro</td><td>$\mu$</td>
+                    </tr>
+                    <tr>
+                        <td>$10^3$</td><td>kilo</td><td>k</td>
+                        <td>$10^{-9}$</td><td>nano</td><td>n</td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td>
+                        <td>$10^{-12}$</td><td>pico</td><td>p</td>
+                    </tr>
                 </table>
             </div>
-
-            <div id="ref-page-2" class="ref-page-content">
-                <div class="section-title">Kinematics</div>
-                <table class="ref-table">
-                    <tr><td>$v_x = v_{x0} + a_x t$</td><td>$x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$</td></tr>
-                    <tr><td colspan="2">$v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$</td></tr>
-                </table>
-
-                <div class="section-title">Dynamics</div>
-                <table class="ref-table">
-                    <tr><td>$\vec{a} = \frac{\sum \vec{F}}{m} = \frac{\vec{F}_{\text{net}}}{m}$</td><td>$\left| \vec{F}_f \right| \le \mu \left| \vec{F}_n \right|$</td></tr>
-                    <tr><td colspan="2">$\left| \vec{F}_s \right| = k |x|$</td></tr>
-                </table>
-
-                <div class="section-title">Gravitation & Circular Motion</div>
-                <table class="ref-table">
-                    <tr><td>$a_c = \frac{v^2}{r}$</td><td>$\left| \vec{F}_g \right| = G \frac{m_1 m_2}{r^2}$</td></tr>
-                    <tr><td colspan="2">$\vec{g} = \frac{\vec{F}_g}{m}$</td></tr>
-                </table>
-
-                <div class="section-title">Energy</div>
-                <table class="ref-table">
-                    <tr><td>$K = \frac{1}{2} m v^2$</td><td>$\Delta E = W = F_{\parallel} d = F d \cos\theta$</td></tr>
-                    <tr><td>$P = \frac{\Delta E}{\Delta t}$</td><td>$\Delta U_g = m g \Delta y$</td></tr>
-                    <tr><td colspan="2">$U_s = \frac{1}{2} k x^2$</td></tr>
-                </table>
-
-                <div class="section-title">Momentum</div>
-                <table class="ref-table">
-                    <tr><td>$\vec{p} = m \vec{v}$</td><td>$\Delta \vec{p} = \vec{F}_{\text{net}} \Delta t$</td></tr>
-                </table>
-
-                <div class="section-title">Rotational Motion</div>
-                <table class="ref-table">
-                    <tr><td>$\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$</td><td>$\omega = \omega_0 + \alpha t$</td></tr>
-                    <tr><td>$x = r\theta$</td><td>$v = r\omega$</td></tr>
-                    <tr><td>$a_{\text{tan}} = r\alpha$</td><td>$\vec{\alpha} = \frac{\sum \vec{\tau}}{I} = \frac{\vec{\tau}_{\text{net}}}{I}$</td></tr>
-                    <tr><td>$\tau = r_{\perp} F = r F \sin\theta$</td><td>$L = I \omega$</td></tr>
-                    <tr><td>$\Delta L = \tau_{\text{net}} \Delta t$</td><td>$K = \frac{1}{2} I \omega^2$</td></tr>
-                </table>
-
-                <div class="section-title">Oscillations</div>
-                <table class="ref-table">
-                    <tr><td>$T = \frac{1}{f} = \frac{2\pi}{\omega}$</td><td>$T_s = 2\pi \sqrt{\frac{m}{k}}$</td></tr>
-                    <tr><td colspan="2">$T_p = 2\pi \sqrt{\frac{l}{g}}$</td></tr>
-                </table>
-
-                <div class="section-title">Fluids</div>
-                <table class="ref-table">
-                    <tr><td>$\rho = \frac{m}{V}$</td><td>$P = \frac{F}{A}$</td></tr>
-                    <tr><td>$P = P_0 + \rho g h$</td><td>$F_b = \rho V g$</td></tr>
-                    <tr><td colspan="2">$A_1 v_1 = A_2 v_2$</td></tr>
-                </table>
-
-                <div class="section-title">Geometry and Trigonometry</div>
+<div id="ref-page-2" class="ref-page-content">
+                
+                <div class="section-title">ADVANCED PLACEMENT PHYSICS 1 EQUATIONS</div>
+                
+                <div style="font-weight: bold; margin-bottom: 5px;">EQUATIONS</div>
                 <table class="ref-table">
                     <tr>
-                        <td><strong>Rectangle</strong><br>$A = bh$</td>
-                        <td><strong>Triangle</strong><br>$A = \frac{1}{2}bh$</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Circle</strong><br>$A = \pi r^2$<br>$C = 2\pi r$</td>
-                        <td><strong>Rectangular solid</strong><br>$V = lwh$</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Cylinder</strong><br>$V = \pi r^2 h$<br>$S = 2\pi r h + 2\pi r^2$</td>
-                        <td><strong>Sphere</strong><br>$V = \frac{4}{3}\pi r^3$<br>$A = 4\pi r^2$</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <strong>Right triangle</strong><br>
-                            $c^2 = a^2 + b^2$<br>
-                            $\sin\theta = \frac{a}{c}, \quad \cos\theta = \frac{b}{c}, \quad \tan\theta = \frac{a}{b}$
+                        <td>
+                            $v_x = v_{x0} + a_x t$<br><br>
+                            $x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$<br><br>
+                            $v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$<br><br>
+                            $\vec{a} = \frac{\sum \vec{F}}{m} = \frac{\vec{F}_{\text{net}}}{m}$<br><br>
+                            $\left| \vec{F}_f \right| \le \mu \left| \vec{F}_n \right|$<br><br>
+                            $\left| \vec{F}_s \right| = k |x|$<br><br>
+                            $a_c = \frac{v^2}{r}$
+                        </td>
+                        <td>
+                            $\vec{p} = m \vec{v}$<br><br>
+                            $\Delta \vec{p} = \vec{F}_{\text{net}} \Delta t$<br><br>
+                            $K = \frac{1}{2} m v^2$<br><br>
+                            $\Delta E = W = F_{\parallel} d = F d \cos\theta$<br><br>
+                            $P = \frac{\Delta E}{\Delta t}$<br><br>
+                            $\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$<br><br>
+                            $\omega = \omega_0 + \alpha t$
+                        </td>
+                        <td>
+                            $x = r\theta$<br><br>
+                            $v = r\omega$<br><br>
+                            $a_{\text{tan}} = r\alpha$<br><br>
+                            $\vec{\alpha} = \frac{\sum \vec{\tau}}{I} = \frac{\vec{\tau}_{\text{net}}}{I}$<br><br>
+                            $\tau = r_{\perp} F = r F \sin\theta$<br><br>
+                            $L = I \omega$<br><br>
+                            $\Delta L = \tau_{\text{net}} \Delta t$
+                        </td>
+                        <td>
+                            $K = \frac{1}{2} I \omega^2$<br><br>
+                            $\Delta U_g = m g \Delta y$<br><br>
+                            $U_s = \frac{1}{2} k x^2$<br><br>
+                            $\left| \vec{F}_g \right| = G \frac{m_1 m_2}{r^2}$<br><br>
+                            $\vec{g} = \frac{\vec{F}_g}{m}$<br><br>
+                            $U_g = -\frac{G m_1 m_2}{r}$
                         </td>
                     </tr>
                 </table>
 
-                <div class="section-title">Values of Trigonometric Functions</div>
+                <div style="font-weight: bold; margin-bottom: 5px;">GEOMETRY AND TRIGONOMETRY</div>
                 <table class="ref-table">
-                    <tr><th>$\theta$</th><th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th></tr>
-                    <tr><td>$\sin\theta$</td><td>$0$</td><td>$1/2$</td><td>$3/5$</td><td>$\sqrt{2}/2$</td><td>$4/5$</td><td>$\sqrt{3}/2$</td><td>$1$</td></tr>
-                    <tr><td>$\cos\theta$</td><td>$1$</td><td>$\sqrt{3}/2$</td><td>$4/5$</td><td>$\sqrt{2}/2$</td><td>$3/5$</td><td>$1/2$</td><td>$0$</td></tr>
-                    <tr><td>$\tan\theta$</td><td>$0$</td><td>$\sqrt{3}/3$</td><td>$3/4$</td><td>$1$</td><td>$4/3$</td><td>$\sqrt{3}$</td><td>$\infty$</td></tr>
+                    <tr>
+                        <td>
+                            <strong>Rectangle</strong><br>
+                            $A = bh$<br><br>
+                            <strong>Triangle</strong><br>
+                            $A = \frac{1}{2}bh$<br><br>
+                            <strong>Circle</strong><br>
+                            $A = \pi r^2$<br>
+                            $C = 2\pi r$
+                        </td>
+                        <td>
+                            <strong>Rectangular solid</strong><br>
+                            $V = lwh$<br><br>
+                            <strong>Cylinder</strong><br>
+                            $V = \pi r^2 h$<br>
+                            $S = 2\pi r h + 2\pi r^2$<br><br>
+                            <strong>Sphere</strong><br>
+                            $V = \frac{4}{3}\pi r^3$<br>
+                            $A = 4\pi r^2$
+                        </td>
+                        <td>
+                            <strong>Right triangle</strong><br>
+                            $c^2 = a^2 + b^2$<br>
+                            $\sin\theta = \frac{a}{c}$<br>
+                            $\cos\theta = \frac{b}{c}$<br>
+                            $\tan\theta = \frac{a}{b}$
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="font-weight: bold; margin-bottom: 5px;">VALUES OF TRIGONOMETRIC FUNCTIONS</div>
+                <table class="ref-table" style="text-align: center;">
+                    <tr>
+                        <th>$\theta$</th><th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th>
+                    </tr>
+                    <tr>
+                        <td>$\sin\theta$</td><td>$0$</td><td>$1/2$</td><td>$3/5$</td><td>$\sqrt{2}/2$</td><td>$4/5$</td><td>$\sqrt{3}/2$</td><td>$1$</td>
+                    </tr>
+                    <tr>
+                        <td>$\cos\theta$</td><td>$1$</td><td>$\sqrt{3}/2$</td><td>$4/5$</td><td>$\sqrt{2}/2$</td><td>$3/5$</td><td>$1/2$</td><td>$0$</td>
+                    </tr>
+                    <tr>
+                        <td>$\tan\theta$</td><td>$0$</td><td>$\sqrt{3}/3$</td><td>$3/4$</td><td>$1$</td><td>$4/3$</td><td>$\sqrt{3}$</td><td>$\infty$</td>
+                    </tr>
                 </table>
             </div>
 
