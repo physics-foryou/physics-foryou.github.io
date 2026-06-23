@@ -184,7 +184,6 @@
             font-weight: bold;
         }
 
-        /* Sub-Header Page Toggle Styling Navigation */
         .drawer-page-toggle {
             display: flex;
             background-color: rgba(0, 0, 0, 0.05);
@@ -223,7 +222,6 @@
             flex-grow: 1;
         }
 
-        /* Clean Equation Layout styling matching your theme */
         .ref-table {
             width: 100%;
             border-collapse: collapse;
@@ -254,7 +252,6 @@
             color: var(--text-dim);
         }
 
-        /* Utility classes to filter pages natively */
         .ref-page-content {
             display: none;
         }
@@ -271,13 +268,13 @@
 
     <div id="ref-drawer-panel" class="ref-drawer">
         <div class="drawer-header">
-            <span>AP PHYSICS 1 REFERENCE DATA</span>
+            <span>AP PHYSICS 1 REFERENCE SHEET</span>
             <button class="close-drawer-btn" onclick="toggleRefDrawer()">×</button>
         </div>
 
         <div class="drawer-page-toggle">
-            <button id="btn-page-1" class="toggle-page-btn active" onclick="switchRefPage(1)">Page 1: Constants & Mechanics</button>
-            <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2)">Page 2: Electricity & Waves</button>
+            <button id="btn-page-1" class="toggle-page-btn active" onclick="switchRefPage(1)">Page 1: Constants & Symbols</button>
+            <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2)">Page 2: Equations</button>
         </div>
 
         <div class="drawer-scroll-body tex2jax_process">
@@ -286,155 +283,100 @@
                 <div class="section-title">Constants and Conversion Factors</div>
                 <table class="ref-table">
                     <tr>
+                        <td>Proton mass</td>
+                        <td>$m_p = 1.67 \times 10^{-27} \text{ kg}$</td>
+                    </tr>
+                    <tr>
+                        <td>Neutron mass</td>
+                        <td>$m_n = 1.67 \times 10^{-27} \text{ kg}$</td>
+                    </tr>
+                    <tr>
+                        <td>Electron mass</td>
+                        <td>$m_e = 9.11 \times 10^{-31} \text{ kg}$</td>
+                    </tr>
+                    <tr>
+                        <td>Speed of light</td>
+                        <td>$c = 3.00 \times 10^8 \text{ m/s}$</td>
+                    </tr>
+                    <tr>
+                        <td>Electron charge magnitude</td>
+                        <td>$e = 1.60 \times 10^{-19} \text{ C}$</td>
+                    </tr>
+                    <tr>
                         <td>Universal gravitational constant</td>
-                        <td>$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2)$</td>
+                        <td>$G = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
                     </tr>
                     <tr>
                         <td>Acceleration due to gravity at Earth's surface</td>
                         <td>$g = 9.8 \text{ m/s}^2$</td>
-                    </tr>
-                    <tr>
-                        <td>Gravitational field strength at Earth's surface</td>
-                        <td>$g = 9.8 \text{ N/kg}$</td>
                     </tr>
                 </table>
 
                 <div class="section-title">Unit Symbols</div>
                 <table class="ref-table">
                     <tr>
-                        <td><strong>meter</strong>, m</td>
-                        <td><strong>kilogram</strong>, kg</td>
-                        <td><strong>second</strong>, s</td>
-                        <td><strong>ampere</strong>, A</td>
+                        <td>m = meter</td>
+                        <td>kg = kilogram</td>
+                        <td>s = second</td>
+                        <td>A = ampere</td>
                     </tr>
                     <tr>
-                        <td><strong>hertz</strong>, Hz</td>
-                        <td><strong>newton</strong>, N</td>
-                        <td><strong>joule</strong>, J</td>
-                        <td><strong>watt</strong>, W</td>
+                        <td>K = kelvin</td>
+                        <td>Hz = hertz</td>
+                        <td>N = newton</td>
+                        <td>J = joule</td>
                     </tr>
                     <tr>
-                        <td><strong>coulomb</strong>, C</td>
-                        <td><strong>volt</strong>, V</td>
-                        <td><strong>ohm</strong>, $\Omega$</td>
-                        <td><strong>degree Celsius</strong>, $^\circ\text{C}$</td>
+                        <td>W = watt</td>
+                        <td>C = coulomb</td>
+                        <td>V = volt</td>
+                        <td>$\Omega$ = ohm</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">$^\circ\text{C}$ = degree Celsius</td>
+                        <td colspan="2">\text{Pa} = pascal</td>
                     </tr>
                 </table>
 
-                <div class="section-title">Mechanics Formulas</div>
+                <div class="section-title">Prefixes</div>
                 <table class="ref-table">
-                    <tr>
-                        <td>$v_x = v_{x0} + a_x t$</td>
-                        <td>$x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$</td>
-                    </tr>
-                    <tr>
-                        <td>$v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$</td>
-                        <td>$\vec{a} = \frac{\sum \vec{F}}{m} = \frac{\vec{F}_{\text{net}}}{m}$</td>
-                    </tr>
-                    <tr>
-                        <td>$|\vec{F}_g| = \mu |\vec{F}_n|$</td>
-                        <td>$a_c = \frac{v^2}{r}$</td>
-                    </tr>
-                    <tr>
-                        <td>$\vec{p} = m\vec{v}$</td>
-                        <td>$\Delta \vec{p} = \vec{F}\Delta t$</td>
-                    </tr>
-                    <tr>
-                        <td>$K = \frac{1}{2}mv^2$</td>
-                        <td>$\Delta E = W = F_{\parallel}d = F d \cos\theta$</td>
-                    </tr>
-                    <tr>
-                        <td>$P = \frac{\Delta E}{\Delta t}$</td>
-                        <td>$\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$</td>
-                    </tr>
-                    <tr>
-                        <td>$\omega = \omega_0 + \alpha t$</td>
-                        <td>$x = A \cos(2\pi f t)$</td>
-                    </tr>
-                    <tr>
-                        <td>$\vec{\alpha} = \frac{\sum\vec{\tau}}{I} = \frac{\vec{\tau}_{\text{net}}}{I}$</td>
-                        <td>$\tau = F_{\perp}r = Fr\sin\theta$</td>
-                    </tr>
-                    <tr>
-                        <td>$L = I\omega$</td>
-                        <td>$\Delta L = \tau\Delta t$</td>
-                    </tr>
-                    <tr>
-                        <td>$K = \frac{1}{2}I\omega^2$</td>
-                        <td>$|\vec{F}_s| = k|x|$</td>
-                    </tr>
-                    <tr>
-                        <td>$U_s = \frac{1}{2}kx^2$</td>
-                        <td>$\rho = \frac{m}{V}$</td>
-                    </tr>
-                    <tr>
-                        <td>$\Delta U_g = mg\Delta y$</td>
-                        <td>$T = \frac{1}{f} = \frac{2\pi}{\omega}$</td>
-                    </tr>
-                    <tr>
-                        <td>$T_s = 2\pi \sqrt{\frac{m}{k}}$</td>
-                        <td>$T_p = 2\pi \sqrt{\frac{l}{g}}$</td>
-                    </tr>
-                    <tr>
-                        <td>$|\vec{F}_g| = G\frac{m_1 m_2}{r^2}$</td>
-                        <td>$\vec{g} = \frac{\vec{F}_g}{m}$</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">$U_g = -\frac{G m_1 m_2}{r}$</td>
-                    </tr>
+                    <tr><th>Factor</th><th>Prefix</th><th>Symbol</th><th>Factor</th><th>Prefix</th><th>Symbol</th></tr>
+                    <tr><td>$10^{12}$</td><td>tera</td><td>T</td><td>$10^{-2}$</td><td>centi</td><td>c</td></tr>
+                    <tr><td>$10^9$</td><td>giga</td><td>G</td><td>$10^{-3}$</td><td>milli</td><td>m</td></tr>
+                    <tr><td>$10^6$</td><td>mega</td><td>M</td><td>$10^{-6}$</td><td>micro</td><td>$\mu$</td></tr>
+                    <tr><td>$10^3$</td><td>kilo</td><td>k</td><td>$10^{-9}$</td><td>nano</td><td>n</td></tr>
+                    <tr><td>$10^{-12}$</td><td>pico</td><td>p</td><td></td><td></td><td></td></tr>
                 </table>
             </div>
 
             <div id="ref-page-2" class="ref-page-content">
-                <div class="section-title">Electricity Formulas</div>
+                <div class="section-title">Kinematics & Dynamics</div>
                 <table class="ref-table">
-                    <tr>
-                        <td>$|\vec{F}_e| = k\frac{|q_1 q_2|}{r^2}$</td>
-                        <td>$I = \frac{\Delta q}{\Delta t}$</td>
-                    </tr>
-                    <tr>
-                        <td>$R = \frac{\rho l}{A}$</td>
-                        <td>$I = \frac{\Delta V}{R}$</td>
-                    </tr>
-                    <tr>
-                        <td>$P = I\Delta V$</td>
-                        <td>$I_{\text{series}} = I_1 = I_2 = I_3 = \dots$</td>
-                    </tr>
-                    <tr>
-                        <td>$R_{\text{series}} = \sum R_i$</td>
-                        <td>$\frac{1}{R_{\text{parallel}}} = \sum \frac{1}{R_i}$</td>
-                    </tr>
+                    <tr><td>$v_x = v_{x0} + a_x t$</td><td>$x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$</td></tr>
+                    <tr><td>$v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$</td><td>$a_x = \frac{\sum F_x}{m} = \frac{F_{\text{net},x}}{m}$</td></tr>
+                    <tr><td>$|\vec{F}_f| \le \mu |\vec{F}_n|$</td><td>$a_c = \frac{v^2}{r}$</td></tr>
                 </table>
 
-                <div class="section-title">Waves & Optics Formulas</div>
+                <div class="section-title">Energy, Momentum & Rotation</div>
                 <table class="ref-table">
-                    <tr>
-                        <td>$\lambda = \frac{v}{f}$</td>
-                        <td>$f = \frac{1}{T}$</td>
-                    </tr>
+                    <tr><td>$\vec{p} = m\vec{v}$</td><td>$\Delta\vec{p} = \vec{F}_{\text{net}}\Delta t$</td></tr>
+                    <tr><td>$K = \frac{1}{2}mv^2$</td><td>$\Delta E = W = \int F_x dx \approx F_{\parallel}d$</td></tr>
+                    <tr><td>$P = \frac{\Delta E}{\Delta t}$</td><td>$\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$</td></tr>
+                    <tr><td>$\omega = \omega_0 + \alpha t$</td><td>$x = A \cos(\omega t) = A \cos(2\pi f t)$</td></tr>
+                    <tr><td>$\alpha = \frac{\sum \tau}{I} = \frac{\tau_{\text{net}}}{I}$</td><td>$\tau = r_{\perp}F = rF\sin\theta$</td></tr>
+                    <tr><td>$L = I\omega$</td><td>$\Delta L = \tau_{\text{net}}\Delta t$</td></tr>
+                    <tr><td>$K = \frac{1}{2}I\omega^2$</td><td>$\left|\vec{F}_s\right| = k|x|$</td></tr>
+                    <tr><td>$U_s = \frac{1}{2}kx^2$</td><td>$\Delta U_g = mg\Delta y$</td></tr>
+                    <tr><td>$T = \frac{2\pi}{\omega} = \frac{1}{f}$</td><td>$T_s = 2\pi \sqrt{\frac{m}{k}}$</td></tr>
+                    <tr><td>$T_p = 2\pi \sqrt{\frac{l}{g}}$</td><td>$\left|\vec{F}_g\right| = G\frac{m_1 m_2}{r^2}$</td></tr>
+                    <tr><td>$\vec{g} = \frac{\vec{F}_g}{m}$</td><td>$U_g = -\frac{Gm_1m_2}{r}$</td></tr>
                 </table>
 
-                <div class="section-title">Geometric & Trigonometry Rules</div>
+                <div class="section-title">Fluids</div>
                 <table class="ref-table">
-                    <tr>
-                        <td>Rectangle Area: $A = bh$</td>
-                        <td>Triangle Area: $A = \frac{1}{2}bh$</td>
-                    </tr>
-                    <tr>
-                        <td>Circle Area: $A = \pi r^2$</td>
-                        <td>Circle Circumference: $C = 2\pi r$</td>
-                    </tr>
-                    <tr>
-                        <td>Rectangular Volume: $V = lwh$</td>
-                        <td>Cylinder Volume: $V = \pi r^2h$</td>
-                    </tr>
-                    <tr>
-                        <td>Sphere Volume: $V = \frac{4}{3}\pi r^3$</td>
-                        <td>Sphere Surface Area: $A = 4\pi r^2$</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Right Triangle: $c^2 = a^2 + b^2$, $\sin\theta = \frac{a}{c}$, $\cos\theta = \frac{b}{c}$, $\tan\theta = \frac{a}{b}$</td>
-                    </tr>
+                    <tr><td>$\rho = \frac{m}{V}$</td><td>$P = \frac{F}{A}$</td></tr>
+                    <tr><td>$P = P_0 + \rho g h$</td><td>$F_b = \rho V g$</td></tr>
+                    <tr><td colspan="2">$A_1 v_1 = A_2 v_2$</td></tr>
                 </table>
             </div>
 
@@ -505,7 +447,6 @@
         let storageKey = '';
         let subject = 'ap1';
         
-        // Keeps track of the current selected reference sheet page option actively
         let activeRefPage = 1;
 
         window.onload = function() {
@@ -673,15 +614,12 @@
             drawer.classList.toggle('open');
         }
 
-        // Switches between references pages while leaving state intact when hidden
         function switchRefPage(pageNum) {
             activeRefPage = pageNum;
             
-            // Toggle visibility classes on the layout page content divs
             document.querySelectorAll('.ref-page-content').forEach(p => p.classList.remove('active'));
             document.getElementById(`ref-page-${pageNum}`).classList.add('active');
             
-            // Adjust active CSS button properties
             document.querySelectorAll('.toggle-page-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(`btn-page-${pageNum}`).classList.add('active');
         }
