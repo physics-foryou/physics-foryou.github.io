@@ -242,26 +242,26 @@
             font-weight: bold;
         }
 
-        /* Official Layout Container */
-        .official-layout-grid {
+        .official-two-col-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 25px;
+            margin-bottom: 25px;
         }
 
-        .equation-column {
+        .equations-left-pane {
             font-size: 14px;
-            line-height: 2.2;
+            line-height: 2.3;
         }
 
-        .symbol-column {
-            font-size: 12px;
+        .symbols-right-pane {
+            font-size: 12.5px;
+            line-height: 1.65;
             background-color: rgba(0,0,0,0.01);
-            padding: 15px;
             border: 1px solid var(--border-color);
+            padding: 15px;
             border-radius: 4px;
-            line-height: 1.6;
+            height: fit-content;
         }
 
         .ref-page-content {
@@ -293,11 +293,11 @@
             
             <div id="ref-page-1" class="ref-page-content active">
                 
-                <h2 style="font-size: 15px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; letter-spacing: 0.5px;">
+                <h2 style="font-size: 15px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
                     ADVANCED PLACEMENT PHYSICS 1 TABLE OF INFORMATION
                 </h2>
                 
-                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.5px;">CONSTANTS AND CONVERSION FACTORS</div>
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
                 <table class="ref-table">
                     <tr>
                         <td style="width: 50%;">Proton mass, $m_p = 1.67 \times 10^{-27} \text{ kg}$</td>
@@ -316,7 +316,7 @@
                     </tr>
                 </table>
 
-                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.5px;">UNIT SYMBOLS</div>
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
                 <table class="ref-table">
                     <tr>
                         <td>
@@ -338,13 +338,12 @@
                             ohm, $\Omega$
                         </td>
                         <td>
-                            degree Celsius, $^\circ\text{C}$<br>
-                            pascal, $\text{Pa}$
+                            degree Celsius, $^\circ\text{C}$
                         </td>
                     </tr>
                 </table>
 
-                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.5px;">PREFIXES</div>
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">PREFIXES</div>
                 <table class="ref-table">
                     <tr>
                         <th>Factor</th><th>Prefix</th><th>Symbol</th>
@@ -374,12 +373,12 @@
             </div>
 <div id="ref-page-2" class="ref-page-content">
                 
-                <h2 style="font-size: 15px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; letter-spacing: 0.5px;">
+                <h2 style="font-size: 15px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
                     ADVANCED PLACEMENT PHYSICS 1 EQUATIONS
                 </h2>
 
-                <div class="official-layout-grid">
-                    <div class="equation-column">
+                <div class="official-two-col-container">
+                    <div class="equations-left-pane">
                         $v_x = v_{x0} + a_x t$<br>
                         $x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$<br>
                         $v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$<br><br>
@@ -393,10 +392,10 @@
                         $\Delta \vec{p} = \vec{F}_{\text{net}} \Delta t$<br>
                         $K = \frac{1}{2} m v^2$<br><br>
                         
-                        $\Delta E = W = F_{\parallel} d = F d \cos\theta$<br>
+                        $\Delta E = W = \vec{F} \cdot \Delta\vec{r} = F d \cos\theta$<br>
                         $P = \frac{\Delta E}{\Delta t}$<br><br>
                         
-                        $\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$<br>
+                        $\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$ <br>
                         $\omega = \omega_0 + \alpha t$<br>
                         $x = r\theta$<br>
                         $v = r\omega$<br>
@@ -419,8 +418,8 @@
                         $U_s = \frac{1}{2} k x^2$
                     </div>
 
-                    <div class="symbol-column">
-                        <div style="font-weight: bold; margin-bottom: 8px;">symbols</div>
+                    <div class="symbols-right-pane">
+                        <div style="font-weight: bold; margin-bottom: 8px; text-transform: lowercase;">symbols</div>
                         $a$ = acceleration<br>
                         $A$ = area<br>
                         $b$ = base<br>
@@ -459,7 +458,7 @@
                     </div>
                 </div>
 
-                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px; letter-spacing: 0.5px;">GEOMETRY AND TRIGONOMETRY</div>
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">GEOMETRY AND TRIGONOMETRY</div>
                 <table class="ref-table">
                     <tr>
                         <td style="width: 33.33%;">
@@ -493,7 +492,7 @@
                     </tr>
                 </table>
 
-                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.5px;">VALUES OF TRIGONOMETRIC FUNCTIONS</div>
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">VALUES OF TRIGONOMETRIC FUNCTIONS</div>
                 <table class="ref-table" style="text-align: center;">
                     <tr>
                         <th>$\theta$</th><th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th>
@@ -738,7 +737,6 @@
         runMidnightCountdown();
         setInterval(runMidnightCountdown, 1000);
 
-        // --- DRAWER LAYOUT CONTROLLER LOGIC ---
         function toggleRefDrawer() {
             const drawer = document.getElementById('ref-drawer-panel');
             drawer.classList.toggle('open');
@@ -746,7 +744,6 @@
 
         function switchRefPage(pageNum) {
             activeRefPage = pageNum;
-            
             document.querySelectorAll('.ref-page-content').forEach(p => p.classList.remove('active'));
             document.getElementById(`ref-page-${pageNum}`).classList.add('active');
             
