@@ -125,7 +125,7 @@
         .diff-medium { background-color: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
         .diff-hard { background-color: #fde8e8; color: #7a1e1e; border: 1px solid #f98080; }
 
-        /* --- ADDED WORKSPACE DRAWER TAB CLASS STYLING --- */
+        /* --- STYLING FOR COMPONENT SHEET DRAWERS --- */
         .ref-sheet-tab {
             position: fixed;
             right: 0;
@@ -145,13 +145,13 @@
             font-size: 12px;
             z-index: 999;
             box-shadow: -2px 4px 12px rgba(0,0,0,0.1);
-            display: none; /* Controlled dynamically below via javascript */
+            display: none; 
         }
 
         .ref-drawer {
             position: fixed;
             top: 0;
-            right: -550px; /* Hidden default offscreen state */
+            right: -550px; 
             width: 500px;
             height: 100%;
             background-color: var(--panel-bg);
@@ -184,12 +184,46 @@
             font-weight: bold;
         }
 
+        /* Sub-Header Page Toggle Styling Navigation */
+        .drawer-page-toggle {
+            display: flex;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 12px;
+            gap: 8px;
+        }
+
+        .toggle-page-btn {
+            flex: 1;
+            background: var(--panel-bg);
+            border: 1px solid var(--text-dim);
+            color: var(--text-main);
+            padding: 6px 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .toggle-page-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .toggle-page-btn.active {
+            background-color: var(--header-bg);
+            color: #ffffff;
+            border-color: var(--header-bg);
+        }
+
         .drawer-scroll-body {
             padding: 20px;
             overflow-y: auto;
             flex-grow: 1;
         }
 
+        /* Clean Equation Layout styling matching your theme */
         .ref-table {
             width: 100%;
             border-collapse: collapse;
@@ -201,7 +235,7 @@
             border: 1px solid var(--border-color);
             padding: 8px;
             text-align: left;
-            vertical-align: top;
+            vertical-align: middle;
             color: var(--text-main);
         }
 
@@ -219,6 +253,14 @@
             padding-bottom: 3px;
             color: var(--text-dim);
         }
+
+        /* Utility classes to filter pages natively */
+        .ref-page-content {
+            display: none;
+        }
+        .ref-page-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body class="tex2jax_ignore">
@@ -229,131 +271,173 @@
 
     <div id="ref-drawer-panel" class="ref-drawer">
         <div class="drawer-header">
-            <span>ADVANCED PLACEMENT PHYSICS 1 TABLE</span>
+            <span>AP PHYSICS 1 REFERENCE DATA</span>
             <button class="close-drawer-btn" onclick="toggleRefDrawer()">×</button>
         </div>
+
+        <div class="drawer-page-toggle">
+            <button id="btn-page-1" class="toggle-page-btn active" onclick="switchRefPage(1)">Page 1: Constants & Mechanics</button>
+            <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2)">Page 2: Electricity & Waves</button>
+        </div>
+
         <div class="drawer-scroll-body tex2jax_process">
             
-            <div class="section-title">Constants and Conversion Factors</div>
-            <table class="ref-table">
-                <tr>
-                    <td>Universal gravitational constant</td>
-                    <td>$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2)$</td>
-                </tr>
-                <tr>
-                    <td>Acceleration due to gravity at Earth's surface</td>
-                    <td>$g = 9.8 \text{ m/s}^2$</td>
-                </tr>
-                <tr>
-                    <td>Gravitational field strength at Earth's surface</td>
-                    <td>$g = 9.8 \text{ N/kg}$</td>
-                </tr>
-            </table>
+            <div id="ref-page-1" class="ref-page-content active">
+                <div class="section-title">Constants and Conversion Factors</div>
+                <table class="ref-table">
+                    <tr>
+                        <td>Universal gravitational constant</td>
+                        <td>$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2)$</td>
+                    </tr>
+                    <tr>
+                        <td>Acceleration due to gravity at Earth's surface</td>
+                        <td>$g = 9.8 \text{ m/s}^2$</td>
+                    </tr>
+                    <tr>
+                        <td>Gravitational field strength at Earth's surface</td>
+                        <td>$g = 9.8 \text{ N/kg}$</td>
+                    </tr>
+                </table>
 
-            <div class="section-title">Unit Symbols</div>
-            <table class="ref-table">
-                <tr>
-                    <td><strong>meter</strong>, m</td>
-                    <td><strong>kilogram</strong>, kg</td>
-                    <td><strong>second</strong>, s</td>
-                    <td><strong>ampere</strong>, A</td>
-                </tr>
-                <tr>
-                    <td><strong>hertz</strong>, Hz</td>
-                    <td><strong>newton</strong>, N</td>
-                    <td><strong>joule</strong>, J</td>
-                    <td><strong>watt</strong>, W</td>
-                </tr>
-                <tr>
-                    <td><strong>coulomb</strong>, C</td>
-                    <td><strong>volt</strong>, V</td>
-                    <td><strong>ohm</strong>, $\Omega$</td>
-                    <td><strong>degree Celsius</strong>, $^\circ\text{C}$</td>
-                </tr>
-            </table>
+                <div class="section-title">Unit Symbols</div>
+                <table class="ref-table">
+                    <tr>
+                        <td><strong>meter</strong>, m</td>
+                        <td><strong>kilogram</strong>, kg</td>
+                        <td><strong>second</strong>, s</td>
+                        <td><strong>ampere</strong>, A</td>
+                    </tr>
+                    <tr>
+                        <td><strong>hertz</strong>, Hz</td>
+                        <td><strong>newton</strong>, N</td>
+                        <td><strong>joule</strong>, J</td>
+                        <td><strong>watt</strong>, W</td>
+                    </tr>
+                    <tr>
+                        <td><strong>coulomb</strong>, C</td>
+                        <td><strong>volt</strong>, V</td>
+                        <td><strong>ohm</strong>, $\Omega$</td>
+                        <td><strong>degree Celsius</strong>, $^\circ\text{C}$</td>
+                    </tr>
+                </table>
 
-            <div class="section-title">Mechanics Formulas</div>
-            <table class="ref-table">
-                <tr>
-                    <td>$v_x = v_{x0} + a_x t$</td>
-                    <td>$x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$</td>
-                </tr>
-                <tr>
-                    <td>$v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$</td>
-                    <td>$\vec{a} = \frac{\sum \vec{F}}{m} = \frac{\vec{F}_{\text{net}}}{m}$</td>
-                </tr>
-                <tr>
-                    <td>$|\vec{F}_g| = \mu |\vec{F}_n|$</td>
-                    <td>$a_c = \frac{v^2}{r}$</td>
-                </tr>
-                <tr>
-                    <td>$\vec{p} = m\vec{v}$</td>
-                    <td>$\Delta \vec{p} = \vec{F}\Delta t$</td>
-                </tr>
-                <tr>
-                    <td>$K = \frac{1}{2}mv^2$</td>
-                    <td>$\Delta E = W = F_{\parallel}d = F d \cos\theta$</td>
-                </tr>
-                <tr>
-                    <td>$P = \frac{\Delta E}{\Delta t}$</td>
-                    <td>$\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$</td>
-                </tr>
-                <tr>
-                    <td>$\omega = \omega_0 + \alpha t$</td>
-                    <td>$x = A \cos(2\pi f t)$</td>
-                </tr>
-                <tr>
-                    <td>$\vec{\alpha} = \frac{\sum\vec{\tau}}{I} = \frac{\vec{\tau}_{\text{net}}}{I}$</td>
-                    <td>$\tau = F_{\perp}r = Fr\sin\theta$</td>
-                </tr>
-                <tr>
-                    <td>$L = I\omega$</td>
-                    <td>$\Delta L = \tau\Delta t$</td>
-                </tr>
-                <tr>
-                    <td>$K = \frac{1}{2}I\omega^2$</td>
-                    <td>$|\vec{F}_s| = k|x|$</td>
-                </tr>
-                <tr>
-                    <td>$U_s = \frac{1}{2}kx^2$</td>
-                    <td>$\rho = \frac{m}{V}$</td>
-                </tr>
-                <tr>
-                    <td>$\Delta U_g = mg\Delta y$</td>
-                    <td>$T = \frac{1}{f} = \frac{2\pi}{\omega}$</td>
-                </tr>
-                <tr>
-                    <td>$T_s = 2\pi \sqrt{\frac{m}{k}}$</td>
-                    <td>$T_p = 2\pi \sqrt{\frac{l}{g}}$</td>
-                </tr>
-                <tr>
-                    <td>$|\vec{F}_g| = G\frac{m_1 m_2}{r^2}$</td>
-                    <td>$\vec{g} = \frac{\vec{F}_g}{m}$</td>
-                </tr>
-                <tr>
-                    <td colspan="2">$U_g = -\frac{G m_1 m_2}{r}$</td>
-                </tr>
-            </table>
+                <div class="section-title">Mechanics Formulas</div>
+                <table class="ref-table">
+                    <tr>
+                        <td>$v_x = v_{x0} + a_x t$</td>
+                        <td>$x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$</td>
+                    </tr>
+                    <tr>
+                        <td>$v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$</td>
+                        <td>$\vec{a} = \frac{\sum \vec{F}}{m} = \frac{\vec{F}_{\text{net}}}{m}$</td>
+                    </tr>
+                    <tr>
+                        <td>$|\vec{F}_g| = \mu |\vec{F}_n|$</td>
+                        <td>$a_c = \frac{v^2}{r}$</td>
+                    </tr>
+                    <tr>
+                        <td>$\vec{p} = m\vec{v}$</td>
+                        <td>$\Delta \vec{p} = \vec{F}\Delta t$</td>
+                    </tr>
+                    <tr>
+                        <td>$K = \frac{1}{2}mv^2$</td>
+                        <td>$\Delta E = W = F_{\parallel}d = F d \cos\theta$</td>
+                    </tr>
+                    <tr>
+                        <td>$P = \frac{\Delta E}{\Delta t}$</td>
+                        <td>$\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$</td>
+                    </tr>
+                    <tr>
+                        <td>$\omega = \omega_0 + \alpha t$</td>
+                        <td>$x = A \cos(2\pi f t)$</td>
+                    </tr>
+                    <tr>
+                        <td>$\vec{\alpha} = \frac{\sum\vec{\tau}}{I} = \frac{\vec{\tau}_{\text{net}}}{I}$</td>
+                        <td>$\tau = F_{\perp}r = Fr\sin\theta$</td>
+                    </tr>
+                    <tr>
+                        <td>$L = I\omega$</td>
+                        <td>$\Delta L = \tau\Delta t$</td>
+                    </tr>
+                    <tr>
+                        <td>$K = \frac{1}{2}I\omega^2$</td>
+                        <td>$|\vec{F}_s| = k|x|$</td>
+                    </tr>
+                    <tr>
+                        <td>$U_s = \frac{1}{2}kx^2$</td>
+                        <td>$\rho = \frac{m}{V}$</td>
+                    </tr>
+                    <tr>
+                        <td>$\Delta U_g = mg\Delta y$</td>
+                        <td>$T = \frac{1}{f} = \frac{2\pi}{\omega}$</td>
+                    </tr>
+                    <tr>
+                        <td>$T_s = 2\pi \sqrt{\frac{m}{k}}$</td>
+                        <td>$T_p = 2\pi \sqrt{\frac{l}{g}}$</td>
+                    </tr>
+                    <tr>
+                        <td>$|\vec{F}_g| = G\frac{m_1 m_2}{r^2}$</td>
+                        <td>$\vec{g} = \frac{\vec{F}_g}{m}$</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">$U_g = -\frac{G m_1 m_2}{r}$</td>
+                    </tr>
+                </table>
+            </div>
 
-            <div class="section-title">Electricity Formulas</div>
-            <table class="ref-table">
-                <tr>
-                    <td>$|\vec{F}_e| = k\frac{|q_1 q_2|}{r^2}$</td>
-                    <td>$I = \frac{\Delta q}{\Delta t}$</td>
-                </tr>
-                <tr>
-                    <td>$R = \frac{\rho l}{A}$</td>
-                    <td>$I = \frac{\Delta V}{R}$</td>
-                </tr>
-                <tr>
-                    <td>$P = I\Delta V$</td>
-                    <td>$I_{\text{series}} = I_1 = I_2 = I_3 = \dots$</td>
-                </tr>
-                <tr>
-                    <td>$R_{\text{series}} = \sum R_i$</td>
-                    <td>$\frac{1}{R_{\text{parallel}}} = \sum \frac{1}{R_i}$</td>
-                </tr>
-            </table>
+            <div id="ref-page-2" class="ref-page-content">
+                <div class="section-title">Electricity Formulas</div>
+                <table class="ref-table">
+                    <tr>
+                        <td>$|\vec{F}_e| = k\frac{|q_1 q_2|}{r^2}$</td>
+                        <td>$I = \frac{\Delta q}{\Delta t}$</td>
+                    </tr>
+                    <tr>
+                        <td>$R = \frac{\rho l}{A}$</td>
+                        <td>$I = \frac{\Delta V}{R}$</td>
+                    </tr>
+                    <tr>
+                        <td>$P = I\Delta V$</td>
+                        <td>$I_{\text{series}} = I_1 = I_2 = I_3 = \dots$</td>
+                    </tr>
+                    <tr>
+                        <td>$R_{\text{series}} = \sum R_i$</td>
+                        <td>$\frac{1}{R_{\text{parallel}}} = \sum \frac{1}{R_i}$</td>
+                    </tr>
+                </table>
+
+                <div class="section-title">Waves & Optics Formulas</div>
+                <table class="ref-table">
+                    <tr>
+                        <td>$\lambda = \frac{v}{f}$</td>
+                        <td>$f = \frac{1}{T}$</td>
+                    </tr>
+                </table>
+
+                <div class="section-title">Geometric & Trigonometry Rules</div>
+                <table class="ref-table">
+                    <tr>
+                        <td>Rectangle Area: $A = bh$</td>
+                        <td>Triangle Area: $A = \frac{1}{2}bh$</td>
+                    </tr>
+                    <tr>
+                        <td>Circle Area: $A = \pi r^2$</td>
+                        <td>Circle Circumference: $C = 2\pi r$</td>
+                    </tr>
+                    <tr>
+                        <td>Rectangular Volume: $V = lwh$</td>
+                        <td>Cylinder Volume: $V = \pi r^2h$</td>
+                    </tr>
+                    <tr>
+                        <td>Sphere Volume: $V = \frac{4}{3}\pi r^3$</td>
+                        <td>Sphere Surface Area: $A = 4\pi r^2$</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Right Triangle: $c^2 = a^2 + b^2$, $\sin\theta = \frac{a}{c}$, $\cos\theta = \frac{b}{c}$, $\tan\theta = \frac{a}{b}$</td>
+                    </tr>
+                </table>
+            </div>
+
         </div>
     </div>
 
@@ -420,12 +504,14 @@
         let questionData = {};
         let storageKey = '';
         let subject = 'ap1';
+        
+        // Keeps track of the current selected reference sheet page option actively
+        let activeRefPage = 1;
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             subject = urlParams.get('subject') || 'ap1';
             
-            // --- INLINE CHECK FOR ENABLING AP1 REF TAB ---
             if (subject === 'ap1') {
                 document.getElementById('ref-tab-trigger').style.display = 'block';
             }
@@ -581,10 +667,23 @@
         runMidnightCountdown();
         setInterval(runMidnightCountdown, 1000);
 
-        // --- DRAWER DYNAMIC SLIDE-OUT TOGGLER FUNCTION ---
+        // --- DRAWER LAYOUT CONTROLLER LOGIC ---
         function toggleRefDrawer() {
             const drawer = document.getElementById('ref-drawer-panel');
             drawer.classList.toggle('open');
+        }
+
+        // Switches between references pages while leaving state intact when hidden
+        function switchRefPage(pageNum) {
+            activeRefPage = pageNum;
+            
+            // Toggle visibility classes on the layout page content divs
+            document.querySelectorAll('.ref-page-content').forEach(p => p.classList.remove('active'));
+            document.getElementById(`ref-page-${pageNum}`).classList.add('active');
+            
+            // Adjust active CSS button properties
+            document.querySelectorAll('.toggle-page-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-page-${pageNum}`).classList.add('active');
         }
     </script>
 </body>
