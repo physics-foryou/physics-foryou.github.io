@@ -41,7 +41,7 @@
             color: var(--text-main);
         }
         .workspace { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; position: relative; }
-        .panel { background-color: var(--panel-bg); border: 1px solid #cbd5e1; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 12px rgba(27,42,71,0.08); }
+        .panel { background-color: var(--panel-bg); border: 1px solid rgba(0,0,0,0.15); border-radius: 4px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .panel-header { background-color: var(--header-bg); padding: 12px 16px; font-size: 14px; font-weight: bold; border-bottom: 1px solid var(--header-bg); display: flex; justify-content: space-between; align-items: center; color: #ffffff; }
         .panel-content { padding: 24px; }
         
@@ -72,17 +72,17 @@
         .question-image {
             max-width: 100%;
             max-height: 350px;
-            border: 1px solid #cbd5e1;
+            border: 1px solid rgba(0,0,0,0.15);
             border-radius: 4px;
             background-color: #f6f8fa;
         }
         
-        .choice-btn { display: block; width: 100%; text-align: left; background: rgba(0,0,0,0.02); border: 1px solid #cbd5e1; color: var(--text-main); padding: 14px; margin: 10px 0; cursor: pointer; font-family: inherit; border-radius: 4px; font-size: 14px; transition: all 0.2s; }
-        .choice-btn:hover { background-color: rgba(0,0,0,0.05); }
-        .choice-btn.selected { border-color: var(--text-main); background-color: rgba(0,0,0,0.08); font-weight: bold; }
-        .choice-btn.correct { border-color: #1e4620 !important; background-color: #def7ec !important; color: #1e4620; font-weight: bold; cursor: default; }
-        .choice-btn.incorrect { border-color: #7a1e1e !important; background-color: #fde8e8 !important; color: #7a1e1e; cursor: default; }
-        .choice-btn.disabled:hover { background-color: rgba(0,0,0,0.02); border-color: #cbd5e1; cursor: default; }
+        .choice-btn { display: block; width: 100%; text-align: left; background: rgba(0,0,0,0.02); border: 1px solid var(--text-dim); color: var(--text-main); padding: 14px; margin: 10px 0; cursor: pointer; font-family: inherit; border-radius: 4px; font-size: 14px; transition: all 0.2s; }
+        .choice-btn:hover { background-color: rgba(0,0,0,0.08); }
+        .choice-btn.selected { border-color: var(--text-main); background-color: rgba(0,0,0,0.12); font-weight: bold; }
+        .choice-btn.correct { border-color: #1e4620 !important; background-color: #def7ec !important; color: #1e4620 !important; font-weight: bold; cursor: default; }
+        .choice-btn.incorrect { border-color: #7a1e1e !important; background-color: #fde8e8 !important; color: #7a1e1e !important; cursor: default; }
+        .choice-btn.disabled:hover { background-color: rgba(0,0,0,0.02); cursor: default; }
 
         .action-bar {
             display: flex;
@@ -107,9 +107,9 @@
         .action-btn:hover { opacity: 0.9; }
 
         .nav-btn { 
-            background-color: rgba(0,0,0,0.03); 
-            border: 1px solid #cbd5e1; 
-            color: var(--text-dim); 
+            background-color: var(--panel-bg); 
+            border: 1px solid var(--text-dim); 
+            color: var(--text-main); 
             padding: 9px 18px; 
             text-decoration: none; 
             font-family: inherit; 
@@ -118,12 +118,12 @@
             border-radius: 4px;
             transition: all 0.2s;
         }
-        .nav-btn:hover { color: var(--text-main); background-color: rgba(0,0,0,0.07); }
+        .nav-btn:hover { background-color: rgba(0,0,0,0.08); }
         
-        #explanation-box { background: rgba(0,0,0,0.01); border-left: 4px solid var(--header-bg); border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; padding: 16px; margin-top: 25px; display: none; font-size: 13px; line-height: 1.6; border-radius: 0 4px 4px 0; }
+        #explanation-box { background: rgba(0,0,0,0.02); border-left: 4px solid var(--header-bg); border-top: 1px solid rgba(0,0,0,0.1); border-right: 1px solid rgba(0,0,0,0.1); border-bottom: 1px solid rgba(0,0,0,0.1); padding: 16px; margin-top: 25px; display: none; font-size: 13px; line-height: 1.6; border-radius: 0 4px 4px 0; }
         
         .meta-line { margin-bottom: 8px; }
-        .meta-label { color: var(--header-bg); font-weight: bold; }
+        .meta-label { color: var(--text-main); font-weight: bold; opacity: 0.85; }
         .meta-val { color: var(--text-main); }
         
         .difficulty-tag { display: inline-block; padding: 2px 6px; font-size: 11px; font-weight: bold; border-radius: 3px; margin-left: 5px; text-transform: uppercase;}
@@ -141,7 +141,7 @@
                 <span id="timer" class="timer-box">02:00</span>
             </div>
             <div class="panel-content">
-                <h3 id="subject-title" style="margin-top:0; color: var(--header-bg); margin-bottom: 4px;">Loading...</h3>
+                <h3 id="subject-title" style="margin-top:0; color: var(--text-main); margin-bottom: 4px;">Loading...</h3>
                 
                 <div id="midnight-countdown" style="font-size: 12px; color: var(--text-dim); margin-bottom: 18px; display: none;">New Question in: --:--:--</div>
                 
@@ -171,15 +171,15 @@
                         <span class="meta-label" style="display: block; margin-bottom: 4px;">Explanation:</span>
                         <p id="explanation-text" style="margin: 0;"></p>
                     </div>
-                    <div class="meta-line" style="border-top: 1px dashed #cbd5e1; padding-top: 8px; font-size: 11px;">
+                    <div class="meta-line" style="border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 8px; font-size: 11px;">
                         <span class="meta-label" style="color: var(--text-dim);">Question ID:</span> <span id="meta-id" style="color: var(--text-dim);"></span>
                     </div>
                 </div>
 
-                <hr style="border: none; border-top: 1px solid #cbd5e1; margin-top: 25px;">
+                <hr style="border: none; border-top: 1px solid rgba(0,0,0,0.15); margin-top: 25px;">
                 
                 <div class="action-bar">
-                    <a href="index.html" class="nav-btn">◀ Go Back Home</a>
+                    <a href="home-page.html" class="nav-btn">◀ Go Back Home</a>
                     <button id="submit-btn" class="action-btn" onclick="submitAnswer()">Submit Answer</button>
                 </div>
             </div>
@@ -198,11 +198,16 @@
         let storageKey = '';
         let subject = 'ap1';
 
-        // Shared themes definition
         const themes = {
             navy: { bg: "#eef2f5", panel: "#ffffff", header: "#1b2a47", text: "#1c2533", dim: "#626f80" },
             dark: { bg: "#6a7f93", panel: "#1c1a27", header: "#3c3957", text: "#d1d2d6", dim: "#9ba1a6" },
-            purple: { bg: "#120e16", panel: "#1f1926", header: "#5c3d75", text: "#f3eff5", dim: "#a89cb3" }
+            purple: { bg: "#120e16", panel: "#1f1926", header: "#5c3d75", text: "#f3eff5", dim: "#a89cb3" },
+            dollar: { bg: "#d0d0c5", panel: "#e2e2d9", header: "#667a66", text: "#4c5470", dim: "#828274" },
+            dots: { bg: "#282a36", panel: "#1f212b", header: "#bd93f9", text: "#a4b3db", dim: "#6272a4" },
+            oblivion: { bg: "#f1f1f1", panel: "#ffffff", header: "#333333", text: "#5d5d5d", dim: "#a1a1a1" },
+            paper: { bg: "#444444", panel: "#333333", header: "#f2f2f2", text: "#b2b2b2", dim: "#666666" },
+            repose_dark: { bg: "#cfcfc4", panel: "#bcbcb0", header: "#2f3338", text: "#4f5459", dim: "#828277" },
+            alpine: { bg: "#fafafa", panel: "#ffffff", header: "#6c6f93", text: "#6c6f93", dim: "#a4a7c5" }
         };
 
         function applyGlobalTheme() {
@@ -217,7 +222,7 @@
         }
 
         window.onload = function() {
-            applyGlobalTheme(); // Run the palette selector dynamically
+            applyGlobalTheme();
 
             const urlParams = new URLSearchParams(window.location.search);
             subject = urlParams.get('subject') || 'ap1';
@@ -284,96 +289,9 @@
                 isSubmitted = true;
                 selectedIndex = parseInt(savedAnswer, 10);
                 document.getElementById('timer').innerText = "COMPLETED";
-                
                 document.getElementById('midnight-countdown').style.display = 'block';
                 
                 const buttons = document.querySelectorAll('.choice-btn');
                 buttons.forEach((btn, idx) => {
                     if (idx === questionData.correctIndex) {
                         btn.classList.add('correct');
-                    } else if (idx === selectedIndex) {
-                        btn.classList.add('incorrect');
-                    } else {
-                        btn.classList.add('disabled');
-                    }
-                });
-                document.getElementById('explanation-box').style.display = 'block';
-                setTimeout(() => { if(window.MathJax) { MathJax.typesetPromise(); } }, 100);
-            } else {
-                countdown = setInterval(runTimerClock, 1000);
-            }
-        };
-
-        function selectChoice(btnElement, idx) {
-            if (isSubmitted) return;
-            selectedIndex = idx;
-            document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
-            btnElement.classList.add('selected');
-            document.getElementById('submit-btn').style.visibility = 'visible';
-        }
-
-        function submitAnswer() {
-            if (selectedIndex === null || isSubmitted) return;
-            isSubmitted = true;
-            clearInterval(countdown);
-            
-            localStorage.setItem(storageKey, selectedIndex);
-            
-            document.getElementById('submit-btn').style.display = 'none';
-            document.getElementById('midnight-countdown').style.display = 'block';
-            
-            const buttons = document.querySelectorAll('.choice-btn');
-            buttons.forEach((btn, idx) => {
-                btn.classList.remove('selected');
-                if (idx === questionData.correctIndex) {
-                    btn.classList.add('correct');
-                } else if (idx === selectedIndex) {
-                    btn.classList.add('incorrect');
-                } else {
-                    btn.classList.add('disabled');
-                }
-            });
-
-            document.getElementById('explanation-box').style.display = 'block';
-            if(window.MathJax) { MathJax.typesetPromise(); }
-        }
-
-        const timerElement = document.getElementById('timer');
-        const notificationElement = document.getElementById('notification');
-
-        function runTimerClock() {
-            if (timeRemaining >= 0) {
-                const minutes = Math.floor(timeRemaining / 60);
-                const seconds = timeRemaining % 60;
-                timerElement.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (timeRemaining === 30) {
-                    timerElement.classList.add('timer-warning');
-                    notificationElement.style.display = 'block';
-                    setTimeout(() => { notificationElement.style.display = 'none'; }, 6000);
-                }
-                timeRemaining--;
-            } else {
-                timerElement.classList.add('timer-warning');
-                overtimeSeconds++;
-                timerElement.innerText = `OVERTIME: +${overtimeSeconds}s`;
-            }
-        }
-
-        function runMidnightCountdown() {
-            const currentTime = new Date();
-            const nextMidnight = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate() + 1, 0, 0, 0);
-            const timeDiff = nextMidnight - currentTime;
-
-            const h = Math.floor(timeDiff / (1000 * 60 * 60));
-            const m = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((timeDiff % (1000 * 60)) / 1000);
-
-            document.getElementById('midnight-countdown').innerText = 
-                `New Question in: ${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        }
-        runMidnightCountdown();
-        setInterval(runMidnightCountdown, 1000);
-    </script>
-</body>
-</html>
