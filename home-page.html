@@ -47,14 +47,19 @@
             line-height: 1.5;
         }
 
-        /* Two-Column Grid Workspace */
-        .workspace-grid {
-            max-width: 1200px;
+        /* Centered Layout Wrapper */
+        .workspace-wrapper {
+            position: relative;
+            max-width: 800px; /* Keeps the main content block size comfortable and centered */
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 260px 1fr; /* 260px Left Sidebar, Remaining Space on Right */
-            gap: 25px;
-            align-items: start;
+        }
+
+        /* Left Side Floating Sidebar Settings */
+        .sidebar-floating {
+            position: absolute;
+            left: -285px; /* Floats it out into the empty space on the left */
+            top: 0;
+            width: 250px;
         }
 
         /* Shared Card Panel styling */
@@ -77,12 +82,6 @@
         .panel-header::before { content: "▼ "; font-size: 9px; margin-right: 4px; }
         .panel-content { padding: 20px; }
 
-        /* Left Side Sticky Sidebar Settings */
-        .sidebar-sticky {
-            position: sticky;
-            top: 20px;
-        }
-
         .setting-row {
             display: flex;
             flex-direction: column;
@@ -102,11 +101,12 @@
             box-sizing: border-box;
         }
 
-        /* Right Side Content Elements */
-        .right-content-stack {
+        /* Right Side Content Elements - Now Perfectly Centered */
+        .center-content-stack {
             display: flex;
             flex-direction: column;
             gap: 20px;
+            width: 100%;
         }
 
         .selector-group {
@@ -188,13 +188,17 @@
         .btn-hard { border-color: #f98080; color: #7a1e1e; background-color: #fde8e8; }
         .btn-hard:hover { opacity: 0.85; }
 
-        /* Responsive Design: Collapse to single column on small screens */
-        @media (max-width: 900px) {
-            .workspace-grid {
-                grid-template-columns: 1fr;
+        /* Responsive Design: Wrap neatly onto smaller screen dimensions */
+        @media (max-width: 1360px) {
+            .workspace-wrapper {
+                max-width: 800px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
             }
-            .sidebar-sticky {
+            .sidebar-floating {
                 position: static;
+                width: 100%;
             }
         }
     </style>
@@ -206,9 +210,9 @@
         <p class="main-app-desc">Select your course path below to challenge daily target questions, review exam matrices, and customize training rooms.</p>
     </div>
 
-    <div class="workspace-grid">
+    <div class="workspace-wrapper">
         
-        <aside class="sidebar-sticky">
+        <aside class="sidebar-floating">
             <div class="panel">
                 <div class="panel-header">System Settings</div>
                 <div class="panel-content">
@@ -230,7 +234,7 @@
             </div>
         </aside>
 
-        <main class="right-content-stack">
+        <main class="center-content-stack">
             
             <div class="panel">
                 <div class="panel-header">Daily Problem</div>
