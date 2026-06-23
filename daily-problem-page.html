@@ -151,8 +151,8 @@
         .ref-drawer {
             position: fixed;
             top: 0;
-            right: -550px; 
-            width: 500px;
+            right: -650px; 
+            width: 600px;
             height: 100%;
             background-color: var(--panel-bg);
             border-left: 2px solid var(--header-bg);
@@ -274,7 +274,7 @@
 
         <div class="drawer-page-toggle">
             <button id="btn-page-1" class="toggle-page-btn active" onclick="switchRefPage(1)">Page 1: Constants & Symbols</button>
-            <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2)">Page 2: Equations</button>
+            <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2)">Page 2: Equations & Geometry</button>
         </div>
 
         <div class="drawer-scroll-body tex2jax_process">
@@ -350,26 +350,49 @@
             </div>
 
             <div id="ref-page-2" class="ref-page-content">
-                <div class="section-title">Kinematics & Dynamics</div>
+                <div class="section-title">Kinematics</div>
                 <table class="ref-table">
                     <tr><td>$v_x = v_{x0} + a_x t$</td><td>$x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$</td></tr>
-                    <tr><td>$v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$</td><td>$a_x = \frac{\sum F_x}{m} = \frac{F_{\text{net},x}}{m}$</td></tr>
-                    <tr><td>$|\vec{F}_f| \le \mu |\vec{F}_n|$</td><td>$a_c = \frac{v^2}{r}$</td></tr>
+                    <tr><td colspan="2">$v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$</td></tr>
                 </table>
 
-                <div class="section-title">Energy, Momentum & Rotation</div>
+                <div class="section-title">Dynamics</div>
                 <table class="ref-table">
-                    <tr><td>$\vec{p} = m\vec{v}$</td><td>$\Delta\vec{p} = \vec{F}_{\text{net}}\Delta t$</td></tr>
-                    <tr><td>$K = \frac{1}{2}mv^2$</td><td>$\Delta E = W = \int F_x dx \approx F_{\parallel}d$</td></tr>
-                    <tr><td>$P = \frac{\Delta E}{\Delta t}$</td><td>$\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$</td></tr>
-                    <tr><td>$\omega = \omega_0 + \alpha t$</td><td>$x = A \cos(\omega t) = A \cos(2\pi f t)$</td></tr>
-                    <tr><td>$\alpha = \frac{\sum \tau}{I} = \frac{\tau_{\text{net}}}{I}$</td><td>$\tau = r_{\perp}F = rF\sin\theta$</td></tr>
-                    <tr><td>$L = I\omega$</td><td>$\Delta L = \tau_{\text{net}}\Delta t$</td></tr>
-                    <tr><td>$K = \frac{1}{2}I\omega^2$</td><td>$\left|\vec{F}_s\right| = k|x|$</td></tr>
-                    <tr><td>$U_s = \frac{1}{2}kx^2$</td><td>$\Delta U_g = mg\Delta y$</td></tr>
-                    <tr><td>$T = \frac{2\pi}{\omega} = \frac{1}{f}$</td><td>$T_s = 2\pi \sqrt{\frac{m}{k}}$</td></tr>
-                    <tr><td>$T_p = 2\pi \sqrt{\frac{l}{g}}$</td><td>$\left|\vec{F}_g\right| = G\frac{m_1 m_2}{r^2}$</td></tr>
-                    <tr><td>$\vec{g} = \frac{\vec{F}_g}{m}$</td><td>$U_g = -\frac{Gm_1m_2}{r}$</td></tr>
+                    <tr><td>$\vec{a} = \frac{\sum \vec{F}}{m} = \frac{\vec{F}_{\text{net}}}{m}$</td><td>$\left| \vec{F}_f \right| \le \mu \left| \vec{F}_n \right|$</td></tr>
+                    <tr><td colspan="2">$\left| \vec{F}_s \right| = k |x|$</td></tr>
+                </table>
+
+                <div class="section-title">Gravitation & Circular Motion</div>
+                <table class="ref-table">
+                    <tr><td>$a_c = \frac{v^2}{r}$</td><td>$\left| \vec{F}_g \right| = G \frac{m_1 m_2}{r^2}$</td></tr>
+                    <tr><td colspan="2">$\vec{g} = \frac{\vec{F}_g}{m}$</td></tr>
+                </table>
+
+                <div class="section-title">Energy</div>
+                <table class="ref-table">
+                    <tr><td>$K = \frac{1}{2} m v^2$</td><td>$\Delta E = W = F_{\parallel} d = F d \cos\theta$</td></tr>
+                    <tr><td>$P = \frac{\Delta E}{\Delta t}$</td><td>$\Delta U_g = m g \Delta y$</td></tr>
+                    <tr><td colspan="2">$U_s = \frac{1}{2} k x^2$</td></tr>
+                </table>
+
+                <div class="section-title">Momentum</div>
+                <table class="ref-table">
+                    <tr><td>$\vec{p} = m \vec{v}$</td><td>$\Delta \vec{p} = \vec{F}_{\text{net}} \Delta t$</td></tr>
+                </table>
+
+                <div class="section-title">Rotational Motion</div>
+                <table class="ref-table">
+                    <tr><td>$\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$</td><td>$\omega = \omega_0 + \alpha t$</td></tr>
+                    <tr><td>$x = r\theta$</td><td>$v = r\omega$</td></tr>
+                    <tr><td>$a_{\text{tan}} = r\alpha$</td><td>$\vec{\alpha} = \frac{\sum \vec{\tau}}{I} = \frac{\vec{\tau}_{\text{net}}}{I}$</td></tr>
+                    <tr><td>$\tau = r_{\perp} F = r F \sin\theta$</td><td>$L = I \omega$</td></tr>
+                    <tr><td>$\Delta L = \tau_{\text{net}} \Delta t$</td><td>$K = \frac{1}{2} I \omega^2$</td></tr>
+                </table>
+
+                <div class="section-title">Oscillations</div>
+                <table class="ref-table">
+                    <tr><td>$T = \frac{1}{f} = \frac{2\pi}{\omega}$</td><td>$T_s = 2\pi \sqrt{\frac{m}{k}}$</td></tr>
+                    <tr><td colspan="2">$T_p = 2\pi \sqrt{\frac{l}{g}}$</td></tr>
                 </table>
 
                 <div class="section-title">Fluids</div>
@@ -377,6 +400,37 @@
                     <tr><td>$\rho = \frac{m}{V}$</td><td>$P = \frac{F}{A}$</td></tr>
                     <tr><td>$P = P_0 + \rho g h$</td><td>$F_b = \rho V g$</td></tr>
                     <tr><td colspan="2">$A_1 v_1 = A_2 v_2$</td></tr>
+                </table>
+
+                <div class="section-title">Geometry and Trigonometry</div>
+                <table class="ref-table">
+                    <tr>
+                        <td><strong>Rectangle</strong><br>$A = bh$</td>
+                        <td><strong>Triangle</strong><br>$A = \frac{1}{2}bh$</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Circle</strong><br>$A = \pi r^2$<br>$C = 2\pi r$</td>
+                        <td><strong>Rectangular solid</strong><br>$V = lwh$</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cylinder</strong><br>$V = \pi r^2 h$<br>$S = 2\pi r h + 2\pi r^2$</td>
+                        <td><strong>Sphere</strong><br>$V = \frac{4}{3}\pi r^3$<br>$A = 4\pi r^2$</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <strong>Right triangle</strong><br>
+                            $c^2 = a^2 + b^2$<br>
+                            $\sin\theta = \frac{a}{c}, \quad \cos\theta = \frac{b}{c}, \quad \tan\theta = \frac{a}{b}$
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="section-title">Values of Trigonometric Functions</div>
+                <table class="ref-table">
+                    <tr><th>$\theta$</th><th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th></tr>
+                    <tr><td>$\sin\theta$</td><td>$0$</td><td>$1/2$</td><td>$3/5$</td><td>$\sqrt{2}/2$</td><td>$4/5$</td><td>$\sqrt{3}/2$</td><td>$1$</td></tr>
+                    <tr><td>$\cos\theta$</td><td>$1$</td><td>$\sqrt{3}/2$</td><td>$4/5$</td><td>$\sqrt{2}/2$</td><td>$3/5$</td><td>$1/2$</td><td>$0$</td></tr>
+                    <tr><td>$\tan\theta$</td><td>$0$</td><td>$\sqrt{3}/3$</td><td>$3/4$</td><td>$1$</td><td>$4/3$</td><td>$\sqrt{3}$</td><td>$\infty$</td></tr>
                 </table>
             </div>
 
