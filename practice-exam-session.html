@@ -244,11 +244,11 @@
             font-size: 15px; 
             margin-bottom: 20px; 
             line-height: 1.5;
-            color: var(--text-main);
+            color: var(--text-main) !important;
         }
         
         .question-text-field * {
-            color: inherit !important;
+            color: var(--text-main) !important;
         }
 
         .choice-row {
@@ -276,10 +276,13 @@
             background-color: rgba(0,0,0,0.06); 
         }
         .choice-btn.selected { 
-            border-color: var(--text-main); 
-            background-color: var(--text-main); 
-            color: var(--panel-bg);
+            border-color: var(--text-main) !important; 
+            background-color: var(--text-main) !important; 
+            color: var(--panel-bg) !important;
             font-weight: bold; 
+        }
+        .choice-btn.selected * {
+            color: var(--panel-bg) !important;
         }
 
         .choice-row.eliminated .choice-btn {
@@ -327,11 +330,12 @@
             animation: pulse-glow 2s infinite ease-in-out;
             font-weight: bold !important; 
             z-index: 2;
+            color: var(--text-main) !important;
         }
         .nav-cell.state-filled {
-            background-color: var(--text-main);
-            border-color: var(--text-main);
-            color: var(--panel-bg);
+            background-color: var(--text-main) !important;
+            border-color: var(--text-main) !important;
+            color: var(--panel-bg) !important;
             font-weight: bold;
         }
 
@@ -453,6 +457,11 @@
         .tab-panel-body {
             padding: 20px;
             background-color: var(--panel-bg);
+            color: var(--text-main) !important;
+        }
+        
+        .tab-panel-body * {
+            color: var(--text-main) !important;
         }
 
         .matrix-legend-row {
@@ -464,8 +473,13 @@
             gap: 10px;
             font-size: 11px;
             font-weight: bold;
-            color: var(--text-dim);
+            color: var(--text-dim) !important;
         }
+        
+        .matrix-legend-row * {
+            color: var(--text-dim) !important;
+        }
+        
         .legend-item {
             display: flex;
             align-items: center;
@@ -494,7 +508,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: var(--text-main);
+            color: var(--text-main) !important;
             text-align: center;
             font-family: inherit;
         }
@@ -504,12 +518,12 @@
             font-weight: 900;
             letter-spacing: 1px;
             margin-bottom: 10px;
-            color: var(--text-main);
+            color: var(--text-main) !important;
         }
 
         .pause-instructions {
             font-size: 14px;
-            color: var(--text-dim);
+            color: var(--text-dim) !important;
             max-width: 400px;
             line-height: 1.6;
             margin-bottom: 40px;
@@ -555,7 +569,7 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--text-main);
+            color: var(--text-main) !important;
         }
 
         .modal-overlay {
@@ -885,7 +899,7 @@
         }
 
         function resetHoldProgressState() {
-            if (holdProgressReference = holdProgressIntervalReference) clearInterval(holdProgressIntervalReference);
+            if (holdProgressIntervalReference) clearInterval(holdProgressIntervalReference);
             currentHoldElapsedMilliseconds = 0;
             document.getElementById('hold-progress-bar-circle').style.strokeDashoffset = 282.7;
             document.getElementById('hold-action-label').innerText = "Hold";
@@ -949,7 +963,7 @@
 
                 const targetBtnNode = document.createElement('button');
                 targetBtnNode.className = 'choice-btn';
-                targetBtnNode.innerHTML = `<strong>( ${alphaPrefixes[stringIdx]} )</strong> ${choiceStringText}`;
+                targetBtnNode.innerHTML = `<span><strong>( ${alphaPrefixes[stringIdx]} )</strong></span> <span>${choiceStringText}</span>`;
                 
                 targetBtnNode.onclick = () => selectTargetOptionIndex(stringIdx);
                 
