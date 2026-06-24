@@ -205,6 +205,7 @@
             padding: 20px; 
             box-sizing: border-box;
             background-color: var(--panel-bg);
+            color: var(--text-main);
         }
 
         .header-left-tools {
@@ -244,6 +245,10 @@
             margin-bottom: 20px; 
             line-height: 1.5;
             color: var(--text-main);
+        }
+        
+        .question-text-field * {
+            color: inherit !important;
         }
 
         .choice-row {
@@ -477,7 +482,6 @@
             box-sizing: border-box;
         }
 
-        /* FIXED: Now adopts the soft theme layout variables to completely avoid bright flashes */
         .immersive-pause-overlay {
             display: none;
             position: fixed;
@@ -666,7 +670,7 @@
                             <span>Answered</span>
                         </div>
                         <div class="legend-item">
-                            <div class="legend-box" style="background-color: rgba(0,0,0,0.02);"></div>
+                            <div class="legend-box" style="background-color: rgba(0,0,0,0.02); border-color: var(--text-dim);"></div>
                             <span>Unanswered</span>
                         </div>
                     </div>
@@ -881,7 +885,7 @@
         }
 
         function resetHoldProgressState() {
-            if (holdProgressIntervalReference) clearInterval(holdProgressIntervalReference);
+            if (holdProgressReference = holdProgressIntervalReference) clearInterval(holdProgressIntervalReference);
             currentHoldElapsedMilliseconds = 0;
             document.getElementById('hold-progress-bar-circle').style.strokeDashoffset = 282.7;
             document.getElementById('hold-action-label').innerText = "Hold";
