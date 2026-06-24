@@ -99,7 +99,7 @@
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
-            margin-top: 4px; /* Shifted slightly downwards */
+            margin-top: 4px;
         }
         .utility-btn:hover {
             background-color: rgba(255, 255, 255, 0.25);
@@ -274,6 +274,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
             gap: 10px;
+            margin-bottom: 15px;
         }
 
         .nav-cell {
@@ -290,16 +291,26 @@
             cursor: pointer;
             position: relative;
             transition: all 0.2s;
+            box-sizing: border-box;
         }
         .nav-cell:hover {
             background-color: rgba(0,0,0,0.08);
         }
+        
+        @keyframes pulse-active {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(27, 42, 71, 0.4); }
+            70% { transform: scale(1.03); box-shadow: 0 0 0 6px rgba(27, 42, 71, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(27, 42, 71, 0); }
+        }
+
         .nav-cell.current-active {
-            border: 2px solid var(--header-bg);
+            border: 2px solid var(--header-bg) !important;
             background-color: rgba(0,0,0,0.06);
+            animation: pulse-active 1.8s infinite ease-in-out;
+            z-index: 2;
         }
         .nav-cell.state-filled {
-            background-color: rgba(27, 42, 71, 0.1);
+            background-color: rgba(27, 42, 71, 0.15);
             border-color: var(--header-bg);
         }
 
@@ -370,45 +381,149 @@
             opacity: 0.9; 
         }
 
-        /* Interactive Footer Dropup Panel for Navigation Matrix */
+        /* Interactive Footer Dropup Panel designed explicitly as a clean cohesive Tab element */
         .dropup-trigger-container {
             position: relative;
-            user-select: none;
         }
 
-        .dropup-label-btn {
+        .dropup-label-tab-btn {
             font-size: 13px; 
             font-weight: bold; 
-            color: var(--text-main);
-            background: none;
-            border: none;
+            color: #ffffff;
+            background-color: var(--header-bg);
+            border: 1px solid var(--header-bg);
+            border-bottom: none;
             cursor: pointer;
             font-family: inherit;
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: 10px 24px;
+            border-radius: 6px 6px 0 0;
             transition: background 0.2s;
+            position: relative;
+            z-index: 1001;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            top: -14px;
+            margin-bottom: -28px;
         }
-        .dropup-label-btn:hover {
-            background-color: rgba(0,0,0,0.06);
+        .dropup-label-tab-btn:hover {
+            opacity: 0.95;
         }
 
         .dropup-nav-panel {
             display: none;
             position: absolute;
-            bottom: 100%;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
-            margin-bottom: 14px;
-            width: 340px;
-            max-height: 260px;
-            overflow-y: auto;
+            width: 420px;
             background-color: var(--panel-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-            padding: 16px;
+            box-shadow: 0 -4px 25px rgba(0,0,0,0.12);
+            padding: 20px;
             box-sizing: border-box;
             z-index: 999;
+        }
+
+        /* Matrix Status Key / Legend Styling */
+        .matrix-legend-container {
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+            margin-top: 5px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--text-dim);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-box {
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--text-dim);
+            border-radius: 3px;
+            display: inline-block;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        /* Full Screen Immersive Pause Overlay with Hold Mechanism */
+        .immersive-pause-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(27, 42, 71, 0.96);
+            z-index: 5000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .pause-title {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .pause-instructions {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 400px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .resume-progress-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        .progress-ring-svg {
+            transform: rotate(-90deg);
+            width: 100px;
+            height: 100px;
+        }
+
+        .progress-ring-circle-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 6;
+        }
+
+        .progress-ring-circle-fill {
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 6;
+            stroke-dasharray: 282.7;
+            stroke-dashoffset: 282.7;
+            transition: stroke-dashoffset 0.1s linear;
+        }
+
+        .progress-ring-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Instructions Profile Overlay Modals */
@@ -443,6 +558,19 @@
 </head>
 <body class="tex2jax_ignore">
 
+    <div id="screen-pause-overlay" class="immersive-pause-overlay" onmousedown="handleResumeHoldStart()" onmouseup="handleResumeHoldEnd()" onmouseleave="handleResumeHoldEnd()">
+        <div class="pause-title">EXAMINATION PAUSED</div>
+        <div class="pause-instructions">To guard exam integrity, content has been hidden. Hold your mouse down anywhere on the screen for 3 seconds to resume your block.</div>
+        
+        <div class="resume-progress-container">
+            <svg class="progress-ring-svg">
+                <circle class="progress-ring-circle-bg" cx="50" cy="50" r="45"/>
+                <circle id="hold-progress-bar-circle" class="progress-ring-circle-fill" cx="50" cy="50" r="45"/>
+            </svg>
+            <div id="hold-action-label" class="progress-ring-text">Hold</div>
+        </div>
+    </div>
+
     <div class="full-width-top-strip tex2jax_process">
         <div class="top-strip-inner-grid">
             <span id="section-title" class="header-left-title">Section I: MCQ</span>
@@ -457,7 +585,7 @@
                     <button class="utility-btn" style="padding: 6px 14px; font-size: 11px;" onclick="toggleOptionsDropdownMenu(event)">Options ▾</button>
                     <div id="header-options-menu" class="options-menu-popup">
                         <button onclick="openInstructionsFromMenu()">Instructions</button>
-                        <button id="pause-timer-toggle-btn" onclick="toggleSessionCountdownPause()">Pause</button>
+                        <button onclick="triggerSessionCountdownPause()">Pause</button>
                     </div>
                 </div>
             </div>
@@ -491,8 +619,27 @@
         <div class="dropup-trigger-container">
             <div id="dropup-nav-matrix-panel" class="dropup-nav-panel">
                 <div id="navigation-matrix-grid" class="navigation-grid"></div>
+                
+                <div class="matrix-legend-container">
+                    <div class="legend-item">
+                        <div class="legend-box" style="background-color: rgba(0,0,0,0.02);"></div>
+                        <span>Unanswered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background-color: rgba(27, 42, 71, 0.15); border-color: var(--header-bg);"></div>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background-color: rgba(0,0,0,0.02);"><span style="position:absolute; top:1px; right:3px; font-size:10px; color:var(--flag-red); font-weight:bold;">⚐</span></div>
+                        <span>Marked for Review</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="border: 2px solid var(--header-bg); background-color: rgba(0,0,0,0.06);"></div>
+                        <span>Current (Pulsing)</span>
+                    </div>
+                </div>
             </div>
-            <button id="footer-progress-label" class="dropup-label-btn" onclick="toggleDropupMatrixNavigationView(event)">
+            <button id="footer-progress-label" class="dropup-label-tab-btn" onclick="toggleDropupMatrixNavigationView(event)">
                 Question 1 of 0 ▴
             </button>
         </div>
@@ -536,6 +683,12 @@
         let hideClockStateActive = false;
         let isTimerPausedActive = false;
 
+        // Overlay holding mechanism counters
+        let holdTimerReference = null;
+        let holdProgressIntervalReference = null;
+        let currentHoldElapsedMilliseconds = 0;
+        const TARGET_HOLD_DURATION_MS = 3000;
+
         // Dynamic file source hook injection
         const remoteScriptAsset = document.createElement('script');
         remoteScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
@@ -573,7 +726,7 @@
 
         function startSessionTimerLoop() {
             const processingTickerInterval = setInterval(() => {
-                if (isTimerPausedActive) return; // Halt ticker logic if paused
+                if (isTimerPausedActive) return;
                 
                 if (continuousCountdownSeconds <= 0) {
                     clearInterval(processingTickerInterval);
@@ -615,13 +768,55 @@
             document.getElementById('welcome-modal-overlay').style.display = 'flex';
         }
 
-        function toggleSessionCountdownPause() {
-            isTimerPausedActive = !isTimerPausedActive;
-            const pauseBtn = document.getElementById('pause-timer-toggle-btn');
-            pauseBtn.innerText = isTimerPausedActive ? "Resume" : "Pause";
-            
+        function triggerSessionCountdownPause() {
+            isTimerPausedActive = true;
             isOptionsMenuOpen = false;
             document.getElementById('header-options-menu').style.display = 'none';
+            
+            // Clean interface states and present pause layout
+            isDropupMatrixOpen = false;
+            document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
+            
+            resetHoldProgressState();
+            document.getElementById('screen-pause-overlay').style.display = 'flex';
+        }
+
+        function handleResumeHoldStart() {
+            if (!isTimerPausedActive) return;
+            resetHoldProgressState();
+
+            document.getElementById('hold-action-label').innerText = "Holding";
+            
+            const tickRateMs = 50;
+            holdProgressIntervalReference = setInterval(() => {
+                currentHoldElapsedMilliseconds += tickRateMs;
+                const ratioComputed = Math.min(currentHoldElapsedMilliseconds / TARGET_HOLD_DURATION_MS, 1);
+                
+                // SVG perimeter math: 2 * PI * radius(45) = ~282.7
+                const perimeterOffsetValue = 282.7 - (ratioComputed * 282.7);
+                document.getElementById('hold-progress-bar-circle').style.strokeDashoffset = perimeterOffsetValue;
+
+                if (currentHoldElapsedMilliseconds >= TARGET_HOLD_DURATION_MS) {
+                    executeSessionResumeAction();
+                }
+            }, tickRateMs);
+        }
+
+        function handleResumeHoldEnd() {
+            resetHoldProgressState();
+        }
+
+        function resetHoldProgressState() {
+            if (holdProgressIntervalReference) clearInterval(holdProgressIntervalReference);
+            currentHoldElapsedMilliseconds = 0;
+            document.getElementById('hold-progress-bar-circle').style.strokeDashoffset = 282.7;
+            document.getElementById('hold-action-label').innerText = "Hold";
+        }
+
+        function executeSessionResumeAction() {
+            isTimerPausedActive = false;
+            resetHoldProgressState();
+            document.getElementById('screen-pause-overlay').style.display = 'none';
         }
 
         function toggleDropupMatrixNavigationView(event) {
@@ -639,7 +834,6 @@
             }
         }
 
-        // Window click handler to safely clear overlay elements automatically
         window.onclick = function() {
             isOptionsMenuOpen = false;
             document.getElementById('header-options-menu').style.display = 'none';
