@@ -37,12 +37,12 @@
             font-family: 'Consolas', 'Courier New', monospace;
             background-color: var(--bg-color);
             margin: 0;
-            padding: 30px 20px 100px 20px; /* Aligned top padding with home page */
+            padding: 30px 20px 100px 20px; 
             color: var(--text-main);
             user-select: none;
         }
 
-        /* Perfectly Centered Content Wrapper matching home-page.html */
+        /* Perfectly Centered Content Wrapper matching sketch and home-page.html */
         .workspace-wrapper {
             max-width: 800px; 
             margin: 0 auto;
@@ -53,11 +53,11 @@
             box-sizing: border-box;
         }
 
-        /* Shared Card Panel styling from home-page.html */
+        /* Shared Card Panel styling from home page */
         .panel {
             background-color: var(--panel-bg);
             border: 1px solid var(--border-color);
-            border-radius: 6px; /* Matched 6px from home page */
+            border-radius: 6px; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.02);
             overflow: hidden;
             width: 100%;
@@ -77,41 +77,52 @@
             box-sizing: border-box;
         }
 
-        .panel-content { 
-            padding: 20px; /* 20px interior padding matching home page */
-            box-sizing: border-box;
-        }
-
-        /* Interactive Collapsible Navigation Header */
-        .panel-header.clickable-trigger {
+        /* Accordion-style headers matching home-page */
+        .panel-header-accordion {
+            background-color: var(--header-bg);
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.5px;
             cursor: pointer;
             user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-sizing: border-box;
         }
-        
-        /* Dropdown content wrapper with matching 0.2s transitions */
-        .collapsible-content {
-            max-height: 1000px; /* Large enough to hold the grid */
-            opacity: 1;
-            overflow: hidden;
-            transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+        .panel-header-accordion::before { 
+            content: "▼"; 
+            font-size: 9px; 
+            display: inline-block;
+            transition: transform 0.25s ease;
+        }
+        .panel.collapsed .panel-header-accordion::before {
+            transform: rotate(-90deg);
+        }
+
+        .panel-content { 
+            padding: 20px; 
             box-sizing: border-box;
         }
 
-        .collapsible-content.collapsed {
-            max-height: 0 !important;
-            opacity: 0 !important;
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            border: none !important;
+        /* Transition wrapper for smooth opening/closing heights matching home-page */
+        .panel-collapse {
+            max-height: 1000px; 
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .panel.collapsed .panel-collapse {
+            max-height: 0px !important;
         }
 
-        /* Top Bar Timer Elements - Positioned neatly on the right */
+        /* Top Bar Timer Elements */
         .timer-zone {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-
         .timer-box { 
             font-size: 14px; 
             color: #ffffff; 
@@ -134,10 +145,18 @@
             background-color: rgba(255, 255, 255, 0.25);
         }
 
+        /* Custom Hand-Drawn Design Element Overlays */
         .header-left-tools {
             display: flex;
             align-items: center;
             gap: 14px;
+        }
+        .question-number-badge {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
         }
 
         .header-action-toggle {
@@ -175,7 +194,7 @@
             background-color: rgba(255, 255, 255, 0.25);
         }
 
-        /* MCQ Sizing and Styling */
+        /* MCQ Sizing and Option Rows */
         .question-text-field {
             font-size: 15px; 
             margin-bottom: 20px; 
@@ -216,7 +235,7 @@
             font-weight: bold; 
         }
 
-        /* Strikeout / Elimination Feature */
+        /* Strikeout / Elimination Feature Parameters */
         .strikeout-trigger {
             position: absolute;
             right: 14px;
@@ -256,7 +275,7 @@
             color: #7a1e1e;
         }
 
-        /* Navigation Matrix Console Sizing Map */
+        /* Navigation Matrix Sizing Grid Map */
         .navigation-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
@@ -300,7 +319,7 @@
             border-radius: 50%;
         }
 
-        /* Footer Bar */
+        /* Footer System Belt Matching Layout Drawing */
         .footer-belt {
             position: fixed;
             bottom: 0;
@@ -353,7 +372,7 @@
             opacity: 0.9; 
         }
 
-        /* Modal Layout */
+        /* Modal Overlays */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -376,7 +395,6 @@
             overflow: hidden;
             box-shadow: 0 4px 25px rgba(0,0,0,0.1);
         }
-
         .modal-box ul {
             padding-left: 20px;
             line-height: 1.6;
@@ -390,7 +408,7 @@
         
         <div class="panel">
             <div class="panel-header">
-                <span id="section-title">Section I: Practice Examination</span>
+                <span id="section-title">Section I: MCQ</span>
                 <div class="timer-zone">
                     <span id="timer-display" class="timer-box">80:00</span>
                     <button id="timer-toggle-visibility" class="utility-btn" onclick="toggleTimerClockVisibility()">Hide</button>
@@ -401,7 +419,7 @@
         <div class="panel">
             <div class="panel-header" style="background-color: #111111;">
                 <div class="header-left-tools">
-                    <span style="font-weight: bold;">Question <span id="current-badge-id">1</span></span>
+                    <span class="question-number-badge">Q<span id="current-badge-id">1</span></span>
                     <button id="review-flag-trigger" class="header-action-toggle" onclick="toggleQuestionReviewMark()">
                         <span>🏳️ Mark for Review</span>
                     </button>
@@ -417,12 +435,14 @@
             </div>
         </div>
 
-        <div class="panel">
-            <div class="panel-header clickable-trigger" onclick="toggleNavigationDropdownView()">
-                <span id="dropdown-header-label">▼ Dashboard Matrix Navigation</span>
+        <div class="panel" id="navigation-accordion-panel">
+            <div class="panel-header-accordion" onclick="toggleNavigationDropdownView()">
+                <span>Navigation</span>
             </div>
-            <div id="collapsible-nav-section" class="panel-content collapsible-content">
-                <div id="navigation-matrix-grid" class="navigation-grid"></div>
+            <div class="panel-collapse">
+                <div class="panel-content">
+                    <div id="navigation-matrix-grid" class="navigation-grid"></div>
+                </div>
             </div>
         </div>
 
@@ -430,7 +450,6 @@
 
     <div class="footer-belt">
         <button id="footer-prev-btn" class="nav-btn" onclick="changeActiveQuestion(-1)" disabled>◀ Back</button>
-        <span id="footer-progress-label" style="font-size: 13px; font-weight: bold; color: var(--text-main);">Question 1 of 0</span>
         <button id="footer-next-btn" class="action-btn" onclick="changeActiveQuestion(1)">Next ▶</button>
     </div>
 
@@ -444,7 +463,7 @@
                 <ul>
                     <li>You have an uninterrupted clock countdown allocation of <strong>80 minutes</strong>.</li>
                     <li>Toggle <strong>Elimination Mode</strong> to render custom crossout parameters beside options.</li>
-                    <li>Collapse or expand your index panel by clicking directly onto the <strong>Dashboard Matrix Navigation</strong> layout bar.</li>
+                    <li>Collapse or expand your index panel by clicking directly onto the <strong>Navigation</strong> layout bar.</li>
                 </ul>
                 <button class="action-btn" style="width: 100%; margin-top: 15px; padding: 12px;" onclick="closeWelcomeInstructionsModal()">Begin Examination Block</button>
             </div>
@@ -463,7 +482,6 @@
         let markedReviewMatrix = [];
         let optionCrossoutMatrix = [];
         let eliminationEngineActive = false;
-        let isDropdownExpanded = true;
 
         let continuousCountdownSeconds = 80 * 60;
         let hideClockStateActive = false;
@@ -533,19 +551,10 @@
             updateTimerDisplayConsole();
         }
 
-        // Toggles navigation view smoothly at 0.2s speeds
+        // Toggles navigation panel container smoothly matching home page transitions
         function toggleNavigationDropdownView() {
-            isDropdownExpanded = !isDropdownExpanded;
-            const containerRef = document.getElementById('collapsible-nav-section');
-            const labelRef = document.getElementById('dropdown-header-label');
-            
-            if (isDropdownExpanded) {
-                containerRef.classList.remove('collapsed');
-                labelRef.innerText = "▼ Dashboard Matrix Navigation";
-            } else {
-                containerRef.classList.add('collapsed');
-                labelRef.innerText = "▲ Dashboard Matrix Navigation";
-            }
+            const panelRef = document.getElementById('navigation-accordion-panel');
+            panelRef.classList.toggle('collapsed');
         }
 
         function renderTargetQuestionBlock() {
@@ -596,7 +605,6 @@
 
             syncEliminationToolInterfaceDisplay();
 
-            document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length}`;
             document.getElementById('footer-prev-btn').disabled = currentProblemIndex === 0;
             document.getElementById('footer-next-btn').innerText = currentProblemIndex === examinationPool.length - 1 ? 'Finish' : 'Next ▶';
 
