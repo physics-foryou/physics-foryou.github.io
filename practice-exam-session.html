@@ -75,7 +75,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 2px;
         }
 
         /* Increased Size Counter Display */
@@ -99,9 +99,56 @@
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
+            margin-top: 4px; /* Shifted slightly downwards */
         }
         .utility-btn:hover {
             background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Header Right Menu Options Styling */
+        .header-right-zone {
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+        }
+        
+        .options-dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .options-menu-popup {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 8px;
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            z-index: 3000;
+            min-width: 140px;
+            overflow: hidden;
+        }
+        
+        .options-menu-popup button {
+            display: block;
+            width: 100%;
+            padding: 10px 14px;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .options-menu-popup button:hover {
+            background-color: rgba(0,0,0,0.05);
         }
 
         /* Centered Workspace Core Content Column */
@@ -142,25 +189,6 @@
         .panel-content { 
             padding: 20px; 
             box-sizing: border-box;
-        }
-
-        .panel-header.clickable-trigger {
-            cursor: pointer;
-            user-select: none;
-        }
-        
-        /* Clean Tracking Wrapper for Smooth Collapsing Transitions */
-        .collapsible-content {
-            max-height: 1000px; 
-            opacity: 1;
-            overflow: hidden;
-            transition: max-height 0.25s ease-in-out, opacity 0.2s ease-in-out;
-            box-sizing: border-box;
-        }
-
-        .collapsible-content.collapsed {
-            max-height: 0 !important;
-            opacity: 0 !important;
         }
 
         .header-left-tools {
@@ -342,6 +370,47 @@
             opacity: 0.9; 
         }
 
+        /* Interactive Footer Dropup Panel for Navigation Matrix */
+        .dropup-trigger-container {
+            position: relative;
+            user-select: none;
+        }
+
+        .dropup-label-btn {
+            font-size: 13px; 
+            font-weight: bold; 
+            color: var(--text-main);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .dropup-label-btn:hover {
+            background-color: rgba(0,0,0,0.06);
+        }
+
+        .dropup-nav-panel {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 14px;
+            width: 340px;
+            max-height: 260px;
+            overflow-y: auto;
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+            padding: 16px;
+            box-sizing: border-box;
+            z-index: 999;
+        }
+
         /* Instructions Profile Overlay Modals */
         .modal-overlay {
             position: fixed;
@@ -383,7 +452,15 @@
                 <button id="timer-toggle-visibility" class="utility-btn" onclick="toggleTimerClockVisibility()">Hide</button>
             </div>
             
-            <div></div>
+            <div class="header-right-zone">
+                <div class="options-dropdown-container">
+                    <button class="utility-btn" style="padding: 6px 14px; font-size: 11px;" onclick="toggleOptionsDropdownMenu(event)">Options ▾</button>
+                    <div id="header-options-menu" class="options-menu-popup">
+                        <button onclick="openInstructionsFromMenu()">Instructions</button>
+                        <button id="pause-timer-toggle-btn" onclick="toggleSessionCountdownPause()">Pause</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -406,22 +483,20 @@
             </div>
         </div>
 
-        <div class="panel">
-            <div class="panel-header clickable-trigger" onclick="toggleNavigationDropdownView()">
-                <span id="dropdown-header-label">▼ Dashboard Matrix Navigation</span>
-            </div>
-            <div id="collapsible-nav-section" class="collapsible-content">
-                <div class="panel-content">
-                    <div id="navigation-matrix-grid" class="navigation-grid"></div>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <div class="footer-belt">
         <button id="footer-prev-btn" class="nav-btn" onclick="changeActiveQuestion(-1)" disabled>◀ Back</button>
-        <span id="footer-progress-label" style="font-size: 13px; font-weight: bold; color: var(--text-main);">Question 1 of 0</span>
+        
+        <div class="dropup-trigger-container">
+            <div id="dropup-nav-matrix-panel" class="dropup-nav-panel">
+                <div id="navigation-matrix-grid" class="navigation-grid"></div>
+            </div>
+            <button id="footer-progress-label" class="dropup-label-btn" onclick="toggleDropupMatrixNavigationView(event)">
+                Question 1 of 0 ▴
+            </button>
+        </div>
+        
         <button id="footer-next-btn" class="action-btn" onclick="changeActiveQuestion(1)">Next ▶</button>
     </div>
 
@@ -453,10 +528,13 @@
         let catalogedUserResponses = [];
         let markedReviewMatrix = [];
         let optionCrossoutMatrix = [];
-        let isDropdownExpanded = true;
+        
+        let isDropupMatrixOpen = false;
+        let isOptionsMenuOpen = false;
 
         let continuousCountdownSeconds = 80 * 60;
         let hideClockStateActive = false;
+        let isTimerPausedActive = false;
 
         // Dynamic file source hook injection
         const remoteScriptAsset = document.createElement('script');
@@ -495,6 +573,8 @@
 
         function startSessionTimerLoop() {
             const processingTickerInterval = setInterval(() => {
+                if (isTimerPausedActive) return; // Halt ticker logic if paused
+                
                 if (continuousCountdownSeconds <= 0) {
                     clearInterval(processingTickerInterval);
                     alert("Testing block runtime finished! Auto-transmitting answers.");
@@ -523,19 +603,53 @@
             updateTimerDisplayConsole();
         }
 
-        function toggleNavigationDropdownView() {
-            isDropdownExpanded = !isDropdownExpanded;
-            const containerRef = document.getElementById('collapsible-nav-section');
-            const labelRef = document.getElementById('dropdown-header-label');
+        function toggleOptionsDropdownMenu(event) {
+            event.stopPropagation();
+            isOptionsMenuOpen = !isOptionsMenuOpen;
+            document.getElementById('header-options-menu').style.display = isOptionsMenuOpen ? 'block' : 'none';
+        }
+
+        function openInstructionsFromMenu() {
+            isOptionsMenuOpen = false;
+            document.getElementById('header-options-menu').style.display = 'none';
+            document.getElementById('welcome-modal-overlay').style.display = 'flex';
+        }
+
+        function toggleSessionCountdownPause() {
+            isTimerPausedActive = !isTimerPausedActive;
+            const pauseBtn = document.getElementById('pause-timer-toggle-btn');
+            pauseBtn.innerText = isTimerPausedActive ? "Resume" : "Pause";
             
-            if (isDropdownExpanded) {
-                containerRef.classList.remove('collapsed');
-                labelRef.innerText = "▼ Dashboard Matrix Navigation";
+            isOptionsMenuOpen = false;
+            document.getElementById('header-options-menu').style.display = 'none';
+        }
+
+        function toggleDropupMatrixNavigationView(event) {
+            event.stopPropagation();
+            isDropupMatrixOpen = !isDropupMatrixOpen;
+            const dropupPanel = document.getElementById('dropup-nav-matrix-panel');
+            const progressLabel = document.getElementById('footer-progress-label');
+            
+            if (isDropupMatrixOpen) {
+                dropupPanel.style.display = 'block';
+                progressLabel.innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ▾`;
             } else {
-                containerRef.classList.add('collapsed');
-                labelRef.innerText = "▲ Dashboard Matrix Navigation";
+                dropupPanel.style.display = 'none';
+                progressLabel.innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ▴`;
             }
         }
+
+        // Window click handler to safely clear overlay elements automatically
+        window.onclick = function() {
+            isOptionsMenuOpen = false;
+            document.getElementById('header-options-menu').style.display = 'none';
+            
+            isDropupMatrixOpen = false;
+            document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
+            if (examinationPool.length > 0) {
+                document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ▴`;
+            }
+        };
 
         function renderTargetQuestionBlock() {
             const questionRecord = examinationPool[currentProblemIndex];
@@ -565,10 +679,8 @@
                 targetBtnNode.className = 'choice-btn';
                 targetBtnNode.innerHTML = `<strong>( ${alphaPrefixes[stringIdx]} )</strong> ${choiceStringText}`;
                 
-                // Left Click handles standard input choice routing selection
                 targetBtnNode.onclick = () => selectTargetOptionIndex(stringIdx);
                 
-                // Right Click/Context Menu handles wrong answer crossout logic parameters dynamically
                 targetBtnNode.oncontextmenu = (event) => {
                     event.preventDefault();
                     toggleIndividualOptionElimination(stringIdx);
@@ -585,7 +697,7 @@
                 optionsContentBox.appendChild(choiceWrapperNode);
             });
 
-            document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length}`;
+            document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ${isDropupMatrixOpen ? '▾' : '▴'}`;
             document.getElementById('footer-prev-btn').disabled = currentProblemIndex === 0;
             document.getElementById('footer-next-btn').innerText = currentProblemIndex === examinationPool.length - 1 ? 'Finish' : 'Next ▶';
 
