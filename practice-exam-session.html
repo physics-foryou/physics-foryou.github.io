@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Practice Exam Session</title>
     
+    <script src="settings/theme.js"></script>
+    
     <script>
         window.MathJax = {
             tex: {
@@ -21,12 +23,10 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
-        /* Exact Design Tokens & Monospace Variables from daily-problem-page.html */
         :root {
             --bg-color: #eef2f5;        
             --panel-bg: #ffffff;        
             --header-bg: #1b2a47;       
-            --header-black: #111111;    
             --text-main: #1c2533;       
             --text-dim: #626f80;        
             --border-color: rgba(0,0,0,0.15);
@@ -37,67 +37,75 @@
             font-family: 'Consolas', 'Courier New', monospace;
             background-color: var(--bg-color);
             margin: 0;
-            padding: 20px 20px 100px 20px; 
+            padding: 30px 20px 100px 20px; /* Aligned top padding with home page */
             color: var(--text-main);
             user-select: none;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* Workspace Core Layout Structure */
-        .workspace { 
-            max-width: 750px; 
-            margin: 0 auto; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
-            position: relative; 
+        /* Perfectly Centered Content Wrapper matching home-page.html */
+        .workspace-wrapper {
+            max-width: 800px; 
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        /* Sharp Panel Infrastructure matching Daily Problems */
-        .panel { 
-            background-color: var(--panel-bg); 
-            border: 1px solid var(--border-color); 
-            border-radius: 4px; 
-            overflow: hidden; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
+        /* Shared Card Panel styling from home-page.html */
+        .panel {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px; /* Matched 6px from home page */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        .panel-header { 
-            background-color: var(--header-bg); 
-            padding: 12px 16px; 
-            font-size: 14px; 
-            font-weight: bold; 
-            border-bottom: 1px solid var(--border-color); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            color: #ffffff; 
-        }
-
-        /* Black Question Box Tab Variation requested */
-        .panel-header.black-tab {
-            background-color: var(--header-black);
+        .panel-header {
+            background-color: var(--header-bg);
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
         }
 
         .panel-content { 
-            padding: 24px; 
+            padding: 20px; /* 20px interior padding matching home page */
+            box-sizing: border-box;
         }
 
-        /* Collapsible Dropdown Animation Layer */
-        .collapsible-content {
-            display: block; /* Managed dynamically via inline tokens / script classes */
-            transition: max-height 0.2s ease-out;
-        }
-
+        /* Interactive Collapsible Navigation Header */
         .panel-header.clickable-trigger {
             cursor: pointer;
+            user-select: none;
+        }
+        
+        /* Dropdown content wrapper with matching 0.2s transitions */
+        .collapsible-content {
+            max-height: 1000px; /* Large enough to hold the grid */
+            opacity: 1;
+            overflow: hidden;
+            transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+            box-sizing: border-box;
         }
 
-        .panel-header.clickable-trigger:hover {
-            opacity: 0.95;
+        .collapsible-content.collapsed {
+            max-height: 0 !important;
+            opacity: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            border: none !important;
         }
 
-        /* Top Bar Clock Tracking Components */
+        /* Top Bar Timer Elements - Positioned neatly on the right */
         .timer-zone {
             display: flex;
             align-items: center;
@@ -105,7 +113,7 @@
         }
 
         .timer-box { 
-            font-size: 16px; 
+            font-size: 14px; 
             color: #ffffff; 
             font-weight: bold; 
         }
@@ -122,7 +130,6 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-
         .utility-btn:hover {
             background-color: rgba(255, 255, 255, 0.25);
         }
@@ -133,38 +140,48 @@
             gap: 14px;
         }
 
-        /* Action/Control Links inside Header Belts */
         .header-action-toggle {
             background: none;
             border: none;
             color: rgba(255, 255, 255, 0.75);
             font-family: inherit;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 0;
             transition: color 0.2s;
         }
-
         .header-action-toggle:hover {
             color: #ffffff;
         }
-
         .header-action-toggle.flagged-active {
             color: var(--review-gold);
         }
 
-        /* Question Box Typography Platform */
+        .header-utility-toggle {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            padding: 4px 10px;
+            font-size: 11px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .header-utility-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* MCQ Sizing and Styling */
         .question-text-field {
             font-size: 15px; 
             margin-bottom: 20px; 
             line-height: 1.5;
         }
 
-        /* Choice Layout Architecture inherited completely from daily-problem-page.html */
         .choice-row {
             position: relative;
             display: flex;
@@ -190,18 +207,16 @@
             box-sizing: border-box;
             padding-right: 50px; 
         }
-
         .choice-btn:hover { 
-            background-color: rgba(0,0,0,0.08); 
+            background-color: rgba(0,0,0,0.06); 
         }
-
         .choice-btn.selected { 
             border-color: var(--text-main); 
             background-color: rgba(0,0,0,0.12); 
             font-weight: bold; 
         }
 
-        /* Integrated Option Elimination Strikethrough Utilities */
+        /* Strikeout / Elimination Feature */
         .strikeout-trigger {
             position: absolute;
             right: 14px;
@@ -221,7 +236,6 @@
             transition: all 0.2s;
             z-index: 5;
         }
-
         .strikeout-trigger:hover {
             background-color: #fde8e8;
             border-color: #f98080;
@@ -235,7 +249,6 @@
             background-color: rgba(0,0,0,0.05);
             border-color: var(--border-color);
         }
-
         .choice-row.eliminated .strikeout-trigger {
             display: flex !important;
             background-color: #fde8e8;
@@ -243,7 +256,7 @@
             color: #7a1e1e;
         }
 
-        /* Navigation Matrix Grid System Layout */
+        /* Navigation Matrix Console Sizing Map */
         .navigation-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
@@ -265,21 +278,17 @@
             position: relative;
             transition: all 0.2s;
         }
-
         .nav-cell:hover {
             background-color: rgba(0,0,0,0.08);
         }
-
         .nav-cell.current-active {
             border: 2px solid var(--header-bg);
             background-color: rgba(0,0,0,0.06);
         }
-
         .nav-cell.state-filled {
             background-color: rgba(27, 42, 71, 0.1);
             border-color: var(--header-bg);
         }
-
         .nav-cell.state-review::after {
             content: '';
             position: absolute;
@@ -291,7 +300,7 @@
             border-radius: 50%;
         }
 
-        /* Sticky Footer Controls Strip Row */
+        /* Footer Bar */
         .footer-belt {
             position: fixed;
             bottom: 0;
@@ -328,20 +337,6 @@
             cursor: default;
         }
 
-        .header-utility-toggle {
-            background-color: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: white;
-            padding: 4px 10px;
-            font-size: 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        .header-utility-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-        }
-
         .action-btn { 
             background-color: var(--header-bg); 
             border: 1px solid var(--header-bg); 
@@ -352,13 +347,13 @@
             font-size: 13px; 
             font-weight: bold; 
             border-radius: 4px;
-            transition: background 0.2s;
+            transition: opacity 0.2s;
         }
         .action-btn:hover { 
             opacity: 0.9; 
         }
 
-        /* Clean Monospace Instructions Modal Pop Up Overlay */
+        /* Modal Layout */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -375,7 +370,7 @@
         .modal-box {
             background-color: var(--panel-bg);
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 6px;
             max-width: 520px;
             width: 90%;
             overflow: hidden;
@@ -391,7 +386,7 @@
 </head>
 <body class="tex2jax_ignore">
 
-    <div class="workspace tex2jax_process">
+    <div class="workspace-wrapper tex2jax_process">
         
         <div class="panel">
             <div class="panel-header">
@@ -404,7 +399,7 @@
         </div>
 
         <div class="panel">
-            <div class="panel-header black-tab">
+            <div class="panel-header" style="background-color: #111111;">
                 <div class="header-left-tools">
                     <span style="font-weight: bold;">Question <span id="current-badge-id">1</span></span>
                     <button id="review-flag-trigger" class="header-action-toggle" onclick="toggleQuestionReviewMark()">
@@ -417,10 +412,8 @@
             </div>
             
             <div class="panel-content">
-                <div id="target-question-box" class="question-text-field">Resolving pool parameters...</div>
-                
-                <div id="target-choices-container">
-                    </div>
+                <div id="target-question-box" class="question-text-field">Loading exam content...</div>
+                <div id="target-choices-container"></div>
             </div>
         </div>
 
@@ -429,8 +422,7 @@
                 <span id="dropdown-header-label">▼ Dashboard Matrix Navigation</span>
             </div>
             <div id="collapsible-nav-section" class="panel-content collapsible-content">
-                <div id="navigation-matrix-grid" class="navigation-grid">
-                    </div>
+                <div id="navigation-matrix-grid" class="navigation-grid"></div>
             </div>
         </div>
 
@@ -447,12 +439,12 @@
             <div class="panel-header">
                 <span>Session Operations Profile</span>
             </div>
-            <div style="padding: 24px;">
-                <p style="margin-top: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">Welcome to your uniform practice testing interface.</p>
+            <div style="padding: 20px;">
+                <p style="margin-top: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">Welcome to your uniform practice testing environment.</p>
                 <ul>
-                    <li>You have an uninterrupted countdown runtime block of <strong>80 minutes</strong>.</li>
-                    <li>Toggle <strong>Elimination Mode</strong> inside your question box to drop option crossouts.</li>
-                    <li>Collapse or expand your question sheet layout via the <strong>Dashboard Matrix Navigation</strong> dropdown tab.</li>
+                    <li>You have an uninterrupted clock countdown allocation of <strong>80 minutes</strong>.</li>
+                    <li>Toggle <strong>Elimination Mode</strong> to render custom crossout parameters beside options.</li>
+                    <li>Collapse or expand your index panel by clicking directly onto the <strong>Dashboard Matrix Navigation</strong> layout bar.</li>
                 </ul>
                 <button class="action-btn" style="width: 100%; margin-top: 15px; padding: 12px;" onclick="closeWelcomeInstructionsModal()">Begin Examination Block</button>
             </div>
@@ -460,14 +452,11 @@
     </div>
 
     <script>
-        // Extract string tokens out of page localization variables
         const searchParameters = new URLSearchParams(window.location.search);
         const subjectCode = searchParameters.get('subject') || 'ap1';
         const examIdentity = searchParameters.get('exam') || '1';
-
         const mapAlphaIntegerWord = ["Zero", "One", "Two", "Three", "Four", "Five"];
 
-        // State Machine Tracking Vectors
         let currentProblemIndex = 0;
         let examinationPool = [];
         let catalogedUserResponses = [];
@@ -476,11 +465,10 @@
         let eliminationEngineActive = false;
         let isDropdownExpanded = true;
 
-        // Clock Configuration Elements
         let continuousCountdownSeconds = 80 * 60;
         let hideClockStateActive = false;
 
-        // Remote script script path resolving architecture
+        // Dynamic file hook injection
         const remoteScriptAsset = document.createElement('script');
         remoteScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
         document.head.appendChild(remoteScriptAsset);
@@ -507,20 +495,19 @@
                 generateNavigationMatrixConsole();
                 renderTargetQuestionBlock();
             } else {
-                document.getElementById('target-question-box').innerText = "Asset Allocation Error: Target data schema mapping returned empty properties.";
+                document.getElementById('target-question-box').innerText = "Asset Error: Exam pool variable returned empty or undefined data.";
             }
         };
 
         remoteScriptAsset.onerror = function() {
-            document.getElementById('target-question-box').innerText = `Path Resolution Error: Could not pull source matrix asset at destination pathway: ${remoteScriptAsset.src}`;
+            document.getElementById('target-question-box').innerText = `Failed to load exam pool reference script source.`;
         };
 
-        // Continuous Session Timer Loop
         function startSessionTimerLoop() {
             const processingTickerInterval = setInterval(() => {
                 if (continuousCountdownSeconds <= 0) {
                     clearInterval(processingTickerInterval);
-                    alert("Testing countdown block runtime finished! Auto-transmitting logged parameters.");
+                    alert("Testing block runtime finished! Auto-transmitting answers.");
                     terminateActiveSessionInstance();
                     return;
                 }
@@ -546,30 +533,26 @@
             updateTimerDisplayConsole();
         }
 
-        // Dropdown Collapsible Panel Mechanism
+        // Toggles navigation view smoothly at 0.2s speeds
         function toggleNavigationDropdownView() {
             isDropdownExpanded = !isDropdownExpanded;
             const containerRef = document.getElementById('collapsible-nav-section');
             const labelRef = document.getElementById('dropdown-header-label');
             
             if (isDropdownExpanded) {
-                containerRef.style.display = "block";
+                containerRef.classList.remove('collapsed');
                 labelRef.innerText = "▼ Dashboard Matrix Navigation";
             } else {
-                containerRef.style.display = "none";
+                containerRef.classList.add('collapsed');
                 labelRef.innerText = "▲ Dashboard Matrix Navigation";
             }
         }
 
-        // Core Question Sheet Canvas Painter Block
         function renderTargetQuestionBlock() {
             const questionRecord = examinationPool[currentProblemIndex];
-
-            // Render tracking counters
             document.getElementById('current-badge-id').innerText = currentProblemIndex + 1;
             document.getElementById('target-question-box').innerHTML = questionRecord.question;
 
-            // Handle Review Mark Toggle Presentation State
             const flagElementRef = document.getElementById('review-flag-trigger');
             if (markedReviewMatrix[currentProblemIndex]) {
                 flagElementRef.classList.add('flagged-active');
@@ -581,7 +564,6 @@
                 flagElementRef.innerHTML = `🏳️ <span>Mark for Review</span>`;
             }
 
-            // Clean-render option stacks
             const optionsContentBox = document.getElementById('target-choices-container');
             optionsContentBox.innerHTML = '';
 
@@ -592,7 +574,7 @@
 
                 const targetBtnNode = document.createElement('button');
                 targetBtnNode.className = 'choice-btn';
-                targetBtnNode.innerHTML = `<strong>(${alphaPrefixes[stringIdx]})</strong> ${choiceStringText}`;
+                targetBtnNode.innerHTML = `<strong>( ${alphaPrefixes[stringIdx]} )</strong> ${choiceStringText}`;
                 targetBtnNode.onclick = () => selectTargetOptionIndex(stringIdx);
 
                 if (catalogedUserResponses[currentProblemIndex] === stringIdx) {
@@ -605,7 +587,6 @@
                 const strikeoutButtonNode = document.createElement('button');
                 strikeoutButtonNode.className = 'strikeout-trigger';
                 strikeoutButtonNode.innerText = '×';
-                strikeoutButtonNode.title = "Eliminate option";
                 strikeoutButtonNode.onclick = (event) => toggleIndividualOptionElimination(event, stringIdx);
 
                 choiceWrapperNode.appendChild(targetBtnNode);
@@ -613,17 +594,14 @@
                 optionsContentBox.appendChild(choiceWrapperNode);
             });
 
-            // Adjust master visibility configurations for active features
             syncEliminationToolInterfaceDisplay();
 
-            // Set fixed ribbon labels
             document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length}`;
             document.getElementById('footer-prev-btn').disabled = currentProblemIndex === 0;
             document.getElementById('footer-next-btn').innerText = currentProblemIndex === examinationPool.length - 1 ? 'Finish' : 'Next ▶';
 
             updateConsoleMatrixHighlights();
 
-            // Refresh Typeset Rendering Layers via MathJax Engine Hook
             if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
                 MathJax.typesetPromise();
             }
@@ -631,39 +609,26 @@
 
         function selectTargetOptionIndex(optionIdx) {
             if (optionCrossoutMatrix[currentProblemIndex].includes(optionIdx)) return;
-
             catalogedUserResponses[currentProblemIndex] = optionIdx;
 
-            const operationalRowsList = document.querySelectorAll('.choice-row');
-            operationalRowsList.forEach((rowWrapper, loopIdx) => {
+            document.querySelectorAll('.choice-row').forEach((rowWrapper, loopIdx) => {
                 const baseBtn = rowWrapper.querySelector('.choice-btn');
-                if (loopIdx === optionIdx) {
-                    baseBtn.classList.add('selected');
-                } else {
-                    baseBtn.classList.remove('selected');
-                }
+                if (loopIdx === optionIdx) baseBtn.classList.add('selected');
+                else baseBtn.classList.remove('selected');
             });
 
             updateConsoleMatrixHighlights();
         }
 
-        // Active Option Elimination Utilities
         function toggleMasterEliminationEngine() {
             eliminationEngineActive = !eliminationEngineActive;
             const toggleBtn = document.getElementById('elimination-mode-toggle');
-            
-            if (eliminationEngineActive) {
-                toggleBtn.style.backgroundColor = "rgba(255, 255, 255, 0.35)";
-            } else {
-                toggleBtn.style.backgroundColor = "rgba(255, 255, 255, 0.15)";
-            }
-            
+            toggleBtn.style.backgroundColor = eliminationEngineActive ? "rgba(255, 255, 255, 0.35)" : "rgba(255, 255, 255, 0.15)";
             syncEliminationToolInterfaceDisplay();
         }
 
         function syncEliminationToolInterfaceDisplay() {
-            const eliminationControls = document.querySelectorAll('.strikeout-trigger');
-            eliminationControls.forEach((controlNode, indexKey) => {
+            document.querySelectorAll('.strikeout-trigger').forEach((controlNode, indexKey) => {
                 if (eliminationEngineActive || optionCrossoutMatrix[currentProblemIndex].includes(indexKey)) {
                     controlNode.style.display = 'flex';
                 } else {
@@ -674,7 +639,6 @@
 
         function toggleIndividualOptionElimination(clickEvent, choiceOptionIdx) {
             clickEvent.stopPropagation();
-
             const matrixIndexPos = optionCrossoutMatrix[currentProblemIndex].indexOf(choiceOptionIdx);
             const operationalRowsList = document.querySelectorAll('.choice-row');
 
@@ -709,7 +673,6 @@
             renderTargetQuestionBlock();
         }
 
-        // Matrix Tracking Console Generator Engine
         function generateNavigationMatrixConsole() {
             const matrixGridBoxElement = document.getElementById('navigation-matrix-grid');
             matrixGridBoxElement.innerHTML = '';
@@ -731,7 +694,6 @@
             examinationPool.forEach((_, stepIndex) => {
                 const targetedCellRef = document.getElementById(`navigation-matrix-cell-id-${stepIndex}`);
                 if (!targetedCellRef) return;
-
                 targetedCellRef.className = 'nav-cell';
 
                 if (stepIndex === currentProblemIndex) targetedCellRef.classList.add('current-active');
@@ -740,7 +702,6 @@
             });
         }
 
-        // View Layout Modal Toggles
         function closeWelcomeInstructionsModal() {
             document.getElementById('welcome-modal-overlay').style.display = 'none';
         }
@@ -748,13 +709,10 @@
         function terminateActiveSessionInstance() {
             const totalUnansweredQuestionsCount = catalogedUserResponses.filter(answer => answer === null).length;
             let queryMessagePrompt = "Are you sure you want to finalize this exam block session and submit your responses?";
-
             if (totalUnansweredQuestionsCount > 0) {
-                queryMessagePrompt = `Warning: You have left ${totalUnansweredQuestionsCount} questions completely blank! ${queryMessagePrompt}`;
+                queryMessagePrompt = `Warning: You have left ${totalUnansweredQuestionsCount} questions blank! ${queryMessagePrompt}`;
             }
-
             if (confirm(queryMessagePrompt)) {
-                alert("Responses successfully cataloged. Returning to control room home screen.");
                 window.location.href = 'home-page.html';
             }
         }
