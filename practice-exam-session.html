@@ -21,11 +21,12 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
-        /* Exact Design Tokens & CSS Variables from daily-problem-page.html */
+        /* Exact Design Tokens & Monospace Variables from daily-problem-page.html */
         :root {
             --bg-color: #eef2f5;        
             --panel-bg: #ffffff;        
             --header-bg: #1b2a47;       
+            --header-black: #111111;    
             --text-main: #1c2533;       
             --text-dim: #626f80;        
             --border-color: rgba(0,0,0,0.15);
@@ -36,13 +37,13 @@
             font-family: 'Consolas', 'Courier New', monospace;
             background-color: var(--bg-color);
             margin: 0;
-            padding: 20px 20px 100px 20px; /* Buffer space at bottom for structural balance */
+            padding: 20px 20px 100px 20px; 
             color: var(--text-main);
             user-select: none;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Workspace Grid Uniform Alignment */
+        /* Workspace Core Layout Structure */
         .workspace { 
             max-width: 750px; 
             margin: 0 auto; 
@@ -52,7 +53,7 @@
             position: relative; 
         }
 
-        /* Panel Infrastructure matching Daily Problems */
+        /* Sharp Panel Infrastructure matching Daily Problems */
         .panel { 
             background-color: var(--panel-bg); 
             border: 1px solid var(--border-color); 
@@ -73,11 +74,30 @@
             color: #ffffff; 
         }
 
+        /* Black Question Box Tab Variation requested */
+        .panel-header.black-tab {
+            background-color: var(--header-black);
+        }
+
         .panel-content { 
             padding: 24px; 
         }
 
-        /* Top Bar Clock Components */
+        /* Collapsible Dropdown Animation Layer */
+        .collapsible-content {
+            display: block; /* Managed dynamically via inline tokens / script classes */
+            transition: max-height 0.2s ease-out;
+        }
+
+        .panel-header.clickable-trigger {
+            cursor: pointer;
+        }
+
+        .panel-header.clickable-trigger:hover {
+            opacity: 0.95;
+        }
+
+        /* Top Bar Clock Tracking Components */
         .timer-zone {
             display: flex;
             align-items: center;
@@ -113,7 +133,7 @@
             gap: 14px;
         }
 
-        /* Action/Control Buttons inside Headers */
+        /* Action/Control Links inside Header Belts */
         .header-action-toggle {
             background: none;
             border: none;
@@ -137,7 +157,7 @@
             color: var(--review-gold);
         }
 
-        /* Question Text Layout Structure */
+        /* Question Box Typography Platform */
         .question-text-field {
             font-size: 15px; 
             margin-bottom: 20px; 
@@ -168,7 +188,7 @@
             font-size: 14px; 
             transition: all 0.2s; 
             box-sizing: border-box;
-            padding-right: 50px; /* Room for strikeout tool alignment */
+            padding-right: 50px; 
         }
 
         .choice-btn:hover { 
@@ -181,7 +201,7 @@
             font-weight: bold; 
         }
 
-        /* Integrated Option Elimination Styles */
+        /* Integrated Option Elimination Strikethrough Utilities */
         .strikeout-trigger {
             position: absolute;
             right: 14px;
@@ -195,7 +215,7 @@
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
-            display: none; /* Managed by elimination master flag state toggles */
+            display: none; 
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
@@ -223,7 +243,7 @@
             color: #7a1e1e;
         }
 
-        /* Navigation Grid Dashboard Layout */
+        /* Navigation Matrix Grid System Layout */
         .navigation-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
@@ -271,7 +291,7 @@
             border-radius: 50%;
         }
 
-        /* Sticky Footer Action Bar Layout matching page standards */
+        /* Sticky Footer Controls Strip Row */
         .footer-belt {
             position: fixed;
             bottom: 0;
@@ -306,6 +326,20 @@
         .nav-btn:disabled {
             opacity: 0.4;
             cursor: default;
+        }
+
+        .header-utility-toggle {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            padding: 4px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .header-utility-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.25);
         }
 
         .action-btn { 
@@ -370,14 +404,14 @@
         </div>
 
         <div class="panel">
-            <div class="panel-header" style="background-color: rgba(0,0,0,0.03); color: var(--text-main); border-bottom: 1px solid var(--border-color);">
+            <div class="panel-header black-tab">
                 <div class="header-left-tools">
                     <span style="font-weight: bold;">Question <span id="current-badge-id">1</span></span>
-                    <button id="review-flag-trigger" class="header-action-toggle" onclick="toggleQuestionReviewMark()" style="color: var(--text-dim);">
+                    <button id="review-flag-trigger" class="header-action-toggle" onclick="toggleQuestionReviewMark()">
                         <span>🏳️ Mark for Review</span>
                     </button>
                 </div>
-                <button id="elimination-mode-toggle" class="nav-btn" onclick="toggleMasterEliminationEngine()" style="padding: 4px 10px; font-size: 12px;">
+                <button id="elimination-mode-toggle" class="header-utility-toggle" onclick="toggleMasterEliminationEngine()">
                     [×] Elimination Mode
                 </button>
             </div>
@@ -391,10 +425,10 @@
         </div>
 
         <div class="panel">
-            <div class="panel-header">
-                <span>Dashboard Matrix Navigation</span>
+            <div class="panel-header clickable-trigger" onclick="toggleNavigationDropdownView()">
+                <span id="dropdown-header-label">▼ Dashboard Matrix Navigation</span>
             </div>
-            <div class="panel-content">
+            <div id="collapsible-nav-section" class="panel-content collapsible-content">
                 <div id="navigation-matrix-grid" class="navigation-grid">
                     </div>
             </div>
@@ -414,11 +448,11 @@
                 <span>Session Operations Profile</span>
             </div>
             <div style="padding: 24px;">
-                <p style="margin-top: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">Welcome to your uniform practice workspace environment.</p>
+                <p style="margin-top: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">Welcome to your uniform practice testing interface.</p>
                 <ul>
-                    <li>You have an uninterrupted clock countdown allocation of <strong>80 minutes</strong>.</li>
-                    <li>Toggle <strong>Elimination Mode</strong> to render custom cancellation controls next to option blocks.</li>
-                    <li>Utilize <strong>Mark for Review</strong> to flag questions on your console matrix tracking dock.</li>
+                    <li>You have an uninterrupted countdown runtime block of <strong>80 minutes</strong>.</li>
+                    <li>Toggle <strong>Elimination Mode</strong> inside your question box to drop option crossouts.</li>
+                    <li>Collapse or expand your question sheet layout via the <strong>Dashboard Matrix Navigation</strong> dropdown tab.</li>
                 </ul>
                 <button class="action-btn" style="width: 100%; margin-top: 15px; padding: 12px;" onclick="closeWelcomeInstructionsModal()">Begin Examination Block</button>
             </div>
@@ -426,26 +460,27 @@
     </div>
 
     <script>
-        // Extract initialization string vectors
+        // Extract string tokens out of page localization variables
         const searchParameters = new URLSearchParams(window.location.search);
         const subjectCode = searchParameters.get('subject') || 'ap1';
         const examIdentity = searchParameters.get('exam') || '1';
 
         const mapAlphaIntegerWord = ["Zero", "One", "Two", "Three", "Four", "Five"];
 
-        // Runtime Storage Registers
+        // State Machine Tracking Vectors
         let currentProblemIndex = 0;
         let examinationPool = [];
         let catalogedUserResponses = [];
         let markedReviewMatrix = [];
         let optionCrossoutMatrix = [];
         let eliminationEngineActive = false;
+        let isDropdownExpanded = true;
 
-        // Clock Management Matrices
+        // Clock Configuration Elements
         let continuousCountdownSeconds = 80 * 60;
         let hideClockStateActive = false;
 
-        // Dynamic MCQ Pool Injector Mapping matches script layout profiles
+        // Remote script script path resolving architecture
         const remoteScriptAsset = document.createElement('script');
         remoteScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
         document.head.appendChild(remoteScriptAsset);
@@ -472,20 +507,20 @@
                 generateNavigationMatrixConsole();
                 renderTargetQuestionBlock();
             } else {
-                document.getElementById('target-question-box').innerText = "Asset Allocation Error: Targeted list container empty.";
+                document.getElementById('target-question-box').innerText = "Asset Allocation Error: Target data schema mapping returned empty properties.";
             }
         };
 
         remoteScriptAsset.onerror = function() {
-            document.getElementById('target-question-box').innerText = `Path Resolution Error: Failed loading source reference script from vector: ${remoteScriptAsset.src}`;
+            document.getElementById('target-question-box').innerText = `Path Resolution Error: Could not pull source matrix asset at destination pathway: ${remoteScriptAsset.src}`;
         };
 
-        // Active Session Timer Sequence
+        // Continuous Session Timer Loop
         function startSessionTimerLoop() {
             const processingTickerInterval = setInterval(() => {
                 if (continuousCountdownSeconds <= 0) {
                     clearInterval(processingTickerInterval);
-                    alert("Time has elapsed. Compiling current responses for automation transfer.");
+                    alert("Testing countdown block runtime finished! Auto-transmitting logged parameters.");
                     terminateActiveSessionInstance();
                     return;
                 }
@@ -511,15 +546,30 @@
             updateTimerDisplayConsole();
         }
 
-        // Question Paint Core Framework Engine
+        // Dropdown Collapsible Panel Mechanism
+        function toggleNavigationDropdownView() {
+            isDropdownExpanded = !isDropdownExpanded;
+            const containerRef = document.getElementById('collapsible-nav-section');
+            const labelRef = document.getElementById('dropdown-header-label');
+            
+            if (isDropdownExpanded) {
+                containerRef.style.display = "block";
+                labelRef.innerText = "▼ Dashboard Matrix Navigation";
+            } else {
+                containerRef.style.display = "none";
+                labelRef.innerText = "▲ Dashboard Matrix Navigation";
+            }
+        }
+
+        // Core Question Sheet Canvas Painter Block
         function renderTargetQuestionBlock() {
             const questionRecord = examinationPool[currentProblemIndex];
 
-            // Render numeric tracking headers
+            // Render tracking counters
             document.getElementById('current-badge-id').innerText = currentProblemIndex + 1;
             document.getElementById('target-question-box').innerHTML = questionRecord.question;
 
-            // Handle Review Toggle Interface Text & Colors
+            // Handle Review Mark Toggle Presentation State
             const flagElementRef = document.getElementById('review-flag-trigger');
             if (markedReviewMatrix[currentProblemIndex]) {
                 flagElementRef.classList.add('flagged-active');
@@ -527,11 +577,11 @@
                 flagElementRef.innerHTML = `🚩 <span>Marked for Review</span>`;
             } else {
                 flagElementRef.classList.remove('flagged-active');
-                flagElementRef.style.color = "var(--text-dim)";
+                flagElementRef.style.color = "rgba(255, 255, 255, 0.75)";
                 flagElementRef.innerHTML = `🏳️ <span>Mark for Review</span>`;
             }
 
-            // Populate option choices matching choice-btn schema style
+            // Clean-render option stacks
             const optionsContentBox = document.getElementById('target-choices-container');
             optionsContentBox.innerHTML = '';
 
@@ -566,7 +616,7 @@
             // Adjust master visibility configurations for active features
             syncEliminationToolInterfaceDisplay();
 
-            // Frame bottom controls layout values
+            // Set fixed ribbon labels
             document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length}`;
             document.getElementById('footer-prev-btn').disabled = currentProblemIndex === 0;
             document.getElementById('footer-next-btn').innerText = currentProblemIndex === examinationPool.length - 1 ? 'Finish' : 'Next ▶';
@@ -603,11 +653,9 @@
             const toggleBtn = document.getElementById('elimination-mode-toggle');
             
             if (eliminationEngineActive) {
-                toggleBtn.style.backgroundColor = "rgba(0,0,0,0.12)";
-                toggleBtn.style.fontWeight = "bold";
+                toggleBtn.style.backgroundColor = "rgba(255, 255, 255, 0.35)";
             } else {
-                toggleBtn.style.backgroundColor = "var(--panel-bg)";
-                toggleBtn.style.fontWeight = "normal";
+                toggleBtn.style.backgroundColor = "rgba(255, 255, 255, 0.15)";
             }
             
             syncEliminationToolInterfaceDisplay();
@@ -661,7 +709,7 @@
             renderTargetQuestionBlock();
         }
 
-        // Console Matrix Navigation Dock Assembler
+        // Matrix Tracking Console Generator Engine
         function generateNavigationMatrixConsole() {
             const matrixGridBoxElement = document.getElementById('navigation-matrix-grid');
             matrixGridBoxElement.innerHTML = '';
@@ -692,7 +740,7 @@
             });
         }
 
-        // Layout Overlay Utilities
+        // View Layout Modal Toggles
         function closeWelcomeInstructionsModal() {
             document.getElementById('welcome-modal-overlay').style.display = 'none';
         }
