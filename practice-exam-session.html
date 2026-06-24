@@ -477,6 +477,7 @@
             box-sizing: border-box;
         }
 
+        /* FIXED: Now adopts the soft theme layout variables to completely avoid bright flashes */
         .immersive-pause-overlay {
             display: none;
             position: fixed;
@@ -484,12 +485,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--header-bg);
+            background-color: var(--bg-color);
             z-index: 5000;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: var(--panel-bg);
+            color: var(--text-main);
             text-align: center;
             font-family: inherit;
         }
@@ -499,7 +500,7 @@
             font-weight: 900;
             letter-spacing: 1px;
             margin-bottom: 10px;
-            color: var(--panel-bg);
+            color: var(--text-main);
         }
 
         .pause-instructions {
@@ -524,13 +525,13 @@
 
         .progress-ring-circle-bg {
             fill: none;
-            stroke: rgba(255, 255, 255, 0.1);
+            stroke: var(--border-color);
             stroke-width: 6;
         }
 
         .progress-ring-circle-fill {
             fill: none;
-            stroke: var(--panel-bg);
+            stroke: var(--text-main);
             stroke-width: 6;
             stroke-dasharray: 282.7;
             stroke-dashoffset: 282.7;
@@ -550,7 +551,7 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--panel-bg);
+            color: var(--text-main);
         }
 
         .modal-overlay {
