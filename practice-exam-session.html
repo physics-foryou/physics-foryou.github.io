@@ -49,6 +49,8 @@
             text-align: left;
             font-size: 15px;
             transition: all 0.2s;
+            width: 100%;
+            box-sizing: border-box;
         }
         .choice-btn:hover {
             background-color: #f9fafb;
@@ -66,6 +68,7 @@
             font-weight: 600;
             font-size: 13px;
             background: #f9fafb;
+            flex-shrink: 0;
         }
         .nav-footer {
             margin-top: 30px;
@@ -107,55 +110,84 @@
     </div>
 
     <script>
-        // 1. Target URL string values parameters
+        // 1. Grab parameters out of the URL string
         const urlParams = new URLSearchParams(window.location.search);
         const subject = urlParams.get('subject') || 'ap1';
         const examNum = urlParams.get('exam') || '1';
 
+        const courseNames = {
+            'ap1': 'AP Physics 1',
+            'ap2': 'AP Physics 2',
+            'mech': 'AP C: Mechanics',
+            'em': 'AP C: Electricity & Magnetism'
+        };
+
+        // Words map lookup to parse file variable integers into strings
+        const numberWords = ["Zero", "One", "Two", "Three", "Four", "Five"];
+
         let currentQuestionIdx = 0;
         let examQuestions = [];
 
-        // 2. Inject script source matching file structure dynamically
+        // 2. Point to the folder path you just finished setting up
         const scriptElement = document.createElement('script');
-        scriptElement.src = `${subject}/${subject}-practice-exam-${examNum}-pool.js`;
+        scriptElement.src = `${subject}/${subject}-practice-exam-mcqs/${subject}-practice-exam-mcq-pool-${examNum}.js`;
         document.head.appendChild(scriptElement);
 
-        // 3. Initialize quiz layout once file dependency script handles loading
+        // 3. Extract the array data once script is active
         scriptElement.onload = function() {
-            // Check global pool variable corresponding to loaded file
-            if (typeof ap1PracticeExamOnePool !== 'undefined') {
-                examQuestions = ap1PracticeExamOnePool;
+            // Check for common variable fallback name
+            if (typeof practiceExamPool !== 'undefined') {
+                examQuestions = practiceExamPool;
+            } 
+            // Smart Check: Automatically maps to variable names like "ap1PracticeExamPoolOne"
+            else {
+                const wordValue = numberWords[parseInt(examNum)] || "One";
+                const customVarName = `${subject}PracticeExamPool${wordValue}`;
+                
+                if (typeof window[customVarName] !== 'undefined') {
+                    examQuestions = window[customVarName];
+                } else if (typeof ap1PracticeExamPoolOne !== 'undefined') {
+                    examQuestions = ap1PracticeExamPoolOne; // Backup catch-all
+                }
+            }
+
+            if (examQuestions.length > 0) {
                 renderQuestion();
             } else {
-                document.getElementById('question').innerText = "Error: Question pool configurations could not be loaded.";
+                document.getElementById('question').innerText = `Error: Could not locate question array. If you add new data files, naming the array 'practiceExamPool' is highly recommended!`;
             }
         };
 
-        // 4. Clean interface render structure
+        scriptElement.onerror = function() {
+            document.getElementById('question').innerText = `Error: Cannot load data path:\n${scriptElement.src}`;
+        };
+
+        // 4. Paint UI Layout Elements
         function renderQuestion() {
-            if (examQuestions.length === 0) return;
-            
             const qData = examQuestions[currentQuestionIdx];
             
-            // Build metadata header
-            document.getElementById('meta').innerText = `${subject.toUpperCase()} Exam ${examNum} — ${qData.unit || 'General Review'}`;
+            const courseTitle = courseNames[subject] || subject.toUpperCase();
+            document.getElementById('meta').innerText = `${courseTitle} — Test ${examNum} — ${qData.unit || 'Review'}`;
             
-            // Put down main text body cleanly
-            document.getElementById('question').innerText = qData.question;
+            // Render text. If fields are blank or placeholders, indicate cleanly.
+            document.getElementById('question').innerText = qData.question || "This question is currently a placeholder slot in your data array.";
             
-            // Clear standard layout nodes and replace with incoming array entries
             const choicesDiv = document.getElementById('choices');
             choicesDiv.innerHTML = '';
             
             const letters = ['A', 'B', 'C', 'D'];
-            qData.choices.forEach((choice, index) => {
-                const button = document.createElement('button');
-                button.className = 'choice-btn';
-                button.innerHTML = `<span class="choice-letter">${letters[index]}</span> <span>${choice}</span>`;
-                choicesDiv.appendChild(button);
-            });
+            
+            if (qData.choices && qData.choices.length > 0) {
+                qData.choices.forEach((choice, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'choice-btn';
+                    button.innerHTML = `<span class="choice-letter">${letters[index]}</span> <span>${choice}</span>`;
+                    choicesDiv.appendChild(button);
+                });
+            } else {
+                choicesDiv.innerHTML = '<p style="color:#6b7280; font-style:italic;">No multiple choice options populated for this placeholder space yet.</p>';
+            }
 
-            // Handle footer counters and active states
             document.getElementById('progress').innerText = `Question ${currentQuestionIdx + 1} of ${examQuestions.length}`;
             document.getElementById('prev-btn').disabled = currentQuestionIdx === 0;
             document.getElementById('next-btn').innerText = currentQuestionIdx === examQuestions.length - 1 ? 'Finish' : 'Next';
@@ -164,8 +196,8 @@
         function changeQuestion(direction) {
             currentQuestionIdx += direction;
             if (currentQuestionIdx >= examQuestions.length) {
-                alert("You have completed the mock practice block!");
-                currentQuestionIdx = examQuestions.length - 1;
+                alert("Session complete! Heading back to dashboard.");
+                window.location.href = 'home-page.html';
                 return;
             }
             renderQuestion();
