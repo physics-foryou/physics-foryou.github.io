@@ -8,6 +8,30 @@
     <script src="settings/theme.js"></script>
     
     <script>
+        (function() {
+            const themes = {
+                navy: { bg: "#eef2f5", panel: "#ffffff", header: "#1b2a47", text: "#1c2533", dim: "#626f80", border: "rgba(0,0,0,0.15)" },
+                dark: { bg: "#1c1a27", panel: "#2f2b42", header: "#3c3957", text: "#d1d2d6", dim: "#9ba1a6", border: "#4e4a6e" },
+                purple: { bg: "#120e16", panel: "#1f1926", header: "#5c3d75", text: "#f3eff5", dim: "#a89cb3", border: "#3d2e4d" },
+                dollar: { bg: "#d0d0c5", panel: "#e2e2d9", header: "#667a66", text: "#4c5470", dim: "#828274", border: "#b5b5a7" },
+                dots: { bg: "#282a36", panel: "#1f212b", header: "#bd93f9", text: "#a4b3db", dim: "#6272a4", border: "#44475a" },
+                paper: { bg: "#eeeeee", panel: "#ffffff", header: "#444444", text: "#444444", dim: "#b2b2b2", border: "#cccccc" },
+                repose_dark: { bg: "#2f3338", panel: "#3f444a", header: "#8f96a0", text: "#d6dbdf", dim: "#8f96a0", border: "#565e66" },
+                alpine: { bg: "#fafafa", panel: "#ffffff", header: "#6c6f93", text: "#6c6f93", dim: "#a4a7c5", border: "#e0e0e6" }
+            };
+            const savedTheme = localStorage.getItem('site-theme') || 'paper';
+            const theme = themes[savedTheme] || themes.paper;
+            const root = document.documentElement;
+            root.style.setProperty('--bg-color', theme.bg);
+            root.style.setProperty('--panel-bg', theme.panel);
+            root.style.setProperty('--header-bg', theme.header);
+            root.style.setProperty('--text-main', theme.text);
+            root.style.setProperty('--text-dim', theme.dim);
+            root.style.setProperty('--border-color', theme.border);
+        })();
+    </script>
+    
+    <script>
         window.MathJax = {
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
@@ -24,12 +48,7 @@
 
     <style>
         :root {
-            --bg-color: #eef2f5;        
-            --panel-bg: #ffffff;        
-            --header-bg: #1b2a47;       
-            --text-main: #1c2533;       
-            --text-dim: #626f80;        
-            --border-color: rgba(0,0,0,0.15);
+            /* Fallback hooks waiting for custom theme injection properties */
             --review-gold: #f59e0b;
             --flag-red: #ef4444;
         }
@@ -57,7 +76,7 @@
             padding: 14px 40px;
             font-size: 13px;
             font-weight: bold;
-            color: #ffffff;
+            color: var(--panel-bg);
             letter-spacing: 0.5px;
             display: grid;
             grid-template-columns: 1fr auto 1fr;
@@ -67,6 +86,7 @@
 
         .header-left-title {
             text-align: left;
+            color: var(--panel-bg);
         }
 
         .timer-zone {
@@ -79,7 +99,7 @@
 
         .timer-box { 
             font-size: 24px; 
-            color: #ffffff; 
+            color: var(--panel-bg); 
             font-weight: 900; 
             letter-spacing: 1px;
             font-family: monospace;
@@ -88,7 +108,7 @@
         .utility-btn {
             background-color: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #ffffff;
+            color: var(--panel-bg);
             padding: 2px 10px;
             font-family: inherit;
             font-size: 10px;
@@ -174,7 +194,7 @@
             padding: 12px 16px;
             font-size: 13px;
             font-weight: bold;
-            color: #ffffff;
+            color: var(--panel-bg);
             letter-spacing: 0.5px;
             display: flex;
             justify-content: space-between;
@@ -185,6 +205,7 @@
         .panel-content { 
             padding: 20px; 
             box-sizing: border-box;
+            background-color: var(--panel-bg);
         }
 
         .header-left-tools {
@@ -207,7 +228,7 @@
             transition: color 0.2s;
         }
         .header-action-toggle:hover {
-            color: #ffffff;
+            color: var(--panel-bg);
         }
         .header-action-toggle.flagged-active {
             color: var(--flag-red) !important;
@@ -223,6 +244,7 @@
             font-size: 15px; 
             margin-bottom: 20px; 
             line-height: 1.5;
+            color: var(--text-main);
         }
 
         .choice-row {
@@ -359,7 +381,7 @@
         .action-btn { 
             background-color: var(--header-bg); 
             border: 1px solid var(--header-bg); 
-            color: white; 
+            color: var(--panel-bg); 
             padding: 10px 22px; 
             cursor: pointer; 
             font-family: inherit; 
@@ -382,7 +404,7 @@
         .dropup-label-tab-btn {
             font-size: 13px; 
             font-weight: bold; 
-            color: #ffffff;
+            color: var(--panel-bg);
             background-color: var(--header-bg);
             border: 1px solid var(--header-bg);
             cursor: pointer;
@@ -413,8 +435,8 @@
         }
 
         .tab-panel-header {
-            background-color: #111111;
-            color: #ffffff;
+            background-color: var(--header-bg);
+            color: var(--panel-bg);
             padding: 12px 16px;
             font-size: 13px;
             font-weight: bold;
@@ -424,6 +446,7 @@
 
         .tab-panel-body {
             padding: 20px;
+            background-color: var(--panel-bg);
         }
 
         .matrix-legend-row {
@@ -460,12 +483,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(27, 42, 71, 0.96);
+            background-color: var(--header-bg);
             z-index: 5000;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
+            color: var(--panel-bg);
             text-align: center;
             font-family: inherit;
         }
@@ -475,11 +498,12 @@
             font-weight: 900;
             letter-spacing: 1px;
             margin-bottom: 10px;
+            color: var(--panel-bg);
         }
 
         .pause-instructions {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-dim);
             max-width: 400px;
             line-height: 1.6;
             margin-bottom: 40px;
@@ -505,7 +529,7 @@
 
         .progress-ring-circle-fill {
             fill: none;
-            stroke: #ffffff;
+            stroke: var(--panel-bg);
             stroke-width: 6;
             stroke-dasharray: 282.7;
             stroke-dashoffset: 282.7;
@@ -525,6 +549,7 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            color: var(--panel-bg);
         }
 
         .modal-overlay {
@@ -533,7 +558,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(28, 37, 51, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -548,6 +573,9 @@
             width: 90%;
             overflow: hidden;
             box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+        }
+        .modal-box p, .modal-box ul {
+            color: var(--text-main);
         }
         .modal-box ul {
             padding-left: 20px;
@@ -595,7 +623,7 @@
     <div id="master-workspace-container" class="workspace-wrapper tex2jax_process">
         
         <div class="panel">
-            <div class="panel-header" style="background-color: #111111;">
+            <div class="panel-header">
                 <div class="header-left-tools">
                     <span style="font-weight: bold;">Question <span id="current-badge-id">1</span></span>
                     <button id="review-flag-trigger" class="header-action-toggle" onclick="toggleQuestionReviewMark()">
@@ -673,7 +701,6 @@
         const examIdentity = searchParameters.get('exam') || '1';
         const mapAlphaIntegerWord = ["Zero", "One", "Two", "Three", "Four", "Five"];
 
-        // Unique Key for LocalStorage state separation
         const localStorageStateKey = `exam_state_${subjectCode}_${examIdentity}`;
 
         let currentProblemIndex = 0;
@@ -715,7 +742,6 @@
                 markedReviewMatrix = new Array(examinationPool.length).fill(false);
                 optionCrossoutMatrix = Array.from({ length: examinationPool.length }, () => []);
 
-                // Attempt to restore any pre-existing progress session cache data
                 loadSavedExamProgressState();
 
                 startSessionTimerLoop();
@@ -730,7 +756,6 @@
             document.getElementById('target-question-box').innerText = `Failed to load exam pool reference script source.`;
         };
 
-        // State Save Manager Functions
         function saveActiveExamProgressState() {
             try {
                 const packagedData = {
@@ -759,7 +784,6 @@
                         optionCrossoutMatrix = parsed.crossouts || Array.from({ length: examinationPool.length }, () => []);
                         continuousCountdownSeconds = typeof parsed.timeLeft === 'number' ? parsed.timeLeft : 80 * 60;
                         
-                        // Automatically bypass welcome modal instructions context if returning user session
                         document.getElementById('welcome-modal-overlay').style.display = 'none';
                     }
                 }
@@ -785,7 +809,6 @@
                 continuousCountdownSeconds--;
                 updateTimerDisplayConsole();
                 
-                // Autosave timer ticking changes into cache
                 saveActiveExamProgressState();
             }, 1000);
         }
@@ -1053,7 +1076,6 @@
                 queryMessagePrompt = `Warning: You have left ${totalUnansweredQuestionsCount} questions blank! ${queryMessagePrompt}`;
             }
             if (confirm(queryMessagePrompt)) {
-                // Clear state when the session terminates cleanly
                 clearSavedExamProgressState();
                 window.location.href = 'home-page.html';
             }
