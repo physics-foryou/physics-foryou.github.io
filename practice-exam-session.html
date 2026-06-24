@@ -301,6 +301,17 @@
             margin-bottom: 15px;
         }
 
+        /* Enlagred Grid styles for Review Screen */
+        .review-grid-large {
+            grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .review-grid-large .nav-cell {
+            height: 50px;
+            font-size: 15px;
+        }
+
         .nav-cell {
             height: 38px;
             border: 1px solid var(--text-dim);
@@ -335,9 +346,9 @@
             animation: pulse-glow 2s infinite ease-in-out;
             font-weight: bold !important; 
             z-index: 2;
+            color: var(--text-main) !important;
         }
         
-        /* FIXED CRITICAL CONTRAST BUG: Forces contrast color rules directly down onto the inner span elements */
         .nav-cell.state-filled,
         .nav-cell.state-filled * {
             background-color: var(--selected-bg) !important;
@@ -652,18 +663,52 @@
         
         <div class="panel">
             <div class="panel-header">
-                <div class="header-left-tools">
-                    <span style="font-weight: bold;">Question <span id="current-badge-id">1</span></span>
-                    <button id="review-flag-trigger" class="header-action-toggle" onclick="toggleQuestionReviewMark()">
-                        <span id="flag-symbol-slot">⚐</span> <span>Mark for Review</span>
-                    </button>
+                <div id="panel-header-tools" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="header-left-tools">
+                        <span style="font-weight: bold;">Question <span id="current-badge-id">1</span></span>
+                        <button id="review-flag-trigger" class="header-action-toggle" onclick="toggleQuestionReviewMark()">
+                            <span id="flag-symbol-slot">⚐</span> <span>Mark for Review</span>
+                        </button>
+                    </div>
+                    <span class="elimination-instruction-badge">💡 Right-click an option to cross it out</span>
                 </div>
-                <span class="elimination-instruction-badge">💡 Right-click an option to cross it out</span>
+                
+                <div id="panel-header-review-title" style="display: none; font-weight: bold; width: 100%; text-align: left;">
+                    Assessment Review
+                </div>
             </div>
             
-            <div class="panel-content">
+            <div id="question-panel-content" class="panel-content">
                 <div id="target-question-box" class="question-text-field">Loading exam content...</div>
                 <div id="target-choices-container"></div>
+            </div>
+            
+            <div id="review-panel-content" class="panel-content" style="display: none;">
+                <h2 style="margin-top: 0; font-size: 20px;">Review Your Answers</h2>
+                <p style="color: var(--text-dim); margin-bottom: 25px; line-height: 1.5; font-size: 14px;">
+                    You have reached the end of the examination block. Please review your answers below. You may click on any question number to return to that question. When you are ready, click the <strong>Submit</strong> button at the bottom right to finalize your attempt.
+                </p>
+                
+                <div id="review-matrix-grid" class="navigation-grid review-grid-large"></div>
+                
+                <div class="matrix-legend-row" style="border-top: none; justify-content: flex-start; gap: 30px;">
+                    <div class="legend-item">
+                        <div class="legend-box" style="border: 2px solid var(--text-main); background-color: rgba(0,0,0,0.06);"></div>
+                        <span>Current</span>
+                    </div>
+                    <div class="legend-item">
+                        <span style="font-size:15px; color:var(--flag-red); font-weight:bold; line-height:1; transform:translateY(-1px);">⚐</span>
+                        <span>Marked for Review</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background-color: var(--selected-bg); border-color: var(--selected-bg);"></div>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background-color: rgba(0,0,0,0.02); border-color: var(--text-dim);"></div>
+                        <span>Unanswered</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -672,7 +717,7 @@
     <div class="footer-belt">
         <button id="footer-prev-btn" class="nav-btn" onclick="changeActiveQuestion(-1)" disabled>◀ Back</button>
         
-        <div class="dropup-trigger-container">
+        <div class="dropup-trigger-container" id="dropup-navigation-wrapper">
             <div id="dropup-nav-matrix-panel" class="dropup-nav-panel">
                 <div class="tab-panel-header">Question Navigation</div>
                 <div class="tab-panel-body">
@@ -773,8 +818,14 @@
                 loadSavedExamProgressState();
 
                 startSessionTimerLoop();
-                generateNavigationMatrixConsole();
-                renderTargetQuestionBlock();
+                generateMatrices();
+                
+                // If they loaded cache while on the review screen bounds
+                if (currentProblemIndex >= examinationPool.length) {
+                    showReviewScreen();
+                } else {
+                    renderTargetQuestionBlock();
+                }
             } else {
                 document.getElementById('target-question-box').innerText = "Asset Error: Exam pool variable returned empty or data undefined.";
             }
@@ -940,12 +991,46 @@
             
             isDropupMatrixOpen = false;
             document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
-            if (examinationPool.length > 0) {
+            if (examinationPool.length > 0 && currentProblemIndex < examinationPool.length) {
                 document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ▴`;
             }
         };
 
+        function showReviewScreen() {
+            isDropupMatrixOpen = false;
+            document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
+            
+            document.getElementById('question-panel-content').style.display = 'none';
+            document.getElementById('review-panel-content').style.display = 'block';
+            
+            document.getElementById('panel-header-tools').style.display = 'none';
+            document.getElementById('panel-header-review-title').style.display = 'block';
+            
+            document.getElementById('dropup-navigation-wrapper').style.display = 'none'; // Hides dropup box & progress label
+            
+            const nextBtn = document.getElementById('footer-next-btn');
+            nextBtn.innerText = 'Submit';
+            nextBtn.onclick = terminateActiveSessionInstance;
+            
+            const prevBtn = document.getElementById('footer-prev-btn');
+            prevBtn.disabled = false;
+            prevBtn.onclick = () => {
+                currentProblemIndex = examinationPool.length - 1;
+                renderTargetQuestionBlock();
+                saveActiveExamProgressState();
+            };
+
+            updateConsoleMatrixHighlights();
+        }
+
         function renderTargetQuestionBlock() {
+            // Restore Normal View States
+            document.getElementById('question-panel-content').style.display = 'block';
+            document.getElementById('review-panel-content').style.display = 'none';
+            document.getElementById('dropup-navigation-wrapper').style.display = 'flex';
+            document.getElementById('panel-header-tools').style.display = 'flex';
+            document.getElementById('panel-header-review-title').style.display = 'none';
+
             const questionRecord = examinationPool[currentProblemIndex];
             document.getElementById('current-badge-id').innerText = currentProblemIndex + 1;
             document.getElementById('target-question-box').innerHTML = questionRecord.question;
@@ -992,8 +1077,17 @@
             });
 
             document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ${isDropupMatrixOpen ? '▾' : '▴'}`;
+            
             document.getElementById('footer-prev-btn').disabled = currentProblemIndex === 0;
-            document.getElementById('footer-next-btn').innerText = currentProblemIndex === examinationPool.length - 1 ? 'Finish' : 'Next ▶';
+            document.getElementById('footer-prev-btn').onclick = () => changeActiveQuestion(-1);
+            
+            const nextBtn = document.getElementById('footer-next-btn');
+            if (currentProblemIndex === examinationPool.length - 1) {
+                nextBtn.innerText = 'Review';
+            } else {
+                nextBtn.innerText = 'Next ▶';
+            }
+            nextBtn.onclick = () => changeActiveQuestion(1);
 
             updateConsoleMatrixHighlights();
 
@@ -1048,21 +1142,28 @@
         function changeActiveQuestion(directionValue) {
             currentProblemIndex += directionValue;
             if (currentProblemIndex >= examinationPool.length) {
-                terminateActiveSessionInstance();
+                currentProblemIndex = examinationPool.length; // Lock at bounds for review screen state
+                showReviewScreen();
+                saveActiveExamProgressState();
                 return;
             }
             renderTargetQuestionBlock();
             saveActiveExamProgressState();
         }
 
-        function generateNavigationMatrixConsole() {
-            const matrixGridBoxElement = document.getElementById('navigation-matrix-grid');
+        function generateMatrices() {
+            buildGridIntoContainer('navigation-matrix-grid', 'nav-cell-');
+            buildGridIntoContainer('review-matrix-grid', 'review-cell-');
+        }
+
+        function buildGridIntoContainer(containerId, idPrefix) {
+            const matrixGridBoxElement = document.getElementById(containerId);
             matrixGridBoxElement.innerHTML = '';
 
             examinationPool.forEach((_, stepIndex) => {
                 const cellElementNode = document.createElement('div');
                 cellElementNode.className = 'nav-cell';
-                cellElementNode.id = `navigation-matrix-cell-id-${stepIndex}`;
+                cellElementNode.id = `${idPrefix}${stepIndex}`;
                 
                 const textSpan = document.createElement('span');
                 textSpan.innerText = (stepIndex + 1).toString().padStart(2, '0');
@@ -1085,14 +1186,17 @@
 
         function updateConsoleMatrixHighlights() {
             examinationPool.forEach((_, stepIndex) => {
-                const targetedCellRef = document.getElementById(`navigation-matrix-cell-id-${stepIndex}`);
-                if (!targetedCellRef) return;
-                
-                targetedCellRef.className = 'nav-cell';
+                // Update BOTH the dropup grid and the review screen grid synchronously
+                ['nav-cell-', 'review-cell-'].forEach(prefix => {
+                    const targetedCellRef = document.getElementById(`${prefix}${stepIndex}`);
+                    if (!targetedCellRef) return;
+                    
+                    targetedCellRef.className = 'nav-cell';
 
-                if (stepIndex === currentProblemIndex) targetedCellRef.classList.add('current-active');
-                if (catalogedUserResponses[stepIndex] !== null) targetedCellRef.classList.add('state-filled');
-                if (markedReviewMatrix[stepIndex]) targetedCellRef.classList.add('state-review');
+                    if (stepIndex === currentProblemIndex) targetedCellRef.classList.add('current-active');
+                    if (catalogedUserResponses[stepIndex] !== null) targetedCellRef.classList.add('state-filled');
+                    if (markedReviewMatrix[stepIndex]) targetedCellRef.classList.add('state-review');
+                });
             });
         }
 
