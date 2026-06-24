@@ -3,411 +3,771 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physics For You</title>
+    <title>Practice Exam Session</title>
     
     <script src="settings/theme.js"></script>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
+        /* Shared CSS Properties Cloned From home-page.html */
         :root {
             --bg-color: #eef2f5;        
             --panel-bg: #ffffff;        
             --header-bg: #1b2a47;       
+            --header-black: #111111;    
             --text-main: #1c2533;       
             --text-dim: #626f80;        
             --border-color: rgba(0,0,0,0.15);
+            --review-gold: #f59e0b;
         }
 
         body {
             font-family: 'Consolas', 'Courier New', monospace;
             background-color: var(--bg-color);
             margin: 0;
-            padding: 30px 20px;
+            padding: 30px 20px 100px 20px; /* Aligned top padding with home page */
             color: var(--text-main);
+            user-select: none;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Top Title Branding Container */
-        .branding-header {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .main-app-title {
-            font-size: 28px;
-            font-weight: bold;
-            margin: 0 0 8px 0;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-        }
-
-        .main-app-desc {
-            font-size: 14px;
-            margin: 0 auto;
-            max-width: 700px;
-            color: var(--text-dim);
-            line-height: 1.5;
-        }
-
-        /* Centered Layout Wrapper */
+        /* Column Sizing Parity with home-page.html Content Stack */
         .workspace-wrapper {
-            position: relative;
-            max-width: 800px; /* Keeps the main content block size comfortable and centered */
+            max-width: 800px; /* Keeps main content block size perfectly matched to home page */
             margin: 0 auto;
-        }
-
-        /* Left Side Floating Sidebar Settings */
-        .sidebar-floating {
-            position: absolute;
-            left: -285px; /* Floats it out into the empty space on the left */
-            top: 0;
-            width: 250px;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
-        /* Shared Card Panel styling */
+        /* Shared Card Panel Architecture from home-page.html */
         .panel {
             background-color: var(--panel-bg);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            border-radius: 6px; /* Matched home page rounded corners */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02); /* Matched home page box shadow */
             overflow: hidden;
         }
 
         .panel-header {
             background-color: var(--header-bg);
             padding: 12px 16px;
-            font-size: 13px;
+            font-size: 13px; /* Aligned typography to home page rules */
             font-weight: bold;
             color: #ffffff;
             letter-spacing: 0.5px;
-            cursor: pointer;
-            user-select: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        /* Interactive indicator arrow */
-        .panel-header::before { 
-            content: "▼"; 
-            font-size: 9px; 
-            display: inline-block;
-            transition: transform 0.25s ease;
-        }
-        
-        /* Rotate arrow when panel container is closed */
-        .panel.collapsed .panel-header::before {
-            transform: rotate(-90deg);
-        }
-
-        /* Transition wrapper for smooth opening/closing heights */
-        .panel-collapse {
-            max-height: 1000px; /* Large enough value to hold content */
-            overflow: hidden;
-            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .panel.collapsed .panel-collapse {
-            max-height: 0px !important;
-        }
-
-        .panel-content { padding: 20px; }
-
-        .setting-row {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .theme-select {
-            font-family: inherit;
-            background: var(--panel-bg);
-            border: 1px solid var(--text-dim);
-            color: var(--text-main);
-            padding: 8px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        /* Right Side Content Elements - Now Perfectly Centered */
-        .center-content-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-        }
-
-        .selector-group {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        
-        .select-btn {
-            background: var(--panel-bg);
-            border: 1px solid var(--text-dim);
-            color: var(--text-main);
-            padding: 8px 16px;
-            cursor: pointer;
-            font-family: inherit;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-        .select-btn:hover { background-color: rgba(0,0,0,0.06); }
-        .select-btn.active {
-            background-color: var(--header-bg);
-            border-color: var(--header-bg);
-            color: #ffffff;
-            font-weight: bold;
-        }
-
-        .action-btn {
-            background-color: var(--header-bg);
-            border: 1px solid var(--header-bg);
-            color: #fff;
-            padding: 10px 22px;
-            font-family: inherit;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: opacity 0.2s;
-        }
-        .action-btn:hover { opacity: 0.9; }
-
-        .inline-warning {
-            color: #e05252;
-            font-size: 13px;
-            margin-top: 8px;
-            margin-bottom: -4px;
-            display: none;
-            font-weight: bold;
-        }
-
-        .exam-row {
-            border-bottom: 1px solid var(--border-color);
-            padding: 14px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-sizing: border-box;
         }
-        .exam-row:last-child { border-bottom: none; }
-        .exam-title { font-weight: bold; width: 220px; flex-shrink: 0; color: var(--text-main); }
-        
-        .test-buttons { display: flex; gap: 8px; }
-        
-        .test-link {
-            background: var(--panel-bg);
-            border: 1px solid var(--text-dim);
-            color: var(--text-main);
-            padding: 6px 14px;
-            text-decoration: none;
-            font-size: 12px;
+
+        /* Black Question Box Header Tab Variation Request */
+        .panel-header.black-tab {
+            background-color: var(--header-black);
+        }
+
+        .panel-content { 
+            padding: 20px; /* Aligned panel content interior padding with home page */
+        }
+
+        /* Interactive Collapsible Nav System matching home page 0.2s speed tokens */
+        .panel-header.clickable-trigger {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .panel-header.clickable-trigger:hover {
+            opacity: 0.9;
+        }
+
+        .collapsible-content {
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.2s ease-in-out, padding 0.2s ease-in-out;
+            box-sizing: border-box;
+        }
+
+        .collapsible-content.collapsed {
+            max-height: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        /* Top Bar Timer Elements Positioned on the Right Side */
+        .timer-zone {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .timer-box { 
+            font-size: 14px; 
+            color: #ffffff; 
+            font-weight: bold; 
+        }
+
+        .utility-btn {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            padding: 4px 10px;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: bold;
             border-radius: 4px;
-            text-align: center;
-            min-width: 55px;
+            cursor: pointer;
             transition: all 0.2s;
         }
-        .test-link:hover { background-color: rgba(0,0,0,0.06); }
 
-        .btn-easy { border-color: #31c48d; color: #1e4620; background-color: #def7ec; }
-        .btn-easy:hover { opacity: 0.85; }
-        .btn-med { border-color: #f59e0b; color: #92400e; background-color: #fef3c7; }
-        .btn-med:hover { opacity: 0.85; }
-        .btn-hard { border-color: #f98080; color: #7a1e1e; background-color: #fde8e8; }
-        .btn-hard:hover { opacity: 0.85; }
+        .utility-btn:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
 
-        /* Responsive Design: Wrap neatly onto smaller screen dimensions */
-        @media (max-width: 1360px) {
-            .workspace-wrapper {
-                max-width: 800px;
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-            }
-            .sidebar-floating {
-                position: static;
-                width: 100%;
-            }
+        .header-left-tools {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-action-toggle {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.75);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0;
+            transition: color 0.2s;
+        }
+
+        .header-action-toggle:hover {
+            color: #ffffff;
+        }
+
+        .header-action-toggle.flagged-active {
+            color: var(--review-gold);
+        }
+
+        .header-utility-toggle {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            padding: 4px 10px;
+            font-size: 11px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .header-utility-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* MCQ Question Wording Format Layout */
+        .question-text-field {
+            font-size: 15px; 
+            margin-bottom: 20px; 
+            line-height: 1.5;
+        }
+
+        /* Choice Row Structures mirroring style guide tokens */
+        .choice-row {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        .choice-btn { 
+            display: block; 
+            width: 100%; 
+            text-align: left; 
+            background: rgba(0,0,0,0.02); 
+            border: 1px solid var(--text-dim); 
+            color: var(--text-main); 
+            padding: 14px; 
+            margin: 0; 
+            cursor: pointer; 
+            font-family: inherit; 
+            border-radius: 4px; 
+            font-size: 14px; 
+            transition: all 0.2s; 
+            box-sizing: border-box;
+            padding-right: 50px; 
+        }
+
+        .choice-btn:hover { 
+            background-color: rgba(0,0,0,0.06); 
+        }
+
+        .choice-btn.selected { 
+            border-color: var(--text-main); 
+            background-color: rgba(0,0,0,0.12); 
+            font-weight: bold; 
+        }
+
+        /* Integrated Option Elimination Toolings */
+        .strikeout-trigger {
+            position: absolute;
+            right: 14px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-dim);
+            width: 24px;
+            height: 24px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            display: none; 
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 5;
+        }
+
+        .strikeout-trigger:hover {
+            background-color: #fde8e8;
+            border-color: #f98080;
+            color: #7a1e1e;
+        }
+
+        .choice-row.eliminated .choice-btn {
+            opacity: 0.35;
+            text-decoration: line-through;
+            pointer-events: none;
+            background-color: rgba(0,0,0,0.05);
+            border-color: var(--border-color);
+        }
+
+        .choice-row.eliminated .strikeout-trigger {
+            display: flex !important;
+            background-color: #fde8e8;
+            border-color: #f98080;
+            color: #7a1e1e;
+        }
+
+        /* Navigation Matrix Console Sizing Map */
+        .navigation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+            gap: 10px;
+        }
+
+        .nav-cell {
+            height: 38px;
+            border: 1px solid var(--text-dim);
+            background-color: rgba(0,0,0,0.02);
+            color: var(--text-main);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .nav-cell:hover {
+            background-color: rgba(0,0,0,0.08);
+        }
+
+        .nav-cell.current-active {
+            border: 2px solid var(--header-bg);
+            background-color: rgba(0,0,0,0.06);
+        }
+
+        .nav-cell.state-filled {
+            background-color: rgba(27, 42, 71, 0.1);
+            border-color: var(--header-bg);
+        }
+
+        .nav-cell.state-review::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            width: 6px;
+            height: 6px;
+            background-color: var(--review-gold);
+            border-radius: 50%;
+        }
+
+        /* Footer Fixed Action Strip Bar Ribbon */
+        .footer-belt {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--panel-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 14px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 1000;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+        }
+
+        .nav-btn { 
+            background-color: var(--panel-bg); 
+            border: 1px solid var(--text-dim); 
+            color: var(--text-main); 
+            padding: 9px 18px; 
+            cursor: pointer;
+            font-family: inherit; 
+            font-size: 13px; 
+            display: inline-block;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover:not(:disabled) { 
+            background-color: rgba(0,0,0,0.08); 
+        }
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: default;
+        }
+
+        .action-btn { 
+            background-color: var(--header-bg); 
+            border: 1px solid var(--header-bg); 
+            color: white; 
+            padding: 10px 22px; 
+            cursor: pointer; 
+            font-family: inherit; 
+            font-size: 13px; 
+            font-weight: bold; 
+            border-radius: 4px;
+            transition: opacity 0.2s;
+        }
+        .action-btn:hover { 
+            opacity: 0.9; 
+        }
+
+        /* Setup Guidelines Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(28, 37, 51, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-box {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            max-width: 520px;
+            width: 90%;
+            overflow: hidden;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+        }
+
+        .modal-box ul {
+            padding-left: 20px;
+            line-height: 1.6;
+            font-size: 13px;
         }
     </style>
 </head>
-<body>
+<body class="tex2jax_ignore">
 
-    <div class="branding-header">
-        <h1 class="main-app-title">AP Master Page Practice & Review</h1>
-        <p class="main-app-desc">Select your course path below to challenge yourself with daily problems, full-length practice exams, custom difficulty problems, and more to prepare yourself for upcoming AP exams.</p>
+    <div class="workspace-wrapper tex2jax_process">
+        
+        <div class="panel">
+            <div class="panel-header">
+                <span id="section-title">Section I: Practice Examination</span>
+                <div class="timer-zone">
+                    <span id="timer-display" class="timer-box">80:00</span>
+                    <button id="timer-toggle-visibility" class="utility-btn" onclick="toggleTimerClockVisibility()">Hide</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header black-tab">
+                <div class="header-left-tools">
+                    <span style="font-weight: bold;">Question <span id="current-badge-id">1</span></span>
+                    <button id="review-flag-trigger" class="header-action-toggle" onclick="toggleQuestionReviewMark()">
+                        <span>🏳️ Mark for Review</span>
+                    </button>
+                </div>
+                <button id="elimination-mode-toggle" class="header-utility-toggle" onclick="toggleMasterEliminationEngine()">
+                    [×] Elimination Mode
+                </button>
+            </div>
+            
+            <div class="panel-content">
+                <div id="target-question-box" class="question-text-field">Resolving pool parameters...</div>
+                
+                <div id="target-choices-container">
+                    </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header clickable-trigger" onclick="toggleNavigationDropdownView()">
+                <span id="dropdown-header-label">▼ Dashboard Matrix Navigation</span>
+            </div>
+            <div id="collapsible-nav-section" class="panel-content collapsible-content">
+                <div id="navigation-matrix-grid" class="navigation-grid">
+                    </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="workspace-wrapper">
-        
-        <aside class="sidebar-floating">
-            <div class="panel">
-                <div class="panel-header" onclick="togglePanel(this)">Settings</div>
-                <div class="panel-collapse">
-                    <div class="panel-content">
-                        <div class="setting-row">
-                            <label for="theme-dropdown" style="font-size: 12px; font-weight: bold; opacity: 0.85;">Color Palette Theme:</label>
-                            <select id="theme-dropdown" class="theme-select" onchange="changeTheme(this.value)">
-                                <option value="navy">Navy & Pale Gray</option>
-                                <option value="dark">Dark Slate</option>
-                                <option value="purple">Midnight Purple</option>
-                                <option value="dollar">Dollar</option>
-                                <option value="dots">Dots</option>
-                                <option value="paper">Paper</option>
-                                <option value="repose_dark">Repose Dark</option>
-                                <option value="alpine">Alpine</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="panel">
-                <div class="panel-header" onclick="togglePanel(this)">Exam Score Calculator</div>
-                <div class="panel-collapse">
-                    <div class="panel-content" style="display: flex; flex-direction: column; gap: 10px;">
-                        <a href="calculator.html?subject=ap1" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">AP1</a>
-                        <a href="calculator.html?subject=ap2" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">AP2</a>
-                        <a href="calculator.html?subject=mech" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">APC: Mech</a>
-                        <a href="calculator.html?subject=em" class="select-btn" style="text-align: center; text-decoration: none; font-size: 13px;">APC: E&M</a>
-                    </div>
-                </div>
-            </div>
-        </aside>
+    <div class="footer-belt">
+        <button id="footer-prev-btn" class="nav-btn" onclick="changeActiveQuestion(-1)" disabled>◀ Back</button>
+        <span id="footer-progress-label" style="font-size: 13px; font-weight: bold; color: var(--text-main);">Question 1 of 0</span>
+        <button id="footer-next-btn" class="action-btn" onclick="changeActiveQuestion(1)">Next ▶</button>
+    </div>
 
-        <main class="center-content-stack">
-            
-            <div class="panel">
-                <div class="panel-header" onclick="togglePanel(this)">Daily Problem</div>
-                <div class="panel-collapse">
-                    <div class="panel-content">
-                        <p style="margin-top: 0; margin-bottom: 0;">Select your course to get today's problem:</p>
-                        <div id="course-warning" class="inline-warning">Please select a course before starting your daily problem.</div>
-                        
-                        <div class="selector-group">
-                            <button class="select-btn" onclick="setSubject('ap1', event)">AP Physics 1</button>
-                            <button class="select-btn" onclick="setSubject('ap2', event)">AP Physics 2</button>
-                            <button class="select-btn" onclick="setSubject('mech', event)">APC: Mech</button>
-                            <button class="select-btn" onclick="setSubject('em', event)">APC: E&M</button>
-                        </div>
-                        <button class="action-btn" onclick="launchDailyTest()">Start Daily Problem</button>
-                    </div>
-                </div>
+    <div id="welcome-modal-overlay" class="modal-overlay">
+        <div class="modal-box">
+            <div class="panel-header">
+                <span>Session Operations Profile</span>
             </div>
-
-            <div class="panel">
-                <div class="panel-header" onclick="togglePanel(this)">Practice Exams</div>
-                <div class="panel-collapse">
-                    <div class="panel-content">
-                        <div class="exam-row">
-                            <span class="exam-title">AP Physics 1</span>
-                            <div class="test-buttons">
-                                <a href="practice-exam-session.html?subject=ap1&exam=1" class="test-link">Test 1</a>
-                                <a href="practice-exam-session.html?subject=ap1&exam=2" class="test-link">Test 2</a>
-                                <a href="practice-exam-session.html?subject=ap1&exam=3" class="test-link">Test 3</a>
-                                <a href="practice-exam-session.html?subject=ap1&exam=4" class="test-link">Test 4</a>
-                            </div>
-                        </div>
-                        <div class="exam-row">
-                            <span class="exam-title">AP Physics 2</span>
-                            <div class="test-buttons">
-                                <a href="practice-exam-session.html?subject=ap2&exam=1" class="test-link">Test 1</a>
-                                <a href="practice-exam-session.html?subject=ap2&exam=2" class="test-link">Test 2</a>
-                                <a href="practice-exam-session.html?subject=ap2&exam=3" class="test-link">Test 3</a>
-                                <a href="practice-exam-session.html?subject=ap2&exam=4" class="test-link">Test 4</a>
-                            </div>
-                        </div>
-                        <div class="exam-row">
-                            <span class="exam-title">AP C: Mechanics</span>
-                            <div class="test-buttons">
-                                <a href="practice-exam-session.html?subject=mech&exam=1" class="test-link">Test 1</a>
-                                <a href="practice-exam-session.html?subject=mech&exam=2" class="test-link">Test 2</a>
-                                <a href="practice-exam-session.html?subject=mech&exam=3" class="test-link">Test 3</a>
-                                <a href="practice-exam-session.html?subject=mech&exam=4" class="test-link">Test 4</a>
-                            </div>
-                        </div>
-                        <div class="exam-row">
-                            <span class="exam-title">AP C: E&M</span>
-                            <div class="test-buttons">
-                                <a href="practice-exam-session.html?subject=em&exam=1" class="test-link">Test 1</a>
-                                <a href="practice-exam-session.html?subject=em&exam=2" class="test-link">Test 2</a>
-                                <a href="practice-exam-session.html?subject=em&exam=3" class="test-link">Test 3</a>
-                                <a href="practice-exam-session.html?subject=em&exam=4" class="test-link">Test 4</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div style="padding: 20px;">
+                <p style="margin-top: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">Welcome to your uniform practice testing environment.</p>
+                <ul>
+                    <li>You have an uninterrupted clock countdown allocation of <strong>80 minutes</strong>.</li>
+                    <li>Toggle <strong>Elimination Mode</strong> to render custom crossout parameters beside options.</li>
+                    <li>Collapse or expand your index panel by clicking directly onto the <strong>Dashboard Matrix Navigation</strong> layout bar.</li>
+                </ul>
+                <button class="action-btn" style="width: 100%; margin-top: 15px; padding: 12px;" onclick="closeWelcomeInstructionsModal()">Begin Examination Block</button>
             </div>
-
-            <div class="panel">
-                <div class="panel-header" onclick="togglePanel(this)">Custom Difficulty Practice Problems</div>
-                <div class="panel-collapse">
-                    <div class="panel-content">
-                        <div class="exam-row">
-                            <span class="exam-title">AP Physics 1</span>
-                            <div class="test-buttons">
-                                <a href="sandbox.html?subject=ap1&diff=easy" class="test-link btn-easy">Easy</a>
-                                <a href="sandbox.html?subject=ap1&diff=med" class="test-link btn-med">Medium</a>
-                                <a href="sandbox.html?subject=ap1&diff=hard" class="test-link btn-hard">Hard</a>
-                            </div>
-                        </div>
-                        <div class="exam-row">
-                            <span class="exam-title">AP Physics 2</span>
-                            <div class="test-buttons">
-                                <a href="sandbox.html?subject=ap2&diff=easy" class="test-link btn-easy">Easy</a>
-                                <a href="sandbox.html?subject=ap2&diff=med" class="test-link btn-med">Medium</a>
-                                <a href="sandbox.html?subject=ap2&diff=hard" class="test-link btn-hard">Hard</a>
-                            </div>
-                        </div>
-                        <div class="exam-row">
-                            <span class="exam-title">AP C: Mechanics</span>
-                            <div class="test-buttons">
-                                <a href="sandbox.html?subject=mech&diff=easy" class="test-link btn-easy">Easy</a>
-                                <a href="sandbox.html?subject=mech&diff=med" class="test-link btn-med">Medium</a>
-                                <a href="sandbox.html?subject=mech&diff=hard" class="test-link btn-hard">Hard</a>
-                            </div>
-                        </div>
-                        <div class="exam-row">
-                            <span class="exam-title">AP C: E&M</span>
-                            <div class="test-buttons">
-                                <a href="sandbox.html?subject=em&diff=easy" class="test-link btn-easy">Easy</a>
-                                <a href="sandbox.html?subject=em&diff=med" class="test-link btn-med">Medium</a>
-                                <a href="sandbox.html?subject=em&diff=hard" class="test-link btn-hard">Hard</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </main>
+        </div>
     </div>
 
     <script>
-        let selectedSubject = null;
+        // Extract initialization route codes out of active search routing queries
+        const searchParameters = new URLSearchParams(window.location.search);
+        const subjectCode = searchParameters.get('subject') || 'ap1';
+        const examIdentity = searchParameters.get('exam') || '1';
 
-        // Function to toggle panels smoothly
-        function togglePanel(headerElement) {
-            const panel = headerElement.closest('.panel');
-            panel.classList.toggle('collapsed');
+        const mapAlphaIntegerWord = ["Zero", "One", "Two", "Three", "Four", "Five"];
+
+        // State Storage Parameters registers
+        let currentProblemIndex = 0;
+        let examinationPool = [];
+        let catalogedUserResponses = [];
+        let markedReviewMatrix = [];
+        let optionCrossoutMatrix = [];
+        let eliminationEngineActive = false;
+        let isDropdownExpanded = true;
+
+        // Session Timer Countdowns matrices
+        let continuousCountdownSeconds = 80 * 60;
+        let hideClockStateActive = false;
+
+        // Remote script path dynamic script append resolve structures
+        const remoteScriptAsset = document.createElement('script');
+        remoteScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
+        document.head.appendChild(remoteScriptAsset);
+
+        remoteScriptAsset.onload = function() {
+            if (typeof practiceExamPool !== 'undefined') {
+                examinationPool = practiceExamPool;
+            } else {
+                const translationTargetString = mapAlphaIntegerWord[parseInt(examIdentity)] || "One";
+                const alternativeGlobalVariable = `${subjectCode}PracticeExamPool${translationTargetString}`;
+                if (typeof window[alternativeGlobalVariable] !== 'undefined') {
+                    examinationPool = window[alternativeGlobalVariable];
+                } else if (typeof ap1PracticeExamPoolOne !== 'undefined') {
+                    examinationPool = ap1PracticeExamPoolOne;
+                }
+            }
+
+            if (examinationPool.length > 0) {
+                catalogedUserResponses = new Array(examinationPool.length).fill(null);
+                markedReviewMatrix = new Array(examinationPool.length).fill(false);
+                optionCrossoutMatrix = Array.from({ length: examinationPool.length }, () => []);
+
+                startSessionTimerLoop();
+                generateNavigationMatrixConsole();
+                renderTargetQuestionBlock();
+            } else {
+                document.getElementById('target-question-box').innerText = "Asset Allocation Error: Targeted question list container array returned empty variables.";
+            }
+        };
+
+        remoteScriptAsset.onerror = function() {
+            document.getElementById('target-question-box').innerText = `Path Resolution Error: Could not resolve file source reference on target endpoint vector: ${remoteScriptAsset.src}`;
+        };
+
+        // Active Session Ticker Sequence
+        function startSessionTimerLoop() {
+            const processingTickerInterval = setInterval(() => {
+                if (continuousCountdownSeconds <= 0) {
+                    clearInterval(processingTickerInterval);
+                    alert("Testing countdown block runtime finished! Auto-transmitting logged parameters.");
+                    terminateActiveSessionInstance();
+                    return;
+                }
+                continuousCountdownSeconds--;
+                updateTimerDisplayConsole();
+            }, 1000);
         }
 
-        function setSubject(subject, e) {
-            selectedSubject = subject;
-            document.getElementById('course-warning').style.display = 'none';
-            document.querySelectorAll('.select-btn').forEach(btn => btn.classList.remove('active'));
-            e.target.classList.add('active');
-        }
-
-        function launchDailyTest() {
-            if (!selectedSubject) {
-                document.getElementById('course-warning').style.display = 'block';
+        function updateTimerDisplayConsole() {
+            if (hideClockStateActive) {
+                document.getElementById('timer-display').innerText = "——:——";
                 return;
             }
-            window.location.href = `daily-problem-page.html?subject=${selectedSubject}`;
+            const structuralMinutes = Math.floor(continuousCountdownSeconds / 60);
+            const structuralSeconds = continuousCountdownSeconds % 60;
+            document.getElementById('timer-display').innerText = 
+                `${structuralMinutes.toString().padStart(2, '0')}:${structuralSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function toggleTimerClockVisibility() {
+            hideClockStateActive = !hideClockStateActive;
+            document.getElementById('timer-toggle-visibility').innerText = hideClockStateActive ? "Show" : "Hide";
+            updateTimerDisplayConsole();
+        }
+
+        // Accordion Trigger Event Animation Mapping at 0.2s speed parity
+        function toggleNavigationDropdownView() {
+            isDropdownExpanded = !isDropdownExpanded;
+            const containerRef = document.getElementById('collapsible-nav-section');
+            const labelRef = document.getElementById('dropdown-header-label');
+            
+            if (isDropdownExpanded) {
+                containerRef.classList.remove('collapsed');
+                labelRef.innerText = "▼ Dashboard Matrix Navigation";
+            } else {
+                containerRef.classList.add('collapsed');
+                labelRef.innerText = "▲ Dashboard Matrix Navigation";
+            }
+        }
+
+        // Core Layout Painter Framework Engine
+        function renderTargetQuestionBlock() {
+            const questionRecord = examinationPool[currentProblemIndex];
+
+            // Render numeric tracking headers
+            document.getElementById('current-badge-id').innerText = currentProblemIndex + 1;
+            document.getElementById('target-question-box').innerHTML = questionRecord.question;
+
+            // Handle Review Toggle Interface Text contexts
+            const flagElementRef = document.getElementById('review-flag-trigger');
+            if (markedReviewMatrix[currentProblemIndex]) {
+                flagElementRef.classList.add('flagged-active');
+                flagElementRef.style.color = "var(--review-gold)";
+                flagElementRef.innerHTML = `🚩 <span>Marked for Review</span>`;
+            } else {
+                flagElementRef.classList.remove('flagged-active');
+                flagElementRef.style.color = "rgba(255, 255, 255, 0.75)";
+                flagElementRef.innerHTML = `🏳️ <span>Mark for Review</span>`;
+            }
+
+            // Populate option choices matching standard schema parameters
+            const optionsContentBox = document.getElementById('target-choices-container');
+            optionsContentBox.innerHTML = '';
+
+            const alphaPrefixes = ['A', 'B', 'C', 'D'];
+            questionRecord.choices.forEach((choiceStringText, stringIdx) => {
+                const choiceWrapperNode = document.createElement('div');
+                choiceWrapperNode.className = 'choice-row';
+
+                const targetBtnNode = document.createElement('button');
+                targetBtnNode.className = 'choice-btn';
+                targetBtnNode.innerHTML = `<strong>(${alphaPrefixes[stringIdx]})</strong> ${choiceStringText}`;
+                targetBtnNode.onclick = () => selectTargetOptionIndex(stringIdx);
+
+                if (catalogedUserResponses[currentProblemIndex] === stringIdx) {
+                    targetBtnNode.classList.add('selected');
+                }
+                if (optionCrossoutMatrix[currentProblemIndex].includes(stringIdx)) {
+                    choiceWrapperNode.classList.add('eliminated');
+                }
+
+                const strikeoutButtonNode = document.createElement('button');
+                strikeoutButtonNode.className = 'strikeout-trigger';
+                strikeoutButtonNode.innerText = '×';
+                strikeoutButtonNode.title = "Eliminate option";
+                strikeoutButtonNode.onclick = (event) => toggleIndividualOptionElimination(event, stringIdx);
+
+                choiceWrapperNode.appendChild(targetBtnNode);
+                choiceWrapperNode.appendChild(strikeoutButtonNode);
+                optionsContentBox.appendChild(choiceWrapperNode);
+            });
+
+            // Adjust master visibility configurations for active features
+            syncEliminationToolInterfaceDisplay();
+
+            // Set fixed footer labels data tracks
+            document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length}`;
+            document.getElementById('footer-prev-btn').disabled = currentProblemIndex === 0;
+            document.getElementById('footer-next-btn').innerText = currentProblemIndex === examinationPool.length - 1 ? 'Finish' : 'Next ▶';
+
+            updateConsoleMatrixHighlights();
+
+            // Refresh Typeset Rendering Layers via MathJax Engine Hook
+            if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function selectTargetOptionIndex(optionIdx) {
+            if (optionCrossoutMatrix[currentProblemIndex].includes(optionIdx)) return;
+
+            catalogedUserResponses[currentProblemIndex] = optionIdx;
+
+            const operationalRowsList = document.querySelectorAll('.choice-row');
+            operationalRowsList.forEach((rowWrapper, loopIdx) => {
+                const baseBtn = rowWrapper.querySelector('.choice-btn');
+                if (loopIdx === optionIdx) {
+                    baseBtn.classList.add('selected');
+                } else {
+                    baseBtn.classList.remove('selected');
+                }
+            });
+
+            updateConsoleMatrixHighlights();
+        }
+
+        // Active Option Elimination Trackers
+        function toggleMasterEliminationEngine() {
+            eliminationEngineActive = !eliminationEngineActive;
+            const toggleBtn = document.getElementById('elimination-mode-toggle');
+            
+            if (eliminationEngineActive) {
+                toggleBtn.style.backgroundColor = "rgba(255, 255, 255, 0.35)";
+            } else {
+                toggleBtn.style.backgroundColor = "rgba(255, 255, 255, 0.15)";
+            }
+            
+            syncEliminationToolInterfaceDisplay();
+        }
+
+        function syncEliminationToolInterfaceDisplay() {
+            const eliminationControls = document.querySelectorAll('.strikeout-trigger');
+            eliminationControls.forEach((controlNode, indexKey) => {
+                if (eliminationEngineActive || optionCrossoutMatrix[currentProblemIndex].includes(indexKey)) {
+                    controlNode.style.display = 'flex';
+                } else {
+                    controlNode.style.display = 'none';
+                }
+            });
+        }
+
+        function toggleIndividualOptionElimination(clickEvent, choiceOptionIdx) {
+            clickEvent.stopPropagation();
+
+            const matrixIndexPos = optionCrossoutMatrix[currentProblemIndex].indexOf(choiceOptionIdx);
+            const operationalRowsList = document.querySelectorAll('.choice-row');
+
+            if (matrixIndexPos > -1) {
+                optionCrossoutMatrix[currentProblemIndex].splice(matrixIndexPos, 1);
+                operationalRowsList[choiceOptionIdx].classList.remove('eliminated');
+            } else {
+                optionCrossoutMatrix[currentProblemIndex].push(choiceOptionIdx);
+                operationalRowsList[choiceOptionIdx].classList.add('eliminated');
+
+                if (catalogedUserResponses[currentProblemIndex] === choiceOptionIdx) {
+                    catalogedUserResponses[currentProblemIndex] = null;
+                    operationalRowsList[choiceOptionIdx].querySelector('.choice-btn').classList.remove('selected');
+                }
+            }
+
+            syncEliminationToolInterfaceDisplay();
+            updateConsoleMatrixHighlights();
+        }
+
+        function toggleQuestionReviewMark() {
+            markedReviewMatrix[currentProblemIndex] = !markedReviewMatrix[currentProblemIndex];
+            renderTargetQuestionBlock();
+        }
+
+        // Active Problem Index Position Modifiers
+        function changeActiveQuestion(directionValue) {
+            currentProblemIndex += directionValue;
+            if (currentProblemIndex >= examinationPool.length) {
+                terminateActiveSessionInstance();
+                return;
+            }
+            renderTargetQuestionBlock();
+        }
+
+        // Grid Console Interface Generator Engine
+        function generateNavigationMatrixConsole() {
+            const matrixGridBoxElement = document.getElementById('navigation-matrix-grid');
+            matrixGridBoxElement.innerHTML = '';
+
+            examinationPool.forEach((_, stepIndex) => {
+                const cellElementNode = document.createElement('div');
+                cellElementNode.className = 'nav-cell';
+                cellElementNode.id = `navigation-matrix-cell-id-${stepIndex}`;
+                cellElementNode.innerText = (stepIndex + 1).toString().padStart(2, '0');
+                cellElementNode.onclick = () => {
+                    currentProblemIndex = stepIndex;
+                    renderTargetQuestionBlock();
+                };
+                matrixGridBoxElement.appendChild(cellElementNode);
+            });
+        }
+
+        function updateConsoleMatrixHighlights() {
+            examinationPool.forEach((_, stepIndex) => {
+                const targetedCellRef = document.getElementById(`navigation-matrix-cell-id-${stepIndex}`);
+                if (!targetedCellRef) return;
+
+                targetedCellRef.className = 'nav-cell';
+
+                if (stepIndex === currentProblemIndex) targetedCellRef.classList.add('current-active');
+                if (catalogedUserResponses[stepIndex] !== null) targetedCellRef.classList.add('state-filled');
+                if (markedReviewMatrix[stepIndex]) targetedCellRef.classList.add('state-review');
+            });
+        }
+
+        // Layout Overlay Utility Hooks
+        function closeWelcomeInstructionsModal() {
+            document.getElementById('welcome-modal-overlay').style.display = 'none';
+        }
+
+        function terminateActiveSessionInstance() {
+            const totalUnansweredQuestionsCount = catalogedUserResponses.filter(answer => answer === null).length;
+            let queryMessagePrompt = "Are you sure you want to finalize this exam block session and submit your responses?";
+
+            if (totalUnansweredQuestionsCount > 0) {
+                queryMessagePrompt = `Warning: You have left ${totalUnansweredQuestionsCount} questions completely blank! ${queryMessagePrompt}`;
+            }
+
+            if (confirm(queryMessagePrompt)) {
+                alert("Responses successfully cataloged. Returning to control room home screen.");
+                window.location.href = 'home-page.html';
+            }
         }
     </script>
 </body>
