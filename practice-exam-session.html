@@ -4,102 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Practice Exam Session</title>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
     <style>
-        /* Blending your Slate/Paper Palette Theme */
+        /* Uniform Variables inherited from your daily-problem-page.html theme */
         :root {
-            --slate-header: #3a3a3a;
-            --paper-bg: #eaeaea;
-            --card-white: #ffffff;
-            --border-dark: #222222;
-            --pill-border: #bcbcbc;
-            --action-blue: #2444a4;
-            --review-gold: #f59e0b;
+            --bg-color: #eef2f5;        
+            --panel-bg: #ffffff;        
+            --header-bg: #1b2a47;       
+            --text-main: #1c2533;       
+            --text-dim: #626f80;        
+            --border-color: #dcdfe6;    
+            --action-blue: #2444a4;     
+            --review-gold: #f59e0b;     
+            --pill-hover: #f8fafc;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--paper-bg);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
             margin: 0;
-            padding: 0 0 80px 0; /* Clear room for the fixed bottom bar */
-            color: #111;
+            padding: 0 0 90px 0; /* Creates scannable buffer space for fixed bottom bar */
+            color: var(--text-main);
             user-select: none;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Top Bar Layout (Sketch: Section 1: MCQ | Timer) */
+        /* Top Bar Layout (Section Label | Centered Clock | Utility Button) */
         .top-exam-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
-            background-color: var(--paper-bg);
-            border-bottom: 1px solid var(--pill-border);
+            padding: 16px 32px;
+            background-color: var(--panel-bg);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
         .section-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
-            color: #222;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
         }
 
         .timer-center-zone {
             display: flex;
             flex-direction: column;
             align-items: center;
-            transform: translateX(-50px); /* Centers relative to page */
+            /* Adjust offset centering relative to viewport workspace */
+            transform: translateX(-20px); 
         }
 
         .timer-clock {
             font-size: 24px;
             font-weight: 700;
+            color: var(--text-main);
             font-variant-numeric: tabular-nums;
-            letter-spacing: 0.5px;
+            letter-spacing: -0.5px;
         }
 
         .timer-hide-btn {
-            background: var(--card-white);
-            border: 1px solid var(--pill-border);
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
             border-radius: 4px;
             font-size: 11px;
             font-weight: 600;
-            padding: 2px 8px;
-            margin-top: 3px;
+            color: var(--text-dim);
+            padding: 2px 10px;
+            margin-top: 4px;
             cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .timer-hide-btn:hover {
+            border-color: var(--text-dim);
+            color: var(--text-main);
         }
 
         .reopen-rules-btn {
-            background: var(--card-white);
-            border: 1px solid var(--pill-border);
-            padding: 6px 12px;
-            border-radius: 4px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 7px 14px;
+            border-radius: 6px;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 600;
+            color: var(--text-main);
             cursor: pointer;
+            transition: all 0.15s ease;
         }
 
-        /* Layout Workspace Matrix */
+        .reopen-rules-btn:hover {
+            background-color: var(--pill-hover);
+            border-color: var(--text-dim);
+        }
+
+        /* Main Structured Container Panel Hub */
         .main-workspace {
-            max-width: 850px;
-            margin: 25px auto;
-            padding: 0 15px;
+            max-width: 820px;
+            margin: 30px auto;
+            padding: 0 20px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
         }
 
-        /* Question Box Platform (Sketch Style) */
-        .question-card {
-            background: var(--card-white);
-            border: 1px solid var(--border-dark);
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        /* Clean Unified Card Template Design */
+        .uniform-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(28, 37, 51, 0.04);
             overflow: hidden;
         }
 
-        /* Question Control Header Ribbon */
-        .question-control-header {
-            background: #fcfcfc;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 10px 20px;
+        /* Question Control Subheader Ribbon */
+        .card-control-header {
+            background: #fafbfe;
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -108,70 +145,82 @@
         .left-header-controls {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
         }
 
         .question-badge {
-            background: #000;
-            color: #fff;
+            background: var(--header-bg);
+            color: #ffffff;
             font-weight: 700;
-            font-size: 14px;
-            padding: 4px 10px;
-            border-radius: 4px;
+            font-size: 13px;
+            padding: 5px 12px;
+            border-radius: 6px;
         }
 
         .mark-review-toggle {
             background: none;
             border: none;
             font-size: 13px;
-            font-weight: 700;
-            color: #888;
+            font-weight: 600;
+            color: var(--text-dim);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            transition: color 0.15s ease;
+        }
+
+        .mark-review-toggle:hover {
+            color: var(--text-main);
         }
 
         .mark-review-toggle.active {
             color: var(--review-gold);
         }
 
-        /* Answer Elimination Button matching Bluebook/Sketch style */
+        /* Answer Elimination Mode Toggle Button */
         .elimination-master-btn {
-            background: var(--card-white);
-            border: 1px solid var(--pill-border);
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: 700;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .elimination-master-btn:hover {
+            background-color: var(--pill-hover);
         }
 
         .elimination-master-btn.active {
-            background-color: #ffebeb;
-            border-color: #cc0000;
-            color: #cc0000;
+            background-color: #fff1f2;
+            border-color: #fca5a5;
+            color: #dc2626;
         }
 
-        /* Question Body Content */
-        .question-main-body {
-            padding: 30px 35px;
+        /* Question and Choices Text Platform Area */
+        .card-main-body {
+            padding: 32px 40px;
         }
 
-        .question-text {
+        .question-text-box {
             font-size: 16.5px;
-            line-height: 1.6;
+            line-height: 1.65;
             font-weight: 600;
-            margin-bottom: 30px;
+            color: var(--text-main);
+            margin-bottom: 32px;
         }
 
         .choices-stack {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .choice-row-item {
@@ -184,43 +233,48 @@
         .choice-pill-btn {
             display: flex;
             align-items: center;
-            background: var(--card-white);
-            border: 1px solid var(--pill-border);
-            padding: 14px 20px;
-            border-radius: 30px; /* Perfect pill style matching your design */
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px 24px;
+            border-radius: 30px; /* Rounded uniform pill layouts matching dashboard */
             cursor: pointer;
             text-align: left;
-            font-size: 15px;
+            font-size: 14.5px;
             font-weight: 500;
+            color: var(--text-main);
             width: 100%;
             box-sizing: border-box;
-            transition: all 0.15s;
+            transition: all 0.15s ease;
         }
 
-        .choice-pill-btn:hover:not(.locked) {
-            background-color: #fafafa;
-            border-color: #666;
+        .choice-pill-btn:hover {
+            background-color: var(--pill-hover);
+            border-color: var(--text-dim);
         }
 
         .choice-row-item.selected .choice-pill-btn {
             border-color: var(--action-blue);
-            background-color: #f2f5ff;
+            background-color: #f0f4ff;
             border-width: 2px;
+            padding-top: 14px;
+            padding-bottom: 14px;
         }
 
         .choice-letter-bubble {
             width: 24px;
             height: 24px;
-            border: 1px solid var(--pill-border);
+            border: 1px solid var(--border-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
+            margin-right: 16px;
             font-weight: 700;
             font-size: 12px;
-            background: #ffffff;
+            background: var(--panel-bg);
+            color: var(--text-dim);
             flex-shrink: 0;
+            transition: all 0.15s ease;
         }
 
         .choice-row-item.selected .choice-letter-bubble {
@@ -229,158 +283,155 @@
             border-color: var(--action-blue);
         }
 
-        /* Individual Choice Elimination Cross-out Tool Overlay */
+        /* Individual Strikethrough Elimination Tool Overlay */
         .individual-strike-btn {
             position: absolute;
             right: 20px;
-            background: #f3f4f6;
-            border: 1px solid var(--pill-border);
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
             border-radius: 50%;
             width: 26px;
             height: 26px;
             font-size: 14px;
             font-weight: bold;
-            color: #999;
+            color: var(--text-dim);
             cursor: pointer;
-            display: none; /* Controlled dynamically by master toggle button */
+            display: none; /* Managed dynamically by master script toggles */
             align-items: center;
             justify-content: center;
             z-index: 10;
+            transition: all 0.15s ease;
         }
 
         .individual-strike-btn:hover {
-            color: #cc0000;
-            border-color: #cc0000;
-            background-color: #ffebeb;
+            color: #dc2626;
+            border-color: #fca5a5;
+            background-color: #fff1f2;
         }
 
         .choice-row-item.eliminated .choice-pill-btn {
-            opacity: 0.3;
+            opacity: 0.35;
             text-decoration: line-through;
             pointer-events: none;
+            background-color: #f1f5f9;
         }
 
         .choice-row-item.eliminated .individual-strike-btn {
             display: flex;
-            color: #cc0000;
-            border-color: #cc0000;
-            background-color: #ffebeb;
-            transform: rotate(45deg); /* Turns the cross marker into a clean visual state */
+            color: #dc2626;
+            border-color: #fca5a5;
+            background-color: #fff1f2;
+            transform: rotate(45deg);
         }
 
-        /* Navigation Box Module (Matches your Dashboard Panel Theme layout) */
-        .navigation-dashboard-card {
-            background: var(--card-white);
-            border: 1px solid var(--border-dark);
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-        }
-
-        .navigation-dashboard-header {
-            background: var(--slate-header);
+        /* Cohesive Navigation Dashboard Card Block */
+        .nav-card-header {
+            background: var(--header-bg);
             color: #ffffff;
-            padding: 10px 15px;
+            padding: 12px 20px;
             font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
         }
 
         .navigation-grid-content {
-            padding: 20px;
+            padding: 24px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+            gap: 12px;
         }
 
         .nav-grid-cell {
-            height: 38px;
-            border: 1px solid var(--pill-border);
-            background: #ffffff;
-            border-radius: 4px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            background: var(--panel-bg);
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             font-size: 13px;
+            color: var(--text-main);
             cursor: pointer;
             position: relative;
-            transition: all 0.15s;
+            transition: all 0.15s ease;
         }
 
         .nav-grid-cell:hover {
-            background: #f0f0f0;
-            border-color: #444;
+            background: var(--pill-hover);
+            border-color: var(--text-dim);
         }
 
         .nav-grid-cell.active-position {
-            border: 2.5px solid var(--slate-header);
+            border: 2.5px solid var(--header-bg);
+            color: var(--header-bg);
         }
 
         .nav-grid-cell.status-answered {
-            background: #eef3ff;
-            border-color: #b0c2f2;
+            background: #eef4ff;
+            border-color: #bfdbfe;
             color: var(--action-blue);
         }
 
         .nav-grid-cell.status-review::after {
             content: '';
             position: absolute;
-            top: 2px;
-            right: 2px;
+            top: 3px;
+            right: 3px;
             width: 7px;
             height: 7px;
             background-color: var(--review-gold);
             border-radius: 50%;
         }
 
-        /* Fixed Footer Navigation Belt (Sketch Specification) */
+        /* Fixed Footer Sticky Navigation Belt */
         .fixed-footer-belt {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: var(--card-white);
-            border-top: 1px solid var(--pill-border);
-            padding: 15px 40px;
+            background: var(--panel-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 16px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
             z-index: 500;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.02);
         }
 
         .footer-action-btn {
-            background: var(--slate-header);
+            background: var(--header-bg);
             color: #ffffff;
-            border: 1px solid var(--border-dark);
+            border: 1px solid var(--header-bg);
             padding: 10px 28px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 700;
             font-size: 13px;
-            transition: background 0.15s;
+            transition: background 0.15s ease;
         }
 
         .footer-action-btn:hover:not(:disabled) {
-            background: #111111;
+            background: #121d33;
         }
 
         .footer-action-btn:disabled {
-            background: #cccccc;
-            border-color: #bbbbbb;
-            color: #777;
+            background: #f1f5f9;
+            border-color: var(--border-color);
+            color: var(--text-dim);
             cursor: not-allowed;
         }
 
-        /* Modal Overlay Popups */
+        /* Modal Overlay Framework */
         .modal-block-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(28, 37, 51, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -388,40 +439,41 @@
         }
 
         .modal-paper-card {
-            background: var(--card-white);
-            border: 1px solid var(--border-dark);
-            border-radius: 6px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
             max-width: 500px;
             width: 90%;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
 
-        .modal-slate-title {
-            background: var(--slate-header);
+        .modal-card-title {
+            background: var(--header-bg);
             color: #ffffff;
-            padding: 12px 20px;
+            padding: 14px 24px;
             font-size: 15px;
             font-weight: 700;
             margin: 0;
         }
 
         .modal-interior {
-            padding: 25px 30px;
+            padding: 24px 32px;
         }
 
         .modal-interior ul {
             padding-left: 20px;
             line-height: 1.6;
             font-size: 14px;
-            margin-bottom: 20px;
+            color: var(--text-main);
+            margin-bottom: 24px;
         }
     </style>
 </head>
-<body>
+<body class="tex2jax_ignore">
 
     <div class="top-exam-bar">
-        <div id="section-label" class="section-title">Section 1: Multiple Choice</div>
+        <div id="section-label" class="section-title">Section I: Multiple Choice</div>
         
         <div class="timer-center-zone">
             <div id="timer-clock-digits" class="timer-clock">80:00</div>
@@ -431,30 +483,31 @@
         <button class="reopen-rules-btn" onclick="handleInstructionsModalToggle()">Instructions</button>
     </div>
 
-    <div class="main-workspace">
+    <div class="main-workspace tex2jax_process">
 
-        <div class="question-card">
-            <div class="question-control-header">
+        <div class="uniform-card">
+            <div class="card-control-header">
                 <div class="left-header-controls">
                     <span id="question-tracker-badge" class="question-badge">1</span>
                     <button id="review-flag-btn" class="mark-review-toggle" onclick="handleReviewFlagToggle()">
-                        🏳️ <span>Mark for Review</span>
+                        <span>🏳️ Mark for Review</span>
                     </button>
                 </div>
+                
                 <button id="master-elimination-btn" class="elimination-master-btn" onclick="handleMasterEliminationToggle()">
                     <span>🔤</span> Answer Elimination
                 </button>
             </div>
 
-            <div class="question-main-body">
-                <div id="target-question-text" class="question-text">Loading problem...</div>
+            <div class="card-main-body">
+                <div id="target-question-text" class="question-text-box">Loading problem...</div>
                 <div id="target-choices-stack" class="choices-stack">
                     </div>
             </div>
         </div>
 
-        <div class="navigation-dashboard-card">
-            <div class="navigation-dashboard-header">▼ Navigation</div>
+        <div class="uniform-card">
+            <div class="nav-card-header">▼ Navigation</div>
             <div id="navigation-cells-container" class="navigation-grid-content">
                 </div>
         </div>
@@ -463,47 +516,47 @@
 
     <div class="fixed-footer-belt">
         <button id="nav-back-btn" class="footer-action-btn" onclick="navigateQuestion(-1)" disabled>Back</button>
-        <span id="nav-center-progress" style="font-size:14px; font-weight:700; color:#444;">Question 1 of 0</span>
+        <span id="nav-center-progress" style="font-size:14px; font-weight:700; color: var(--text-main);">Question 1 of 0</span>
         <button id="nav-next-btn" class="footer-action-btn" onclick="navigateQuestion(1)">Next</button>
     </div>
 
     <div id="instructions-modal-view" class="modal-block-overlay">
         <div class="modal-paper-card">
-            <h3 class="modal-slate-title">Exam Instructions</h3>
+            <h3 class="modal-card-title">Exam Instructions</h3>
             <div class="modal-interior">
-                <p style="margin-top:0; font-size:14px;">Welcome to the practice testing session module. Please note the active parameter terms:</p>
+                <p style="margin-top:0; font-size:14px; color: var(--text-main); font-weight: 500;">Welcome to your practice testing session. Please review the operation terms before starting:</p>
                 <ul>
-                    <li>You have an allocated block time of <strong>80 minutes</strong> to fulfill this section.</li>
-                    <li>The clock counts down continuously even when the instructions window pop up stays open.</li>
-                    <li>Toggle the <strong>Answer Elimination</strong> tool above to unlock individual cross-out option states.</li>
-                    <li>Flag uncertainty slots via <strong>Mark for Review</strong> to trace items within your Navigation hub.</li>
+                    <li>You have a continuous pool allocation of <strong>80 minutes</strong> to complete this section.</li>
+                    <li>The clock functions dynamically behind panels and does not stop when menus are opened.</li>
+                    <li>Toggle the <strong>Answer Elimination</strong> button above to activate individual cross-out bubbles (<strong>×</strong>).</li>
+                    <li>Flag questions via <strong>Mark for Review</strong> to trace them easily within your Navigation grid.</li>
                 </ul>
-                <button class="footer-action-btn" style="width:100%; padding:12px;" onclick="handleInstructionsModalToggle()">Start Session</button>
+                <button class="footer-action-btn" style="width:100%; padding:12px; font-size:14px;" onclick="handleInstructionsModalToggle()">Start Examination Block</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Extract initialization tokens out of page location string parameters
+        // Extract URL parameter state settings
         const urlParams = new URLSearchParams(window.location.search);
         const subject = urlParams.get('subject') || 'ap1';
         const examNum = urlParams.get('exam') || '1';
 
         const numericConversionMap = ["Zero", "One", "Two", "Three", "Four", "Five"];
 
-        // State Engines Core Tracking
+        // State Machine Engines
         let currentQuestionIdx = 0;
         let examQuestions = [];
         let userAnswersMap = [];
         let reviewFlagsMap = [];
-        let visualEliminationsMatrix = []; // Tracks struck-out choices indexes per problem array
+        let visualEliminationsMatrix = []; 
         let isEliminationModeActive = false;
 
-        // Timer Module Definitions
+        // Countdown Timer Clock Matrix
         let timeRemainingSeconds = 80 * 60;
         let isClockHidden = false;
 
-        // Connect dynamic configuration file target pathways 
+        // Connect dynamic configuration file pools matching folder structure pathways
         const poolScriptAsset = document.createElement('script');
         poolScriptAsset.src = `${subject}/${subject}-practice-exam-mcqs/${subject}-practice-exam-mcq-pool-${examNum}.js`;
         document.head.appendChild(poolScriptAsset);
@@ -522,7 +575,6 @@
             }
 
             if (examQuestions.length > 0) {
-                // Initialize tracking instances matching length sizes
                 userAnswersMap = new Array(examQuestions.length).fill(null);
                 reviewFlagsMap = new Array(examQuestions.length).fill(false);
                 visualEliminationsMatrix = Array.from({ length: examQuestions.length }, () => []);
@@ -536,10 +588,10 @@
         };
 
         poolScriptAsset.onerror = function() {
-            document.getElementById('target-question-text').innerText = `Path Resolution Error: Could not locate asset script file at path location: ${poolScriptAsset.src}`;
+            document.getElementById('target-question-text').innerText = `Path Resolution Error: Could not locate asset script file at location: ${poolScriptAsset.src}`;
         };
 
-        // Timer Clock Engine Methods
+        // Timer Engine Routine Loop
         function initCountdownTimer() {
             const countdownLoopTicker = setInterval(() => {
                 if (timeRemainingSeconds <= 0) {
@@ -570,13 +622,13 @@
             refreshTimerUI();
         }
 
-        // Display Painter Execution Blocks
+        // Framework Painter Core Logic
         function renderTargetQuestionState() {
-            const ActiveQuestionObj = examQuestions[currentQuestionIdx];
+            const activeQuestionObj = examQuestions[currentQuestionIdx];
 
             // Setup tracking labels
             document.getElementById('question-tracker-badge').innerText = currentQuestionIdx + 1;
-            document.getElementById('target-question-text').innerText = ActiveQuestionObj.question;
+            document.getElementById('target-question-text').innerText = activeQuestionObj.question;
 
             // Render review link appearance attributes
             const flagToggleElement = document.getElementById('review-flag-btn');
@@ -588,12 +640,12 @@
                 flagToggleElement.innerHTML = `🏳️ <span>Mark for Review</span>`;
             }
 
-            // Assemble row pill layouts
+            // Assemble choice row layouts
             const baseChoicesContainer = document.getElementById('target-choices-stack');
             baseChoicesContainer.innerHTML = '';
 
             const alphaKeys = ['A', 'B', 'C', 'D'];
-            ActiveQuestionObj.choices.forEach((choiceStringText, index) => {
+            activeQuestionObj.choices.forEach((choiceStringText, index) => {
                 const choiceWrapperNode = document.createElement('div');
                 choiceWrapperNode.className = 'choice-row-item';
 
@@ -610,19 +662,23 @@
                 baseChoicesContainer.appendChild(choiceWrapperNode);
             });
 
-            // Adjust master configuration view states for active tools
+            // Adjust master visibility configurations for active features
             refreshMasterEliminationDisplayState();
 
-            // Set progress text labels
+            // Set bottom fixed ribbon labels
             document.getElementById('nav-center-progress').innerText = `Question ${currentQuestionIdx + 1} of ${examQuestions.length}`;
             document.getElementById('nav-back-btn').disabled = currentQuestionIdx === 0;
             document.getElementById('nav-next-btn').innerText = currentQuestionIdx === examQuestions.length - 1 ? 'Finish' : 'Next';
 
             refreshNavigationDashboardHighlights();
+
+            // Fire off a MathJax promise refresh to clean up typeset changes seamlessly
+            if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
+                MathJax.typesetPromise();
+            }
         }
 
         function handleChoiceCommitSelection(choiceIndex) {
-            // Block selection processing if option row is currently eliminated
             if (visualEliminationsMatrix[currentQuestionIdx].includes(choiceIndex)) return;
 
             userAnswersMap[currentQuestionIdx] = choiceIndex;
@@ -636,7 +692,7 @@
             refreshNavigationDashboardHighlights();
         }
 
-        // Master Answer Elimination Mechanism
+        // Answer Elimination Logic Layer
         function handleMasterEliminationToggle() {
             isEliminationModeActive = !isEliminationModeActive;
             refreshMasterEliminationDisplayState();
@@ -651,7 +707,6 @@
                 individualStrikeButtons.forEach(btn => btn.style.display = 'flex');
             } else {
                 masterBtn.classList.remove('active');
-                // Keep cross visible only on rows that are already eliminated
                 individualStrikeButtons.forEach((btn, idx) => {
                     if (visualEliminationsMatrix[currentQuestionIdx].includes(idx)) {
                         btn.style.display = 'flex';
@@ -663,7 +718,7 @@
         }
 
         function handleIndividualStrikethroughToggle(clickEvent, choiceIndex) {
-            clickEvent.stopPropagation(); // Avoid triggering choice commitment execution layer bubble
+            clickEvent.stopPropagation(); 
 
             const eliminationIndexPos = visualEliminationsMatrix[currentQuestionIdx].indexOf(choiceIndex);
             const targetRowsList = document.querySelectorAll('.choice-row-item');
@@ -675,7 +730,6 @@
                 visualEliminationsMatrix[currentQuestionIdx].push(choiceIndex);
                 targetRowsList[choiceIndex].classList.add('eliminated');
 
-                // If user knocks out an option they previously selected, clear selection map tracking data values
                 if (userAnswersMap[currentQuestionIdx] === choiceIndex) {
                     userAnswersMap[currentQuestionIdx] = null;
                     targetRowsList[choiceIndex].classList.remove('selected');
@@ -700,7 +754,7 @@
             renderTargetQuestionState();
         }
 
-        // Separate Navigation Dashboard Card Builder Engine
+        // Navigation Matrix Dashboard Card Builder Engine
         function buildNavigationDashboardGrid() {
             const layoutGridBoxContainer = document.getElementById('navigation-cells-container');
             layoutGridBoxContainer.innerHTML = '';
@@ -731,7 +785,7 @@
             });
         }
 
-        // View Visibility Modifiers
+        // View Component Toggles
         function handleInstructionsModalToggle() {
             const rulesTargetOverlay = document.getElementById('instructions-modal-view');
             rulesTargetOverlay.style.display = (rulesTargetOverlay.style.display === 'none' || rulesTargetOverlay.style.display === '') ? 'flex' : 'none';
