@@ -149,18 +149,20 @@
             user-select: none;
         }
         
-        /* Clean Tracking Wrapper for Smooth Collapsing Transitions */
         .collapsible-content {
             max-height: 1000px; 
             opacity: 1;
             overflow: hidden;
-            transition: max-height 0.25s ease-in-out, opacity 0.2s ease-in-out;
+            transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
             box-sizing: border-box;
         }
 
         .collapsible-content.collapsed {
             max-height: 0 !important;
             opacity: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            border: none !important;
         }
 
         .header-left-tools {
@@ -410,10 +412,8 @@
             <div class="panel-header clickable-trigger" onclick="toggleNavigationDropdownView()">
                 <span id="dropdown-header-label">▼ Dashboard Matrix Navigation</span>
             </div>
-            <div id="collapsible-nav-section" class="collapsible-content">
-                <div class="panel-content">
-                    <div id="navigation-matrix-grid" class="navigation-grid"></div>
-                </div>
+            <div id="collapsible-nav-section" class="panel-content collapsible-content">
+                <div id="navigation-matrix-grid" class="navigation-grid"></div>
             </div>
         </div>
 
