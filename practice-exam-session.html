@@ -78,7 +78,6 @@
             gap: 6px;
         }
 
-        /* Increased Size Counter Display */
         .timer-box { 
             font-size: 24px; 
             color: #ffffff; 
@@ -149,20 +148,17 @@
             user-select: none;
         }
         
+        /* Fixed Dropdown Wrapper: Cleaner, unpadded tracking wrapper */
         .collapsible-content {
-            max-height: 1000px; 
+            max-height: 500px; 
             opacity: 1;
             overflow: hidden;
-            transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
-            box-sizing: border-box;
+            transition: max-height 0.25s ease-in-out, opacity 0.2s ease-in-out;
         }
 
         .collapsible-content.collapsed {
             max-height: 0 !important;
             opacity: 0 !important;
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            border: none !important;
         }
 
         .header-left-tools {
@@ -171,7 +167,6 @@
             gap: 14px;
         }
 
-        /* Flagging Action Controls and Color Updates */
         .header-action-toggle {
             background: none;
             border: none;
@@ -198,7 +193,6 @@
             font-weight: normal;
         }
 
-        /* MCQ Choice Sizing Elements */
         .question-text-field {
             font-size: 15px; 
             margin-bottom: 20px; 
@@ -235,7 +229,6 @@
             font-weight: bold; 
         }
 
-        /* Crossout Modifiers via Right Click */
         .choice-row.eliminated .choice-btn {
             opacity: 0.25;
             text-decoration: line-through;
@@ -243,7 +236,6 @@
             border-color: rgba(0,0,0,0.1);
         }
 
-        /* Navigation Matrix Configuration Map */
         .navigation-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
@@ -277,7 +269,6 @@
             border-color: var(--header-bg);
         }
 
-        /* Custom Flag Review Character Overlay inside Navigation matrix Cells */
         .nav-cell-flag-indicator {
             position: absolute;
             top: 1px;
@@ -291,7 +282,6 @@
             display: block;
         }
 
-        /* Footer Control Navigation Belt Bar alignment */
         .footer-belt {
             position: fixed;
             bottom: 0;
@@ -344,7 +334,6 @@
             opacity: 0.9; 
         }
 
-        /* Instructions Profile Overlay Modals */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -412,8 +401,10 @@
             <div class="panel-header clickable-trigger" onclick="toggleNavigationDropdownView()">
                 <span id="dropdown-header-label">▼ Dashboard Matrix Navigation</span>
             </div>
-            <div id="collapsible-nav-section" class="panel-content collapsible-content">
-                <div id="navigation-matrix-grid" class="navigation-grid"></div>
+            <div id="collapsible-nav-section" class="collapsible-content">
+                <div class="panel-content">
+                    <div id="navigation-matrix-grid" class="navigation-grid"></div>
+                </div>
             </div>
         </div>
 
@@ -458,7 +449,6 @@
         let continuousCountdownSeconds = 80 * 60;
         let hideClockStateActive = false;
 
-        // Dynamic file source hook injection
         const remoteScriptAsset = document.createElement('script');
         remoteScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
         document.head.appendChild(remoteScriptAsset);
@@ -565,10 +555,8 @@
                 targetBtnNode.className = 'choice-btn';
                 targetBtnNode.innerHTML = `<strong>( ${alphaPrefixes[stringIdx]} )</strong> ${choiceStringText}`;
                 
-                // Left Click handles standard input choice routing selection
                 targetBtnNode.onclick = () => selectTargetOptionIndex(stringIdx);
                 
-                // Right Click/Context Menu handles wrong answer crossout logic parameters dynamically
                 targetBtnNode.oncontextmenu = (event) => {
                     event.preventDefault();
                     toggleIndividualOptionElimination(stringIdx);
