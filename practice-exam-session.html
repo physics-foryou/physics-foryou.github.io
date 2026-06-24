@@ -673,6 +673,9 @@
         const examIdentity = searchParameters.get('exam') || '1';
         const mapAlphaIntegerWord = ["Zero", "One", "Two", "Three", "Four", "Five"];
 
+        // Unique Key for LocalStorage state separation
+        const localStorageStateKey = `exam_state_${subjectCode}_${examIdentity}`;
+
         let currentProblemIndex = 0;
         let examinationPool = [];
         let catalogedUserResponses = [];
@@ -712,6 +715,9 @@
                 markedReviewMatrix = new Array(examinationPool.length).fill(false);
                 optionCrossoutMatrix = Array.from({ length: examinationPool.length }, () => []);
 
+                // Attempt to restore any pre-existing progress session cache data
+                loadSavedExamProgressState();
+
                 startSessionTimerLoop();
                 generateNavigationMatrixConsole();
                 renderTargetQuestionBlock();
@@ -723,6 +729,48 @@
         remoteScriptAsset.onerror = function() {
             document.getElementById('target-question-box').innerText = `Failed to load exam pool reference script source.`;
         };
+
+        // State Save Manager Functions
+        function saveActiveExamProgressState() {
+            try {
+                const packagedData = {
+                    currentIndex: currentProblemIndex,
+                    responses: catalogedUserResponses,
+                    flags: markedReviewMatrix,
+                    crossouts: optionCrossoutMatrix,
+                    timeLeft: continuousCountdownSeconds
+                };
+                localStorage.setItem(localStorageStateKey, JSON.stringify(packagedData));
+            } catch (err) {
+                console.error("Failed to compile local layout state capture snapshot:", err);
+            }
+        }
+
+        function loadSavedExamProgressState() {
+            try {
+                const recoveredRawPayload = localStorage.getItem(localStorageStateKey);
+                if (recoveredRawPayload) {
+                    const parsed = JSON.parse(recoveredRawPayload);
+                    
+                    if (parsed.responses && parsed.responses.length === examinationPool.length) {
+                        currentProblemIndex = parsed.currentIndex || 0;
+                        catalogedUserResponses = parsed.responses;
+                        markedReviewMatrix = parsed.flags || new Array(examinationPool.length).fill(false);
+                        optionCrossoutMatrix = parsed.crossouts || Array.from({ length: examinationPool.length }, () => []);
+                        continuousCountdownSeconds = typeof parsed.timeLeft === 'number' ? parsed.timeLeft : 80 * 60;
+                        
+                        // Automatically bypass welcome modal instructions context if returning user session
+                        document.getElementById('welcome-modal-overlay').style.display = 'none';
+                    }
+                }
+            } catch (err) {
+                console.error("Local recovery cache loading fail parse operation:", err);
+            }
+        }
+
+        function clearSavedExamProgressState() {
+            localStorage.removeItem(localStorageStateKey);
+        }
 
         function startSessionTimerLoop() {
             const processingTickerInterval = setInterval(() => {
@@ -736,6 +784,9 @@
                 }
                 continuousCountdownSeconds--;
                 updateTimerDisplayConsole();
+                
+                // Autosave timer ticking changes into cache
+                saveActiveExamProgressState();
             }, 1000);
         }
 
@@ -911,6 +962,7 @@
             });
 
             updateConsoleMatrixHighlights();
+            saveActiveExamProgressState();
         }
 
         function toggleIndividualOptionElimination(choiceOptionIdx) {
@@ -930,11 +982,13 @@
                 }
             }
             updateConsoleMatrixHighlights();
+            saveActiveExamProgressState();
         }
 
         function toggleQuestionReviewMark() {
             markedReviewMatrix[currentProblemIndex] = !markedReviewMatrix[currentProblemIndex];
             renderTargetQuestionBlock();
+            saveActiveExamProgressState();
         }
 
         function changeActiveQuestion(directionValue) {
@@ -944,6 +998,7 @@
                 return;
             }
             renderTargetQuestionBlock();
+            saveActiveExamProgressState();
         }
 
         function generateNavigationMatrixConsole() {
@@ -964,11 +1019,11 @@
                 flagIndicator.innerText = '⚐';
                 cellElementNode.appendChild(flagIndicator);
 
-                // Added event.stopPropagation to prevent window.onclick from auto-closing the dropdown layout container wrapper panel
                 cellElementNode.onclick = (event) => {
                     event.stopPropagation();
                     currentProblemIndex = stepIndex;
                     renderTargetQuestionBlock();
+                    saveActiveExamProgressState();
                 };
                 matrixGridBoxElement.appendChild(cellElementNode);
             });
@@ -998,6 +1053,8 @@
                 queryMessagePrompt = `Warning: You have left ${totalUnansweredQuestionsCount} questions blank! ${queryMessagePrompt}`;
             }
             if (confirm(queryMessagePrompt)) {
+                // Clear state when the session terminates cleanly
+                clearSavedExamProgressState();
                 window.location.href = 'home-page.html';
             }
         }
