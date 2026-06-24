@@ -5,662 +5,720 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Practice Exam Session</title>
     <style>
+        /* Shared Global Palette matching your home-page theme */
         :root {
-            --primary-dark: #1b2a47;
-            --bg-gray: #f3f4f6;
-            --border-color: #d1d5db;
+            --slate-header: #3a3a3a;
+            --paper-bg: #eaeaea;
+            --card-white: #ffffff;
+            --border-dark: #222222;
+            --pill-border: #bcbcbc;
+            --action-blue: #2444a4;
             --review-gold: #f59e0b;
-            --success-blue: #2563eb;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-gray);
+            background-color: var(--paper-bg);
             margin: 0;
-            padding: 20px;
-            color: #333;
+            padding: 30px 15px;
+            color: #111;
             user-select: none;
         }
 
-        /* Top Menu & Controls Bar */
-        .top-navbar {
-            max-width: 800px;
+        /* Top Unified Utility Controls Bar */
+        .controls-navbar {
+            max-width: 850px;
             margin: 0 auto 15px auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .utility-btn {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            padding: 8px 14px;
-            border-radius: 6px;
+        .theme-btn {
+            background: var(--card-white);
+            border: 1px solid var(--pill-border);
+            padding: 8px 16px;
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 13px;
+            color: #333;
+            transition: background 0.15s;
+        }
+
+        .theme-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Header Clock Panel */
+        .timer-panel {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .timer-value {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-variant-numeric: tabular-nums;
+            color: #000;
+        }
+
+        .timer-toggle-btn {
+            background: var(--card-white);
+            border: 1px solid var(--pill-border);
+            padding: 2px 10px;
+            font-size: 11px;
+            border-radius: 4px;
+            margin-top: 4px;
+            cursor: pointer;
+        }
+
+        /* Main Structured Exam Card Container */
+        .exam-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--card-white);
+            border: 1px solid var(--pill-border);
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+
+        /* Main Header matching your unique Slate block design */
+        .exam-block-header {
+            background: var(--slate-header);
+            color: #ffffff;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Secondary context bar inside the card */
+        .exam-meta-subheader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            border-bottom: 1px solid #e0e0e0;
+            background: #fdfdfd;
+        }
+
+        .meta-text {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #666;
+            letter-spacing: 0.5px;
+        }
+
+        .flag-review-link {
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: 700;
+            color: #999;
+            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.2s;
         }
 
-        .utility-btn:hover {
-            background-color: #eaeaea;
-        }
-
-        /* Center Timer Panel */
-        .timer-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .timer-digits {
-            font-size: 24px;
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-            color: #111827;
-            margin-bottom: 2px;
-        }
-
-        .hide-time-btn {
-            background: none;
-            border: none;
-            color: #6b7280;
-            text-decoration: underline;
-            font-size: 11px;
-            cursor: pointer;
-        }
-
-        /* Main Testing Hub Box */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
-            position: relative;
-        }
-
-        .card-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 12px;
-            margin-bottom: 20px;
-        }
-
-        .meta-header {
-            font-size: 12px;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 600;
-        }
-
-        .mark-review-btn {
-            background: none;
-            border: none;
-            font-size: 13px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #9ca3af;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .mark-review-btn.active {
+        .flag-review-link.flagged {
             color: var(--review-gold);
         }
 
-        .question-text {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            font-weight: 500;
-            color: #111827;
+        /* Question and Choices Work Area */
+        .exam-body {
+            padding: 30px 40px;
         }
 
-        /* Choices Structure */
-        .choices-container {
+        .question-box {
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .choices-stack {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 15px;
         }
 
-        .choice-wrapper {
+        .choice-row-wrapper {
             display: flex;
             align-items: center;
-            width: 100%;
             position: relative;
+            width: 100%;
         }
 
-        .choice-btn {
+        .choice-pill-btn {
             display: flex;
             align-items: center;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            padding: 16px 20px;
-            border-radius: 30px; /* Rounded pill style from your screenshot */
+            background: var(--card-white);
+            border: 1px solid var(--pill-border);
+            padding: 14px 22px;
+            border-radius: 30px; /* Perfect pill style matching your references */
             cursor: pointer;
             text-align: left;
             font-size: 15px;
-            transition: all 0.2s;
+            font-weight: 500;
+            color: #222;
             width: 100%;
-            padding-right: 60px; /* space for elimination button */
+            padding-right: 65px;
             box-sizing: border-box;
+            transition: border-color 0.15s, background-color 0.15s;
         }
 
-        .choice-btn:hover:not(.disabled) {
-            background-color: #f9fafb;
-            border-color: #9ca3af;
+        .choice-pill-btn:hover:not(.locked) {
+            background-color: #fbfbfb;
+            border-color: #777;
         }
 
-        .choice-wrapper.selected .choice-btn {
-            border-color: var(--success-blue);
-            background-color: #f0f5ff;
+        .choice-row-wrapper.active-selected .choice-pill-btn {
+            border-color: var(--action-blue);
+            background-color: #f2f5ff;
+            border-width: 2px;
+            padding-top: 13px;
+            padding-bottom: 13px;
         }
 
-        .choice-letter {
-            width: 26px;
-            height: 26px;
-            border: 1px solid var(--border-color);
+        .letter-node {
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--pill-border);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 15px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 12px;
             background: #ffffff;
             flex-shrink: 0;
         }
 
-        .choice-wrapper.selected .choice-letter {
-            background: var(--success-blue);
-            color: #fff;
-            border-color: var(--success-blue);
+        .choice-row-wrapper.active-selected .letter-node {
+            background: var(--action-blue);
+            color: #ffffff;
+            border-color: var(--action-blue);
         }
 
-        /* Elimination Mechanics */
-        .eliminate-toggle {
+        /* Elimination Mechanics Layer */
+        .strike-option-btn {
             position: absolute;
-            right: 20px;
+            right: 22px;
             background: none;
             border: none;
             font-size: 16px;
-            color: #d1d5db;
+            color: #ccc;
             cursor: pointer;
-            padding: 5px;
             font-weight: bold;
-            transition: color 0.2s;
-            z-index: 2;
+            padding: 4px;
+            transition: color 0.15s;
+            z-index: 5;
         }
 
-        .eliminate-toggle:hover {
-            color: #ef4444;
+        .strike-option-btn:hover {
+            color: #cc0000;
         }
 
-        .choice-wrapper.eliminated .choice-btn {
+        .choice-row-wrapper.crossed-out .choice-pill-btn {
             opacity: 0.35;
             text-decoration: line-through;
-            background: #f3f4f6;
-            pointer-events: none; /* locks button click */
+            background: #f4f4f4;
+            pointer-events: none;
         }
 
-        .choice-wrapper.eliminated .eliminate-toggle {
-            color: #ef4444;
+        .choice-row-wrapper.crossed-out .strike-option-btn {
+            color: #cc0000;
         }
 
-        /* Footer System */
-        .nav-footer {
-            margin-top: 35px;
+        /* Footer System matching your dashboard look */
+        .exam-footer-row {
+            padding: 20px 30px;
+            background: #fafafa;
+            border-top: 1px solid #e0e0e0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid #e5e7eb;
-            padding-top: 20px;
         }
 
-        .action-btn {
-            background: var(--primary-dark);
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
+        .dashboard-nav-btn {
+            background: var(--slate-header);
+            color: #ffffff;
+            border: 1px solid var(--border-dark);
+            padding: 10px 24px;
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: background 0.2s;
+            font-weight: 700;
+            font-size: 13px;
+            transition: background 0.15s;
         }
 
-        .action-btn:hover:not(:disabled) {
-            background: #2a3d61;
+        .dashboard-nav-btn:hover:not(:disabled) {
+            background: #222222;
         }
 
-        .action-btn:disabled {
-            background: #d1d5db;
+        .dashboard-nav-btn:disabled {
+            background: #cccccc;
+            border-color: #bbbbbb;
             cursor: not-allowed;
+            color: #777777;
         }
 
-        .progress-text {
+        .center-counter-text {
             font-size: 14px;
-            color: #4b5563;
-            font-weight: 500;
+            font-weight: 600;
+            color: #444;
         }
 
-        /* Slide Down Navigation Overlay Grid */
-        .nav-panel {
+        /* Custom Dropdown Navigation Grid Menu Panel */
+        .grid-dropdown-panel {
             display: none;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            max-width: 850px;
+            margin: 12px auto;
+            background: var(--card-white);
+            border: 1px solid var(--pill-border);
+            border-radius: 6px;
             padding: 20px;
-            max-width: 800px;
-            margin: 10px auto;
             box-sizing: border-box;
         }
 
-        .grid-container {
+        .navigation-matrix-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
-        .grid-item {
-            height: 40px;
-            border: 1px solid var(--border-color);
-            background: #fff;
-            border-radius: 6px;
+        .matrix-cell {
+            height: 42px;
+            border: 1px solid var(--pill-border);
+            background: #ffffff;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 700;
+            font-size: 13px;
             cursor: pointer;
             position: relative;
-            transition: all 0.2s;
+            transition: all 0.15s;
         }
 
-        .grid-item:hover {
-            background: var(--bg-gray);
+        .matrix-cell:hover {
+            background: #f0f0f0;
+            border-color: #666;
         }
 
-        .grid-item.current {
-            border: 2px solid var(--primary-dark);
+        .matrix-cell.current-location {
+            border: 2.5px solid var(--slate-header);
         }
 
-        .grid-item.answered {
-            background: #e0f2fe;
-            border-color: #7dd3fc;
+        .matrix-cell.has-answer {
+            background: #eef3ff;
+            border-color: #b0c2f2;
+            color: var(--action-blue);
         }
 
-        .grid-item.reviewed::after {
+        .matrix-cell.has-review-flag::after {
             content: '';
             position: absolute;
-            top: 2px;
-            right: 2px;
-            width: 8px;
-            height: 8px;
+            top: 3px;
+            right: 3px;
+            width: 7px;
+            height: 7px;
             background-color: var(--review-gold);
             border-radius: 50%;
         }
 
-        /* Modal Popup System */
-        .modal-overlay {
+        /* Modal Overlay Popups */
+        .overlay-modal-viewport {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 100;
+            z-index: 1000;
         }
 
-        .modal-box {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            max-width: 500px;
+        .modal-card {
+            background: var(--card-white);
+            border: 1px solid var(--border-dark);
+            border-radius: 6px;
+            max-width: 520px;
             width: 90%;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
             position: relative;
+            overflow: hidden;
         }
 
-        .close-modal-x {
+        .modal-slate-title {
+            background: var(--slate-header);
+            color: #ffffff;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .modal-dismiss-cross {
             position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 22px;
+            top: 12px;
+            right: 15px;
+            font-size: 20px;
             background: none;
             border: none;
             cursor: pointer;
-            color: #9ca3af;
+            color: #ffffff;
         }
 
-        .close-modal-x:hover {
-            color: #333;
+        .modal-content-area {
+            padding: 25px 30px;
         }
 
-        .modal-box h2 {
-            margin-top: 0;
-            color: var(--primary-dark);
-        }
-
-        .modal-box ul {
+        .modal-content-area ul {
             padding-left: 20px;
             line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .start-btn-block {
+            background: var(--slate-header);
+            color: #ffffff;
+            border: 1px solid var(--border-dark);
+            width: 100%;
+            padding: 12px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .start-btn-block:hover {
+            background: #222222;
         }
     </style>
 </head>
 <body>
 
-    <div class="top-navbar">
-        <button class="utility-btn" onclick="toggleInstructions()">📝 Instructions</button>
-        <button class="utility-btn" onclick="toggleNavPanel()">☰ Navigator Hub</button>
+    <div class="controls-navbar">
+        <button class="theme-btn" onclick="toggleInstructionsMenu()">📝 Instructions</button>
+        <button class="theme-btn" onclick="toggleNavigationMatrix()">☰ Navigator Hub</button>
     </div>
 
-    <div class="timer-container">
-        <div id="clock-display" class="timer-digits">80:00</div>
-        <button id="hide-timer-toggle" class="hide-time-btn" onclick="toggleTimerVisibility()">Hide Time</button>
+    <div class="timer-panel">
+        <div id="countdown-clock" class="timer-value">80:00</div>
+        <button id="hide-timer-button" class="timer-toggle-btn" onclick="toggleClockVisibility()">Hide Time</button>
     </div>
 
-    <div id="navigation-panel" class="nav-panel">
-        <span style="font-size: 13px; font-weight: 600; color:#4b5563;">Jump to Question Grid:</span>
-        <div id="grid-container" class="grid-container"></div>
+    <div id="matrix-dropdown" class="grid-dropdown-panel">
+        <span style="font-size: 13px; font-weight: 700; color:#444;">Jump to Question Grid:</span>
+        <div id="matrix-grid-container" class="navigation-matrix-grid"></div>
     </div>
 
-    <div class="container">
-        <div class="card-header-row">
-            <div id="meta" class="meta-header">Loading metadata...</div>
-            <button id="review-toggle" class="mark-review-btn" onclick="toggleMarkReview()">
+    <div class="exam-container">
+        <div class="exam-block-header">
+            <span id="block-title">Section I: Multiple Choice</span>
+            <span id="block-timer-mirror">Active Session</span>
+        </div>
+
+        <div class="exam-meta-subheader">
+            <div id="meta-breadcrumbs" class="meta-text">Loading Exam Scope Parameters...</div>
+            <button id="flag-review-toggle" class="flag-review-link" onclick="handleFlagReviewToggle()">
                 🏳️ <span>Mark for Review</span>
             </button>
         </div>
-        
-        <div id="question" class="question-text">Loading problem text...</div>
-        
-        <div id="choices" class="choices-container">
-            </div>
 
-        <div class="nav-footer">
-            <button id="prev-btn" class="action-btn" onclick="changeQuestion(-1)" disabled>Back</button>
-            <span id="progress" class="progress-text">Question 0 of 0</span>
-            <button id="next-btn" class="action-btn" onclick="changeQuestion(1)">Next</button>
+        <div class="exam-body">
+            <div id="question-text-node" class="question-box">Loading assessment problem...</div>
+            
+            <div id="choices-stack-node" class="choices-stack">
+                </div>
+        </div>
+
+        <div class="exam-footer-row">
+            <button id="footer-back-btn" class="dashboard-nav-btn" onclick="navigateQuestion(-1)" disabled>Back</button>
+            <span id="footer-counter" class="center-counter-text">Question 0 of 0</span>
+            <button id="footer-next-btn" class="dashboard-nav-btn" onclick="navigateQuestion(1)">Next</button>
         </div>
     </div>
 
-    <div id="instructions-modal" class="modal-overlay">
-        <div class="modal-box">
-            <button class="close-modal-x" onclick="toggleInstructions()">&times;</button>
-            <h2>Exam Instructions</h2>
-            <p>Welcome to your practice evaluation module. Please review your active parameters carefully before beginning:</p>
-            <ul>
-                <li>You have an allocated pool of <strong>80 minutes</strong> to fulfill all block requests.</li>
-                <li>The assessment countdown clock initiates instantly and runs continuously behind menu panels.</li>
-                <li>Utilize the <strong>ø</strong> icon next to answer rows to eliminate options visually.</li>
-                <li>Flag unsure solutions via the <strong>Mark for Review</strong> link to track them inside your Dashboard Navigator.</li>
-            </ul>
-            <button class="action-btn" style="width: 100%; margin-top: 15px;" onclick="toggleInstructions()">Start Examination</button>
+    <div id="rules-modal-overlay" class="overlay-modal-viewport">
+        <div class="modal-card">
+            <button class="modal-dismiss-cross" onclick="toggleInstructionsMenu()">&times;</button>
+            <h3 class="modal-slate-title">Exam Instructions</h3>
+            <div class="modal-content-area">
+                <p style="font-size: 14.5px; margin-top:0;">Please review the setup instructions completely before beginning your exam cycle:</p>
+                <ul>
+                    <li>You have a continuous constraint block of <strong>80 minutes</strong> to complete all available questions.</li>
+                    <li>The evaluation tracking clock functions dynamically even while menus remain active or obscured.</li>
+                    <li>Tap the <strong>ø</strong> tracking bubble on any row to cross out answers visually.</li>
+                    <li>Click <strong>Mark for Review</strong> to flag uncertain items inside your dashboard tracking grids.</li>
+                </ul>
+                <button class="start-btn-block" onclick="toggleInstructionsMenu()">Begin Evaluation Block</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Parse URL target parameters 
+        // Parse current context requirements dynamically out of URL query parameters
         const urlParams = new URLSearchParams(window.location.search);
         const subject = urlParams.get('subject') || 'ap1';
         const examNum = urlParams.get('exam') || '1';
 
-        const courseNames = {
+        const subjectFriendlyNames = {
             'ap1': 'AP Physics 1',
             'ap2': 'AP Physics 2',
             'mech': 'AP C: Mechanics',
             'em': 'AP C: Electricity & Magnetism'
         };
-        const numberWords = ["Zero", "One", "Two", "Three", "Four", "Five"];
+        const wordConversionMapping = ["Zero", "One", "Two", "Three", "Four", "Five"];
 
-        // Global Exam States
+        // State Machine Tracking
         let currentQuestionIdx = 0;
         let examQuestions = [];
-        let userAnswers = [];         // Stores choice index selected
-        let reviewFlags = [];         // Stores true/false flags
-        let eliminationMatrix = [];   // Matrix array mapping arrays of blocked options per problem
+        let savedUserAnswers = [];
+        let savedReviewFlags = [];
+        let activeEliminationsMap = [];
 
-        // Timer State 
-        let timeRemaining = 80 * 60; // 80 minutes in seconds
-        let isTimerHidden = false;
+        // Countdown Timer Engine
+        let remainingClockSeconds = 80 * 60;
+        let clockIsHiddenState = false;
 
-        // Fetch array pool dependency script mapping
-        const scriptElement = document.createElement('script');
-        scriptElement.src = `${subject}/${subject}-practice-exam-mcqs/${subject}-practice-exam-mcq-pool-${examNum}.js`;
-        document.head.appendChild(scriptElement);
+        // Dynamic script loading pipeline hook matching your folder structures
+        const runtimeScriptInjector = document.createElement('script');
+        runtimeScriptInjector.src = `${subject}/${subject}-practice-exam-mcqs/${subject}-practice-exam-mcq-pool-${examNum}.js`;
+        document.head.appendChild(runtimeScriptInjector);
 
-        scriptElement.onload = function() {
+        runtimeScriptInjector.onload = function() {
             if (typeof practiceExamPool !== 'undefined') {
                 examQuestions = practiceExamPool;
             } else {
-                const wordValue = numberWords[parseInt(examNum)] || "One";
-                const customVarName = `${subject}PracticeExamPool${wordValue}`;
-                if (typeof window[customVarName] !== 'undefined') {
-                    examQuestions = window[customVarName];
+                const calculatedWord = wordConversionMapping[parseInt(examNum)] || "One";
+                const directArrayTarget = `${subject}PracticeExamPool${calculatedWord}`;
+                
+                if (typeof window[directArrayTarget] !== 'undefined') {
+                    examQuestions = window[directArrayTarget];
                 } else if (typeof ap1PracticeExamPoolOne !== 'undefined') {
-                    examQuestions = ap1PracticeExamPoolOne;
+                    examQuestions = ap1PracticeExamPoolOne; // Standard array backup fallback
                 }
             }
 
             if (examQuestions.length > 0) {
-                // Initialize State Arrays
-                userAnswers = new Array(examQuestions.length).fill(null);
-                reviewFlags = new Array(examQuestions.length).fill(false);
-                eliminationMatrix = Array.from({ length: examQuestions.length }, () => []);
-                
-                initTimer();
-                buildNavigationGrid();
-                renderQuestion();
+                // Instantiating tracking arrays matching length of pool
+                savedUserAnswers = new Array(examQuestions.length).fill(null);
+                savedReviewFlags = new Array(examQuestions.length).fill(false);
+                activeEliminationsMap = Array.from({ length: examQuestions.length }, () => []);
+
+                startClockCountdown();
+                generateNavigationMatrixCells();
+                renderActiveQuestionFrame();
             } else {
-                document.getElementById('question').innerText = "Error: Question array could not be located inside your pool configuration file.";
+                document.getElementById('question-text-node').innerText = "System Failure: Question pool data array could not be located inside script file.";
             }
         };
 
-        scriptElement.onerror = function() {
-            document.getElementById('question').innerText = `Error: Asset script path configuration mismatch:\n${scriptElement.src}`;
+        runtimeScriptInjector.onerror = function() {
+            document.getElementById('question-text-node').innerText = `Data Error: Mismatch on local source target:\n${runtimeScriptInjector.src}`;
         };
 
-        // Timer Module Routine
-        function initTimer() {
-            const timerInterval = setInterval(() => {
-                if (timeRemaining <= 0) {
-                    clearInterval(timerInterval);
-                    alert("Time has expired! The session is concluding.");
-                    submitExam();
+        // Running Clock Loop Engine
+        function startClockCountdown() {
+            const runningClockTicker = setInterval(() => {
+                if (remainingClockSeconds <= 0) {
+                    clearInterval(runningClockTicker);
+                    alert("Assessment block termination: Time allowance expired!");
+                    executeExamSubmission();
                     return;
                 }
-                timeRemaining--;
-                updateClockDisplay();
+                remainingClockSeconds--;
+                refreshClockInterface();
             }, 1000);
         }
 
-        function updateClockDisplay() {
-            if (isTimerHidden) {
-                document.getElementById('clock-display').innerText = "——:——";
+        function refreshClockInterface() {
+            if (clockIsHiddenState) {
+                document.getElementById('countdown-clock').innerText = "——:——";
                 return;
             }
-            const mins = Math.floor(timeRemaining / 60);
-            const secs = timeRemaining % 60;
-            document.getElementById('clock-display').innerText = 
-                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            const minutesLeft = Math.floor(remainingClockSeconds / 60);
+            const secondsLeft = remainingClockSeconds % 60;
+            document.getElementById('countdown-clock').innerText = 
+                `${minutesLeft.toString().padStart(2, '0')}:${secondsLeft.toString().padStart(2, '0')}`;
         }
 
-        function toggleTimerVisibility() {
-            isTimerHidden = !isTimerHidden;
-            document.getElementById('hide-timer-toggle').innerText = isTimerHidden ? "Show Time" : "Hide Time";
-            updateClockDisplay();
+        function toggleClockVisibility() {
+            clockIsHiddenState = !clockIsHiddenState;
+            document.getElementById('hide-timer-button').innerText = clockIsHiddenState ? "Show Time" : "Hide Time";
+            refreshClockInterface();
         }
 
-        // Render Dynamic Quiz Interface 
-        function renderQuestion() {
-            const qData = examQuestions[currentQuestionIdx];
-            const courseTitle = courseNames[subject] || subject.toUpperCase();
-            
-            // Header configuration
-            document.getElementById('meta').innerText = `${courseTitle} — Test ${examNum} — ${qData.unit || 'General Review'}`;
-            document.getElementById('question').innerText = qData.question;
-            
-            // Toggle active look on review banner flag link
-            const reviewBtn = document.getElementById('review-toggle');
-            if (reviewFlags[currentQuestionIdx]) {
-                reviewBtn.classList.add('active');
-                reviewBtn.innerHTML = `🚩 <span>Marked for Review</span>`;
+        // Main Frame Layout Painter Module
+        function renderActiveQuestionFrame() {
+            const currentProblemObj = examQuestions[currentQuestionIdx];
+            const friendlySubjectTitle = subjectFriendlyNames[subject] || subject.toUpperCase();
+
+            // Set Breadcrumbs Meta text field
+            document.getElementById('meta-breadcrumbs').innerText = `${friendlySubjectTitle} — Practice Exam ${examNum} — ${currentProblemObj.unit || 'Review'}`;
+            document.getElementById('question-text-node').innerText = currentProblemObj.question;
+
+            // Flag system refresh look
+            const flagElement = document.getElementById('flag-review-toggle');
+            if (savedReviewFlags[currentQuestionIdx]) {
+                flagElement.classList.add('flagged');
+                flagElement.innerHTML = `🚩 <span>Marked for Review</span>`;
             } else {
-                reviewBtn.classList.remove('active');
-                reviewBtn.innerHTML = `🏳️ <span>Mark for Review</span>`;
+                flagElement.classList.remove('flagged');
+                flagElement.innerHTML = `🏳️ <span>Mark for Review</span>`;
             }
 
-            // Build Row Nodes for Answers
-            const choicesDiv = document.getElementById('choices');
-            choicesDiv.innerHTML = '';
-            
-            const letters = ['A', 'B', 'C', 'D'];
-            qData.choices.forEach((choice, index) => {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'choice-wrapper';
-                
-                // Restore old selected choices or block matrix updates
-                if (userAnswers[currentQuestionIdx] === index) wrapper.classList.add('selected');
-                if (eliminationMatrix[currentQuestionIdx].includes(index)) wrapper.classList.add('eliminated');
+            // Build out clean pill components stack
+            const choicesContainer = document.getElementById('choices-stack-node');
+            choicesContainer.innerHTML = '';
 
-                wrapper.innerHTML = `
-                    <button class="choice-btn" onclick="selectAnswer(${index})">
-                        <span class="choice-letter">${letters[index]}</span>
-                        <span>${choice}</span>
+            const alphabetLabels = ['A', 'B', 'C', 'D'];
+            currentProblemObj.choices.forEach((choiceText, index) => {
+                const optionRowWrapper = document.createElement('div');
+                optionRowWrapper.className = 'choice-row-wrapper';
+
+                // Check and set persistent selection/elimination classes
+                if (savedUserAnswers[currentQuestionIdx] === index) optionRowWrapper.classList.add('active-selected');
+                if (activeEliminationsMap[currentQuestionIdx].includes(index)) optionRowWrapper.classList.add('crossed-out');
+
+                optionRowWrapper.innerHTML = `
+                    <button class="choice-pill-btn" onclick="commitAnswerSelection(${index})">
+                        <span class="letter-node">${alphabetLabels[index]}</span>
+                        <span>${choiceText}</span>
                     </button>
-                    <button class="eliminate-toggle" title="Eliminate option" onclick="toggleEliminate(event, ${index})">ø</button>
+                    <button class="strike-option-btn" title="Strike option out" onclick="toggleOptionElimination(event, ${index})">ø</button>
                 `;
-                choicesDiv.appendChild(wrapper);
+                choicesContainer.appendChild(optionRowWrapper);
             });
 
-            // Adjust interactive bottom footer bars
-            document.getElementById('progress').innerText = `Question ${currentQuestionIdx + 1} of ${examQuestions.length}`;
-            document.getElementById('prev-btn').disabled = currentQuestionIdx === 0;
-            document.getElementById('next-btn').innerText = currentQuestionIdx === examQuestions.length - 1 ? 'Finish' : 'Next';
-            
-            updateNavigationGridHighlights();
+            // Adjust Footer Indicators State
+            document.getElementById('footer-counter').innerText = `Question ${currentQuestionIdx + 1} of ${examQuestions.length}`;
+            document.getElementById('footer-back-btn').disabled = currentQuestionIdx === 0;
+            document.getElementById('footer-next-btn').innerText = currentQuestionIdx === examQuestions.length - 1 ? 'Finish' : 'Next';
+
+            refreshMatrixHighlights();
         }
 
-        function selectAnswer(choiceIdx) {
-            // Block selection if choice is currently marked eliminated
-            if (eliminationMatrix[currentQuestionIdx].includes(choiceIdx)) return;
+        function commitAnswerSelection(choiceIndex) {
+            if (activeEliminationsMap[currentQuestionIdx].includes(choiceIndex)) return; // Locked out if struck out
 
-            userAnswers[currentQuestionIdx] = choiceIdx;
-            
-            // Toggle HTML active classes immediately
-            const wrappers = document.querySelectorAll('.choice-wrapper');
-            wrappers.forEach((w, idx) => {
-                if (idx === choiceIdx) w.classList.add('selected');
-                else w.classList.remove('selected');
+            savedUserAnswers[currentQuestionIdx] = choiceIndex;
+
+            // Swap interface active look node configurations instantaneously
+            const lines = document.querySelectorAll('.choice-row-wrapper');
+            lines.forEach((wrapper, index) => {
+                if (index === choiceIndex) wrapper.classList.add('active-selected');
+                else wrapper.classList.remove('active-selected');
             });
-            
-            updateNavigationGridHighlights();
+
+            refreshMatrixHighlights();
         }
 
-        function toggleEliminate(event, choiceIdx) {
-            event.stopPropagation(); // Avoid triggering standard button select answer event bubble
-            
-            const matrixIndex = eliminationMatrix[currentQuestionIdx].indexOf(choiceIdx);
-            const wrappers = document.querySelectorAll('.choice-wrapper');
-            
-            if (matrixIndex > -1) {
-                // Remove elimination tag tracking
-                eliminationMatrix[currentQuestionIdx].splice(matrixIndex, 1);
-                wrappers[choiceIdx].classList.remove('eliminated');
+        function toggleOptionElimination(clickEvent, choiceIndex) {
+            clickEvent.stopPropagation(); // Shield standard execution loop bubble
+
+            const mappedIndexPosition = activeEliminationsMap[currentQuestionIdx].indexOf(choiceIndex);
+            const interfaceRows = document.querySelectorAll('.choice-row-wrapper');
+
+            if (mappedIndexPosition > -1) {
+                activeEliminationsMap[currentQuestionIdx].splice(mappedIndexPosition, 1);
+                interfaceRows[choiceIndex].classList.remove('crossed-out');
             } else {
-                // Inject elimination constraint tracking
-                eliminationMatrix[currentQuestionIdx].push(choiceIdx);
-                wrappers[choiceIdx].classList.add('eliminated');
-                
-                // If user eliminates an option they had already chosen, clear their selected choice
-                if (userAnswers[currentQuestionIdx] === choiceIdx) {
-                    userAnswers[currentQuestionIdx] = null;
-                    wrappers[choiceIdx].classList.remove('selected');
+                activeEliminationsMap[currentQuestionIdx].push(choiceIndex);
+                interfaceRows[choiceIndex].classList.add('crossed-out');
+
+                // If user knocks out an option they previously had active, clear answer state data tracking
+                if (savedUserAnswers[currentQuestionIdx] === choiceIndex) {
+                    savedUserAnswers[currentQuestionIdx] = null;
+                    interfaceRows[choiceIndex].classList.remove('active-selected');
                 }
             }
-            updateNavigationGridHighlights();
+            refreshMatrixHighlights();
         }
 
-        function toggleMarkReview() {
-            reviewFlags[currentQuestionIdx] = !reviewFlags[currentQuestionIdx];
-            renderQuestion();
+        function handleFlagReviewToggle() {
+            savedReviewFlags[currentQuestionIdx] = !savedReviewFlags[currentQuestionIdx];
+            renderActiveQuestionFrame();
         }
 
-        // Handle Next/Back Actions
-        function changeQuestion(direction) {
-            currentQuestionIdx += direction;
+        function navigateQuestion(stepValue) {
+            currentQuestionIdx += stepValue;
             if (currentQuestionIdx >= examQuestions.length) {
-                submitExam();
+                executeExamSubmission();
                 return;
             }
-            renderQuestion();
+            renderActiveQuestionFrame();
         }
 
-        // Navigation Matrix Grid Assembly 
-        function buildNavigationGrid() {
-            const container = document.getElementById('grid-container');
-            container.innerHTML = '';
-            
-            examQuestions.forEach((_, idx) => {
-                const item = document.createElement('div');
-                item.className = 'grid-item';
-                item.id = `nav-item-${idx}`;
-                item.innerText = idx + 1;
-                item.onclick = () => {
-                    currentQuestionIdx = idx;
-                    renderQuestion();
+        // Interactive Dropdown Menu Navigation Matrix Cell Builder Engine
+        function generateNavigationMatrixCells() {
+            const canvasGrid = document.getElementById('matrix-grid-container');
+            canvasGrid.innerHTML = '';
+
+            examQuestions.forEach((_, stepIndex) => {
+                const cellElement = document.createElement('div');
+                cellElement.className = 'matrix-cell';
+                cellElement.id = `matrix-cell-node-${stepIndex}`;
+                cellElement.innerText = stepIndex + 1;
+                cellElement.onclick = () => {
+                    currentQuestionIdx = stepIndex;
+                    renderActiveQuestionFrame();
                 };
-                container.appendChild(item);
+                canvasGrid.appendChild(cellElement);
             });
         }
 
-        function updateNavigationGridHighlights() {
-            examQuestions.forEach((_, idx) => {
-                const item = document.getElementById(`nav-item-${idx}`);
-                if (!item) return;
+        function refreshMatrixHighlights() {
+            examQuestions.forEach((_, stepIndex) => {
+                const targetNode = document.getElementById(`matrix-cell-node-${stepIndex}`);
+                if (!targetNode) return;
 
-                // Strip old active state patterns
-                item.className = 'grid-item';
+                targetNode.className = 'matrix-cell';
 
-                if (idx === currentQuestionIdx) item.classList.add('current');
-                if (userAnswers[idx] !== null) item.classList.add('answered');
-                if (reviewFlags[idx]) item.classList.add('reviewed');
+                if (stepIndex === currentQuestionIdx) targetNode.classList.add('current-location');
+                if (savedUserAnswers[stepIndex] !== null) targetNode.classList.add('has-answer');
+                if (savedReviewFlags[stepIndex]) targetNode.classList.add('has-review-flag');
             });
         }
 
-        // Menu Interface Toggle Frameworks
-        function toggleInstructions() {
-            const modal = document.getElementById('instructions-modal');
-            modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'flex' : 'none';
+        // Layout View Modifiers
+        function toggleInstructionsMenu() {
+            const modalBox = document.getElementById('rules-modal-overlay');
+            modalBox.style.display = (modalBox.style.display === 'none' || modalBox.style.display === '') ? 'flex' : 'none';
         }
 
-        function toggleNavPanel() {
-            const panel = document.getElementById('navigation-panel');
-            panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'block' : 'none';
+        function toggleNavigationMatrix() {
+            const matrixPanel = document.getElementById('matrix-dropdown');
+            matrixPanel.style.display = (matrixPanel.style.display === 'none' || matrixPanel.style.display === '') ? 'block' : 'none';
         }
 
-        function submitExam() {
-            const unansweredCount = userAnswers.filter(ans => ans === null).length;
-            let confirmationMessage = "Are you sure you want to finish and turn in this practice assessment?";
-            if (unansweredCount > 0) {
-                confirmationMessage = `Warning: You have left ${unansweredCount} questions completely blank! ${confirmationMessage}`;
+        function executeExamSubmission() {
+            const emptyFieldsCount = savedUserAnswers.filter(ans => ans === null).length;
+            let queryAlertText = "Do you wish to submit and finalize this full evaluation set?";
+            
+            if (emptyFieldsCount > 0) {
+                queryAlertText = `Warning: You have left ${emptyFieldsCount} test question slots unanswered! ${queryAlertText}`;
             }
 
-            if (confirm(confirmationMessage)) {
-                alert("Assessment responses filed completely. Returning to Dashboard.");
+            if (confirm(queryAlertText)) {
+                alert("Responses successfully cataloged. Redirecting back to home page.");
                 window.location.href = 'home-page.html';
             }
         }
