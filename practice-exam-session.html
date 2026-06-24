@@ -78,6 +78,7 @@
             gap: 6px;
         }
 
+        /* Increased Size Counter Display */
         .timer-box { 
             font-size: 24px; 
             color: #ffffff; 
@@ -148,12 +149,13 @@
             user-select: none;
         }
         
-        /* Fixed Dropdown Wrapper: Cleaner, unpadded tracking wrapper */
+        /* Clean Tracking Wrapper for Smooth Collapsing Transitions */
         .collapsible-content {
-            max-height: 500px; 
+            max-height: 1000px; 
             opacity: 1;
             overflow: hidden;
             transition: max-height 0.25s ease-in-out, opacity 0.2s ease-in-out;
+            box-sizing: border-box;
         }
 
         .collapsible-content.collapsed {
@@ -167,6 +169,7 @@
             gap: 14px;
         }
 
+        /* Flagging Action Controls and Color Updates */
         .header-action-toggle {
             background: none;
             border: none;
@@ -193,6 +196,7 @@
             font-weight: normal;
         }
 
+        /* MCQ Choice Sizing Elements */
         .question-text-field {
             font-size: 15px; 
             margin-bottom: 20px; 
@@ -229,6 +233,7 @@
             font-weight: bold; 
         }
 
+        /* Crossout Modifiers via Right Click */
         .choice-row.eliminated .choice-btn {
             opacity: 0.25;
             text-decoration: line-through;
@@ -236,6 +241,7 @@
             border-color: rgba(0,0,0,0.1);
         }
 
+        /* Navigation Matrix Configuration Map */
         .navigation-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
@@ -269,6 +275,7 @@
             border-color: var(--header-bg);
         }
 
+        /* Custom Flag Review Character Overlay inside Navigation matrix Cells */
         .nav-cell-flag-indicator {
             position: absolute;
             top: 1px;
@@ -282,6 +289,7 @@
             display: block;
         }
 
+        /* Footer Control Navigation Belt Bar alignment */
         .footer-belt {
             position: fixed;
             bottom: 0;
@@ -334,6 +342,7 @@
             opacity: 0.9; 
         }
 
+        /* Instructions Profile Overlay Modals */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -449,6 +458,7 @@
         let continuousCountdownSeconds = 80 * 60;
         let hideClockStateActive = false;
 
+        // Dynamic file source hook injection
         const remoteScriptAsset = document.createElement('script');
         remoteScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
         document.head.appendChild(remoteScriptAsset);
@@ -555,8 +565,10 @@
                 targetBtnNode.className = 'choice-btn';
                 targetBtnNode.innerHTML = `<strong>( ${alphaPrefixes[stringIdx]} )</strong> ${choiceStringText}`;
                 
+                // Left Click handles standard input choice routing selection
                 targetBtnNode.onclick = () => selectTargetOptionIndex(stringIdx);
                 
+                // Right Click/Context Menu handles wrong answer crossout logic parameters dynamically
                 targetBtnNode.oncontextmenu = (event) => {
                     event.preventDefault();
                     toggleIndividualOptionElimination(stringIdx);
