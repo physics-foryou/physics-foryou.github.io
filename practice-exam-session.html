@@ -289,7 +289,6 @@
             background-color: rgba(0,0,0,0.08);
         }
         
-        /* Fixed Pulse Glow Mechanism ensuring absolutely zero font or dimension shifting */
         @keyframes pulse-glow {
             0% { background-color: rgba(0,0,0,0.06); box-shadow: inset 0 0 0 0 rgba(27, 42, 71, 0.4); }
             50% { background-color: rgba(27, 42, 71, 0.12); box-shadow: inset 0 0 0 2px rgba(27, 42, 71, 0.3); }
@@ -819,7 +818,7 @@
         }
 
         function toggleDropupMatrixNavigationView(event) {
-            event.stopPropagation();
+            if (event) event.stopPropagation();
             isDropupMatrixOpen = !isDropupMatrixOpen;
             const dropupPanel = document.getElementById('dropup-nav-matrix-panel');
             const progressLabel = document.getElementById('footer-progress-label');
@@ -965,7 +964,9 @@
                 flagIndicator.innerText = '⚐';
                 cellElementNode.appendChild(flagIndicator);
 
-                cellElementNode.onclick = () => {
+                // Added event.stopPropagation to prevent window.onclick from auto-closing the dropdown layout container wrapper panel
+                cellElementNode.onclick = (event) => {
+                    event.stopPropagation();
                     currentProblemIndex = stepIndex;
                     renderTargetQuestionBlock();
                 };
