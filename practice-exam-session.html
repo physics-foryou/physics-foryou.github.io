@@ -5,112 +5,415 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Practice Exam Session</title>
     <style>
+        :root {
+            --primary-dark: #1b2a47;
+            --bg-gray: #f3f4f6;
+            --border-color: #d1d5db;
+            --review-gold: #f59e0b;
+            --success-blue: #2563eb;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f4f6;
+            background-color: var(--bg-gray);
             margin: 0;
-            padding: 40px 20px;
+            padding: 20px;
             color: #333;
+            user-select: none;
         }
+
+        /* Top Menu & Controls Bar */
+        .top-navbar {
+            max-width: 800px;
+            margin: 0 auto 15px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .utility-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .utility-btn:hover {
+            background-color: #eaeaea;
+        }
+
+        /* Center Timer Panel */
+        .timer-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .timer-digits {
+            font-size: 24px;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            color: #111827;
+            margin-bottom: 2px;
+        }
+
+        .hide-time-btn {
+            background: none;
+            border: none;
+            color: #6b7280;
+            text-decoration: underline;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        /* Main Testing Hub Box */
         .container {
             max-width: 800px;
             margin: 0 auto;
             background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+            position: relative;
         }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
         .meta-header {
-            font-size: 14px;
+            font-size: 12px;
             color: #6b7280;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
+            letter-spacing: 0.8px;
+            font-weight: 600;
         }
+
+        .mark-review-btn {
+            background: none;
+            border: none;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mark-review-btn.active {
+            color: var(--review-gold);
+        }
+
         .question-text {
             font-size: 18px;
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             font-weight: 500;
+            color: #111827;
         }
+
+        /* Choices Structure */
         .choices-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
+
+        .choice-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+
         .choice-btn {
             display: flex;
             align-items: center;
             background: #ffffff;
-            border: 1px solid #d1d5db;
-            padding: 14px 20px;
-            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            padding: 16px 20px;
+            border-radius: 30px; /* Rounded pill style from your screenshot */
             cursor: pointer;
             text-align: left;
             font-size: 15px;
             transition: all 0.2s;
             width: 100%;
+            padding-right: 60px; /* space for elimination button */
             box-sizing: border-box;
         }
-        .choice-btn:hover {
+
+        .choice-btn:hover:not(.disabled) {
             background-color: #f9fafb;
             border-color: #9ca3af;
         }
+
+        .choice-wrapper.selected .choice-btn {
+            border-color: var(--success-blue);
+            background-color: #f0f5ff;
+        }
+
         .choice-letter {
-            width: 28px;
-            height: 28px;
-            border: 1px solid #d1d5db;
+            width: 26px;
+            height: 26px;
+            border: 1px solid var(--border-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 15px;
             font-weight: 600;
-            font-size: 13px;
-            background: #f9fafb;
+            font-size: 12px;
+            background: #ffffff;
             flex-shrink: 0;
         }
+
+        .choice-wrapper.selected .choice-letter {
+            background: var(--success-blue);
+            color: #fff;
+            border-color: var(--success-blue);
+        }
+
+        /* Elimination Mechanics */
+        .eliminate-toggle {
+            position: absolute;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #d1d5db;
+            cursor: pointer;
+            padding: 5px;
+            font-weight: bold;
+            transition: color 0.2s;
+            z-index: 2;
+        }
+
+        .eliminate-toggle:hover {
+            color: #ef4444;
+        }
+
+        .choice-wrapper.eliminated .choice-btn {
+            opacity: 0.35;
+            text-decoration: line-through;
+            background: #f3f4f6;
+            pointer-events: none; /* locks button click */
+        }
+
+        .choice-wrapper.eliminated .eliminate-toggle {
+            color: #ef4444;
+        }
+
+        /* Footer System */
         .nav-footer {
-            margin-top: 30px;
+            margin-top: 35px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-top: 1px solid #e5e7eb;
             padding-top: 20px;
         }
+
         .action-btn {
-            background: #1b2a47;
+            background: var(--primary-dark);
             color: #fff;
             border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
+            padding: 12px 24px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
         }
+
+        .action-btn:hover:not(:disabled) {
+            background: #2a3d61;
+        }
+
         .action-btn:disabled {
             background: #d1d5db;
             cursor: not-allowed;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        /* Slide Down Navigation Overlay Grid */
+        .nav-panel {
+            display: none;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 10px auto;
+            box-sizing: border-box;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .grid-item {
+            height: 40px;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .grid-item:hover {
+            background: var(--bg-gray);
+        }
+
+        .grid-item.current {
+            border: 2px solid var(--primary-dark);
+        }
+
+        .grid-item.answered {
+            background: #e0f2fe;
+            border-color: #7dd3fc;
+        }
+
+        .grid-item.reviewed::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            background-color: var(--review-gold);
+            border-radius: 50%;
+        }
+
+        /* Modal Popup System */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .close-modal-x {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 22px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #9ca3af;
+        }
+
+        .close-modal-x:hover {
+            color: #333;
+        }
+
+        .modal-box h2 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .modal-box ul {
+            padding-left: 20px;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
+    <div class="top-navbar">
+        <button class="utility-btn" onclick="toggleInstructions()">📝 Instructions</button>
+        <button class="utility-btn" onclick="toggleNavPanel()">☰ Navigator Hub</button>
+    </div>
+
+    <div class="timer-container">
+        <div id="clock-display" class="timer-digits">80:00</div>
+        <button id="hide-timer-toggle" class="hide-time-btn" onclick="toggleTimerVisibility()">Hide Time</button>
+    </div>
+
+    <div id="navigation-panel" class="nav-panel">
+        <span style="font-size: 13px; font-weight: 600; color:#4b5563;">Jump to Question Grid:</span>
+        <div id="grid-container" class="grid-container"></div>
+    </div>
+
     <div class="container">
-        <div id="meta" class="meta-header">Loading exam metadata...</div>
-        <div id="question" class="question-text">Loading question...</div>
+        <div class="card-header-row">
+            <div id="meta" class="meta-header">Loading metadata...</div>
+            <button id="review-toggle" class="mark-review-btn" onclick="toggleMarkReview()">
+                🏳️ <span>Mark for Review</span>
+            </button>
+        </div>
+        
+        <div id="question" class="question-text">Loading problem text...</div>
         
         <div id="choices" class="choices-container">
             </div>
 
         <div class="nav-footer">
             <button id="prev-btn" class="action-btn" onclick="changeQuestion(-1)" disabled>Back</button>
-            <span id="progress">Question 0 of 0</span>
+            <span id="progress" class="progress-text">Question 0 of 0</span>
             <button id="next-btn" class="action-btn" onclick="changeQuestion(1)">Next</button>
         </div>
     </div>
 
+    <div id="instructions-modal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="close-modal-x" onclick="toggleInstructions()">&times;</button>
+            <h2>Exam Instructions</h2>
+            <p>Welcome to your practice evaluation module. Please review your active parameters carefully before beginning:</p>
+            <ul>
+                <li>You have an allocated pool of <strong>80 minutes</strong> to fulfill all block requests.</li>
+                <li>The assessment countdown clock initiates instantly and runs continuously behind menu panels.</li>
+                <li>Utilize the <strong>ø</strong> icon next to answer rows to eliminate options visually.</li>
+                <li>Flag unsure solutions via the <strong>Mark for Review</strong> link to track them inside your Dashboard Navigator.</li>
+            </ul>
+            <button class="action-btn" style="width: 100%; margin-top: 15px;" onclick="toggleInstructions()">Start Examination</button>
+        </div>
+    </div>
+
     <script>
-        // 1. Grab parameters out of the URL string
+        // Parse URL target parameters 
         const urlParams = new URLSearchParams(window.location.search);
         const subject = urlParams.get('subject') || 'ap1';
         const examNum = urlParams.get('exam') || '1';
@@ -121,86 +424,245 @@
             'mech': 'AP C: Mechanics',
             'em': 'AP C: Electricity & Magnetism'
         };
-
-        // Words map lookup to parse file variable integers into strings
         const numberWords = ["Zero", "One", "Two", "Three", "Four", "Five"];
 
+        // Global Exam States
         let currentQuestionIdx = 0;
         let examQuestions = [];
+        let userAnswers = [];         // Stores choice index selected
+        let reviewFlags = [];         // Stores true/false flags
+        let eliminationMatrix = [];   // Matrix array mapping arrays of blocked options per problem
 
-        // 2. Point to the folder path you just finished setting up
+        // Timer State 
+        let timeRemaining = 80 * 60; // 80 minutes in seconds
+        let isTimerHidden = false;
+
+        // Fetch array pool dependency script mapping
         const scriptElement = document.createElement('script');
         scriptElement.src = `${subject}/${subject}-practice-exam-mcqs/${subject}-practice-exam-mcq-pool-${examNum}.js`;
         document.head.appendChild(scriptElement);
 
-        // 3. Extract the array data once script is active
         scriptElement.onload = function() {
-            // Check for common variable fallback name
             if (typeof practiceExamPool !== 'undefined') {
                 examQuestions = practiceExamPool;
-            } 
-            // Smart Check: Automatically maps to variable names like "ap1PracticeExamPoolOne"
-            else {
+            } else {
                 const wordValue = numberWords[parseInt(examNum)] || "One";
                 const customVarName = `${subject}PracticeExamPool${wordValue}`;
-                
                 if (typeof window[customVarName] !== 'undefined') {
                     examQuestions = window[customVarName];
                 } else if (typeof ap1PracticeExamPoolOne !== 'undefined') {
-                    examQuestions = ap1PracticeExamPoolOne; // Backup catch-all
+                    examQuestions = ap1PracticeExamPoolOne;
                 }
             }
 
             if (examQuestions.length > 0) {
+                // Initialize State Arrays
+                userAnswers = new Array(examQuestions.length).fill(null);
+                reviewFlags = new Array(examQuestions.length).fill(false);
+                eliminationMatrix = Array.from({ length: examQuestions.length }, () => []);
+                
+                initTimer();
+                buildNavigationGrid();
                 renderQuestion();
             } else {
-                document.getElementById('question').innerText = `Error: Could not locate question array. If you add new data files, naming the array 'practiceExamPool' is highly recommended!`;
+                document.getElementById('question').innerText = "Error: Question array could not be located inside your pool configuration file.";
             }
         };
 
         scriptElement.onerror = function() {
-            document.getElementById('question').innerText = `Error: Cannot load data path:\n${scriptElement.src}`;
+            document.getElementById('question').innerText = `Error: Asset script path configuration mismatch:\n${scriptElement.src}`;
         };
 
-        // 4. Paint UI Layout Elements
+        // Timer Module Routine
+        function initTimer() {
+            const timerInterval = setInterval(() => {
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Time has expired! The session is concluding.");
+                    submitExam();
+                    return;
+                }
+                timeRemaining--;
+                updateClockDisplay();
+            }, 1000);
+        }
+
+        function updateClockDisplay() {
+            if (isTimerHidden) {
+                document.getElementById('clock-display').innerText = "——:——";
+                return;
+            }
+            const mins = Math.floor(timeRemaining / 60);
+            const secs = timeRemaining % 60;
+            document.getElementById('clock-display').innerText = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function toggleTimerVisibility() {
+            isTimerHidden = !isTimerHidden;
+            document.getElementById('hide-timer-toggle').innerText = isTimerHidden ? "Show Time" : "Hide Time";
+            updateClockDisplay();
+        }
+
+        // Render Dynamic Quiz Interface 
         function renderQuestion() {
             const qData = examQuestions[currentQuestionIdx];
-            
             const courseTitle = courseNames[subject] || subject.toUpperCase();
-            document.getElementById('meta').innerText = `${courseTitle} — Test ${examNum} — ${qData.unit || 'Review'}`;
             
-            // Render text. If fields are blank or placeholders, indicate cleanly.
-            document.getElementById('question').innerText = qData.question || "This question is currently a placeholder slot in your data array.";
+            // Header configuration
+            document.getElementById('meta').innerText = `${courseTitle} — Test ${examNum} — ${qData.unit || 'General Review'}`;
+            document.getElementById('question').innerText = qData.question;
             
+            // Toggle active look on review banner flag link
+            const reviewBtn = document.getElementById('review-toggle');
+            if (reviewFlags[currentQuestionIdx]) {
+                reviewBtn.classList.add('active');
+                reviewBtn.innerHTML = `🚩 <span>Marked for Review</span>`;
+            } else {
+                reviewBtn.classList.remove('active');
+                reviewBtn.innerHTML = `🏳️ <span>Mark for Review</span>`;
+            }
+
+            // Build Row Nodes for Answers
             const choicesDiv = document.getElementById('choices');
             choicesDiv.innerHTML = '';
             
             const letters = ['A', 'B', 'C', 'D'];
-            
-            if (qData.choices && qData.choices.length > 0) {
-                qData.choices.forEach((choice, index) => {
-                    const button = document.createElement('button');
-                    button.className = 'choice-btn';
-                    button.innerHTML = `<span class="choice-letter">${letters[index]}</span> <span>${choice}</span>`;
-                    choicesDiv.appendChild(button);
-                });
-            } else {
-                choicesDiv.innerHTML = '<p style="color:#6b7280; font-style:italic;">No multiple choice options populated for this placeholder space yet.</p>';
-            }
+            qData.choices.forEach((choice, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'choice-wrapper';
+                
+                // Restore old selected choices or block matrix updates
+                if (userAnswers[currentQuestionIdx] === index) wrapper.classList.add('selected');
+                if (eliminationMatrix[currentQuestionIdx].includes(index)) wrapper.classList.add('eliminated');
 
+                wrapper.innerHTML = `
+                    <button class="choice-btn" onclick="selectAnswer(${index})">
+                        <span class="choice-letter">${letters[index]}</span>
+                        <span>${choice}</span>
+                    </button>
+                    <button class="eliminate-toggle" title="Eliminate option" onclick="toggleEliminate(event, ${index})">ø</button>
+                `;
+                choicesDiv.appendChild(wrapper);
+            });
+
+            // Adjust interactive bottom footer bars
             document.getElementById('progress').innerText = `Question ${currentQuestionIdx + 1} of ${examQuestions.length}`;
             document.getElementById('prev-btn').disabled = currentQuestionIdx === 0;
             document.getElementById('next-btn').innerText = currentQuestionIdx === examQuestions.length - 1 ? 'Finish' : 'Next';
+            
+            updateNavigationGridHighlights();
         }
 
+        function selectAnswer(choiceIdx) {
+            // Block selection if choice is currently marked eliminated
+            if (eliminationMatrix[currentQuestionIdx].includes(choiceIdx)) return;
+
+            userAnswers[currentQuestionIdx] = choiceIdx;
+            
+            // Toggle HTML active classes immediately
+            const wrappers = document.querySelectorAll('.choice-wrapper');
+            wrappers.forEach((w, idx) => {
+                if (idx === choiceIdx) w.classList.add('selected');
+                else w.classList.remove('selected');
+            });
+            
+            updateNavigationGridHighlights();
+        }
+
+        function toggleEliminate(event, choiceIdx) {
+            event.stopPropagation(); // Avoid triggering standard button select answer event bubble
+            
+            const matrixIndex = eliminationMatrix[currentQuestionIdx].indexOf(choiceIdx);
+            const wrappers = document.querySelectorAll('.choice-wrapper');
+            
+            if (matrixIndex > -1) {
+                // Remove elimination tag tracking
+                eliminationMatrix[currentQuestionIdx].splice(matrixIndex, 1);
+                wrappers[choiceIdx].classList.remove('eliminated');
+            } else {
+                // Inject elimination constraint tracking
+                eliminationMatrix[currentQuestionIdx].push(choiceIdx);
+                wrappers[choiceIdx].classList.add('eliminated');
+                
+                // If user eliminates an option they had already chosen, clear their selected choice
+                if (userAnswers[currentQuestionIdx] === choiceIdx) {
+                    userAnswers[currentQuestionIdx] = null;
+                    wrappers[choiceIdx].classList.remove('selected');
+                }
+            }
+            updateNavigationGridHighlights();
+        }
+
+        function toggleMarkReview() {
+            reviewFlags[currentQuestionIdx] = !reviewFlags[currentQuestionIdx];
+            renderQuestion();
+        }
+
+        // Handle Next/Back Actions
         function changeQuestion(direction) {
             currentQuestionIdx += direction;
             if (currentQuestionIdx >= examQuestions.length) {
-                alert("Session complete! Heading back to dashboard.");
-                window.location.href = 'home-page.html';
+                submitExam();
                 return;
             }
             renderQuestion();
+        }
+
+        // Navigation Matrix Grid Assembly 
+        function buildNavigationGrid() {
+            const container = document.getElementById('grid-container');
+            container.innerHTML = '';
+            
+            examQuestions.forEach((_, idx) => {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.id = `nav-item-${idx}`;
+                item.innerText = idx + 1;
+                item.onclick = () => {
+                    currentQuestionIdx = idx;
+                    renderQuestion();
+                };
+                container.appendChild(item);
+            });
+        }
+
+        function updateNavigationGridHighlights() {
+            examQuestions.forEach((_, idx) => {
+                const item = document.getElementById(`nav-item-${idx}`);
+                if (!item) return;
+
+                // Strip old active state patterns
+                item.className = 'grid-item';
+
+                if (idx === currentQuestionIdx) item.classList.add('current');
+                if (userAnswers[idx] !== null) item.classList.add('answered');
+                if (reviewFlags[idx]) item.classList.add('reviewed');
+            });
+        }
+
+        // Menu Interface Toggle Frameworks
+        function toggleInstructions() {
+            const modal = document.getElementById('instructions-modal');
+            modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'flex' : 'none';
+        }
+
+        function toggleNavPanel() {
+            const panel = document.getElementById('navigation-panel');
+            panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'block' : 'none';
+        }
+
+        function submitExam() {
+            const unansweredCount = userAnswers.filter(ans => ans === null).length;
+            let confirmationMessage = "Are you sure you want to finish and turn in this practice assessment?";
+            if (unansweredCount > 0) {
+                confirmationMessage = `Warning: You have left ${unansweredCount} questions completely blank! ${confirmationMessage}`;
+            }
+
+            if (confirm(confirmationMessage)) {
+                alert("Assessment responses filed completely. Returning to Dashboard.");
+                window.location.href = 'home-page.html';
+            }
         }
     </script>
 </body>
