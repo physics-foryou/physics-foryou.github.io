@@ -31,6 +31,7 @@
             --text-dim: #626f80;        
             --border-color: rgba(0,0,0,0.15);
             --review-gold: #f59e0b;
+            --flag-red: #ef4444;
         }
 
         body {
@@ -54,7 +55,7 @@
 
         .top-strip-inner-grid {
             width: 100%;
-            padding: 12px 40px;
+            padding: 14px 40px;
             font-size: 13px;
             font-weight: bold;
             color: #ffffff;
@@ -74,14 +75,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 6px;
         }
 
+        /* Increased Size Counter Display */
         .timer-box { 
-            font-size: 15px; 
+            font-size: 24px; 
             color: #ffffff; 
-            font-weight: bold; 
-            letter-spacing: 0.5px;
+            font-weight: 900; 
+            letter-spacing: 1px;
+            font-family: monospace;
         }
 
         .utility-btn {
@@ -168,6 +171,7 @@
             gap: 14px;
         }
 
+        /* Flagging Action Controls and Color Updates */
         .header-action-toggle {
             background: none;
             border: none;
@@ -185,26 +189,13 @@
             color: #ffffff;
         }
         .header-action-toggle.flagged-active {
-            color: var(--review-gold);
+            color: var(--flag-red) !important;
         }
 
-        .header-utility-toggle {
-            background-color: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: white;
-            padding: 4px 10px;
+        .elimination-instruction-badge {
             font-size: 11px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.2s;
-        }
-        .header-utility-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-        }
-        .header-utility-toggle.mode-active {
-            background-color: #e53e3e !important;
-            border-color: #c53030 !important;
+            color: rgba(255,255,255,0.6);
+            font-weight: normal;
         }
 
         /* MCQ Choice Sizing Elements */
@@ -244,24 +235,15 @@
             font-weight: bold; 
         }
 
-        /* Custom Crossout State Modifiers */
+        /* Crossout Modifiers via Right Click */
         .choice-row.eliminated .choice-btn {
-            opacity: 0.3;
+            opacity: 0.25;
             text-decoration: line-through;
             background-color: rgba(0,0,0,0.04);
             border-color: rgba(0,0,0,0.1);
         }
 
-        /* Interactive Crossout Mode Preview Cursor */
-        .workspace-wrapper.elimination-active-cursor .choice-btn {
-            cursor: cell;
-        }
-        .workspace-wrapper.elimination-active-cursor .choice-btn:hover {
-            background-color: rgba(229, 62, 62, 0.08);
-            border-color: #e53e3e;
-        }
-
-        /* Navigation Matrix Layout Mapping Configuration */
+        /* Navigation Matrix Configuration Map */
         .navigation-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
@@ -295,13 +277,13 @@
             border-color: var(--header-bg);
         }
 
-        /* Custom Review Character Map Layout inside Nav Matrix Elements */
+        /* Custom Flag Review Character Overlay inside Navigation matrix Cells */
         .nav-cell-flag-indicator {
             position: absolute;
             top: 1px;
             right: 3px;
             font-size: 10px;
-            color: var(--review-gold);
+            color: var(--flag-red);
             font-weight: bold;
             display: none;
         }
@@ -309,7 +291,7 @@
             display: block;
         }
 
-        /* Footer Navigation Control Bar Alignment */
+        /* Footer Control Navigation Belt Bar alignment */
         .footer-belt {
             position: fixed;
             bottom: 0;
@@ -362,7 +344,7 @@
             opacity: 0.9; 
         }
 
-        /* Session Overlay Modal Panels */
+        /* Instructions Profile Overlay Modals */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -417,9 +399,7 @@
                         <span id="flag-symbol-slot">⚐</span> <span>Mark for Review</span>
                     </button>
                 </div>
-                <button id="elimination-mode-toggle" class="header-utility-toggle" onclick="toggleMasterEliminationEngine()">
-                    [×] Elimination Mode
-                </button>
+                <span class="elimination-instruction-badge">💡 Right-click an option to cross it out</span>
             </div>
             
             <div class="panel-content">
@@ -454,8 +434,8 @@
                 <p style="margin-top: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">Welcome to your uniform practice testing environment.</p>
                 <ul>
                     <li>You have an uninterrupted clock countdown allocation of <strong>80 minutes</strong>.</li>
-                    <li>Toggle <strong>Elimination Mode</strong> on to instantly cross out and remove incorrect alternatives when clicked.</li>
-                    <li>Toggle Elimination Mode back off to select answers normally.</li>
+                    <li><strong>Elimination Mode:</strong> Right-click (or hold down on touchscreens) directly onto any option row to cross it out instantly.</li>
+                    <li>Left-click any uneliminated answer option to select it normally.</li>
                 </ul>
                 <button class="action-btn" style="width: 100%; margin-top: 15px; padding: 12px;" onclick="closeWelcomeInstructionsModal()">Begin Examination Block</button>
             </div>
@@ -473,7 +453,6 @@
         let catalogedUserResponses = [];
         let markedReviewMatrix = [];
         let optionCrossoutMatrix = [];
-        let eliminationEngineActive = false;
         let isDropdownExpanded = true;
 
         let continuousCountdownSeconds = 80 * 60;
@@ -529,7 +508,7 @@
 
         function updateTimerDisplayConsole() {
             if (hideClockStateActive) {
-                document.getElementById('timer-display').innerText = "——:——";
+                document.getElementById('timer-display').innerText = "⌛︎";
                 return;
             }
             const structuralMinutes = Math.floor(continuousCountdownSeconds / 60);
@@ -568,11 +547,9 @@
             
             if (markedReviewMatrix[currentProblemIndex]) {
                 flagElementRef.classList.add('flagged-active');
-                flagElementRef.style.color = "var(--review-gold)";
                 flagSymbolSlot.innerText = "⚑";
             } else {
                 flagElementRef.classList.remove('flagged-active');
-                flagElementRef.style.color = "rgba(255, 255, 255, 0.75)";
                 flagSymbolSlot.innerText = "⚐";
             }
 
@@ -587,7 +564,15 @@
                 const targetBtnNode = document.createElement('button');
                 targetBtnNode.className = 'choice-btn';
                 targetBtnNode.innerHTML = `<strong>( ${alphaPrefixes[stringIdx]} )</strong> ${choiceStringText}`;
-                targetBtnNode.onclick = () => handleChoiceInteraction(stringIdx);
+                
+                // Left Click handles standard input choice routing selection
+                targetBtnNode.onclick = () => selectTargetOptionIndex(stringIdx);
+                
+                // Right Click/Context Menu handles wrong answer crossout logic parameters dynamically
+                targetBtnNode.oncontextmenu = (event) => {
+                    event.preventDefault();
+                    toggleIndividualOptionElimination(stringIdx);
+                };
 
                 if (catalogedUserResponses[currentProblemIndex] === stringIdx) {
                     targetBtnNode.classList.add('selected');
@@ -611,52 +596,36 @@
             }
         }
 
-        function handleChoiceInteraction(optionIdx) {
-            if (eliminationEngineActive) {
-                // Eliminate option or restore it if already eliminated
-                const matrixIndexPos = optionCrossoutMatrix[currentProblemIndex].indexOf(optionIdx);
-                const operationalRowsList = document.querySelectorAll('.choice-row');
+        function selectTargetOptionIndex(optionIdx) {
+            if (optionCrossoutMatrix[currentProblemIndex].includes(optionIdx)) return;
+            catalogedUserResponses[currentProblemIndex] = optionIdx;
 
-                if (matrixIndexPos > -1) {
-                    optionCrossoutMatrix[currentProblemIndex].splice(matrixIndexPos, 1);
-                    operationalRowsList[optionIdx].classList.remove('eliminated');
-                } else {
-                    optionCrossoutMatrix[currentProblemIndex].push(optionIdx);
-                    operationalRowsList[optionIdx].classList.add('eliminated');
+            document.querySelectorAll('.choice-row').forEach((rowWrapper, loopIdx) => {
+                const baseBtn = rowWrapper.querySelector('.choice-btn');
+                if (loopIdx === optionIdx) baseBtn.classList.add('selected');
+                else baseBtn.classList.remove('selected');
+            });
 
-                    // Deselect response choice state if crossed out
-                    if (catalogedUserResponses[currentProblemIndex] === optionIdx) {
-                        catalogedUserResponses[currentProblemIndex] = null;
-                        operationalRowsList[optionIdx].querySelector('.choice-btn').classList.remove('selected');
-                    }
-                }
-                updateConsoleMatrixHighlights();
-            } else {
-                // Standard answer selection mode
-                if (optionCrossoutMatrix[currentProblemIndex].includes(optionIdx)) return;
-                catalogedUserResponses[currentProblemIndex] = optionIdx;
-
-                document.querySelectorAll('.choice-row').forEach((rowWrapper, loopIdx) => {
-                    const baseBtn = rowWrapper.querySelector('.choice-btn');
-                    if (loopIdx === optionIdx) baseBtn.classList.add('selected');
-                    else baseBtn.classList.remove('selected');
-                });
-                updateConsoleMatrixHighlights();
-            }
+            updateConsoleMatrixHighlights();
         }
 
-        function toggleMasterEliminationEngine() {
-            eliminationEngineActive = !eliminationEngineActive;
-            const toggleBtn = document.getElementById('elimination-mode-toggle');
-            const wrapperContainer = document.getElementById('master-workspace-container');
-            
-            if (eliminationEngineActive) {
-                toggleBtn.classList.add('mode-active');
-                wrapperContainer.classList.add('elimination-active-cursor');
+        function toggleIndividualOptionElimination(choiceOptionIdx) {
+            const matrixIndexPos = optionCrossoutMatrix[currentProblemIndex].indexOf(choiceOptionIdx);
+            const operationalRowsList = document.querySelectorAll('.choice-row');
+
+            if (matrixIndexPos > -1) {
+                optionCrossoutMatrix[currentProblemIndex].splice(matrixIndexPos, 1);
+                operationalRowsList[choiceOptionIdx].classList.remove('eliminated');
             } else {
-                toggleBtn.classList.remove('mode-active');
-                wrapperContainer.classList.remove('elimination-active-cursor');
+                optionCrossoutMatrix[currentProblemIndex].push(choiceOptionIdx);
+                operationalRowsList[choiceOptionIdx].classList.add('eliminated');
+
+                if (catalogedUserResponses[currentProblemIndex] === choiceOptionIdx) {
+                    catalogedUserResponses[currentProblemIndex] = null;
+                    operationalRowsList[choiceOptionIdx].querySelector('.choice-btn').classList.remove('selected');
+                }
             }
+            updateConsoleMatrixHighlights();
         }
 
         function toggleQuestionReviewMark() {
@@ -682,12 +651,10 @@
                 cellElementNode.className = 'nav-cell';
                 cellElementNode.id = `navigation-matrix-cell-id-${stepIndex}`;
                 
-                // Add cell text container
                 const textSpan = document.createElement('span');
                 textSpan.innerText = (stepIndex + 1).toString().padStart(2, '0');
                 cellElementNode.appendChild(textSpan);
 
-                // Add flag character overlay container element
                 const flagIndicator = document.createElement('span');
                 flagIndicator.className = 'nav-cell-flag-indicator';
                 flagIndicator.innerText = '⚐';
