@@ -43,7 +43,6 @@
             user-select: none;
         }
 
-        /* Full Width Spanning Top Header Strip Layout */
         .full-width-top-strip {
             width: 100%;
             background-color: var(--header-bg);
@@ -78,7 +77,6 @@
             gap: 2px;
         }
 
-        /* Increased Size Counter Display */
         .timer-box { 
             font-size: 24px; 
             color: #ffffff; 
@@ -105,7 +103,6 @@
             background-color: rgba(255, 255, 255, 0.25);
         }
 
-        /* Header Right Menu Options Styling */
         .header-right-zone {
             display: flex;
             justify-content: flex-end;
@@ -151,7 +148,6 @@
             background-color: rgba(0,0,0,0.05);
         }
 
-        /* Centered Workspace Core Content Column */
         .workspace-wrapper {
             max-width: 800px; 
             margin: 0 auto;
@@ -197,7 +193,6 @@
             gap: 14px;
         }
 
-        /* Flagging Action Controls and Color Updates */
         .header-action-toggle {
             background: none;
             border: none;
@@ -224,7 +219,6 @@
             font-weight: normal;
         }
 
-        /* MCQ Choice Sizing Elements */
         .question-text-field {
             font-size: 15px; 
             margin-bottom: 20px; 
@@ -261,7 +255,6 @@
             font-weight: bold; 
         }
 
-        /* Crossout Modifiers via Right Click */
         .choice-row.eliminated .choice-btn {
             opacity: 0.25;
             text-decoration: line-through;
@@ -269,7 +262,6 @@
             border-color: rgba(0,0,0,0.1);
         }
 
-        /* Navigation Matrix Configuration Map */
         .navigation-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
@@ -286,7 +278,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+            font-weight: normal; /* Regular weight enforced by default */
             font-size: 13px;
             cursor: pointer;
             position: relative;
@@ -307,14 +299,15 @@
             border: 2px solid var(--header-bg) !important;
             background-color: rgba(0,0,0,0.06);
             animation: pulse-active 1.8s infinite ease-in-out;
+            font-weight: normal !important; /* Strictly overrides bold style modifications while active */
             z-index: 2;
         }
         .nav-cell.state-filled {
             background-color: rgba(27, 42, 71, 0.15);
             border-color: var(--header-bg);
+            font-weight: bold;
         }
 
-        /* Custom Flag Review Character Overlay inside Navigation matrix Cells */
         .nav-cell-flag-indicator {
             position: absolute;
             top: 1px;
@@ -328,7 +321,6 @@
             display: block;
         }
 
-        /* Footer Control Navigation Belt Bar alignment */
         .footer-belt {
             position: fixed;
             bottom: 0;
@@ -381,9 +373,11 @@
             opacity: 0.9; 
         }
 
-        /* Interactive Footer Dropup Panel designed explicitly as a clean cohesive Tab element */
         .dropup-trigger-container {
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .dropup-label-tab-btn {
@@ -392,46 +386,57 @@
             color: #ffffff;
             background-color: var(--header-bg);
             border: 1px solid var(--header-bg);
-            border-bottom: none;
             cursor: pointer;
             font-family: inherit;
             padding: 10px 24px;
-            border-radius: 6px 6px 0 0;
-            transition: background 0.2s;
-            position: relative;
-            z-index: 1001;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
-            top: -14px;
-            margin-bottom: -28px;
+            border-radius: 4px;
+            transition: opacity 0.2s;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
         }
         .dropup-label-tab-btn:hover {
             opacity: 0.95;
         }
 
+        /* Combined Tab Structure Panel Container Layout */
         .dropup-nav-panel {
             display: none;
             position: absolute;
-            bottom: 24px;
+            bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
-            width: 420px;
+            width: 520px;
             background-color: var(--panel-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            box-shadow: 0 -4px 25px rgba(0,0,0,0.12);
-            padding: 20px;
-            box-sizing: border-box;
+            box-shadow: 0 -4px 25px rgba(0,0,0,0.15);
             z-index: 999;
+            margin-bottom: 15px;
+            overflow: hidden;
         }
 
-        /* Matrix Status Key / Legend Styling */
-        .matrix-legend-container {
+        /* Dark Tab Title Wrapper block element matching design requirements */
+        .tab-panel-header {
+            background-color: #111111;
+            color: #ffffff;
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            text-align: left;
+        }
+
+        .tab-panel-body {
+            padding: 20px;
+        }
+
+        /* Linear Left-to-Right Legend Ribbon row grid mapping configuration */
+        .matrix-legend-row {
             border-top: 1px solid var(--border-color);
-            padding-top: 12px;
+            padding-top: 14px;
             margin-top: 5px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
             font-size: 11px;
             font-weight: bold;
             color: var(--text-dim);
@@ -439,11 +444,12 @@
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            white-space: nowrap;
         }
         .legend-box {
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
             border: 1px solid var(--text-dim);
             border-radius: 3px;
             display: inline-block;
@@ -451,7 +457,6 @@
             box-sizing: border-box;
         }
 
-        /* Full Screen Immersive Pause Overlay with Hold Mechanism */
         .immersive-pause-overlay {
             display: none;
             position: fixed;
@@ -526,7 +531,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Instructions Profile Overlay Modals */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -618,24 +622,27 @@
         
         <div class="dropup-trigger-container">
             <div id="dropup-nav-matrix-panel" class="dropup-nav-panel">
-                <div id="navigation-matrix-grid" class="navigation-grid"></div>
-                
-                <div class="matrix-legend-container">
-                    <div class="legend-item">
-                        <div class="legend-box" style="background-color: rgba(0,0,0,0.02);"></div>
-                        <span>Unanswered</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-box" style="background-color: rgba(27, 42, 71, 0.15); border-color: var(--header-bg);"></div>
-                        <span>Answered</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-box" style="background-color: rgba(0,0,0,0.02);"><span style="position:absolute; top:1px; right:3px; font-size:10px; color:var(--flag-red); font-weight:bold;">⚐</span></div>
-                        <span>Marked for Review</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-box" style="border: 2px solid var(--header-bg); background-color: rgba(0,0,0,0.06);"></div>
-                        <span>Current (Pulsing)</span>
+                <div class="tab-panel-header">Question Navigation</div>
+                <div class="tab-panel-body">
+                    <div id="navigation-matrix-grid" class="navigation-grid"></div>
+                    
+                    <div class="matrix-legend-row">
+                        <div class="legend-item">
+                            <div class="legend-box" style="border: 2px solid var(--header-bg); background-color: rgba(0,0,0,0.06);"></div>
+                            <span>Current</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-box" style="background-color: rgba(0,0,0,0.02);"><span style="position:absolute; top:1px; right:3px; font-size:10px; color:var(--flag-red); font-weight:bold;">⚐</span></div>
+                            <span>Marked for Review</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-box" style="background-color: rgba(27, 42, 71, 0.15); border-color: var(--header-bg);"></div>
+                            <span>Answered</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-box" style="background-color: rgba(0,0,0,0.02);"></div>
+                            <span>Unanswered</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -683,13 +690,10 @@
         let hideClockStateActive = false;
         let isTimerPausedActive = false;
 
-        // Overlay holding mechanism counters
-        let holdTimerReference = null;
         let holdProgressIntervalReference = null;
         let currentHoldElapsedMilliseconds = 0;
         const TARGET_HOLD_DURATION_MS = 3000;
 
-        // Dynamic file source hook injection
         const remoteScriptAsset = document.createElement('script');
         remoteScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
         document.head.appendChild(remoteScriptAsset);
@@ -773,7 +777,6 @@
             isOptionsMenuOpen = false;
             document.getElementById('header-options-menu').style.display = 'none';
             
-            // Clean interface states and present pause layout
             isDropupMatrixOpen = false;
             document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
             
@@ -792,7 +795,6 @@
                 currentHoldElapsedMilliseconds += tickRateMs;
                 const ratioComputed = Math.min(currentHoldElapsedMilliseconds / TARGET_HOLD_DURATION_MS, 1);
                 
-                // SVG perimeter math: 2 * PI * radius(45) = ~282.7
                 const perimeterOffsetValue = 282.7 - (ratioComputed * 282.7);
                 document.getElementById('hold-progress-bar-circle').style.strokeDashoffset = perimeterOffsetValue;
 
