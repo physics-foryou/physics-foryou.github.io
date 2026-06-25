@@ -27,7 +27,7 @@ const ap1PracticeExamFRQPoolOne = [
     {
         setupId: "APPHY-EX001-SU001",
         problemNumber: 1,
-        problemType: "Kinematics, Dynamics & Circular Motion",
+        problemType: "Mathematical Routines",
         problemSetup: "A futuristic drone uses a lightweight, inextensible cable of length $L$ to fly a small cargo package of mass $m$ in a horizontal circle at a constant speed. The cable makes a constant angle $\\theta_0$ relative to the vertical, as shown in Figure 1. At a height $H$ above the ground, the cable suddenly snaps, releasing the package. The package then travels as a projectile before striking the flat ground at a horizontal distance $D$ from the release point. Frictional forces from air resistance are negligible.",
         svgDiagram: `
             <svg width="360" height="240" viewBox="0 0 360 240" style="display:block; margin:auto;">
@@ -121,7 +121,7 @@ const ap1PracticeExamFRQPoolOne = [
     {
         setupId: "APPHY-EX001-SU002",
         problemNumber: 2,
-        problemType: "Rotational Dynamics & Angular Momentum",
+        problemType: "Translation Between Representations",
         problemSetup: "A horizontal, uniform solid disk of mass $M_0$ and radius $R_0$ is free to rotate with negligible friction about a vertical axle through its center. At time $t=0$, the disk rotates with a constant initial angular speed $\\omega_0$ in the counterclockwise (positive) direction. At time $t=t_1$, a small piece of sticky clay of mass $\\frac{1}{2}M_0$ is dropped vertically onto the outer edge of the rotating disk and sticks to it. Immediately after the collision, the disk-clay system rotates together with a new constant angular speed. Frictional forces from air resistance are negligible.",
         svgDiagram: `
             <svg width="300" height="180" viewBox="0 0 300 180" style="display:block; margin:auto;">
@@ -240,7 +240,7 @@ const ap1PracticeExamFRQPoolOne = [
     {
         setupId: "APPHY-EX001-SU003",
         problemNumber: 3,
-        problemType: "Experimental Design & Data Analysis",
+        problemType: "Experimental Design and Analysis",
         problemSetup: "A group of students are investigating a magnetic launching system using the following procedure.\n\nA cart of unknown mass $M$ is placed on a horizontal track. A magnetic launcher at the end of the track uses a repelling magnetic force to accelerate the cart from rest over a fixed, short distance $x_0$. Frictional forces are negligible between the cart and the track while the cart is being launched. Once the cart leaves the launcher at a maximum speed $v$, it enters a rough section of the horizontal track where a constant kinetic frictional force is exerted on the cart until it comes to a stop. The students are asked to perform an experiment in which a single quantity is varied in order to collect data that could be graphed to determine the value $F_0$ of the constant launching force exerted by the magnetic launcher. The students have access to only a meterstick and a stopwatch.",
         svgDiagram: ``,
         dataTable: null,
@@ -358,7 +358,7 @@ const ap1PracticeExamFRQPoolOne = [
     {
         setupId: "APPHY-EX001-SU004",
         problemNumber: 4,
-        problemType: "Qualitative/Quantitative Translation (QQT)",
+        problemType: "Qualitative/Quantitative Translation",
         problemSetup: "Two identical planetary probes, Probe X and Probe Y, are in stable circular orbits around a distant planet of mass $M_0$. Probe X is in a low orbit of radius $R_X = R_0$. Probe Y is in a higher orbit of radius $R_Y = 4R_0$. Both probes enter a very thin region of upper-atmospheric gas that exerts a small, constant resisting drag force of magnitude $F_0$ on each probe. The drag force acts opposite to each probe's direction of motion over a short tracking interval. Because the orbits remain nearly circular during this brief interval, the orbital speed $v$ of a probe at any radius $R$ can be approximated using the relationship for a stable circular orbit.",
         svgDiagram: `
             <svg width="260" height="200" viewBox="0 0 260 200" style="display:block; margin:auto;">
