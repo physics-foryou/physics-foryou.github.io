@@ -338,6 +338,7 @@
         .subpart-block {
             margin-left: 20px;
             margin-top: 16px;
+            margin-bottom: 16px;
         }
         .frq-data-table {
             width: 100%;
@@ -1207,11 +1208,7 @@
                         if (subpart.subpartLabel) frqHTML += `<strong>${subpart.subpartLabel}</strong> `;
                         frqHTML += `<span>${subpart.subpartQuestion}</span>`;
                         if (subpart.svgDiagram) frqHTML += `<div style="margin: 15px 0;">${subpart.svgDiagram}</div>`;
-                        
-                        const textVal = catalogedFRQResponses[currentProblemIndex][pIdx][sIdx] || "";
-                        frqHTML += `
-                            <textarea class="frq-textarea" placeholder="Type your response here..." oninput="updateFRQDataValue(${currentProblemIndex}, ${pIdx}, ${sIdx}, this.value)">${textVal}</textarea>
-                        </div>`;
+                        frqHTML += `</div>`;
                     });
                 });
                 document.getElementById('target-question-box').innerHTML = frqHTML;
@@ -1412,7 +1409,7 @@
             
             // Reset Timing Parameters & Set Phase State to Section II
             currentActivePhase = 'FRQ';
-            continuousCountdownSeconds = 90 * 60; // 90 minutes for Free Response
+            continuousCountdownSeconds = 80 * 60; // 80 minutes for Free Response
             currentProblemIndex = 0;
             examinationPool = poolFRQ;
 
@@ -1432,9 +1429,9 @@
             document.getElementById('modal-title-header').innerText = "Section II: Free Response Instructions";
             document.getElementById('modal-welcome-message').innerText = "Welcome to Section II (FRQ).";
             document.getElementById('modal-instructions-bulletpoints').innerHTML = `
-                <li>You have an uninterrupted clock countdown allocation of <strong>90 minutes</strong>.</li>
+                <li>You have an uninterrupted clock countdown allocation of <strong>80 minutes</strong>.</li>
                 <li>Read each multi-part layout carefully. Use the internal container scrollbar to view all prompt setups.</li>
-                <li>Provide input for your answers inside the text areas provided under each subpart.</li>`;
+                <li>Please write your answers clearly on the provided paper sheets. No responses typed on-screen will be recorded.</li>`;
             document.getElementById('welcome-modal-overlay').style.display = 'flex';
 
             generateMatrices();
