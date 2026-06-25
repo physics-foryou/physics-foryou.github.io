@@ -6,6 +6,8 @@
     <title>Daily Question Room</title>
     
     <script src="settings/theme.js"></script>
+    <script src="ap1-reference-sheets/ap1-tables-and-constants.js"></script>
+    <script src="ap1-reference-sheets/ap1-equations.js"></script>
     
     <script>
         window.MathJax = {
@@ -202,21 +204,70 @@
             transition: all 0.2s;
         }
 
-        .toggle-page-btn:hover { background-color: rgba(0, 0, 0, 0.05); }
-        .toggle-page-btn.active { background-color: var(--header-bg); color: #ffffff; border-color: var(--header-bg); }
+        .toggle-page-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
 
-        .drawer-scroll-body { padding: 25px; overflow-y: auto; flex-grow: 1; }
+        .toggle-page-btn.active {
+            background-color: var(--header-bg);
+            color: #ffffff;
+            border-color: var(--header-bg);
+        }
 
-        .ref-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 13px; }
-        .ref-table th, .ref-table td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; vertical-align: top; color: var(--text-main); }
-        .ref-table th { background-color: rgba(0, 0, 0, 0.03); font-weight: bold; }
+        .drawer-scroll-body {
+            padding: 25px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
 
-        .official-two-col-container { display: grid; grid-template-columns: max-content max-content 1fr; gap: 25px; margin-bottom: 25px; }
-        .equations-column { font-size: 14px; line-height: 2.4; }
-        .symbols-right-pane { font-size: 12px; line-height: 1.7; background-color: rgba(0,0,0,0.01); border: 1px solid var(--border-color); padding: 14px; border-radius: 4px; height: fit-content; }
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 13px;
+        }
 
-        .ref-page-content { display: none; }
-        .ref-page-content.active { display: block; }
+        .ref-table th, .ref-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+            color: var(--text-main);
+        }
+
+        .ref-table th {
+            background-color: rgba(0, 0, 0, 0.03);
+            font-weight: bold;
+        }
+
+        .official-two-col-container {
+            display: grid;
+            grid-template-columns: max-content max-content 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .equations-column {
+            font-size: 14px;
+            line-height: 2.4;
+        }
+
+        .symbols-right-pane {
+            font-size: 12px;
+            line-height: 1.7;
+            background-color: rgba(0,0,0,0.01);
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            border-radius: 4px;
+            height: fit-content;
+        }
+
+        .ref-page-content {
+            display: none;
+        }
+        .ref-page-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body class="tex2jax_ignore">
@@ -227,10 +278,18 @@
 
     <div id="ref-drawer-panel" class="ref-drawer">
         <div class="drawer-header">
-            <span id="ref-drawer-title">REFERENCE SHEET</span>
+            <span>AP PHYSICS 1 REFERENCE SHEET</span>
         </div>
-        <div id="dynamic-drawer-pagination" class="drawer-page-toggle"></div>
-        <div id="dynamic-drawer-body" class="drawer-scroll-body tex2jax_process"></div>
+
+        <div class="drawer-page-toggle">
+            <button id="btn-page-1" class="toggle-page-btn active" onclick="switchRefPage(1)">Table of Information</button>
+            <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2)">Equations & Geometry</button>
+        </div>
+
+        <div class="drawer-scroll-body tex2jax_process">
+            <div id="ref-page-1" class="ref-page-content active"></div>
+            <div id="ref-page-2" class="ref-page-content"></div>
+        </div>
     </div>
 
     <div class="workspace tex2jax_process">
@@ -288,7 +347,6 @@
     <div id="notification" class="toast-notification">⚠️ Notice: 30 seconds remaining</div>
 
     <script>
-        // --- Core Quiz Logic Variables ---
         let selectedIndex = null;
         let isSubmitted = false;
         let timeRemaining = 120;
@@ -298,130 +356,23 @@
         let storageKey = '';
         let subject = 'ap1';
         
-        // --- Dynamic Reference Sheet Setup ---
-        // This maps the subject parameter to the correct folder paths based on your image.
-        const refSheetRegistry = {
-            'ap1': {
-                title: 'AP PHYSICS 1 REFERENCE SHEET',
-                files: [
-                    'ap1/ap1-reference-sheets/ap1-tables-and-constants.js',
-                    'ap1/ap1-reference-sheets/ap1-equations.js'
-                ]
-            },
-            'ap2': {
-                title: 'AP PHYSICS 2 REFERENCE SHEET',
-                files: [
-                    'ap2/ap2-reference-sheets/ap2-tables-and-constants.js',
-                    'ap2/ap2-reference-sheets/ap2-equations.js',
-                    'ap2/ap2-reference-sheets/ap2-equations-cont-1.js',
-                    'ap2/ap2-reference-sheets/ap2-equations-cont-2.js'
-                ]
-            },
-            'mech': {
-                title: 'AP PHYSICS C: MECHANICS REFERENCE SHEET',
-                files: [
-                    'apc-mech/apc-mech-reference-sheets/apc-mech-tables-and-constants.js',
-                    'apc-mech/apc-mech-reference-sheets/apc-mech-mech-equations.js',
-                    'apc-mech/apc-mech-reference-sheets/apc-mech-math-equations.js'
-                ]
-            },
-            'em': {
-                title: 'AP PHYSICS C: E&M REFERENCE SHEET',
-                files: [
-                    'apc-eandm/apc-eandm-reference-sheets/apc-eandm-tables-and-constants.js',
-                    'apc-eandm/apc-eandm-reference-sheets/apc-eandm-mech-equations.js',
-                    'apc-eandm/apc-eandm-reference-sheets/apc-eandm-eandm-equations.js',
-                    'apc-eandm/apc-eandm-reference-sheets/apc-eandm-math-equations.js'
-                ]
-            }
-        };
+        let activeRefPage = 1;
 
-        window.activeReferencePages = [];
-
-        // Helper to load scripts sequentially using Promises
-        function loadScript(src) {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = src;
-                script.onload = resolve;
-                script.onerror = () => {
-                    console.error("Could not load reference file:", src);
-                    resolve(); // Resolve anyway to continue loading other files
-                };
-                document.head.appendChild(script);
-            });
-        }
-
-        async function initReferenceDrawer() {
-            const config = refSheetRegistry[subject];
-            if (!config) return;
-
-            document.getElementById('ref-drawer-title').innerText = config.title;
-            document.getElementById('ref-tab-trigger').style.display = 'block';
-
-            // Load all JS files for this subject in order
-            for (const file of config.files) {
-                await loadScript(file);
-            }
-
-            buildReferenceSheetUI();
-        }
-
-        function buildReferenceSheetUI() {
-            const paginationContainer = document.getElementById('dynamic-drawer-pagination');
-            const contentContainer = document.getElementById('dynamic-drawer-body');
-            
-            paginationContainer.innerHTML = '';
-            contentContainer.innerHTML = '';
-
-            window.activeReferencePages.forEach((pageObj, index) => {
-                const pageNum = index + 1;
-                
-                // 1. Build Toggle Button
-                const btn = document.createElement('button');
-                btn.className = `toggle-page-btn ${index === 0 ? 'active' : ''}`;
-                btn.id = `btn-page-${pageNum}`;
-                btn.innerText = pageObj.title || `Page ${pageNum}`;
-                btn.onclick = () => switchRefPage(pageNum);
-                paginationContainer.appendChild(btn);
-
-                // 2. Build Content Container
-                const contentDiv = document.createElement('div');
-                contentDiv.className = `ref-page-content ${index === 0 ? 'active' : ''}`;
-                contentDiv.id = `ref-page-${pageNum}`;
-                contentDiv.innerHTML = pageObj.content;
-                contentContainer.appendChild(contentDiv);
-            });
-
-            // Trigger MathJax re-render for newly injected HTML
-            if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
-                MathJax.typesetPromise([document.getElementById('ref-drawer-panel')]);
-            }
-        }
-
-        function switchRefPage(pageNum) {
-            document.querySelectorAll('.ref-page-content').forEach(p => p.classList.remove('active'));
-            document.getElementById(`ref-page-${pageNum}`).classList.add('active');
-            
-            document.querySelectorAll('.toggle-page-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`btn-page-${pageNum}`).classList.add('active');
-        }
-
-        function toggleRefDrawer() {
-            const drawer = document.getElementById('ref-drawer-panel');
-            const tabTrigger = document.getElementById('ref-tab-trigger');
-            drawer.classList.toggle('open');
-            tabTrigger.classList.toggle('drawer-open');
-        }
-
-
-        // --- Core Application Initialization ---
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             subject = urlParams.get('subject') || 'ap1';
             
-            // Kickoff dynamic reference sheet loader
-            initReferenceDrawer();
+            if (subject === 'ap1') {
+                document.getElementById('ref-tab-trigger').style.display = 'block';
+                
+                // Inject external pools dynamically into placeholders
+                if (typeof ap1TableOfInformationPool !== 'undefined' && ap1TableOfInformationPool[subject]) {
+                    document.getElementById('ref-page-1').innerHTML = ap1TableOfInformationPool[subject];
+                }
+                if (typeof ap1EquationsAndGeometryPool !== 'undefined' && ap1EquationsAndGeometryPool[subject]) {
+                    document.getElementById('ref-page-2').innerHTML = ap1EquationsAndGeometryPool[subject];
+                }
+            }
             
             const configs = {
                 ap1: { name: "AP Physics 1", time: 120, pool: typeof ap1DailyPool !== 'undefined' ? ap1DailyPool : [] },
@@ -573,6 +524,23 @@
         }
         runMidnightCountdown();
         setInterval(runMidnightCountdown, 1000);
+
+        function toggleRefDrawer() {
+            const drawer = document.getElementById('ref-drawer-panel');
+            const tabTrigger = document.getElementById('ref-tab-trigger');
+            
+            drawer.classList.toggle('open');
+            tabTrigger.classList.toggle('drawer-open');
+        }
+
+        function switchRefPage(pageNum) {
+            activeRefPage = pageNum;
+            document.querySelectorAll('.ref-page-content').forEach(p => p.classList.remove('active'));
+            document.getElementById(`ref-page-${pageNum}`).classList.add('active');
+            
+            document.querySelectorAll('.toggle-page-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-page-${pageNum}`).classList.add('active');
+        }
     </script>
 </body>
 </html>
