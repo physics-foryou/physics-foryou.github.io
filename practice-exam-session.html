@@ -211,7 +211,6 @@
             color: var(--text-main);
         }
 
-        /* Scrollable container view for long FRQs */
         .panel-content.frq-scroll-active {
             max-height: 68vh;
             overflow-y: auto;
@@ -305,28 +304,6 @@
             border-color: rgba(0,0,0,0.1);
         }
 
-        /* FRQ Typography & Form Input Mechanics */
-        .frq-textarea {
-            width: 100%;
-            min-height: 130px;
-            background-color: rgba(0,0,0,0.02);
-            border: 1px solid var(--text-dim);
-            color: var(--text-main);
-            font-family: inherit;
-            font-size: 14px;
-            padding: 12px;
-            border-radius: 4px;
-            resize: vertical;
-            box-sizing: border-box;
-            margin-top: 10px;
-            margin-bottom: 24px;
-            transition: all 0.2s;
-        }
-        .frq-textarea:focus {
-            outline: none;
-            border-color: var(--header-bg);
-            background-color: var(--panel-bg);
-        }
         .part-header {
             font-weight: bold;
             font-size: 16px;
@@ -338,6 +315,7 @@
         .subpart-block {
             margin-left: 20px;
             margin-top: 16px;
+            margin-bottom: 24px;
         }
         .frq-data-table {
             width: 100%;
@@ -363,7 +341,6 @@
             margin-bottom: 15px;
         }
 
-        /* Enlarged Grid styles for Review Screen */
         .review-grid-large {
             grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
             gap: 12px;
@@ -577,7 +554,6 @@
             box-sizing: border-box;
         }
 
-        /* Re-used styling for Break Overlay */
         .immersive-pause-overlay {
             display: none;
             position: fixed;
@@ -760,29 +736,10 @@
             <div id="review-panel-content" class="panel-content" style="display: none;">
                 <h2 id="review-panel-heading" style="margin-top: 0; font-size: 20px;">Review Your Answers</h2>
                 <p id="review-panel-description" style="color: var(--text-dim); margin-bottom: 25px; line-height: 1.5; font-size: 14px;">
-                    You have reached the end of the examination block. Please review your answers below. You may click on any question number to return to that question. When you are ready, click the <strong>Submit</strong> button at the bottom right to finalize your attempt.
+                    You have reached the end of the examination block. Click on any question number to review it. When you are finished, click the <strong>Submit</strong> button at the bottom right.
                 </p>
                 
                 <div id="review-matrix-grid" class="navigation-grid review-grid-large"></div>
-                
-                <div class="matrix-legend-row" style="border-top: none; justify-content: flex-start; gap: 30px;">
-                    <div class="legend-item">
-                        <div class="legend-box" style="border: 2px solid var(--text-main); background-color: rgba(0,0,0,0.06);"></div>
-                        <span>Current</span>
-                    </div>
-                    <div class="legend-item">
-                        <span style="font-size:15px; color:var(--flag-red); font-weight:bold; line-height:1; transform:translateY(-1px);">⚐</span>
-                        <span>Marked for Review</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-box" style="background-color: var(--selected-bg); border-color: var(--selected-bg);"></div>
-                        <span>Answered</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-box" style="background-color: rgba(0,0,0,0.02); border-color: var(--text-dim);"></div>
-                        <span>Unanswered</span>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -796,25 +753,6 @@
                 <div class="tab-panel-header">Question Navigation</div>
                 <div class="tab-panel-body">
                     <div id="navigation-matrix-grid" class="navigation-grid"></div>
-                    
-                    <div class="matrix-legend-row">
-                        <div class="legend-item">
-                            <div class="legend-box" style="border: 2px solid var(--text-main); background-color: rgba(0,0,0,0.06);"></div>
-                            <span>Current</span>
-                        </div>
-                        <div class="legend-item">
-                            <span style="font-size:15px; color:var(--flag-red); font-weight:bold; line-height:1; transform:translateY(-1px);">⚐</span>
-                            <span>Marked for Review</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-box" style="background-color: var(--selected-bg); border-color: var(--selected-bg);"></div>
-                            <span>Answered</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-box" style="background-color: rgba(0,0,0,0.02); border-color: var(--text-dim);"></div>
-                            <span>Unanswered</span>
-                        </div>
-                    </div>
                 </div>
             </div>
             <button id="footer-progress-label" class="dropup-label-tab-btn" onclick="toggleDropupMatrixNavigationView(event)">
@@ -834,8 +772,7 @@
                 <p id="modal-welcome-message" style="margin-top: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">Welcome to your uniform practice testing environment.</p>
                 <ul id="modal-instructions-bulletpoints">
                     <li>You have an uninterrupted clock countdown allocation of <strong>80 minutes</strong>.</li>
-                    <li><strong>Elimination Mode:</strong> Right-click (or hold down on touchscreens) directly onto any option row to cross it out instantly.</li>
-                    <li>Left-click any uneliminated answer option to select it normally.</li>
+                    <li>Write all calculations and free-response parts clearly on your physical scratch paper.</li>
                 </ul>
                 <button class="action-btn" style="width: 100%; margin-top: 15px; padding: 12px;" onclick="closeWelcomeInstructionsModal()">Begin Examination Block</button>
             </div>
@@ -850,16 +787,13 @@
 
         const localStorageStateKey = `exam_state_${subjectCode}_${examIdentity}`;
 
-        // Phase Tracking Setup
-        let currentActivePhase = 'MCQ'; // 'MCQ' or 'FRQ'
+        let currentActivePhase = 'MCQ'; 
         let currentProblemIndex = 0;
-        let examinationPool = []; // Set dynamically via active pool references
+        let examinationPool = []; 
         let poolMCQ = [];
         let poolFRQ = [];
 
-        // Dual Structure Memory Layout Storage
         let catalogedUserResponses = [];
-        let catalogedFRQResponses = []; // 3D Data Array Matrix [qIdx][partIdx][subpartIdx]
         let markedReviewMatrix = [];
         let markedFRQReviewMatrix = [];
         let optionCrossoutMatrix = [];
@@ -876,16 +810,13 @@
         let currentHoldElapsedMilliseconds = 0;
         const TARGET_HOLD_DURATION_MS = 3000;
         
-        // Break Timer Variables
         let breakCountdownSeconds = 60;
         let breakTimerInterval = null;
 
-        // Load MCQ Script Pool Asset
         const remoteScriptAsset = document.createElement('script');
         remoteScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
         document.head.appendChild(remoteScriptAsset);
 
-        // Load FRQ Script Pool Asset
         const frqScriptAsset = document.createElement('script');
         frqScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-frqs/${subjectCode}-practice-exam-frq-pool-${examIdentity}.js`;
         document.head.appendChild(frqScriptAsset);
@@ -899,22 +830,17 @@
         };
 
         function initializeIntegratedExamSystem() {
-            // Target MCQ Reference Maps
             if (typeof practiceExamPool !== 'undefined') poolMCQ = practiceExamPool;
             else if (window[`${subjectCode}PracticeExamPool${mapAlphaIntegerWord[parseInt(examIdentity)] || 'One'}`]) poolMCQ = window[`${subjectCode}PracticeExamPool${mapAlphaIntegerWord[parseInt(examIdentity)] || 'One'}`];
             else if (typeof ap1PracticeExamMCQPoolOne !== 'undefined') poolMCQ = ap1PracticeExamMCQPoolOne;
 
-            // Target FRQ Reference Maps
             if (typeof practiceExamFRQPool !== 'undefined') poolFRQ = practiceExamFRQPool;
             else if (window[`${subjectCode}PracticeExamFRQPool${mapAlphaIntegerWord[parseInt(examIdentity)] || 'One'}`]) poolFRQ = window[`${subjectCode}PracticeExamFRQPool${mapAlphaIntegerWord[parseInt(examIdentity)] || 'One'}`];
             else if (typeof ap1PracticeExamFRQPoolOne !== 'undefined') poolFRQ = ap1PracticeExamFRQPoolOne;
 
-            // Instantiation arrays
             catalogedUserResponses = new Array(poolMCQ.length).fill(null);
             markedReviewMatrix = new Array(poolMCQ.length).fill(false);
             optionCrossoutMatrix = Array.from({ length: poolMCQ.length }, () => []);
-
-            catalogedFRQResponses = poolFRQ.map(q => q.parts.map(p => p.subparts.map(s => "")));
             markedFRQReviewMatrix = new Array(poolFRQ.length).fill(false);
 
             examinationPool = poolMCQ;
@@ -941,7 +867,6 @@
                     currentPhase: currentActivePhase,
                     currentIndex: currentProblemIndex,
                     responses: catalogedUserResponses,
-                    frqResponses: catalogedFRQResponses,
                     flags: markedReviewMatrix,
                     frqFlags: markedFRQReviewMatrix,
                     crossouts: optionCrossoutMatrix,
@@ -961,7 +886,6 @@
                     currentActivePhase = parsed.currentPhase || 'MCQ';
                     currentProblemIndex = parsed.currentIndex || 0;
                     catalogedUserResponses = parsed.responses || catalogedUserResponses;
-                    catalogedFRQResponses = parsed.frqResponses || catalogedFRQResponses;
                     markedReviewMatrix = parsed.flags || markedReviewMatrix;
                     markedFRQReviewMatrix = parsed.frqFlags || markedFRQReviewMatrix;
                     optionCrossoutMatrix = parsed.crossouts || optionCrossoutMatrix;
@@ -1128,8 +1052,8 @@
             };
 
             if (currentActivePhase === 'FRQ') {
-                document.getElementById('review-panel-heading').innerText = "Review Your Section II Answers";
-                document.getElementById('review-panel-description').innerHTML = "You have reached the end of the FRQ examination block. Please review your written responses. When you are fully satisfied, click <strong>Submit Final Exam</strong>.";
+                document.getElementById('review-panel-heading').innerText = "Review Your Section II Progress";
+                document.getElementById('review-panel-description').innerHTML = "You have reached the end of the FRQ questions. Ensure you have written all of your responses down on your physical paper, then click <strong>Submit Final Exam</strong>.";
             }
 
             updateConsoleMatrixHighlights();
@@ -1191,27 +1115,22 @@
                     optionsContentBox.appendChild(choiceWrapperNode);
                 });
             } else {
-                // Free Response Render Phase Configuration
                 let frqHTML = `<div><strong>${questionRecord.problemType || 'Free Response'}</strong></div><p>${questionRecord.problemSetup}</p>`;
                 if (questionRecord.svgDiagram) frqHTML += `<div style="margin: 20px 0;">${questionRecord.svgDiagram}</div>`;
                 if (questionRecord.dataTable) frqHTML += buildTableHTML(questionRecord.dataTable);
 
-                questionRecord.parts.forEach((part, pIdx) => {
+                questionRecord.parts.forEach((part) => {
                     frqHTML += `<div class="part-header">${part.partTitle}</div>`;
                     if (part.partIntroText) frqHTML += `<p>${part.partIntroText}</p>`;
                     if (part.svgDiagram) frqHTML += `<div style="margin: 15px 0;">${part.svgDiagram}</div>`;
                     if (part.dataTable) frqHTML += buildTableHTML(part.dataTable);
 
-                    part.subparts.forEach((subpart, sIdx) => {
+                    part.subparts.forEach((subpart) => {
                         frqHTML += `<div class="subpart-block">`;
                         if (subpart.subpartLabel) frqHTML += `<strong>${subpart.subpartLabel}</strong> `;
                         frqHTML += `<span>${subpart.subpartQuestion}</span>`;
                         if (subpart.svgDiagram) frqHTML += `<div style="margin: 15px 0;">${subpart.svgDiagram}</div>`;
-                        
-                        const textVal = catalogedFRQResponses[currentProblemIndex][pIdx][sIdx] || "";
-                        frqHTML += `
-                            <textarea class="frq-textarea" placeholder="Type your response here..." oninput="updateFRQDataValue(${currentProblemIndex}, ${pIdx}, ${sIdx}, this.value)">${textVal}</textarea>
-                        </div>`;
+                        frqHTML += `</div>`;
                     });
                 });
                 document.getElementById('target-question-box').innerHTML = frqHTML;
@@ -1274,12 +1193,6 @@
             updateConsoleMatrixHighlights();
             saveActiveExamProgressState();
         }
-
-        window.updateFRQDataValue = function(qIdx, pIdx, sIdx, payloadValue) {
-            catalogedFRQResponses[qIdx][pIdx][sIdx] = payloadValue;
-            saveActiveExamProgressState();
-            updateConsoleMatrixHighlights();
-        };
 
         function buildTableHTML(tableObjRef) {
             if (!tableObjRef || !tableObjRef.rows || tableObjRef.rows.length === 0) return "";
@@ -1344,16 +1257,6 @@
             });
         }
 
-        function checkFRQIsAnswered(qIdx) {
-            const parts = catalogedFRQResponses[qIdx];
-            for (let p = 0; p < parts.length; p++) {
-                for (let s = 0; s < parts[p].length; s++) {
-                    if (parts[p][s].trim().length > 0) return true;
-                }
-            }
-            return false;
-        }
-
         function updateConsoleMatrixHighlights() {
             const activeFlags = (currentActivePhase === 'MCQ') ? markedReviewMatrix : markedFRQReviewMatrix;
             examinationPool.forEach((_, stepIndex) => {
@@ -1365,7 +1268,7 @@
 
                     if (stepIndex === currentProblemIndex) targetedCellRef.classList.add('current-active');
                     
-                    const isAnswered = (currentActivePhase === 'MCQ') ? (catalogedUserResponses[stepIndex] !== null) : checkFRQIsAnswered(stepIndex);
+                    const isAnswered = (currentActivePhase === 'MCQ') ? (catalogedUserResponses[stepIndex] !== null) : false;
                     if (isAnswered) targetedCellRef.classList.add('state-filled');
                     if (activeFlags[stepIndex]) targetedCellRef.classList.add('state-review');
                 });
@@ -1377,17 +1280,13 @@
         }
 
         function terminateActiveSessionInstance() {
-            // Instantly clear saved progress and halt the main timer
             clearInterval(processingTickerInterval);
-            
-            // Initiate the 1-minute break screen sequence
             startBreakSequence();
         }
 
         function startBreakSequence() {
             document.getElementById('break-screen-overlay').style.display = 'flex';
-            breakCountdownSeconds = 60; // 1 minute break
-            
+            breakCountdownSeconds = 60; 
             document.getElementById('break-timer-display').innerText = "01:00";
 
             breakTimerInterval = setInterval(() => {
@@ -1410,9 +1309,8 @@
             }
             document.getElementById('break-screen-overlay').style.display = 'none';
             
-            // Reset Timing Parameters & Set Phase State to Section II
             currentActivePhase = 'FRQ';
-            continuousCountdownSeconds = 90 * 60; // 90 minutes for Free Response
+            continuousCountdownSeconds = 90 * 60; 
             currentProblemIndex = 0;
             examinationPool = poolFRQ;
 
@@ -1422,19 +1320,17 @@
         }
 
         function transitionUIConfigurationToFRQ() {
-            // Reconfigure Layout and Enable Workspace Scollbars
             document.getElementById('section-title').innerText = "Section II: FRQ";
             document.getElementById('master-workspace-container').style.maxWidth = "1000px";
             document.getElementById('question-panel-content').classList.add('frq-scroll-active');
             document.getElementById('elimination-badge-tip').style.display = 'none';
 
-            // Swap out Modal Profile configuration variables context for FRQ Instructions
             document.getElementById('modal-title-header').innerText = "Section II: Free Response Instructions";
             document.getElementById('modal-welcome-message').innerText = "Welcome to Section II (FRQ).";
             document.getElementById('modal-instructions-bulletpoints').innerHTML = `
                 <li>You have an uninterrupted clock countdown allocation of <strong>90 minutes</strong>.</li>
                 <li>Read each multi-part layout carefully. Use the internal container scrollbar to view all prompt setups.</li>
-                <li>Provide input for your answers inside the text areas provided under each subpart.</li>`;
+                <li>Write down your formulas, charts, and text descriptions fully on your physical paper.</li>`;
             document.getElementById('welcome-modal-overlay').style.display = 'flex';
 
             generateMatrices();
@@ -1443,7 +1339,7 @@
         }
 
         function executeFinalSubmissionRedirect() {
-            if (confirm("Are you sure you want to finalize this exam block session and submit your responses?")) {
+            if (confirm("Are you sure you want to finalize this exam block session and submit?")) {
                 clearInterval(processingTickerInterval);
                 clearSavedExamProgressState();
                 window.location.href = 'home-page.html';
