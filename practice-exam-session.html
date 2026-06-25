@@ -515,6 +515,7 @@
             box-sizing: border-box;
         }
 
+        /* Re-used styling for Break Overlay */
         .immersive-pause-overlay {
             display: none;
             position: fixed;
@@ -636,6 +637,17 @@
             </svg>
             <div id="hold-action-label" class="progress-ring-text">Hold</div>
         </div>
+    </div>
+
+    <div id="break-screen-overlay" class="immersive-pause-overlay" style="z-index: 6000;">
+        <div class="pause-title">SECTION I COMPLETE</div>
+        <div class="pause-instructions">Your Multiple Choice Question responses have been securely saved. You have a short break before Section II (FRQ) begins automatically.</div>
+        
+        <div class="timer-zone" style="margin-bottom: 20px;">
+            <span id="break-timer-display" class="timer-box" style="font-size: 48px; color: var(--text-main);">01:00</span>
+        </div>
+        
+        <button class="action-btn" onclick="startFRQSection()">Skip Break & Start FRQ</button>
     </div>
 
     <div class="full-width-top-strip tex2jax_process">
@@ -788,10 +800,15 @@
         let continuousCountdownSeconds = 80 * 60;
         let hideClockStateActive = false;
         let isTimerPausedActive = false;
+        let processingTickerInterval = null; // Made global to clear on early submit
 
         let holdProgressIntervalReference = null;
         let currentHoldElapsedMilliseconds = 0;
         const TARGET_HOLD_DURATION_MS = 3000;
+        
+        // Break Timer Variables
+        let breakCountdownSeconds = 60;
+        let breakTimerInterval = null;
 
         const remoteScriptAsset = document.createElement('script');
         remoteScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
@@ -802,15 +819,9 @@
                 examinationPool = practiceExamPool;
             } else {
                 const translationTargetString = mapAlphaIntegerWord[parseInt(examIdentity)] || "One";
-                
-                // Dynamically build variables matching patterns with and without 'MCQ' strings
-                const alternativeGlobalVariableMCQ = `${subjectCode}PracticeExamMCQPool${translationTargetString}`;
-                const alternativeGlobalVariablePool = `${subjectCode}PracticeExamPool${translationTargetString}`;
-                
-                if (typeof window[alternativeGlobalVariableMCQ] !== 'undefined') {
-                    examinationPool = window[alternativeGlobalVariableMCQ];
-                } else if (typeof window[alternativeGlobalVariablePool] !== 'undefined') {
-                    examinationPool = window[alternativeGlobalVariablePool];
+                const alternativeGlobalVariable = `${subjectCode}PracticeExamPool${translationTargetString}`;
+                if (typeof window[alternativeGlobalVariable] !== 'undefined') {
+                    examinationPool = window[alternativeGlobalVariable];
                 } else if (typeof ap1PracticeExamMCQPoolOne !== 'undefined') {
                     examinationPool = ap1PracticeExamMCQPoolOne;
                 }
@@ -882,12 +893,11 @@
         }
 
         function startSessionTimerLoop() {
-            const processingTickerInterval = setInterval(() => {
+            processingTickerInterval = setInterval(() => {
                 if (isTimerPausedActive) return;
                 
                 if (continuousCountdownSeconds <= 0) {
                     clearInterval(processingTickerInterval);
-                    alert("Testing block runtime finished! Auto-transmitting answers.");
                     terminateActiveSessionInstance();
                     return;
                 }
@@ -1211,15 +1221,40 @@
         }
 
         function terminateActiveSessionInstance() {
-            const totalUnansweredQuestionsCount = catalogedUserResponses.filter(answer => answer === null).length;
-            let queryMessagePrompt = "Are you sure you want to finalize this exam block session and submit your responses?";
-            if (totalUnansweredQuestionsCount > 0) {
-                queryMessagePrompt = `Warning: You have left ${totalUnansweredQuestionsCount} questions blank! ${queryMessagePrompt}`;
+            // Instantly clear saved progress and halt the main timer
+            clearInterval(processingTickerInterval);
+            clearSavedExamProgressState();
+            
+            // Initiate the 1-minute break screen sequence
+            startBreakSequence();
+        }
+
+        function startBreakSequence() {
+            document.getElementById('break-screen-overlay').style.display = 'flex';
+            breakCountdownSeconds = 60; // 1 minute break
+            
+            document.getElementById('break-timer-display').innerText = "01:00";
+
+            breakTimerInterval = setInterval(() => {
+                breakCountdownSeconds--;
+                
+                const m = Math.floor(breakCountdownSeconds / 60).toString().padStart(2, '0');
+                const s = (breakCountdownSeconds % 60).toString().padStart(2, '0');
+                document.getElementById('break-timer-display').innerText = `${m}:${s}`;
+                
+                if (breakCountdownSeconds <= 0) {
+                    clearInterval(breakTimerInterval);
+                    startFRQSection();
+                }
+            }, 1000);
+        }
+
+        function startFRQSection() {
+            if (breakTimerInterval) {
+                clearInterval(breakTimerInterval);
             }
-            if (confirm(queryMessagePrompt)) {
-                clearSavedExamProgressState();
-                window.location.href = 'home-page.html';
-            }
+            // Transitions to the FRQ page carrying over the existing subject and exam ID parameters
+            window.location.href = `frq-exam-session.html?subject=${subjectCode}&exam=${examIdentity}`;
         }
     </script>
 </body>
