@@ -1,7 +1,7 @@
 /**
  * AP Physics C: Mechanics - Practice Exam 1
  * Section II: Free-Response Questions Clean Template Pool
- * * =========================================================================
+ * =========================================================================
  * ID SYSTEM RULES & LOGIC:
  * =========================================================================
  * 1. setupId (3 Tiers): [COURSE]-[EXAM]-[SETUP]
@@ -29,28 +29,32 @@ const ap1PracticeExamFRQPoolOne = [
         problemNumber: 1,
         problemType: "",
         problemSetup: "",
-        svgDiagram: ``,
+        svgDiagram: ``, // Global / Main setup diagram
         dataTable: null,
         parts: [
             {
                 partId: "",
                 partTitle: "Part A",
                 partIntroText: "",
+                svgDiagram: ``, // Part-specific diagram
                 subparts: [
                     {
                         subpartId: "",
                         subpartLabel: "(i)",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: `` // Subpart-specific diagram (e.g., a student response grid or graph axis)
                     },
                     {
                         subpartId: "",
                         subpartLabel: "(ii)",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     },
                     {
                         subpartId: "",
                         subpartLabel: "(iii)",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             },
@@ -58,11 +62,13 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "",
                 partTitle: "Part B",
                 partIntroText: "",
+                svgDiagram: ``,
                 subparts: [
                     {
                         subpartId: "",
                         subpartLabel: "",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             }
@@ -84,11 +90,13 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "",
                 partTitle: "Part A",
                 partIntroText: "",
+                svgDiagram: ``,
                 subparts: [
                     {
                         subpartId: "",
                         subpartLabel: "",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             },
@@ -96,11 +104,13 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "",
                 partTitle: "Part B",
                 partIntroText: "",
+                svgDiagram: ``,
                 subparts: [
                     {
                         subpartId: "",
                         subpartLabel: "",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             },
@@ -108,11 +118,13 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "",
                 partTitle: "Part C",
                 partIntroText: "",
+                svgDiagram: ``,
                 subparts: [
                     {
                         subpartId: "",
                         subpartLabel: "",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             },
@@ -120,11 +132,13 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "",
                 partTitle: "Part D",
                 partIntroText: "",
+                svgDiagram: ``,
                 subparts: [
                     {
                         subpartId: "",
                         subpartLabel: "",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             }
@@ -146,16 +160,19 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "",
                 partTitle: "Part A",
                 partIntroText: "",
+                svgDiagram: ``,
                 subparts: [
                     {
                         subpartId: "",
                         subpartLabel: "(i)",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     },
                     {
                         subpartId: "",
                         subpartLabel: "(ii)",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             },
@@ -163,16 +180,19 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "",
                 partTitle: "Part B",
                 partIntroText: "",
+                svgDiagram: ``,
                 subparts: [
                     {
                         subpartId: "",
                         subpartLabel: "(i)",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     },
                     {
                         subpartId: "",
                         subpartLabel: "(ii)",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             },
@@ -180,6 +200,7 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "",
                 partTitle: "Part C & D Context",
                 partIntroText: "",
+                svgDiagram: ``,
                 partDataTable: {
                     rows: [
                         ["0.020", "0.02"],
@@ -193,22 +214,26 @@ const ap1PracticeExamFRQPoolOne = [
                     {
                         subpartId: "",
                         subpartLabel: "C(i)",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     },
                     {
                         subpartId: "",
                         subpartLabel: "C(ii)",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     },
                     {
                         subpartId: "",
                         subpartLabel: "C(iii)",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     },
                     {
                         subpartId: "",
                         subpartLabel: "Part D",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             }
@@ -230,11 +255,13 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "",
                 partTitle: "Part A",
                 partIntroText: "",
+                svgDiagram: ``,
                 subparts: [
                     {
                         subpartId: "",
                         subpartLabel: "",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             },
@@ -242,11 +269,13 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "",
                 partTitle: "Part B",
                 partIntroText: "",
+                svgDiagram: ``,
                 subparts: [
                     {
                         subpartId: "",
                         subpartLabel: "",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             },
@@ -254,11 +283,13 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "",
                 partTitle: "Part C",
                 partIntroText: "",
+                svgDiagram: ``,
                 subparts: [
                     {
                         subpartId: "",
                         subpartLabel: "",
-                        subpartQuestion: ""
+                        subpartQuestion: "",
+                        svgDiagram: ``
                     }
                 ]
             }
