@@ -304,15 +304,6 @@
             border-color: rgba(0,0,0,0.1);
         }
 
-        .figure-caption-label {
-            text-align: center;
-            font-size: 13px;
-            font-weight: bold;
-            margin-top: 4px;
-            margin-bottom: 15px;
-            color: var(--text-main);
-        }
-
         .part-header {
             font-weight: bold;
             font-size: 16px;
@@ -531,6 +522,38 @@
             color: var(--text-main) !important;
         }
 
+        .matrix-legend-row {
+            border-top: 1px solid var(--border-color);
+            padding-top: 14px;
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--text-dim) !important;
+        }
+        
+        .matrix-legend-row * {
+            color: var(--text-dim) !important;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .legend-box {
+            width: 15px;
+            height: 15px;
+            border: 1px solid var(--text-dim);
+            border-radius: 3px;
+            display: inline-block;
+            position: relative;
+            box-sizing: border-box;
+        }
+
         .immersive-pause-overlay {
             display: none;
             position: fixed;
@@ -656,7 +679,7 @@
 
     <div id="break-screen-overlay" class="immersive-pause-overlay" style="z-index: 6000;">
         <div class="pause-title">SECTION I COMPLETE</div>
-        <div class="pause-instructions">Your Multiple Choice Question window has concluded. You have a short break before Section II (FRQ) begins automatically.</div>
+        <div class="pause-instructions">Your Multiple Choice Question responses have been securely saved. You have a short break before Section II (FRQ) begins automatically.</div>
         
         <div class="timer-zone" style="margin-bottom: 20px;">
             <span id="break-timer-display" class="timer-box" style="font-size: 48px; color: var(--text-main);">01:00</span>
@@ -778,7 +801,7 @@
         let isDropupMatrixOpen = false;
         let isOptionsMenuOpen = false;
 
-        let continuousCountdownSeconds = 80 * 60; // Configured to exactly 80 Minutes
+        let continuousCountdownSeconds = 80 * 60;
         let hideClockStateActive = false;
         let isTimerPausedActive = false;
         let processingTickerInterval = null;
@@ -888,11 +911,9 @@
                 if (continuousCountdownSeconds <= 0) {
                     clearInterval(processingTickerInterval);
                     if (currentActivePhase === 'MCQ') {
-                        // Automated Section I Timeout Transition
                         terminateActiveSessionInstance();
                     } else {
-                        // Automated Final Section II Timeout Submission
-                        executeFinalSubmissionRedirect(true);
+                        executeFinalSubmissionRedirect();
                     }
                     return;
                 }
@@ -1020,7 +1041,7 @@
             
             const nextBtn = document.getElementById('footer-next-btn');
             nextBtn.innerText = (currentActivePhase === 'MCQ') ? 'Submit Section I' : 'Submit Final Exam';
-            nextBtn.onclick = () => (currentActivePhase === 'MCQ') ? terminateActiveSessionInstance() : executeFinalSubmissionRedirect(false);
+            nextBtn.onclick = (currentActivePhase === 'MCQ') ? terminateActiveSessionInstance : executeFinalSubmissionRedirect;
             
             const prevBtn = document.getElementById('footer-prev-btn');
             prevBtn.disabled = false;
@@ -1094,33 +1115,21 @@
                     optionsContentBox.appendChild(choiceWrapperNode);
                 });
             } else {
-                // Tracking sequence for Figure enumeration modeling
-                let overallFigureCounter = 0;
-
-                let frqHTML = `<p>${questionRecord.problemSetup}</p>`;
-                if (questionRecord.svgDiagram && questionRecord.svgDiagram.trim() !== "") {
-                    overallFigureCounter++;
-                    frqHTML += `<div style="margin: 20px 0;">${questionRecord.svgDiagram}<div class="figure-caption-label">Figure ${overallFigureCounter}</div></div>`;
-                }
+                let frqHTML = `<div><strong>${questionRecord.problemType || 'Free Response'}</strong></div><p>${questionRecord.problemSetup}</p>`;
+                if (questionRecord.svgDiagram) frqHTML += `<div style="margin: 20px 0;">${questionRecord.svgDiagram}</div>`;
                 if (questionRecord.dataTable) frqHTML += buildTableHTML(questionRecord.dataTable);
 
                 questionRecord.parts.forEach((part) => {
                     frqHTML += `<div class="part-header">${part.partTitle}</div>`;
                     if (part.partIntroText) frqHTML += `<p>${part.partIntroText}</p>`;
-                    if (part.svgDiagram && part.svgDiagram.trim() !== "") {
-                        overallFigureCounter++;
-                        frqHTML += `<div style="margin: 15px 0;">${part.svgDiagram}<div class="figure-caption-label">Figure ${overallFigureCounter}</div></div>`;
-                    }
+                    if (part.svgDiagram) frqHTML += `<div style="margin: 15px 0;">${part.svgDiagram}</div>`;
                     if (part.dataTable) frqHTML += buildTableHTML(part.dataTable);
 
                     part.subparts.forEach((subpart) => {
                         frqHTML += `<div class="subpart-block">`;
                         if (subpart.subpartLabel) frqHTML += `<strong>${subpart.subpartLabel}</strong> `;
                         frqHTML += `<span>${subpart.subpartQuestion}</span>`;
-                        if (subpart.svgDiagram && subpart.svgDiagram.trim() !== "") {
-                            overallFigureCounter++;
-                            frqHTML += `<div style="margin: 15px 0;">${subpart.svgDiagram}<div class="figure-caption-label">Figure ${overallFigureCounter}</div></div>`;
-                        }
+                        if (subpart.svgDiagram) frqHTML += `<div style="margin: 15px 0;">${subpart.svgDiagram}</div>`;
                         frqHTML += `</div>`;
                     });
                 });
@@ -1301,7 +1310,7 @@
             document.getElementById('break-screen-overlay').style.display = 'none';
             
             currentActivePhase = 'FRQ';
-            continuousCountdownSeconds = 80 * 60; // FRQ uniformly structured to exactly 80 Minutes
+            continuousCountdownSeconds = 90 * 60; 
             currentProblemIndex = 0;
             examinationPool = poolFRQ;
 
@@ -1319,7 +1328,7 @@
             document.getElementById('modal-title-header').innerText = "Section II: Free Response Instructions";
             document.getElementById('modal-welcome-message').innerText = "Welcome to Section II (FRQ).";
             document.getElementById('modal-instructions-bulletpoints').innerHTML = `
-                <li>You have an uninterrupted clock countdown allocation of <strong>80 minutes</strong>.</li>
+                <li>You have an uninterrupted clock countdown allocation of <strong>90 minutes</strong>.</li>
                 <li>Read each multi-part layout carefully. Use the internal container scrollbar to view all prompt setups.</li>
                 <li>Write down your formulas, charts, and text descriptions fully on your physical paper.</li>`;
             document.getElementById('welcome-modal-overlay').style.display = 'flex';
@@ -1329,8 +1338,8 @@
             else renderTargetQuestionBlock();
         }
 
-        function executeFinalSubmissionRedirect(isForcedTimeout = false) {
-            if (isForcedTimeout || confirm("Are you sure you want to finalize this exam block session and submit?")) {
+        function executeFinalSubmissionRedirect() {
+            if (confirm("Are you sure you want to finalize this exam block session and submit?")) {
                 clearInterval(processingTickerInterval);
                 clearSavedExamProgressState();
                 window.location.href = 'home-page.html';
