@@ -301,7 +301,7 @@
             margin-bottom: 15px;
         }
 
-        /* Enlagred Grid styles for Review Screen */
+        /* Enlarged Grid styles for Review Screen */
         .review-grid-large {
             grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
             gap: 12px;
@@ -802,9 +802,15 @@
                 examinationPool = practiceExamPool;
             } else {
                 const translationTargetString = mapAlphaIntegerWord[parseInt(examIdentity)] || "One";
-                const alternativeGlobalVariable = `${subjectCode}PracticeExamPool${translationTargetString}`;
-                if (typeof window[alternativeGlobalVariable] !== 'undefined') {
-                    examinationPool = window[alternativeGlobalVariable];
+                
+                // Dynamically build variables matching patterns with and without 'MCQ' strings
+                const alternativeGlobalVariableMCQ = `${subjectCode}PracticeExamMCQPool${translationTargetString}`;
+                const alternativeGlobalVariablePool = `${subjectCode}PracticeExamPool${translationTargetString}`;
+                
+                if (typeof window[alternativeGlobalVariableMCQ] !== 'undefined') {
+                    examinationPool = window[alternativeGlobalVariableMCQ];
+                } else if (typeof window[alternativeGlobalVariablePool] !== 'undefined') {
+                    examinationPool = window[alternativeGlobalVariablePool];
                 } else if (typeof ap1PracticeExamMCQPoolOne !== 'undefined') {
                     examinationPool = ap1PracticeExamMCQPoolOne;
                 }
