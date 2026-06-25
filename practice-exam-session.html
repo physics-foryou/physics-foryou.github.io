@@ -966,7 +966,13 @@
                     markedReviewMatrix = parsed.flags || markedReviewMatrix;
                     markedFRQReviewMatrix = parsed.frqFlags || markedFRQReviewMatrix;
                     optionCrossoutMatrix = parsed.crossouts || optionCrossoutMatrix;
-                    continuousCountdownSeconds = typeof parsed.timeLeft === 'number' ? parsed.timeLeft : 80 * 60;
+                    
+                    // Safety check: if loaded state is FRQ but time is cached higher than 80 mins, force reset it to 80 mins
+                    if (currentActivePhase === 'FRQ' && typeof parsed.timeLeft === 'number' && parsed.timeLeft > 80 * 60) {
+                        continuousCountdownSeconds = 80 * 60;
+                    } else {
+                        continuousCountdownSeconds = typeof parsed.timeLeft === 'number' ? parsed.timeLeft : 80 * 60;
+                    }
                     
                     document.getElementById('welcome-modal-overlay').style.display = 'none';
                     examinationPool = (currentActivePhase === 'FRQ') ? poolFRQ : poolMCQ;
@@ -1208,6 +1214,11 @@
                         if (subpart.subpartLabel) frqHTML += `<strong>${subpart.subpartLabel}</strong> `;
                         frqHTML += `<span>${subpart.subpartQuestion}</span>`;
                         if (subpart.svgDiagram) frqHTML += `<div style="margin: 15px 0;">${subpart.svgDiagram}</div>`;
+                        
+                        // Added textbook input elements for FRQ
+                        const currentSessionAnswerText = catalogedFRQResponses[currentProblemIndex]?.[pIdx]?.[sIdx] || "";
+                        frqHTML += `<textarea class="frq-textarea" placeholder="Type your multi-part answer setup framework logic details here..." oninput="updateFRQDataValue(${currentProblemIndex}, ${pIdx}, ${sIdx}, this.value)">${currentSessionAnswerText}</textarea>`;
+                        
                         frqHTML += `</div>`;
                     });
                 });
