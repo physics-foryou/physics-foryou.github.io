@@ -24,7 +24,7 @@ const ap1PracticeExamFRQPoolOne = [
                     <line x1="178" y1="90" x2="178" y2="105" stroke="var(--text-main)" stroke-width="1"/>
                     
                     <rect x="70" y="50" width="50" height="40" fill="none" stroke="var(--text-main)" stroke-width="2"/>
-                    <text x="95" y="74" font-family=\"monospace\" font-size="13" text-anchor="middle" fill="var(--text-main)">m₁</text>
+                    <text x="95" y="74" font-family="monospace" font-size="13" text-anchor="middle" fill="var(--text-main)">m₁</text>
                     
                     <circle cx="180" cy="50" r="12" fill="none" stroke="var(--text-main)" stroke-width="2"/>
                     
@@ -32,13 +32,14 @@ const ap1PracticeExamFRQPoolOne = [
                     <line x1="192" y1="50" x2="192" y2="110" stroke="var(--text-main)" stroke-width="1.5"/>
                     
                     <circle cx="192" cy="118" r="8" fill="none" stroke="var(--text-main)" stroke-width="2"/>
-                    <text x="210" y="122" font-family=\"monospace\" font-size="13" fill="var(--text-main)">m₂</text>
+                    <text x="210" y="122" font-family="monospace" font-size="13" fill="var(--text-main)">m₂</text>
                 </svg>
             </div>
         `,
         dataTable: null,
         parts: [
-            {\n                partId: "APPHY-EX001-SU001-P0001",
+            {
+                partId: "APPHY-EX001-SU001-P0001",
                 partTitle: "Part A",
                 partIntroText: "The system is accelerating freely after release.",
                 svgDiagram: ``,
@@ -130,14 +131,14 @@ const ap1PracticeExamFRQPoolOne = [
                     
                     <rect x="40" y="90" width="180" height="10" fill="none" stroke="var(--text-main)" stroke-width="2"/>
                     <circle cx="40" cy="95" r="4" fill="var(--text-main)"/>
-                    <text x="30" y="99" font-family=\"monospace\" font-size="12" fill="var(--text-main)">P</text>
+                    <text x="30" y="99" font-family="monospace" font-size="12" fill="var(--text-main)">P</text>
                     
                     <line x1="220" y1="95" x2="40" y2="30" stroke="var(--text-main)" stroke-width="1.5"/>
                     <path d="M 60 95 A 20 20 0 0 1 55 85" fill="none" stroke="var(--text-main)" stroke-width="1"/>
-                    <text x="65" y="85" font-family=\"monospace\" font-size="11" fill="var(--text-main)">θ</text>
+                    <text x="65" y="85" font-family="monospace" font-size="11" fill="var(--text-main)">θ</text>
                     
                     <rect x="90" y="70" width="30" height="20" fill="none" stroke="var(--text-main)" stroke-width="2"/>
-                    <text x="105" y="84" font-family=\"monospace\" font-size="11" text-anchor="middle" fill="var(--text-main)">3M</text>
+                    <text x="105" y="84" font-family="monospace" font-size="11" text-anchor="middle" fill="var(--text-main)">3M</text>
                 </svg>
             </div>
         `,
@@ -180,15 +181,15 @@ const ap1PracticeExamFRQPoolOne = [
             <div style="display: flex; flex-direction: column; align-items: center; margin: 10px 0;">
                 <svg width="260" height="200" style="background: transparent; overflow: visible;">
                     <circle cx="130" cy="100" r="20" fill="none" stroke="var(--text-main)" stroke-width="2"/>
-                    <text x="130" y="104" font-family=\"monospace\" font-size="11" text-anchor="middle" fill="var(--text-main)">M_0</text>
+                    <text x="130" y="104" font-family="monospace" font-size="11" text-anchor="middle" fill="var(--text-main)">M_0</text>
                     
                     <circle cx="130" cy="100" r="45" fill="none" stroke="var(--text-main)" stroke-width="1" stroke-dasharray="3,3"/>
                     <circle cx="162" cy="68" r="4" fill="var(--text-main)"/>
-                    <text x="170" y="64" font-family=\"monospace\" font-size="11" fill="var(--text-main)">Probe X (R_0)</text>
+                    <text x="170" y="64" font-family="monospace" font-size="11" fill="var(--text-main)">Probe X (R_0)</text>
                     
                     <circle cx="130" cy="100" r="80" fill="none" stroke="var(--text-main)" stroke-width="1" stroke-dasharray="4,4"/>
                     <circle cx="187" cy="43" r="4" fill="var(--text-main)"/>
-                    <text x="195" y="38" font-family=\"monospace\" font-size="11" fill="var(--text-main)">Probe Y (4R_0)</text>
+                    <text x="195" y="38" font-family="monospace" font-size="11" fill="var(--text-main)">Probe Y (4R_0)</text>
                 </svg>
             </div>
         `,
@@ -198,7 +199,8 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "APPHY-EX001-SU004-P0001",
                 partTitle: "Part A",
                 partIntroText: "",
-                svgDiagram: ``,\n                subparts: [
+                svgDiagram: ``,
+                subparts: [
                     {
                         subpartId: "APPHY-EX001-SU004-P0001-S0001",
                         subpartLabel: "",
@@ -211,7 +213,8 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "APPHY-EX001-SU004-P0002",
                 partTitle: "Part B",
                 partIntroText: "",
-                svgDiagram: ``,\n                subparts: [
+                svgDiagram: ``,
+                subparts: [
                     {
                         subpartId: "APPHY-EX001-SU004-P0002-S0001",
                         subpartLabel: "",
@@ -224,7 +227,8 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "APPHY-EX001-SU004-P0003",
                 partTitle: "Part C",
                 partIntroText: "",
-                svgDiagram: ``,\n                subparts: [
+                svgDiagram: ``,
+                subparts: [
                     {
                         subpartId: "APPHY-EX001-SU004-P0003-S0001",
                         subpartLabel: "",
