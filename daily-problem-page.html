@@ -6,8 +6,6 @@
     <title>Daily Question Room</title>
     
     <script src="settings/theme.js"></script>
-    <script src="ap1-reference-sheets/ap1-tables-and-constants.js"></script>
-    <script src="ap1-reference-sheets/ap1-equations.js"></script>
     
     <script>
         window.MathJax = {
@@ -152,7 +150,7 @@
         }
 
         .ref-sheet-tab.drawer-open {
-            right: 680px; 
+            right: 680px; /* Shifts left dynamically alongside the open drawer width */
         }
 
         .ref-drawer {
@@ -287,9 +285,271 @@
         </div>
 
         <div class="drawer-scroll-body tex2jax_process">
-            <div id="ref-page-1" class="ref-page-content active"></div>
-            <div id="ref-page-2" class="ref-page-content"></div>
-        </div>
+            
+            <div id="ref-page-1" class="ref-page-content active">
+                <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                    ADVANCED PLACEMENT PHYSICS 1 TABLE OF INFORMATION
+                </h2>
+                
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
+                <table class="ref-table">
+                    <tr>
+                        <td style="width: 50%;">Universal gravitational constant,</td>
+                        <td style="width: 50%;">$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2) = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
+                    </tr>
+                    <tr>
+                        <td>Magnitude of the acceleration due to gravity at Earth’s surface,</td>
+                        <td>$g = 9.8 \text;{ m/s}^2$</td>
+                    </tr>
+                    <tr>
+                        <td>Magnitude of the gravitational field strength at Earth’s surface,</td>
+                        <td>$g = 9.8 \text{ N/kg}$</td>
+                    </tr>
+                    <tr>
+                        <td>1 atmosphere of pressure,</td>
+                        <td>$1 \text{ atm} = 1.0 \times 10^5 \text{ N/m}^2 = 1.0 \times 10^5 \text{ Pa}$</td>
+                    </tr>
+                </table>
+
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
+                <table class="ref-table">
+                    <tr>
+                        <td>
+                            hertz, $\text{Hz}$<br>
+                            joule, $\text{J}$<br>
+                            kilogram, $\text{kg}$<br>
+                            meter, $\text{m}$
+                        </td>
+                        <td>
+                            newton, $\text{N}$<br>
+                            pascal, $\text{Pa}$<br>
+                            second, $\text{s}$<br>
+                            watt, $\text{W}$
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">PREFIXES</div>
+                <table class="ref-table">
+                    <tr>
+                        <th>Factor</th>
+                        <th>Prefix</th>
+                        <th>Symbol</th>
+                    </tr>
+                    <tr>
+                        <td>$10^{12}$</td>
+                        <td>tera</td>
+                        <td>T</td>
+                    </tr>
+                    <tr>
+                        <td>$10^9$</td>
+                        <td>giga</td>
+                        <td>G</td>
+                    </tr>
+                    <tr>
+                        <td>$10^6$</td>
+                        <td>mega</td>
+                        <td>M</td>
+                    </tr>
+                    <tr>
+                        <td>$10^3$</td>
+                        <td>kilo</td>
+                        <td>k</td>
+                    </tr>
+                    <tr>
+                        <td>$10^{-2}$</td>
+                        <td>centi</td>
+                        <td>c</td>
+                    </tr>
+                    <tr>
+                        <td>$10^{-3}$</td>
+                        <td>milli</td>
+                        <td>m</td>
+                    </tr>
+                    <tr>
+                        <td>$10^{-6}$</td>
+                        <td>micro</td>
+                        <td>$\mu$</td>
+                    </tr>
+                    <tr>
+                        <td>$10^{-9}$</td>
+                        <td>nano</td>
+                        <td>n</td>
+                    </tr>
+                    <tr>
+                        <td>$10^{-12}$</td>
+                        <td>pico</td>
+                        <td>p</td>
+                    </tr>
+                </table>
+
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">EXAM CONVENTIONS</div>
+                <div style="font-size: 12px; line-height: 1.6; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color);">
+                    • The frame of reference of any problem is assumed to be inertial unless otherwise stated.<br>
+                    • Air resistance is assumed to be negligible unless otherwise stated.<br>
+                    • Springs and strings are assumed to be ideal unless otherwise stated.<br>
+                    • Fluids are assumed to be ideal, and pipes are assumed to be completely filled by fluid, unless otherwise stated.
+                </div>
+            </div>
+            <div id="ref-page-2" class="ref-page-content">
+                <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                    ADVANCED PLACEMENT PHYSICS 1 EQUATIONS
+                </h2>
+
+                <div class="official-two-col-container">
+                    <div class="equations-column">
+                        $v_x = v_{x0} + a_x t$<br>
+                        $x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$<br>
+                        $v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$<br><br>
+                        
+                        $\vec{x}_{\text{cm}} = \frac{\sum m_i \vec{x}_i}{\sum m_i}$<br><br>
+                        
+                        $\vec{a}_{\text{sys}} = \frac{\sum \vec{F}}{m_{\text{sys}}} = \frac{\vec{F}_{\text{net}}}{m_{\text{sys}}}$<br>
+                        $\left| \vec{F}_f \right| \le \mu \left| \vec{F}_n \right|$<br>
+                        $\vec{F}_s = -k \Delta\vec{x}$<br><br>
+                        
+                        $a_c = \frac{v^2}{r}$<br><br>
+                        
+                        $K = \frac{1}{2} m v^2$<br>
+                        $W = F_{\parallel} d = F d \cos\theta$<br>
+                        $\Delta K = \sum W_i = \sum F_{\parallel,i} d_i$<br>
+                        $U_s = \frac{1}{2} k (\Delta x)^2$<br><br>
+                        
+                        $U_g = -\frac{G m_1 m_2}{r}$<br>
+                        $\Delta U_g = m g \Delta y$<br><br>
+                        
+                        $P_{\text{avg}} = \frac{W}{\Delta t} = \frac{\Delta E}{\Delta t}$<br>
+                        $P_{\text{inst}} = F_{\parallel} v = F v \cos\theta$<br><br>
+                        
+                        $\vec{p} = m \vec{v}$<br>
+                        $\vec{F}_{\text{net}} = \frac{\Delta \vec{p}}{\Delta t} = m \frac{\Delta \vec{v}}{\Delta t} = m\vec{a}$<br>
+                        $\vec{J} = \vec{F}_{\text{avg}} \Delta t = \Delta \vec{p}$<br>
+                        $\vec{v}_{\text{cm}} = \frac{\sum m_i \vec{v}_i}{\sum m_i} = \frac{\sum \vec{p}_i}{\sum m_i}$<br><br>
+                        
+                        $\rho = \frac{m}{V}$<br>
+                        $P = \frac{F_{\perp}}{A}$<br>
+                        $P = P_0 + \rho g h$<br>
+                        $P_{\text{gauge}} = \rho g h$<br>
+                        $F_b = \rho V g$<br>
+                        $A_1 v_1 = A_2 v_2$<br>
+                        $P_1 + \rho g y_1 + \frac{1}{2}\rho v_1^2 = P_2 + \rho g y_2 + \frac{1}{2}\rho v_2^2$
+                    </div>
+
+                    <div class="equations-column">
+                        $\omega = \omega_0 + \alpha t$<br>
+                        $\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$<br>
+                        $\omega^2 = \omega_0^2 + 2\alpha(\theta - \theta_0)$<br>
+                        $v = r\omega$<br>
+                        $a_{\tau} = r\alpha$<br>
+                        $\tau = r_{\perp} F = r F \sin\theta$<br>
+                        $I = \sum m_i r_i^2$<br>
+                        $I' = I_{\text{cm}} + M d^2$<br><br>
+                        
+                        $\alpha_{\text{sys}} = \frac{\sum \tau}{I_{\text{sys}}} = \frac{\tau_{\text{net}}}{I_{\text{sys}}}$<br>
+                        $K = \frac{1}{2} I \omega^2$<br>
+                        $W = \tau \Delta \theta$<br>
+                        $L = I \omega$<br>
+                        $L = r m v \sin\theta$<br>
+                        $\Delta L = \tau \Delta t$<br>
+                        $\Delta x_{\text{cm}} = r \Delta \theta$<br><br>
+                        
+                        $T = \frac{1}{f}$<br>
+                        $T_s = 2\pi \sqrt{\frac{m}{k}}$<br>
+                        $T_p = 2\pi \sqrt{\frac{\ell}{g}}$<br><br>
+                        
+                        $x = A \cos(2\pi f t)$<br>
+                        $x = A \sin(2\pi f t)$<br><br>
+                        
+                        $\left| \vec{F}_g \right| = G \frac{m_1 m_2}{r^2}$<br>
+                        $\vec{g} = \frac{\vec{F}_g}{m}$
+                    </div>
+
+                    <div class="symbols-right-pane">
+                        <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">symbols</div>
+                        $a$ = acceleration<br>
+                        $A$ = amplitude or area<br>
+                        $d$ = distance<br>
+                        $E$ = energy<br>
+                        $f$ = frequency<br>
+                        $F$ = force<br>
+                        $g$ = gravitational field strength / acceleration due to gravity<br>
+                        $G$ = universal gravitational constant<br>
+                        $h$ = height<br>
+                        $I$ = rotational inertia<br>
+                        $J$ = impulse<br>
+                        $k$ = spring constant<br>
+                        $K$ = kinetic energy<br>
+                        $\ell$ = length<br>
+                        $L$ = angular momentum<br>
+                        $m, M$ = mass<br>
+                        $P$ = power / pressure<br>
+                        $p$ = momentum<br>
+                        $r$ = radius or distance<br>
+                        $S$ = surface area<br>
+                        $t$ = time<br>
+                        $T$ = period<br>
+                        $U$ = potential energy<br>
+                        $V$ = volume<br>
+                        $v$ = velocity or speed<br>
+                        $W$ = work done<br>
+                        $w$ = width<br>
+                        $x$ = position / displacement<br>
+                        $y$ = position / height / displacement<br>
+                        $\alpha$ = angular acceleration<br>
+                        $\mu$ = coefficient of friction<br>
+                        $\rho$ = density<br>
+                        $\theta$ = angle or angular position<br>
+                        $\tau$ = torque<br>
+                        $\omega$ = angular velocity / angular frequency
+                    </div>
+                </div>
+
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">GEOMETRY AND TRIGONOMETRY</div>
+                <table class="ref-table">
+                    <tr>
+                        <td style="width: 33.33%;">
+                            <strong>Rectangle</strong><br>$A = bh$<br><br>
+                            <strong>Triangle</strong><br>$A = \frac{1}{2}bh$
+                        </td>
+                        <td style="width: 33.33%;">
+                            <strong>Circle</strong><br>$A = \pi r^2$<br>$C = 2\pi r$<br>$s = r\theta$
+                        </td>
+                        <td style="width: 33.33%;">
+                            <strong>Rectangular solid</strong><br>$V = \ell wh$<br><br>
+                            <strong>Cylinder</strong><br>$V = \pi r^2 \ell$<br>$S = 2\pi r \ell + 2\pi r^2$
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <strong>Sphere</strong><br>$V = \frac{4}{3}\pi r^3$<br>$S = 4\pi r^2$
+                        </td>
+                        <td>
+                            <strong>Right triangle</strong><br>
+                            $c^2 = a^2 + b^2$<br>
+                            $\sin\theta = \frac{a}{c}$<br>
+                            $\cos\theta = \frac{b}{c}$<br>
+                            $\tan\theta = \frac{a}{b}$
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">VALUES OF TRIGONOMETRIC FUNCTIONS</div>
+                <table class="ref-table" style="text-align: center;">
+                    <tr>
+                        <th>$\theta$</th><th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">$\sin\theta$</td><td>$0$</td><td>$1/2$</td><td>$3/5$</td><td>$\sqrt{2}/2$</td><td>$4/5$</td><td>$\sqrt{3}/2$</td><td>$1$</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">$\cos\theta$</td><td>$1$</td><td>$\sqrt{3}/2$</td><td>$4/5$</td><td>$\sqrt{2}/2$</td><td>$3/5$</td><td>$1/2$</td><td>$0$</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">$\tan\theta$</td><td>$0$</td><td>$\sqrt{3}/3$</td><td>$3/4$</td><td>$1$</td><td>$4/3$</td><td>$\sqrt{3}$</td><td>$\infty$</td>
+                    </tr>
+                </table>
+            </div>
+            </div>
     </div>
 
     <div class="workspace tex2jax_process">
@@ -364,14 +624,6 @@
             
             if (subject === 'ap1') {
                 document.getElementById('ref-tab-trigger').style.display = 'block';
-                
-                // Inject external pools dynamically into placeholders
-                if (typeof ap1TableOfInformationPool !== 'undefined' && ap1TableOfInformationPool[subject]) {
-                    document.getElementById('ref-page-1').innerHTML = ap1TableOfInformationPool[subject];
-                }
-                if (typeof ap1EquationsAndGeometryPool !== 'undefined' && ap1EquationsAndGeometryPool[subject]) {
-                    document.getElementById('ref-page-2').innerHTML = ap1EquationsAndGeometryPool[subject];
-                }
             }
             
             const configs = {
