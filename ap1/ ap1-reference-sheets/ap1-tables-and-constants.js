@@ -1,7 +1,6 @@
-window.activeReferencePages = window.activeReferencePages || [];
-window.activeReferencePages.push({
-    title: "Table of Information",
-    content: `
+// ap1-tables-and-constants.js
+const ap1TableOfInformationPool = {
+    ap1: `
         <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
             ADVANCED PLACEMENT PHYSICS 1 TABLE OF INFORMATION
         </h2>
@@ -29,14 +28,28 @@ window.activeReferencePages.push({
         <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
         <table class="ref-table">
             <tr>
-                <td>hertz, $\\text{Hz}$<br>joule, $\\text{J}$<br>kilogram, $\\text{kg}$<br>meter, $\\text{m}$</td>
-                <td>newton, $\\text{N}$<br>pascal, $\\text{Pa}$<br>second, $\\text{s}$<br>watt, $\\text{W}$</td>
+                <td>
+                    hertz, $\\text{Hz}$<br>
+                    joule, $\\text{J}$<br>
+                    kilogram, $\\text{kg}$<br>
+                    meter, $\\text{m}$
+                </td>
+                <td>
+                    newton, $\\text{N}$<br>
+                    pascal, $\\text{Pa}$<br>
+                    second, $\\text{s}$<br>
+                    watt, $\\text{W}$
+                </td>
             </tr>
         </table>
 
         <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">PREFIXES</div>
         <table class="ref-table">
-            <tr><th>Factor</th><th>Prefix</th><th>Symbol</th></tr>
+            <tr>
+                <th>Factor</th>
+                <th>Prefix</th>
+                <th>Symbol</th>
+            </tr>
             <tr><td>$10^{12}$</td><td>tera</td><td>T</td></tr>
             <tr><td>$10^9$</td><td>giga</td><td>G</td></tr>
             <tr><td>$10^6$</td><td>mega</td><td>M</td></tr>
@@ -56,4 +69,4 @@ window.activeReferencePages.push({
             • Fluids are assumed to be ideal, and pipes are assumed to be completely filled by fluid, unless otherwise stated.
         </div>
     `
-});
+};
