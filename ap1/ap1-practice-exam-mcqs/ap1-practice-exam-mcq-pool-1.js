@@ -1,4 +1,4 @@
-const ap1PracticeExamPoolOne = [
+const ap1PracticeExamMCQPoolOne = [
     {
         id: "q1",
         unit: "Kinematics",
