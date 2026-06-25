@@ -290,7 +290,7 @@ const ap1PracticeExamFRQPoolOne = [
                 partTitle: "Part C & D Context",
                 partIntroText: "In a different experiment, the students place a cart of known mass $M_0 = 0.50\\text{ kg}$ on a completely frictionless, horizontal track. The cart has a strong neodymium magnet fixed to its front face. At the end of the track, an identical magnet is securely anchored in place, oriented so that the two magnets repel each other. The cart is pushed toward the anchored magnet and held at rest at an initial separation distance $d$. The cart is then released from rest and travels away from the anchored magnet. A photogate positioned further down the track determines the final constant speed $v$ of the cart after it completely clears the magnetic field. The experiment is repeated several times with different initial release separation distances $d$ for the same cart. Table 1 shows the measured values of $d$ and $v$.\n\nThe students correctly determine that the relationship between $d$ and $v$ is given by:\n$$v^2 = \\left( \\frac{2C}{M_0} \\right) \\frac{1}{d}$$\nwhere $C$ is an unknown magnetic strength constant. The students want to determine $C$. The students create a graph with $\\frac{1}{d}$ plotted on the horizontal axis.",
                 svgDiagram: ``,
-                partDataTable: {
+                dataTable: {
                     rows: [
                         ["0.10", "1.41"],
                         ["0.20", "1.00"],
