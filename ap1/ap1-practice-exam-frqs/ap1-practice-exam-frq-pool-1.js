@@ -385,7 +385,35 @@ const ap1PracticeExamFRQPoolOne = [
                     {
                         subpartId: "APPHY-EX001-SU004-P0001-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "Indicate whether the orbital speed $v_X$ of Probe X is greater than, less than, or equal to the orbital speed $v_Y$ of Probe Y during their circular orbits prior to entering the thin atmospheric gas region, and conceptually justify your answer.",
+                        subpartQuestion: "Indicate whether the orbital speed $v_X$ of Probe X is greater than, less than, or equal to the orbital speed $v_Y$ of Probe Y during their circular orbits.\n\n$$\\bigcirc \\quad v_X > v_Y \\qquad \\bigcirc \\quad v_X < v_Y \\qquad \\bigcirc \\quad v_X = v_Y$$\n\nJustify your answer using qualitative reasoning beyond referencing equations.",
+                        svgDiagram: ``
+                    }
+                ]
+            },
+            {
+                partId: "APPHY-EX001-SU004-P0002",
+                partTitle: "Part B",
+                partIntroText: "",
+                svgDiagram: ``,
+                subparts: [
+                    {
+                        subpartId: "APPHY-EX001-SU004-P0002-S0001",
+                        subpartLabel: "",
+                        subpartQuestion: "Starting with Newton's second law in translational form or the definition of centripetal acceleration, derive an expression for the exact mathematical ratio of the orbital speeds $\\frac{v_X}{v_Y}$. Express your final numerical ratio as a simplified integer or fraction.\n\nBegin your derivation by writing a fundamental physics principle or an equation from the reference information.",
+                        svgDiagram: ``
+                    }
+                ]
+            },
+            {
+                partId: "APPHY-EX001-SU004-P0003",
+                partTitle: "Part C",
+                partIntroText: "",
+                svgDiagram: ``,
+                subparts: [
+                    {
+                        subpartId: "APPHY-EX001-SU004-P0003-S0001",
+                        subpartLabel: "",
+                        subpartQuestion: "In a cohesive, paragraph-length response, explain how your quantitative derivation in Part B is consistent with your qualitative reasoning in Part A. Your response must explicitly translate how specific features of your mathematical solution align with the physical principles you described conceptually.",
                         svgDiagram: ``
                     }
                 ]
