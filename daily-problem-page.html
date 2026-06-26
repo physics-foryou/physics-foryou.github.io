@@ -551,133 +551,231 @@
         </div>
         
         <div id="ref-ap2" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
+            <div class="drawer-page-toggle">
+                <button id="btn-page-3" class="toggle-page-btn active" onclick="switchRefPage(3)">Table of Information</button>
+                <button id="btn-page-4" class="toggle-page-btn" onclick="switchRefPage(4)">Equations</button>
+            </div>
+
             <div class="drawer-scroll-body tex2jax_process">
-                <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
-                    ADVANCED PLACEMENT PHYSICS 2 REFERENCE LABELS
-                    ADVANCED PLACEMENT PHYSICS 2 TABLE OF INFORMATION
-                </h2>
                 
-                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
-                <table class="ref-table">
-                    <tr>
-                        <td style="width: 50%;">Avogadro's number,</td>
-                        <td style="width: 50%;">$N_0 = 6.02 \times 10^{23} \text{ mol}^{-1}$</td>
-                    </tr>
-                    <tr>
-                        <td>Universal gas constant,</td>
-                        <td>$R = 8.31 \text{ J}/(\text{mol}\cdot\text{K})$</td>
-                    </tr>
-                    <tr>
-                        <td>Boltzmann's constant,</td>
-                        <td>$k_B = 1.38 \times 10^{-23} \text{ J}/\text{K}$</td>
-                    </tr>
-                    <tr>
-                        <td>1 atmosphere of pressure,</td>
-                        <td>$1 \text{ atm} = 1.0 \times 10^5 \text{ N/m}^2 = 1.0 \times 10^5 \text{ Pa}$</td>
-                    </tr>
-                    <tr>
-                        <td>Coulomb constant,</td>
-                        <td>$k = \frac{1}{4\pi\epsilon_0} = 9.0 \times 10^9 \text{ N}\cdot\text{m}^2/\text{C}^2$</td>
-                    </tr>
-                    <tr>
-                        <td>Elementary charge,</td>
-                        <td>$e = 1.60 \times 10^{-19} \text{ C}$</td>
-                    </tr>
-                    <tr>
-                        <td>Vacuum permittivity,</td>
-                        <td>$\epsilon_0 = 8.85 \times 10^{-12} \text{ C}^2/(\text{N}\cdot\text{m}^2)$</td>
-                    </tr>
-                    <tr>
-                        <td>Vacuum permeability,</td>
-                        <td>$\mu_0 = 4\pi \times 10^{-7} \text{ T}\cdot\text{m}/\text{A}$</td>
-                    </tr>
-                    <tr>
-                        <td>Speed of light,</td>
-                        <td>$c = 3.00 \times 10^8 \text{ m/s}$</td>
-                    </tr>
-                    <tr>
-                        <td>Planck's constant,</td>
-                        <td>$h = 6.63 \times 10^{-34} \text{ J}\cdot\text{s} = 4.14 \times 10^{-15} \text{ eV}\cdot\text{s}$</td>
-                    </tr>
-                    <tr>
-                        <td>Electron mass,</td>
-                        <td>$m_e = 9.11 \times 10^{-31} \text{ kg}$</td>
-                    </tr>
-                    <tr>
-                        <td>Proton mass,</td>
-                        <td>$m_p = 1.67 \times 10^{-27} \text{ kg}$</td>
-                    </tr>
-                </table>
+                <div id="ref-page-3" class="ref-page-content active">
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        ADVANCED PLACEMENT PHYSICS 2 TABLE OF INFORMATION
+                    </h2>
+                    
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
+                    <table class="ref-table">
+                        <tr>
+                            <td style="width: 50%;">Avogadro's number,</td>
+                            <td style="width: 50%;">$N_0 = 6.02 \times 10^{23} \text{ mol}^{-1}$</td>
+                        </tr>
+                        <tr>
+                            <td>Universal gas constant,</td>
+                            <td>$R = 8.31 \text{ J}/(\text{mol}\cdot\text{K})$</td>
+                        </tr>
+                        <tr>
+                            <td>Boltzmann's constant,</td>
+                            <td>$k_B = 1.38 \times 10^{-23} \text{ J/K}$</td>
+                        </tr>
+                        <tr>
+                            <td>1 atmosphere of pressure,</td>
+                            <td>$1 \text{ atm} = 1.0 \times 10^5 \text{ N/m}^2 = 1.0 \times 10^5 \text{ Pa}$</td>
+                        </tr>
+                        <tr>
+                            <td>Coulomb constant,</td>
+                            <td>$k = \frac{1}{4\pi\epsilon_0} = 9.0 \times 10^9 \text{ N}\cdot\text{m}^2/\text{C}^2$</td>
+                        </tr>
+                        <tr>
+                            <td>Proton mass,</td>
+                            <td>$m_p = 1.67 \times 10^{-27} \text{ kg}$</td>
+                        </tr>
+                        <tr>
+                            <td>Neutron mass,</td>
+                            <td>$m_n = 1.67 \times 10^{-27} \text{ kg}$</td>
+                        </tr>
+                        <tr>
+                            <td>Electron mass,</td>
+                            <td>$m_e = 9.11 \times 10^{-31} \text{ kg}$</td>
+                        </tr>
+                        <tr>
+                            <td>Elementary charge,</td>
+                            <td>$e = 1.60 \times 10^{-19} \text{ C}$</td>
+                        </tr>
+                        <tr>
+                            <td>Vacuum permittivity,</td>
+                            <td>$\epsilon_0 = 8.85 \times 10^{-12} \text{ C}^2/(\text{N}\cdot\text{m}^2)$</td>
+                        </tr>
+                        <tr>
+                            <td>Vacuum permeability,</td>
+                            <td>$\mu_0 = 4\pi \times 10^{-7} \text{ (T}\cdot\text{m)/A}$</td>
+                        </tr>
+                        <tr>
+                            <td>1 electron volt,</td>
+                            <td>$1 \text{ eV} = 1.60 \times 10^{-19} \text{ J}$</td>
+                        </tr>
+                        <tr>
+                            <td>Planck's constant,</td>
+                            <td>$h = 6.63 \times 10^{-34} \text{ J}\cdot\text{s} = 4.14 \times 10^{-15} \text{ eV}\cdot\text{s}$<br>$hc = 1.99 \times 10^{-25} \text{ J}\cdot\text{m} = 1240 \text{ eV}\cdot\text{nm}$</td>
+                        </tr>
+                        <tr>
+                            <td>Speed of light,</td>
+                            <td>$c = 3.00 \times 10^8 \text{ m/s}$</td>
+                        </tr>
+                        <tr>
+                            <td>Wien's constant,</td>
+                            <td>$b = 2.90 \times 10^{-3} \text{ m}\cdot\text{K}$</td>
+                        </tr>
+                        <tr>
+                            <td>Stefan-Boltzmann constant,</td>
+                            <td>$\sigma = 5.67 \times 10^{-8} \text{ W}/(\text{m}^2\cdot\text{K}^4)$</td>
+                        </tr>
+                        <tr>
+                            <td>1 unified atomic mass unit,</td>
+                            <td>$1 \text{ u} = 1.66 \times 10^{-27} \text{ kg} = 931 \text{ MeV/}c^2$</td>
+                        </tr>
+                        <tr>
+                            <td>Universal gravitational constant,</td>
+                            <td>$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2) = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
+                        </tr>
+                    </table>
 
-                <h2 style="font-size: 14px; text-align: center; margin-top: 30px; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
-                    ADVANCED PLACEMENT PHYSICS 2 EQUATIONS
-                </h2>
-
-                <div class="official-two-col-container">
-                    <div class="equations-column">
-                        <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;">Fluids & Thermodynamics</div>
-                        $\rho = \frac{m}{V}$<br>
-                        $P = \frac{F_{\perp}}{A}$<br>
-                        $P = P_0 + \rho g h$<br>
-                        $F_b = \rho V g$<br>
-                        $A_1 v_1 = A_2 v_2$ br>
-                        $P_1 + \rho g y_1 + \frac{1}{2}\rho v_1^2 = P_2 + \rho g y_2 + \frac{1}{2}\rho v_2^2$<br>
-                        $\frac{Q}{\Delta t} = \frac{k A \Delta T}{L}$<br>
-                        $P = \frac{F}{A}$<br>
-                        $P V = n R T = N k_B T$<br>
-                        $K_{\text{avg}} = \frac{3}{2} k_B T$<br>
-                        $v_{\text{rms}} = \sqrt{\frac{3 R T}{M}} = \sqrt{\frac{3 k_B T}{\mu}}$<br>
-                        $W = -P \Delta V$<br>
-                        $\Delta U = Q + W$
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">EXAM CONVENTIONS</div>
+                    <div style="font-size: 12px; line-height: 1.6; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color);">
+                        • The frame of reference of any problem is assumed to be inertial unless otherwise stated.<br>
+                        • Air resistance is assumed to be negligible unless otherwise stated.<br>
+                        • Springs and strings are assumed to be ideal unless otherwise stated.<br>
+                        • The electric potential is zero at an infinite distance from an isolated point charge.<br>
+                        • The direction of current is the direction in which positive charges would drift.<br>
+                        • All batteries, wires, and meters are assumed to be ideal unless otherwise stated.
                     </div>
+                </div>
 
-                    <div class="equations-column">
-                        <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;">Electricity & Magnetism</div>
-                        $|\vec{F}_e| = k \frac{|q_1 q_2|}{r^2}$<br>
-                        $\vec{E} = \frac{\vec{F}_e}{q}$<br>
-                        $|\vec{E}| = k \frac{|q|}{r^2}$<br>
-                        $\Delta U_E = q \Delta V$<br>
-                        $V = k \frac{q}{r}$<br>
-                        $|\vec{E}| = \left|\frac{\Delta V}{\Delta r}\right|$<br>
-                        $C = \frac{Q}{\Delta V}$<br>
-                        $C = \frac{\kappa \epsilon_0 A}{d}$<br>
-                        $E_C = \frac{1}{2} Q \Delta V = \frac{1}{2} C (\Delta V)^2$<br>
-                        $I = \frac{\Delta Q}{\Delta t}$<br>
-                        $R = \frac{\rho \ell}{A}$<br>
-                        $I = \frac{\Delta V}{R}$<br>
-                        $P = I \Delta V$<br>
-                        $I = \frac{\mathcal{E}}{R_{\text{tot}}}$
-                    </div>
+                <div id="ref-page-4" class="ref-page-content">
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        ADVANCED PLACEMENT PHYSICS 2 EQUATIONS
+                    </h2>
 
-                    <div class="symbols-right-pane">
-                        <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">symbols</div>
-                        $A$ = area<br>
-                        $C$ = capacitance<br>
-                        $d$ = distance<br>
-                        $E$ = electric field<br>
-                        $F$ = force<br>
-                        $I$ = current<br>
-                        $k$ = thermal cond. / Coulomb const.<br>
-                        $K$ = kinetic energy<br>
-                        $L, \ell$ = length<br>
-                        $m$ = mass<br>
-                        $n$ = number of moles<br>
-                        $N$ = number of molecules<br>
-                        $P$ = pressure / power<br>
-                        $Q$ = charge / heat energy<br>
-                        $R$ = resistance<br>
-                        $r$ = radius / distance<br>
-                        $T$ = temperature<br>
-                        $U$ = internal / potential energy<br>
-                        $V$ = volume / electric potential<br>
-                        $v$ = velocity / speed<br>
-                        $W$ = work done<br>
-                        $\rho$ = density / resistivity
+                    <div class="official-two-col-container">
+                        <div class="equations-column">
+                            <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;">Electricity</div>
+                            $|\vec{F}_E| = \frac{1}{4\pi\epsilon_0} \frac{|q_1 q_2|}{r^2} = k \frac{|q_1 q_2|}{r^2}$<br>
+                            $\vec{E} = \frac{\vec{F}_E}{q}$<br>
+                            $|\vec{E}| = \frac{1}{4\pi\epsilon_0} \frac{|q|}{r^2} = k \frac{|q|}{r^2}$<br>
+                            $U_E = \frac{1}{4\pi\epsilon_0} \frac{q_1 q_2}{r} = k \frac{q_1 q_2}{r}$<br>
+                            $\Delta U_E = q \Delta V$<br>
+                            $V = \frac{1}{4\pi\epsilon_0} \sum_i \frac{q_i}{r_i}$<br>
+                            $|\vec{E}| = \left|\frac{\Delta V}{\Delta r}\right|$<br>
+                            $C = \frac{Q}{\Delta V}$<br>
+                            $C = \kappa \epsilon_0 \frac{A}{d}$<br>
+                            $E_c = \frac{Q}{\kappa \epsilon_0 A}$<br>
+                            $U_c = \frac{1}{2} Q \Delta V$<br>
+                            $I = \frac{\Delta q}{\Delta t}$<br>
+                            $R = \frac{\rho l}{A}$<br>
+                            $P = I \Delta V$<br>
+                            $I = \frac{\Delta V}{R}$<br>
+                            $R_{eq,s} = \sum_i R_i$<br>
+                            $\frac{1}{R_{eq,p}} = \sum_i \frac{1}{R_i}$<br>
+                            $\frac{1}{C_{eq,s}} = \sum_i \frac{1}{C_i}$<br>
+                            $C_{eq,p} = \sum_i C_i$<br>
+                            $\tau = R_{eq} C_{eq}$<br><br>
+
+                            <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;">Magnetism</div>
+                            $F_B = qvB \sin\theta$<br>
+                            $B = \frac{\mu_0 I}{2\pi r}$<br>
+                            $F_B = I l B \sin\theta$<br>
+                            $\Phi_B = \vec{B} \cdot \vec{A}$<br>
+                            $\Phi_B = |\vec{B}| \cos\theta |\vec{A}|$<br>
+                            $|\mathcal{E}| = \left|\frac{\Delta \Phi_B}{\Delta t}\right|$<br>
+                            $\mathcal{E} = Blv$<br><br>
+
+                            <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;">Thermal Physics</div>
+                            $P = \frac{F_{\perp}}{A}$<br>
+                            $K_{\text{avg}} = \frac{3}{2} k_B T = \frac{1}{2} m v_{\text{rms}}^2$<br>
+                            $\frac{Q}{\Delta t} = \frac{k A \Delta T}{L}$<br>
+                            $PV = nRT = N k_B T$<br>
+                            $U = \frac{3}{2} n R T = \frac{3}{2} N k_B T$<br>
+                            $W = -P \Delta V$<br>
+                            $\Delta U = Q + W$<br>
+                            $Q = mc\Delta T$
+                        </div>
+
+                        <div class="equations-column">
+                            <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;">Waves, Sound, & Optics</div>
+                            $\lambda = \frac{v}{f}$<br>
+                            $n = \frac{c}{v}$<br>
+                            $n_1 \sin\theta_1 = n_2 \sin\theta_2$<br>
+                            $\frac{1}{s_i} + \frac{1}{s_o} = \frac{1}{f}$<br>
+                            $|M| = \left|\frac{h_i}{h_o}\right| = \left|\frac{s_i}{s_o}\right|$<br>
+                            $\Delta D = m\lambda$<br>
+                            $\Delta D = a \sin\theta$<br>
+                            $d\left(\frac{y_{\text{min}}}{L}\right) = m\lambda$<br>
+                            $\Delta D = d \sin\theta$<br>
+                            $d\left(\frac{y_{\text{max}}}{L}\right) = m\lambda$<br>
+                            $v_{\text{string}} = \sqrt{\frac{F_T}{m/l}}$<br>
+                            $T = \frac{1}{f}$<br>
+                            $x(t) = A \cos(\omega t) = A \cos(2\pi ft)$<br>
+                            $y(x) = A \cos\left(2\pi \frac{x}{\lambda}\right)$<br>
+                            $|f_{\text{beat}}| = |f_1 - f_2|$<br><br>
+
+                            <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;">Modern Physics</div>
+                            $E = hf$<br>
+                            $\lambda = \frac{h}{p}$<br>
+                            $\lambda = \frac{c}{f}$<br>
+                            $\lambda_{\text{max}} = \frac{b}{T}$<br>
+                            $P = A \sigma T^4$<br>
+                            $K_{\text{max}} = hf - \phi$<br>
+                            $\Delta\lambda = \frac{h}{m_e c}(1 - \cos\theta)$<br>
+                            $E = mc^2$<br>
+                            $N = N_0 e^{-\lambda t}$<br>
+                            $\lambda = \frac{\ln 2}{t_{1/2}}$<br><br>
+
+                            <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;">Mechanics & Fluids</div>
+                            $v_x = v_{x0} + a_x t$<br>
+                            $x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$<br>
+                            $\vec{a}_{\text{sys}} = \frac{\sum \vec{F}}{m_{\text{sys}}}$<br>
+                            $K = \frac{1}{2} m v^2$<br>
+                            $\Delta U_g = mg\Delta y$<br>
+                            $P_{\text{avg}} = \frac{W}{\Delta t} = \frac{\Delta E}{\Delta t}$<br>
+                            $\rho = \frac{m}{V}$<br>
+                            $P = P_0 + \rho g h$<br>
+                            $F_b = \rho V g$<br>
+                            $A_1 v_1 = A_2 v_2$<br>
+                            $P_1 + \rho g y_1 + \frac{1}{2}\rho v_1^2 = P_2 + \rho g y_2 + \frac{1}{2}\rho v_2^2$
+                        </div>
+
+                        <div class="symbols-right-pane">
+                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">Symbols</div>
+                            $A$ = area / amplitude<br>
+                            $B$ = magnetic field<br>
+                            $C$ = capacitance<br>
+                            $d$ = distance<br>
+                            $E$ = electric field / energy<br>
+                            $f$ = frequency<br>
+                            $F$ = force<br>
+                            $I$ = current<br>
+                            $K$ = kinetic energy<br>
+                            $l, L$ = length<br>
+                            $m$ = mass<br>
+                            $n$ = index of refraction<br>
+                            $P$ = power / pressure<br>
+                            $q, Q$ = charge<br>
+                            $R$ = resistance<br>
+                            $r$ = distance / radius<br>
+                            $T$ = period / temp<br>
+                            $U$ = potential energy<br>
+                            $V$ = volume / potential<br>
+                            $v$ = velocity / speed<br>
+                            $W$ = work<br>
+                            $\kappa$ = dielectric const.<br>
+                            $\rho$ = density / resistivity<br>
+                            $\lambda$ = wavelength / decay const.<br>
+                            $\Phi_B$ = magnetic flux<br>
+                            $\mathcal{E}$ = emf
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div id="ref-apc-mech" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
             <div class="drawer-scroll-body tex2jax_process">
                 <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
@@ -938,12 +1036,17 @@
             tabTrigger.classList.toggle('drawer-open');
         }
 
-        function switchRefPage(pageNum) {
+function switchRefPage(pageNum) {
             activeRefPage = pageNum;
-            document.querySelectorAll('.ref-page-content').forEach(p => p.classList.remove('active'));
-            document.getElementById(`ref-page-${pageNum}`).classList.add('active');
+            
+            const targetPage = document.getElementById(`ref-page-${pageNum}`);
+            if (!targetPage) return;
+            const container = targetPage.closest('.course-ref-container');
+            
+            container.querySelectorAll('.ref-page-content').forEach(p => p.classList.remove('active'));
+            targetPage.classList.add('active');
 
-            document.querySelectorAll('.toggle-page-btn').forEach(b => b.classList.remove('active'));
+            container.querySelectorAll('.toggle-page-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(`btn-page-${pageNum}`).classList.add('active');
         }
 function switchCourseRef() {
