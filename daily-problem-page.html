@@ -589,132 +589,223 @@
                     </tr>
 </table>
             </div>
-            </div> </div> 
-        
-        <div id="ref-ap2" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
-            <div class="drawer-scroll-body tex2jax_process">
+            </div> <div id="ref-ap2" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
+            
+            <div class="drawer-page-toggle">
+                <button id="btn-page-3" class="toggle-page-btn active" onclick="switchRefPage(3)">Table of Information</button>
+                <button id="btn-page-4" class="toggle-page-btn" onclick="switchRefPage(4)">Equations & Geometry</button>
+            </div>
+
+            <div id="ref-page-3" class="ref-page-content active drawer-scroll-body tex2jax_process">
                 <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
                     ADVANCED PLACEMENT PHYSICS 2 TABLE OF INFORMATION
                 </h2>
                 
                 <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
-                <table class="ref-table">
+                <table class="ref-table" style="margin-bottom: 20px;">
                     <tr>
-                        <td style="width: 50%;">Avogadro's number,</td>
-                        <td style="width: 50%;">$N_0 = 6.02 \times 10^{23} \text{ mol}^{-1}$</td>
+                        <td>Proton mass, $m_p = 1.67 \times 10^{-27} \text{ kg}$</td>
+                        <td>Electron charge magnitude, $e = 1.60 \times 10^{-19} \text{ C}$</td>
                     </tr>
                     <tr>
-                        <td>Universal gas constant,</td>
-                        <td>$R = 8.31 \text{ J}/(\text{mol}\cdot\text{K})$</td>
+                        <td>Neutron mass, $m_n = 1.67 \times 10^{-27} \text{ kg}$</td>
+                        <td>1 electron volt, $1 \text{ eV} = 1.60 \times 10^{-19} \text{ J}$</td>
                     </tr>
                     <tr>
-                        <td>Boltzmann's constant,</td>
-                        <td>$k_B = 1.38 \times 10^{-23} \text{ J}/\text{K}$</td>
+                        <td>Electron mass, $m_e = 9.11 \times 10^{-31} \text{ kg}$</td>
+                        <td>Speed of light, $c = 3.00 \times 10^8 \text{ m/s}$</td>
                     </tr>
                     <tr>
-                        <td>1 atmosphere of pressure,</td>
-                        <td>$1 \text{ atm} = 1.0 \times 10^5 \text{ N/m}^2 = 1.0 \times 10^5 \text{ Pa}$</td>
+                        <td>Avogadro's number, $N_0 = 6.02 \times 10^{23} \text{ mol}^{-1}$</td>
+                        <td>Universal gravitational constant, $G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2)$</td>
                     </tr>
                     <tr>
-                        <td>Coulomb constant,</td>
-                        <td>$k = \frac{1}{4\pi\epsilon_0} = 9.0 \times 10^9 \text{ N}\cdot\text{m}^2/\text{C}^2$</td>
+                        <td>Universal gas constant, $R = 8.31 \text{ J}/(\text{mol}\cdot\text{K})$</td>
+                        <td>Acceleration due to gravity at Earth's surface, $g = 9.8 \text{ m/s}^2$</td>
                     </tr>
                     <tr>
-                        <td>Elementary charge,</td>
-                        <td>$e = 1.60 \times 10^{-19} \text{ C}$</td>
+                        <td>Boltzmann's constant, $k_B = 1.38 \times 10^{-23} \text{ J/K}$</td>
+                        <td>1 atmosphere pressure, $1 \text{ atm} = 1.0 \times 10^5 \text{ N/m}^2 = 1.0 \times 10^5 \text{ Pa}$</td>
                     </tr>
                     <tr>
-                        <td>Vacuum permittivity,</td>
-                        <td>$\epsilon_0 = 8.85 \times 10^{-12} \text{ C}^2/(\text{N}\cdot\text{m}^2)$</td>
+                        <td>Planck's constant, $h = 6.63 \times 10^{-34} \text{ J}\cdot\text{s} = 4.14 \times 10^{-15} \text{ eV}\cdot\text{s}$<br>$hc = 1.99 \times 10^{-25} \text{ J}\cdot\text{m} = 1.24 \times 10^3 \text{ eV}\cdot\text{nm}$</td>
+                        <td>Vacuum permittivity, $\epsilon_0 = 8.85 \times 10^{-12} \text{ C}^2/(\text{N}\cdot\text{m}^2)$</td>
                     </tr>
                     <tr>
-                        <td>Vacuum permeability,</td>
-                        <td>$\mu_0 = 4\pi \times 10^{-7} \text{ T}\cdot\text{m}/\text{A}$</td>
-                    </tr>
-                    <tr>
-                        <td>Speed of light,</td>
-                        <td>$c = 3.00 \times 10^8 \text{ m/s}$</td>
-                    </tr>
-                    <tr>
-                        <td>Planck's constant,</td>
-                        <td>$h = 6.63 \times 10^{-34} \text{ J}\cdot\text{s} = 4.14 \times 10^{-15} \text{ eV}\cdot\text{s}$</td>
-                    </tr>
-                    <tr>
-                        <td>Electron mass,</td>
-                        <td>$m_e = 9.11 \times 10^{-31} \text{ kg}$</td>
-                    </tr>
-                    <tr>
-                        <td>Proton mass,</td>
-                        <td>$m_p = 1.67 \times 10^{-27} \text{ kg}$</td>
+                        <td>Coulomb's law constant, $k = \frac{1}{4\pi\epsilon_0} = 9.0 \times 10^9 \frac{\text{N}\cdot\text{m}^2}{\text{C}^2}$</td>
+                        <td>Vacuum permeability, $\mu_0 = 4\pi \times 10^{-7} (\text{T}\cdot\text{m})/\text{A}$</td>
                     </tr>
                 </table>
 
-                <h2 style="font-size: 14px; text-align: center; margin-top: 30px; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                <div style="display: flex; gap: 20px;">
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">PREFIXES</div>
+                        <table class="ref-table">
+                            <tr><th>Factor</th><th>Prefix</th><th>Symbol</th></tr>
+                            <tr><td>$10^{12}$</td><td>tera</td><td>T</td></tr>
+                            <tr><td>$10^9$</td><td>giga</td><td>G</td></tr>
+                            <tr><td>$10^6$</td><td>mega</td><td>M</td></tr>
+                            <tr><td>$10^3$</td><td>kilo</td><td>k</td></tr>
+                            <tr><td>$10^{-2}$</td><td>centi</td><td>c</td></tr>
+                            <tr><td>$10^{-3}$</td><td>milli</td><td>m</td></tr>
+                            <tr><td>$10^{-6}$</td><td>micro</td><td>$\mu$</td></tr>
+                            <tr><td>$10^{-9}$</td><td>nano</td><td>n</td></tr>
+                            <tr><td>$10^{-12}$</td><td>pico</td><td>p</td></tr>
+                        </table>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
+                        <table class="ref-table">
+                            <tr><td>meter,</td><td>m</td><td>kelvin,</td><td>K</td></tr>
+                            <tr><td>kilogram,</td><td>kg</td><td>hertz,</td><td>Hz</td></tr>
+                            <tr><td>second,</td><td>s</td><td>newton,</td><td>N</td></tr>
+                            <tr><td>ampere,</td><td>A</td><td>pascal,</td><td>Pa</td></tr>
+                            <tr><td>joule,</td><td>J</td><td>volt,</td><td>V</td></tr>
+                            <tr><td>watt,</td><td>W</td><td>ohm,</td><td>$\Omega$</td></tr>
+                            <tr><td>coulomb,</td><td>C</td><td>henry,</td><td>H</td></tr>
+                            <tr><td>farad,</td><td>F</td><td>tesla,</td><td>T</td></tr>
+                            <tr><td>degree Celsius,</td><td>$^\circ\text{C}$</td><td>electron volt,</td><td>eV</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ref-page-4" class="ref-page-content drawer-scroll-body tex2jax_process">
+                <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
                     ADVANCED PLACEMENT PHYSICS 2 EQUATIONS
                 </h2>
 
-                <div class="official-two-col-container">
-                    <div class="equations-column">
-                        <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;">Fluids & Thermodynamics</div>
-                        $\rho = \frac{m}{V}$<br>
-                        $P = \frac{F_{\perp}}{A}$<br>
-                        $P = P_0 + \rho g h$<br>
-                        $F_b = \rho V g$<br>
-                        $A_1 v_1 = A_2 v_2$ br>
-                        $P_1 + \rho g y_1 + \frac{1}{2}\rho v_1^2 = P_2 + \rho g y_2 + \frac{1}{2}\rho v_2^2$<br>
-                        $\frac{Q}{\Delta t} = \frac{k A \Delta T}{L}$<br>
-                        $P = \frac{F}{A}$<br>
-                        $P V = n R T = N k_B T$<br>
-                        $K_{\text{avg}} = \frac{3}{2} k_B T$<br>
-                        $v_{\text{rms}} = \sqrt{\frac{3 R T}{M}} = \sqrt{\frac{3 k_B T}{\mu}}$<br>
-                        $W = -P \Delta V$<br>
-                        $\Delta U = Q + W$
-                    </div>
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; background: var(--header-bg); color: white; padding: 5px;">FLUID MECHANICS AND THERMAL PHYSICS</div>
+                <table class="ref-table" style="margin-bottom: 20px;">
+                    <tr>
+                        <td style="width: 45%; vertical-align: top;">
+                            $\rho = \frac{m}{V}$<br><br>
+                            $P = \frac{F}{A}$<br><br>
+                            $P = P_0 + \rho g h$<br><br>
+                            $F_b = \rho V g$<br><br>
+                            $A_1 v_1 = A_2 v_2$<br><br>
+                            $P_1 + \rho g y_1 + \frac{1}{2}\rho v_1^2 = P_2 + \rho g y_2 + \frac{1}{2}\rho v_2^2$<br><br>
+                            $\frac{Q}{\Delta t} = \frac{k A \Delta T}{L}$<br><br>
+                            $PV = nRT = N k_B T$<br><br>
+                            $K = \frac{3}{2} k_B T$<br><br>
+                            $W = -P \Delta V$<br><br>
+                            $\Delta U = Q + W$
+                        </td>
+                        <td style="width: 55%; vertical-align: top; font-size: 0.9em; color: var(--text-dim);">
+                            $A$ = area<br>
+                            $F$ = force<br>
+                            $h$ = depth<br>
+                            $k$ = thermal conductivity<br>
+                            $K$ = kinetic energy<br>
+                            $L$ = thickness<br>
+                            $m$ = mass<br>
+                            $n$ = number of moles<br>
+                            $N$ = number of molecules<br>
+                            $P$ = pressure<br>
+                            $Q$ = heat transferred<br>
+                            $T$ = temperature<br>
+                            $U$ = internal energy<br>
+                            $V$ = volume<br>
+                            $v$ = speed<br>
+                            $W$ = work done on a system<br>
+                            $y$ = height<br>
+                            $\rho$ = density
+                        </td>
+                    </tr>
+                </table>
 
-                    <div class="equations-column">
-                        <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;">Electricity & Magnetism</div>
-                        $|\vec{F}_e| = k \frac{|q_1 q_2|}{r^2}$<br>
-                        $\vec{E} = \frac{\vec{F}_e}{q}$<br>
-                        $|\vec{E}| = k \frac{|q|}{r^2}$<br>
-                        $\Delta U_E = q \Delta V$<br>
-                        $V = k \frac{q}{r}$<br>
-                        $|\vec{E}| = \left|\frac{\Delta V}{\Delta r}\right|$<br>
-                        $C = \frac{Q}{\Delta V}$<br>
-                        $C = \frac{\kappa \epsilon_0 A}{d}$<br>
-                        $E_C = \frac{1}{2} Q \Delta V = \frac{1}{2} C (\Delta V)^2$<br>
-                        $I = \frac{\Delta Q}{\Delta t}$<br>
-                        $R = \frac{\rho \ell}{A}$<br>
-                        $I = \frac{\Delta V}{R}$<br>
-                        $P = I \Delta V$<br>
-                        $I = \frac{\mathcal{E}}{R_{\text{tot}}}$
-                    </div>
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; background: var(--header-bg); color: white; padding: 5px;">ELECTRICITY AND MAGNETISM</div>
+                <table class="ref-table" style="margin-bottom: 20px;">
+                    <tr>
+                        <td style="width: 45%; vertical-align: top;">
+                            $|\vec{F}_E| = k \left|\frac{q_1 q_2}{r^2}\right|$<br><br>
+                            $\vec{E} = \frac{\vec{F}_E}{q}$<br><br>
+                            $|\vec{E}| = k \left|\frac{q}{r^2}\right|$<br><br>
+                            $\Delta U_E = q \Delta V$<br><br>
+                            $V = k \frac{q}{r}$<br><br>
+                            $|\vec{E}| = \left|\frac{\Delta V}{\Delta r}\right|$<br><br>
+                            $\Delta V = \frac{Q}{C}$<br><br>
+                            $C = \kappa \epsilon_0 \frac{A}{d}$<br><br>
+                            $E_c = \frac{1}{2} Q \Delta V = \frac{1}{2} C (\Delta V)^2$<br><br>
+                            $I = \frac{\Delta q}{\Delta t}$<br><br>
+                            $R = \frac{\rho \ell}{A}$<br><br>
+                            $I = \frac{\Delta V}{R}$<br><br>
+                            $P = I \Delta V$<br><br>
+                            $R_s = \sum R_i$<br><br>
+                            $\frac{1}{R_p} = \sum \frac{1}{R_i}$<br><br>
+                            $C_p = \sum C_i$<br><br>
+                            $\frac{1}{C_s} = \sum \frac{1}{C_i}$<br><br>
+                            $\vec{F}_M = q \vec{v} \times \vec{B}$<br><br>
+                            $| \vec{F}_M | = |q \vec{v}| |\sin \theta| |\vec{B}|$<br><br>
+                            $\vec{F}_M = I \vec{\ell} \times \vec{B}$<br><br>
+                            $| \vec{F}_M | = |I \vec{\ell}| |\sin \theta| |\vec{B}|$<br><br>
+                            $B = \frac{\mu_0 I}{2 \pi r}$<br><br>
+                            $\Phi_B = \vec{B} \cdot \vec{A} = B A \cos \theta$<br><br>
+                            $\varepsilon = -\frac{\Delta \Phi_B}{\Delta t}$<br><br>
+                            $\varepsilon = B \ell v$
+                        </td>
+                        <td style="width: 55%; vertical-align: top; font-size: 0.9em; color: var(--text-dim);">
+                            $A$ = area<br>
+                            $B$ = magnetic field<br>
+                            $C$ = capacitance<br>
+                            $d$ = distance<br>
+                            $E$ = electric field<br>
+                            $E_c$ = energy of a capacitor<br>
+                            $F$ = force<br>
+                            $I$ = current<br>
+                            $\ell$ = length<br>
+                            $P$ = power<br>
+                            $q$ = charge<br>
+                            $q$ = point charge<br>
+                            $R$ = resistance<br>
+                            $r$ = distance<br>
+                            $t$ = time<br>
+                            $U$ = potential (stored) energy<br>
+                            $V$ = electric potential<br>
+                            $v$ = speed<br>
+                            $\kappa$ = dielectric constant<br>
+                            $\rho$ = resistivity<br>
+                            $\theta$ = angle<br>
+                            $\Phi_B$ = magnetic flux<br>
+                            $\varepsilon$ = emf
+                        </td>
+                    </tr>
+                </table>
 
-                    <div class="symbols-right-pane">
-                        <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">symbols</div>
-                        $A$ = area<br>
-                        $C$ = capacitance<br>
-                        $d$ = distance<br>
-                        $E$ = electric field<br>
-                        $F$ = force<br>
-                        $I$ = current<br>
-                        $k$ = thermal cond. / Coulomb const.<br>
-                        $K$ = kinetic energy<br>
-                        $L, \ell$ = length<br>
-                        $m$ = mass<br>
-                        $n$ = number of moles<br>
-                        $N$ = number of molecules<br>
-                        $P$ = pressure / power<br>
-                        $Q$ = charge / heat energy<br>
-                        $R$ = resistance<br>
-                        $r$ = radius / distance<br>
-                        $T$ = temperature<br>
-                        $U$ = internal / potential energy<br>
-                        $V$ = volume / electric potential<br>
-                        $v$ = velocity / speed<br>
-                        $W$ = work done<br>
-                        $\rho$ = density / resistivity
-                    </div>
-                </div>
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; background: var(--header-bg); color: white; padding: 5px;">WAVES, OPTICS, AND MODERN PHYSICS</div>
+                <table class="ref-table">
+                    <tr>
+                        <td style="width: 45%; vertical-align: top;">
+                            $\lambda = \frac{v}{f}$<br><br>
+                            $n = \frac{c}{v}$<br><br>
+                            $n_1 \sin \theta_1 = n_2 \sin \theta_2$<br><br>
+                            $\frac{1}{s_i} + \frac{1}{s_o} = \frac{1}{f}$<br><br>
+                            $|M| = \left|\frac{h_i}{h_o}\right| = \left|\frac{s_i}{s_o}\right|$<br><br>
+                            $\Delta L = m \lambda$<br><br>
+                            $d \sin \theta = m \lambda$<br><br>
+                            $E = hf$<br><br>
+                            $K_{\text{max}} = hf - \Phi$<br><br>
+                            $\lambda = \frac{h}{p}$<br><br>
+                            $E = m c^2$
+                        </td>
+                        <td style="width: 55%; vertical-align: top; font-size: 0.9em; color: var(--text-dim);">
+                            $d$ = separation<br>
+                            $E$ = energy<br>
+                            $f$ = frequency or focal length<br>
+                            $h$ = height<br>
+                            $L$ = distance<br>
+                            $M$ = magnification<br>
+                            $m$ = an integer<br>
+                            $n$ = index of refraction<br>
+                            $p$ = momentum<br>
+                            $s$ = distance<br>
+                            $v$ = speed<br>
+                            $\lambda$ = wavelength<br>
+                            $\Phi$ = work function<br>
+                            $\theta$ = angle
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
 
