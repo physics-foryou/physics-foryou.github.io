@@ -274,15 +274,21 @@
         Reference Sheet
     </button>
 
-    <div id="ref-drawer-panel" class="ref-drawer">
-        <div class="drawer-header">
-            <span>AP PHYSICS 1 REFERENCE SHEET</span>
+<div id="ref-drawer-panel" class="ref-drawer">
+        <div class="drawer-header" style="padding: 10px 15px;">
+            <select id="course-ref-select" onchange="switchCourseRef()" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid var(--border-color); background-color: var(--panel-bg); color: var(--text-main); font-family: inherit; font-size: 13px; font-weight: bold; cursor: pointer;">
+                <option value="ap1">AP Physics 1</option>
+                <option value="ap2">AP Physics 2</option>
+                <option value="apc-mech">AP Physics C: Mechanics</option>
+                <option value="apc-em">AP Physics C: Electricity & Magnetism</option>
+            </select>
         </div>
 
-        <div class="drawer-page-toggle">
-            <button id="btn-page-1" class="toggle-page-btn active" onclick="switchRefPage(1)">Table of Information</button>
-            <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2)">Equations & Geometry</button>
-        </div>
+        <div id="ref-ap1" class="course-ref-container" style="display: flex; flex-direction: column; flex-grow: 1; overflow: hidden;">
+            <div class="drawer-page-toggle">
+                <button id="btn-page-1" class="toggle-page-btn active" onclick="switchRefPage(1)">Table of Information</button>
+                <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2)">Equations & Geometry</button>
+            </div>
 
         <div class="drawer-scroll-body tex2jax_process">
             
@@ -547,12 +553,33 @@
                     <tr>
                         <td style="font-weight: bold;">$\tan\theta$</td><td>$0$</td><td>$\sqrt{3}/3$</td><td>$3/4$</td><td>$1$</td><td>$4/3$</td><td>$\sqrt{3}$</td><td>$\infty$</td>
                     </tr>
-                </table>
+</table>
             </div>
-            </div>
-    </div>
+            </div> </div> <div id="ref-ap2" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
+            <div class="drawer-scroll-body tex2jax_process">
+                <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                    ADVANCED PLACEMENT PHYSICS 2 REFERENCE LABELS
+                </h2>
+                </div>
+        </div>
 
-    <div class="workspace tex2jax_process">
+        <div id="ref-apc-mech" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
+            <div class="drawer-scroll-body tex2jax_process">
+                <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                    AP PHYSICS C: MECHANICS REFERENCE LABELS
+                </h2>
+                </div>
+        </div>
+
+        <div id="ref-apc-em" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
+            <div class="drawer-scroll-body tex2jax_process">
+                <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                    AP PHYSICS C: ELECTRICITY & MAGNETISM REFERENCE LABELS
+                </h2>
+                </div>
+        </div>
+
+    </div> <div class="workspace tex2jax_process">
         <div class="panel">
             <div class="panel-header">
                 <span>Pacing</span>
@@ -792,6 +819,20 @@
             
             document.querySelectorAll('.toggle-page-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(`btn-page-${pageNum}`).classList.add('active');
+        }
+function switchCourseRef() {
+            const selectedCourse = document.getElementById('course-ref-select').value;
+            
+            // Hide every course layout view
+            document.querySelectorAll('.course-ref-container').forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            // Unhide the chosen course wrapper
+            const activeContainer = document.getElementById(`ref-${selectedCourse}`);
+            if (activeContainer) {
+                activeContainer.style.display = 'flex';
+            }
         }
     </script>
 </body>
