@@ -683,8 +683,19 @@
             const urlParams = new URLSearchParams(window.location.search);
             subject = urlParams.get('subject') || 'ap1';
             
-            if (subject === 'ap1') {
-                document.getElementById('ref-tab-trigger').style.display = 'block';
+            // Always show the reference sheet tab no matter what course is selected
+            document.getElementById('ref-tab-trigger').style.display = 'block';
+            
+            // Automatically pre-select the correct course sheet in your reference dropdown drawer
+            const refSelect = document.getElementById('course-ref-select');
+            if (refSelect) {
+                // Map query string names ('mech', 'em') to match your option values ('apc-mech', 'apc-em')
+                let selectVal = subject;
+                if (subject === 'mech') selectVal = 'apc-mech';
+                if (subject === 'em') selectVal = 'apc-em';
+                
+                refSelect.value = selectVal;
+                switchCourseRef(); // Fire the function to update the visible reference layout
             }
             
             const configs = {
