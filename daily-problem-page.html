@@ -1200,316 +1200,223 @@
         </div>
 
         <div id="ref-apc-em" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
-            <div class="drawer-page-toggle">
-                <button id="btn-page-7" class="toggle-page-btn active" onclick="switchRefPage(7, 'apc-em')">Table of Information</button>
-                <button id="btn-page-8" class="toggle-page-btn" onclick="switchRefPage(8, 'apc-em')">Equations</button>
-            </div>
+    <div class="drawer-page-toggle">
+        <button id="btn-page-1-em" class="toggle-page-btn active" onclick="switchRefPage(1, 'apc-em')">Table of Information</button>
+        <button id="btn-page-2-em" class="toggle-page-btn" onclick="switchRefPage(2, 'apc-em')">E&M Equations</button>
+        <button id="btn-page-3-em" class="toggle-page-btn" onclick="switchRefPage(3, 'apc-em')">Mechanics</button>
+        <button id="btn-page-4-em" class="toggle-page-btn" onclick="switchRefPage(4, 'apc-em')">Math & Calculus</button>
+    </div>
 
-            <div class="drawer-scroll-body tex2jax_process">
-                <div id="ref-page-7" class="ref-page-content active">
-                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
-                        ADVANCED PLACEMENT PHYSICS C: ELECTRICITY AND MAGNETISM TABLE OF INFORMATION
-                    </h2>
-                    
-                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
-                    <table class="ref-table">
-                        <tr>
-                            <td style="width: 50%;">Coulomb constant,</td>
-                            <td style="width: 50%;">$k = \frac{1}{4\pi\epsilon_0} = 9.0 \times 10^9 \text{ N}\cdot\text{m}^2/\text{C}^2$</td>
-                        </tr>
-                        <tr>
-                            <td>Vacuum permittivity,</td>
-                            <td>$\epsilon_0 = 8.85 \times 10^{-12} \text{ C}^2/(\text{N}\cdot\text{m}^2)$</td>
-                        </tr>
-                        <tr>
-                            <td>Vacuum permeability,</td>
-                            <td>$\mu_0 = 4\pi \times 10^{-7} \text{ (T}\cdot\text{m)/A}$</td>
-                        </tr>
-                        <tr>
-                            <td>Proton mass,</td>
-                            <td>$m_p = 1.67 \times 10^{-27} \text{ kg}$</td>
-                        </tr>
-                        <tr>
-                            <td>Neutron mass,</td>
-                            <td>$m_n = 1.67 \times 10^{-27} \text{ kg}$</td>
-                        </tr>
-                        <tr>
-                            <td>Electron mass,</td>
-                            <td>$m_e = 9.11 \times 10^{-31} \text{ kg}$</td>
-                        </tr>
-                        <tr>
-                            <td>Elementary charge,</td>
-                            <td>$e = 1.60 \times 10^{-19} \text{ C}$</td>
-                        </tr>
-                        <tr>
-                            <td>1 electron volt,</td>
-                            <td>$1 \text{ eV} = 1.60 \times 10^{-19} \text{ J}$</td>
-                        </tr>
-                        <tr>
-                            <td>Speed of light,</td>
-                            <td>$c = 3.00 \times 10^8 \text{ m/s}$</td>
-                        </tr>
-                        <tr>
-                            <td>1 unified atomic mass unit,</td>
-                            <td>$1 \text{ u} = 1.66 \times 10^{-27} \text{ kg} = 931 \text{ MeV/}c^2$</td>
-                        </tr>
-                        <tr>
-                            <td>Universal gravitational constant,</td>
-                            <td>$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2) = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
-                        </tr>
-                        <tr>
-                            <td>Magnitude of the acceleration due to gravity at Earth's surface,</td>
-                            <td>$g = 9.8 \text{ m/s}^2$</td>
-                        </tr>
-                        <tr>
-                            <td>Magnitude of the gravitational field strength at Earth's surface,</td>
-                            <td>$g = 9.8 \text{ N/kg}$</td>
-                        </tr>
-                    </table>
+    <div class="drawer-scroll-body tex2jax_process" style="overflow-y: auto; padding: 15px;">
+        
+        <div id="ref-page-1" class="ref-page-content active">
+            <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                ADVANCED PLACEMENT PHYSICS C: ELECTRICITY AND MAGNETISM<br>TABLE OF INFORMATION
+            </h2>
+            
+            <h3 style="font-size: 12px; font-weight: bold; border-bottom: 1px solid #ccc;">CONSTANTS AND CONVERSION FACTORS</h3>
+            <table style="width: 100%; font-size: 11px; margin-bottom: 15px;">
+                <tr><td>Coulomb constant,</td><td>$k=\frac{1}{4\pi\epsilon_{0}}=9.0\times10^{9}(\text{N}\cdot\text{m}^{2})/\text{C}^{2}$</td></tr>
+                <tr><td>Vacuum permittivity,</td><td>$\epsilon_{0}=8.85\times10^{-12}\text{C}^{2}/(\text{N}\cdot\text{m}^{2})$</td></tr>
+                <tr><td>Vacuum permeability,</td><td>$\mu_{0}=4\pi\times10^{-7}(\text{T}\cdot\text{m})/\text{A}$</td></tr>
+                <tr><td>Proton mass,</td><td>$m_{p}=1.67\times10^{-27}\text{kg}$</td></tr>
+                <tr><td>Neutron mass,</td><td>$m_{n}=1.67\times10^{-27}\text{kg}$</td></tr>
+                <tr><td>Electron mass,</td><td>$m_{e}=9.11\times10^{-31}\text{kg}$</td></tr>
+                <tr><td>Elementary charge,</td><td>$e=1.60\times10^{-19}\text{C}$</td></tr>
+                <tr><td>1 electron volt,</td><td>$1\text{eV}=1.60\times10^{-19}\text{J}$</td></tr>
+                <tr><td>Speed of light,</td><td>$c=3.00\times10^{8}\text{m/s}$</td></tr>
+                <tr><td>1 unified atomic mass unit,</td><td>$1\text{ u}=1.66\times10^{-27}\text{kg}=931\text{ MeV}/c^{2}$</td></tr>
+                <tr><td>Universal gravitational constant,</td><td>$G=6.67\times10^{-11}\text{m}^{3}/(\text{kg}\cdot\text{s}^{2})=6.67\times10^{-11}\text{N}\cdot\text{m}^{2}/\text{kg}^{2}$</td></tr>
+                <tr><td>Acceleration due to gravity at Earth's surface,</td><td>$g=9.8\text{ m/s}^{2}$</td></tr>
+            </table>
 
-                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
-                    <table class="ref-table">
-                        <tr>
-                            <td>
-                                ampere, $\text{A}$<br>
-                                coulomb, $\text{C}$<br>
-                                electron volt, $\text{eV}$<br>
-                            </td>
-                            <td>
-                                farad, $\text{F}$<br>
-                                henry, $\text{H}$<br>
-                                hertz, $\text{Hz}$<br>
-                            </td>
-                            <td>
-                                joule, $\text{J}$<br>
-                                kilogram, $\text{kg}$<br>
-                                meter, $\text{m}$<br>
-                            </td>
-                            <td>
-                                newton, $\text{N}$<br>
-                                ohm, $\Omega$<br>
-                                second, $\text{s}$<br>
-                            </td>
-                            <td>
-                                tesla, $\text{T}$<br>
-                                volt, $\text{V}$<br>
-                                watt, $\text{W}$<br>
-                            </td>
-                        </tr>
-                    </table>
+            <h3 style="font-size: 12px; font-weight: bold; border-bottom: 1px solid #ccc;">CONVENTIONS</h3>
+            <ul style="font-size: 11px; padding-left: 20px;">
+                <li>The frame of reference of any problem is assumed to be inertial unless otherwise stated.</li>
+                <li>Air resistance is assumed to be negligible unless otherwise stated.</li>
+                <li>Springs and strings are assumed to be ideal unless otherwise stated.</li>
+                <li>The electric potential is zero at an infinite distance from an isolated point charge.</li>
+                <li>The direction of current is the direction in which positive charges would drift.</li>
+                <li>All batteries, wires, and meters are assumed to be ideal unless otherwise stated.</li>
+            </ul>
+        </div>
 
-                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">PREFIXES</div>
-                    <table class="ref-table">
-                        <tr>
-                            <th>Factor</th>
-                            <th>Prefix</th>
-                            <th>Symbol</th>
-                        </tr>
-                        <tr><td>$10^{12}$</td><td>tera</td><td>T</td></tr>
-                        <tr><td>$10^9$</td><td>giga</td><td>G</td></tr>
-                        <tr><td>$10^6$</td><td>mega</td><td>M</td></tr>
-                        <tr><td>$10^3$</td><td>kilo</td><td>k</td></tr>
-                        <tr><td>$10^{-2}$</td><td>centi</td><td>c</td></tr>
-                        <tr><td>$10^{-3}$</td><td>milli</td><td>m</td></tr>
-                        <tr><td>$10^{-6}$</td><td>micro</td><td>$\mu$</td></tr>
-                        <tr><td>$10^{-9}$</td><td>nano</td><td>n</td></tr>
-                        <tr><td>$10^{-12}$</td><td>pico</td><td>p</td></tr>
-                    </table>
-
-                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">VALUES OF TRIGONOMETRIC FUNCTIONS FOR COMMON ANGLES</div>
-                    <table class="ref-table" style="text-align: center;">
-                        <tr>
-                            <th>$\theta$</th><th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold;">$\sin\theta$</td><td>$0$</td><td>$1/2$</td><td>$3/5$</td><td>$\sqrt{2}/2$</td><td>$4/5$</td><td>$\sqrt{3}/2$</td><td>$1$</td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold;">$\cos\theta$</td><td>$1$</td><td>$\sqrt{3}/2$</td><td>$4/5$</td><td>$\sqrt{2}/2$</td><td>$3/5$</td><td>$1/2$</td><td>$0$</td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold;">$\tan\theta$</td><td>$0$</td><td>$\sqrt{3}/3$</td><td>$3/4$</td><td>$1$</td><td>$4/3$</td><td>$\sqrt{3}$</td><td>$\infty$</td>
-                        </tr>
-                    </table>
-
-                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">EXAM CONVENTIONS</div>
-                    <div style="font-size: 12px; line-height: 1.6; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color);">
-                        • The frame of reference of any problem is assumed to be inertial unless otherwise stated.<br>
-                        • Air resistance is assumed to be negligible unless otherwise stated.<br>
-                        • Springs and strings are assumed to be ideal unless otherwise stated.<br>
-                        • The electric potential is zero at an infinite distance from an isolated point charge.<br>
-                        • The direction of current is the direction in which positive charges would drift.<br>
-                        • All batteries, wires, and meters are assumed to be ideal unless otherwise stated.
-                    </div>
+        <div id="ref-page-2" class="ref-page-content" style="display: none;">
+            <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                ELECTRICITY AND MAGNETISM
+            </h2>
+            <div style="display: flex; gap: 20px; font-size: 11px;">
+                <div style="flex: 1;">
+                    <p>$|\vec{F}_{E}|=\frac{1}{4\pi\epsilon_{0}}\frac{|q_{1}q_{2}|}{r^{2}}=k\frac{|q_{1}q_{2}|}{r^{2}}$</p>
+                    <p>$\vec{E}=\frac{\vec{F}_{E}}{q}$</p>
+                    <p>$\vec{E}=\frac{1}{4\pi\epsilon_{0}}\int\frac{dq}{r^{2}}\hat{r}$</p>
+                    <p>$\Phi_{E}=\int\vec{E}\cdot d\vec{A}$</p>
+                    <p>$\oint\vec{E}\cdot d\vec{A}=\frac{q_{enc}}{\epsilon_{0}}$</p>
+                    <p>$V=\frac{1}{4\pi\epsilon_{0}}\int\frac{dq}{r}$</p>
+                    <p>$\Delta V=-\int_{a}^{b}\vec{E}\cdot d\vec{r}$</p>
+                    <p>$E_{x}=-\frac{dV}{dx}$</p>
+                    <p>$\Delta U_{E}=q\Delta V$</p>
+                    <p>$C=\frac{Q}{\Delta V}$</p>
+                    <p>$C=\frac{\kappa\epsilon_{0}A}{d}$</p>
+                    <p>$U_{C}=\frac{1}{2}Q\Delta V$</p>
+                    <p>$\kappa=\frac{\epsilon}{\epsilon_{0}}$</p>
+                    <p>$I=\frac{dq}{dt}$</p>
+                    <p>$I=\int\vec{J}\cdot d\vec{A}$</p>
+                    <p>$\vec{E}=\rho\vec{J}$</p>
+                    <p>$R=\frac{\rho l}{A}$</p>
+                    <p>$I=\frac{\Delta V}{R}$</p>
+                    <p>$P=I\Delta V$</p>
                 </div>
-
-                <div id="ref-page-mechanics" class="ref-page-content">
-                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
-                        ADVANCED PLACEMENT PHYSICS C: MECHANICS EQUATIONS
-                    </h2>
-                    
-                    <div class="official-two-col-container">
-                        <div class="equations-column">
-                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 12px;">Kinematics & Dynamics</div>
-                            $v_x = v_{x0} + a_x t$<br>
-                            $x = x_0 + v_{x0} t + \frac{1}{2} a_x t^2$<br>
-                            $v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$<br>
-                            $\vec{a} = \frac{\sum \vec{F}}{m} = \frac{\vec{F}_{\text{net}}}{m}$<br>
-                            $|\vec{F}_f| \le \mu |\vec{F}_n|$<br>
-                            $a_c = \frac{v^2}{r} = \omega^2 r$<br>
-                            $\vec{p} = m\vec{v}$<br>
-                            $\vec{J} = \int \vec{F} dt = \Delta \vec{p}$<br>
-                            
-                            <div style="font-weight: bold; margin-top: 16px; margin-bottom: 8px; text-transform: uppercase; font-size: 12px;">Work, Energy & Power</div>
-                            $\Delta E = W = \int \vec{F} \cdot d\vec{r}$<br>
-                            $K = \frac{1}{2} m v^2$<br>
-                            $P = \frac{dE}{dt}$<br>
-                            $P = \vec{F} \cdot \vec{v}$<br>
-                            $\Delta U_g = mg\Delta y$<br>
-                            $U_s = \frac{1}{2} k (\Delta x)^2$<br>
-                            $\vec{F}_s = -k \Delta \vec{x}$<br>
-                        </div>
-
-                        <div class="equations-column">
-                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 12px;">Rotation & Oscillations</div>
-                            $\omega = \omega_0 + \alpha t$<br>
-                            $\theta = \theta_0 + \omega_0 t + \frac{1}{2} \alpha t^2$<br>
-                            $\omega^2 = \omega_0^2 + 2\alpha(\theta - \theta_0)$<br>
-                            $v = r\omega$<br>
-                            $\vec{\alpha} = \frac{\sum \vec{\tau}}{I} = \frac{\vec{\tau}_{\text{net}}}{I}$<br>
-                            $\vec{\tau} = \vec{r} \times \vec{F}$<br>
-                            $I = \int r^2 dm = \sum m r^2$<br>
-                            $\vec{L} = \vec{r} \times \vec{p} = I\vec{\omega}$<br>
-                            $K = \frac{1}{2} I \omega^2$<br>
-                            $x = x_{\text{max}} \cos(\omega t + \phi)$<br>
-                            $T = \frac{2\pi}{\omega} = \frac{1}{f}$<br>
-                            $T_s = 2\pi \sqrt{\frac{m}{k}}$<br>
-                            $T_p = 2\pi \sqrt{\frac{\ell}{g}}$<br>
-                            $|\vec{F}_g| = G \frac{m_1 m_2}{r^2}$<br>
-                            $U_g = -G \frac{m_1 m_2}{r}$<br>
-                        </div>
-
-                        <div class="symbols-right-pane">
-                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">symbols</div>
-                            $a$ = acceleration<br>
-                            $E$ = energy<br>
-                            $F$ = force<br>
-                            $f$ = frequency<br>
-                            $I$ = rotational inertia<br>
-                            $J$ = impulse<br>
-                            $K$ = kinetic energy<br>
-                            $k$ = spring constant<br>
-                            $\ell$ = length<br>
-                            $L$ = angular momentum<br>
-                            $m$ = mass<br>
-                            $P$ = power<br>
-                            $p$ = momentum<br>
-                            $r$ = radius or distance<br>
-                            $T$ = period<br>
-                            $t$ = time<br>
-                            $U$ = potential energy<br>
-                            $v$ = velocity or speed<br>
-                            $W$ = work done on a system<br>
-                            $x$ = position<br>
-                            $y$ = height<br>
-                            $\alpha$ = angular acceleration<br>
-                            $\mu$ = coefficient of friction<br>
-                            $\theta$ = angle<br>
-                            $\tau$ = torque<br>
-                            $\omega$ = angular speed/frequency
-                        </div>
-                    </div>
+                <div style="flex: 1;">
+                    <p>$R_{eq,s}=\sum_{i}R_{i}$</p>
+                    <p>$\frac{1}{R_{eq,p}}=\sum_{i}\frac{1}{R_{i}}$</p>
+                    <p>$C_{eq,p}=\sum_{i}C_{i}$</p>
+                    <p>$\frac{1}{C_{eq,s}}=\sum_{i}\frac{1}{C_{i}}$</p>
+                    <p>$\tau=R_{eq}C_{eq}$</p>
+                    <p>$\oint\vec{B}\cdot d\vec{A}=0$</p>
+                    <p>$\vec{F}_{B}=q(\vec{v}\times\vec{B})$</p>
+                    <p>$d\vec{B}=\frac{\mu_{0}}{4\pi}\frac{I(d\vec{l}\times\hat{r})}{r^{2}}$</p>
+                    <p>$\vec{F}_{B}=\int I(d\vec{l}\times\vec{B})$</p>
+                    <p>$\oint\vec{B}\cdot d\vec{l}=\mu_{0}I_{enc}$</p>
+                    <p>$B_{sol}=\mu_{0}nI$</p>
+                    <p>$\Phi_{B}=\int\vec{B}\cdot d\vec{A}$</p>
+                    <p>$\mathcal{E}=\oint\vec{E}\cdot d\vec{l}=-\frac{d\Phi_{B}}{dt}$</p>
+                    <p>$|\mathcal{E}_{sol}|=N\left|\frac{d\Phi_{B}}{dt}\right|$</p>
+                    <p>$L_{sol}=\frac{\mu_{0}N^{2}A}{l}$</p>
+                    <p>$U_{L}=\frac{1}{2}LI^{2}$</p>
+                    <p>$\mathcal{E}=-L\frac{dI}{dt}$</p>
+                    <p>$\tau=\frac{L}{R_{eq}}$</p>
+                    <p>$\omega_{LC}=\frac{1}{\sqrt{LC}}$</p>
                 </div>
-
-                <div id="ref-page-8" class="ref-page-content">
-                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
-                        ADVANCED PLACEMENT PHYSICS C: ELECTRICITY AND MAGNETISM EQUATIONS
-                    </h2>
-                    
-                    <div class="official-two-col-container">
-                        <div class="equations-column">
-                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 12px;">Electricity</div>
-                            $|\vec{F}_E| = \frac{1}{4\pi\epsilon_0} \frac{|q_1 q_2|}{r^2} = k \frac{|q_1 q_2|}{r^2}$<br>
-                            $\vec{E} = \frac{\vec{F}_E}{q}$<br>
-                            $\vec{E} = \frac{1}{4\pi\epsilon_0} \int \frac{dq}{r^2} \hat{r}$<br>
-                            $\Phi_E = \int \vec{E} \cdot d\vec{A}$<br>
-                            $\oint \vec{E} \cdot d\vec{A} = \frac{q_{\text{enc}}}{\epsilon_0}$<br>
-                            $Q_{\text{total}} = \int \rho(r) dV$<br>
-                            $U_E = \frac{1}{4\pi\epsilon_0} \frac{q_1 q_2}{r}$<br>
-                            $\Delta U_E = q \Delta V$<br>
-                            $V = \frac{1}{4\pi\epsilon_0} \int \frac{dq}{r}$<br>
-                            $\Delta V = -\int_{a}^{b} \vec{E} \cdot d\vec{r}$<br>
-                            $E_x = -\frac{dV}{dx}$<br>
-                            $C = \frac{Q}{\Delta V}$<br>
-                            $C = \frac{\kappa\epsilon_0 A}{d}$<br>
-                            $U_c = \frac{1}{2} Q \Delta V$<br>
-                            $\kappa = \frac{\epsilon}{\epsilon_0}$<br>
-                            $I = \frac{dq}{dt}$<br>
-                            $I = \int \vec{J} \cdot d\vec{A}$<br>
-                            $\vec{E} = \rho\vec{J}$<br>
-                            $R = \frac{\rho\ell}{A}$<br>
-                            $I = \frac{\Delta V}{R}$<br>
-                            $P = I \Delta V$<br>
-                            $R_{\text{eq},s} = \sum_i R_i$<br>
-                            $\frac{1}{R_{\text{eq},p}} = \sum_i \frac{1}{R_i}$<br>
-                            $\frac{1}{C_{\text{eq},s}} = \sum_i \frac{1}{C_i}$<br>
-                            $C_{\text{eq},p} = \sum_i C_i$<br>
-                            $\tau = R_{\text{eq}} C_{\text{eq}}$
-                        </div>
-
-                        <div class="equations-column">
-                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 12px;">Magnetism</div>
-                            $\oint \vec{B} \cdot d\vec{A} = 0$<br>
-                            $\vec{F}_B = q(\vec{v} \times \vec{B})$<br>
-                            $d\vec{B} = \frac{\mu_0}{4\pi} \frac{I(d\vec{\ell} \times \hat{r})}{r^2}$<br>
-                            $\vec{F}_B = \int I(d\vec{\ell} \times \vec{B})$<br>
-                            $\oint \vec{B} \cdot d\vec{\ell} = \mu_0 I_{\text{enc}}$<br>
-                            $B_{\text{sol}} = \mu_0 n I$<br>
-                            $\Phi_B = \int \vec{B} \cdot d\vec{A}$<br>
-                            $\mathcal{E} = \oint \vec{E} \cdot d\vec{\ell} = -\frac{d\Phi_B}{dt}$<br>
-                            $|\mathcal{E}_{\text{sol}}| = N\left|\frac{d\Phi_B}{dt}\right|$<br>
-                            $L_{\text{sol}} = \frac{\mu_0 N^2 A}{\ell}$<br>
-                            $U_L = \frac{1}{2} L I^2$<br>
-                            $\mathcal{E} = -L \frac{dI}{dt}$<br>
-                            $\tau = \frac{L}{R_{\text{eq}}}$<br>
-                            $\omega_{\text{LC}} = \frac{1}{\sqrt{LC}}$
-                        </div>
-
-                        <div class="symbols-right-pane">
-                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">symbols</div>
-                            $A$ = area<br>
-                            $B$ = magnetic field<br>
-                            $C$ = capacitance<br>
-                            $d$ = distance<br>
-                            $E$ = electric field<br>
-                            $\mathcal{E}$ = emf<br>
-                            $F$ = force<br>
-                            $I$ = current<br>
-                            $J$ = current density<br>
-                            $L$ = inductance<br>
-                            $\ell$ = length<br>
-                            $n$ = number of loops per unit length<br>
-                            $N$ = number of loops<br>
-                            $P$ = power<br>
-                            $q, Q$ = charge<br>
-                            $r$ = radius, distance, or position<br>
-                            $R$ = resistance<br>
-                            $t$ = time<br>
-                            $U$ = potential energy<br>
-                            $v$ = velocity or speed<br>
-                            $V$ = electric potential or volume<br>
-                            $\epsilon$ = electric permittivity<br>
-                            $\kappa$ = dielectric constant<br>
-                            $\rho$ = resistivity or charge density<br>
-                            $\Phi$ = flux<br>
-                            $\mu$ = magnetic permeability<br>
-                            $\tau$ = time constant<br>
-                            $\omega$ = angular frequency
-                        </div>
-                    </div>
+                <div style="flex: 1; border-left: 1px solid #eee; padding-left: 10px;">
+                    <p><strong>Variables:</strong></p>
+                    <p>$A = \text{area}$</p>
+                    <p>$B = \text{magnetic field}$</p>
+                    <p>$C = \text{capacitance}$</p>
+                    <p>$d = \text{distance}$</p>
+                    <p>$E = \text{electric field}$</p>
+                    <p>$\mathcal{E} = \text{emf}$</p>
+                    <p>$F = \text{force}$</p>
+                    <p>$I = \text{current}$</p>
+                    <p>$J = \text{current density}$</p>
+                    <p>$L = \text{inductance}$</p>
+                    <p>$l = \text{length}$</p>
+                    <p>$N = \text{number of loops}$</p>
+                    <p>$P = \text{power}$</p>
+                    <p>$q, Q = \text{charge}$</p>
+                    <p>$r = \text{radius, distance}$</p>
+                    <p>$R = \text{resistance}$</p>
+                    <p>$t = \text{time}$</p>
+                    <p>$U = \text{potential energy}$</p>
+                    <p>$v = \text{velocity}$</p>
+                    <p>$V = \text{electric potential}$</p>
+                    <p>$\rho = \text{resistivity}$</p>
+                    <p>$\Phi = \text{flux}$</p>
                 </div>
             </div>
         </div>
+
+        <div id="ref-page-3" class="ref-page-content" style="display: none;">
+            <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                MECHANICS
+            </h2>
+            <div style="display: flex; gap: 20px; font-size: 11px;">
+                <div style="flex: 1;">
+                    <p>$v_{x}=v_{x0}+a_{x}t$</p>
+                    <p>$x=x_{0}+v_{x0}t+\frac{1}{2}a_{x}t^{2}$</p>
+                    <p>$v_{x}^{2}=v_{x0}^{2}+2a_{x}(x-x_{0})$</p>
+                    <p>$\vec{a}_{sys}=\frac{\sum\vec{F}}{m_{sys}}=\frac{\vec{F}_{net}}{m_{sys}}$</p>
+                    <p>$|\vec{F}_{f}|\le\mu|\vec{F}_{N}|$</p>
+                    <p>$a_{c}=\frac{v^{2}}{r}=r\omega^{2}$</p>
+                    <p>$\vec{p}=m\vec{v}$</p>
+                    <p>$\vec{F}_{net}=\frac{d\vec{p}}{dt}$</p>
+                    <p>$\vec{J}=\int_{t_{1}}^{t_{2}}\vec{F}_{net}(t)dt=\Delta\vec{p}$</p>
+                    <p>$\vec{v}_{cm}=\frac{\sum m_{i}\vec{v}_{i}}{\sum m_{i}}$</p>
+                    <p>$K=\frac{1}{2}mv^{2}$</p>
+                    <p>$W=\int_{a}^{b}\vec{F}\cdot d\vec{r}$</p>
+                    <p>$\Delta E=W=\sum F_{||,i}d_{i}$</p>
+                    <p>$P_{avg}=\frac{W}{\Delta t}=\frac{\Delta E}{\Delta t}$</p>
+                    <p>$P_{inst}=\frac{dW}{dt}$</p>
+                    <p>$\Delta U_{g}=mg\Delta y$</p>
+                </div>
+                <div style="flex: 1;">
+                    <p>$\omega=\omega_{0}+\alpha t$</p>
+                    <p>$\theta=\theta_{0}+\omega_{0}t+\frac{1}{2}\alpha t^{2}$</p>
+                    <p>$\omega^{2}=\omega_{0}^{2}+2\alpha(\theta-\theta_{0})$</p>
+                    <p>$\vec{\tau}=\vec{r}\times\vec{F}$</p>
+                    <p>$\alpha_{sys}=\frac{\sum\vec{\tau}}{I_{sys}}=\frac{\vec{\tau}_{net}}{I_{sys}}$</p>
+                    <p>$I=\int r^{2}dm = \sum m_i r_i^2$</p>
+                    <p>$x=x_{max}\cos(\omega t+\phi)$</p>
+                    <p>$T=\frac{2\pi}{\omega}=\frac{1}{f}$</p>
+                    <p>$T_{s}=2\pi\sqrt{\frac{m}{k}}$</p>
+                    <p>$T_{p}=2\pi\sqrt{\frac{l}{g}}$</p>
+                    <p>$|\vec{F}_{g}|=G\frac{m_{1}m_{2}}{r^{2}}$</p>
+                    <p>$U_{G}=-G\frac{m_{1}m_{2}}{r}$</p>
+                </div>
+                <div style="flex: 1; border-left: 1px solid #eee; padding-left: 10px;">
+                    <p><strong>Variables:</strong></p>
+                    <p>$a = \text{acceleration}$</p>
+                    <p>$F = \text{force}$</p>
+                    <p>$f = \text{frequency}$</p>
+                    <p>$I = \text{rotational inertia}$</p>
+                    <p>$J = \text{impulse}$</p>
+                    <p>$K = \text{kinetic energy}$</p>
+                    <p>$k = \text{spring constant}$</p>
+                    <p>$L = \text{angular momentum}$</p>
+                    <p>$m = \text{mass}$</p>
+                    <p>$p = \text{momentum}$</p>
+                    <p>$P = \text{power}$</p>
+                    <p>$r = \text{radius, distance}$</p>
+                    <p>$t = \text{time}$</p>
+                    <p>$T = \text{period}$</p>
+                    <p>$U = \text{potential energy}$</p>
+                    <p>$v = \text{velocity}$</p>
+                    <p>$W = \text{work}$</p>
+                    <p>$x = \text{position}$</p>
+                    <p>$\alpha = \text{angular accel.}$</p>
+                    <p>$\theta = \text{angular position}$</p>
+                    <p>$\tau = \text{torque}$</p>
+                    <p>$\omega = \text{angular speed}$</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="ref-page-4" class="ref-page-content" style="display: none;">
+            <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                GEOMETRY, TRIGONOMETRY, AND CALCULUS
+            </h2>
+            <div style="display: flex; gap: 20px; font-size: 11px;">
+                <div style="flex: 1;">
+                    <h3 style="font-size: 12px; border-bottom: 1px solid #ccc;">GEOMETRY</h3>
+                    <p><strong>Rectangle:</strong> $A=bh$</p>
+                    <p><strong>Triangle:</strong> $A=\frac{1}{2}bh$</p>
+                    <p><strong>Circle:</strong> $A=\pi r^{2}$, $C=2\pi r$</p>
+                    <p><strong>Rectangular Solid:</strong> $V=lwh$</p>
+                    <p><strong>Cylinder:</strong> $V=\pi r^{2}l$, $S=2\pi rl+2\pi r^{2}$</p>
+                    <p><strong>Sphere:</strong> $V=\frac{4}{3}\pi r^{3}$, $S=4\pi r^{2}$</p>
+                    
+                    <h3 style="font-size: 12px; border-bottom: 1px solid #ccc; margin-top: 15px;">VECTORS</h3>
+                    <p>$\vec{A}\cdot\vec{B}=AB\cos\theta$</p>
+                    <p>$|\vec{A}\times\vec{B}|=AB\sin\theta$</p>
+                </div>
+                <div style="flex: 1;">
+                    <h3 style="font-size: 12px; border-bottom: 1px solid #ccc;">CALCULUS</h3>
+                    <p>$\frac{d}{dx}(x^{n})=nx^{n-1}$</p>
+                    <p>$\frac{d}{dx}(e^{ax})=ae^{ax}$</p>
+                    <p>$\frac{d}{dx}(\ln ax)=\frac{1}{x}$</p>
+                    <p>$\frac{d}{dx}[\sin(ax)]=a\cos(ax)$</p>
+                    <p>$\frac{d}{dx}[\cos(ax)]=-a\sin(ax)$</p>
+                    <p>$\int x^{n}dx=\frac{1}{n+1}x^{n+1}$</p>
+                    <p>$\int e^{ax}dx=\frac{1}{a}e^{ax}$</p>
+                    <p>$\int\frac{dx}{x+a}=\ln|x+a|$</p>
+                    <p>$\int\cos(ax)dx=\frac{1}{a}\sin(ax)$</p>
+                    <p>$\int\sin(ax)dx=-\frac{1}{a}\cos(ax)$</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
     </div> 
     
