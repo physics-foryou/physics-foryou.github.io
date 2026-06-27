@@ -966,18 +966,14 @@
                         <tr>
                             <td>
                                 hertz, $\text{Hz}$<br>
-                                newton, $\text{N}$<br>
+                                kilogram, $\text{kg}$<br>
+                                meter, $\text{m}$
                             </td>
                             <td>
+                                newton, $\text{N}$<br>
                                 joule, $\text{J}$<br>
                                 second, $\text{s}$<br>
-                            </td>
-                            <td>
-                                kilogram, $\text{kg}$<br>
-                                watt, $\text{W}$<br>
-                            </td>
-                            <td>
-                                meter, $\text{m}$<br>
+                                watt, $\text{W}$
                             </td>
                         </tr>
                     </table>
@@ -1022,6 +1018,78 @@
                         • Air resistance is assumed to be negligible unless otherwise stated.<br>
                         • Springs and strings are assumed to be ideal unless otherwise stated.
                     </div>
+
+                    <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">GEOMETRY AND TRIGONOMETRY</div>
+                    <table class="ref-table">
+                        <tr>
+                            <td style="width: 33.33%;">
+                                <strong>Rectangle</strong><br>$A = bh$<br><br>
+                                <strong>Triangle</strong><br>$A = \frac{1}{2}bh$
+                            </td>
+                            <td style="width: 33.33%;">
+                                <strong>Circle</strong><br>$A = \pi r^2$<br>$C = 2\pi r$<br>$s = r\theta$
+                            </td>
+                            <td style="width: 33.33%;">
+                                <strong>Rectangular solid</strong><br>$V = \ell wh$<br><br>
+                                <strong>Cylinder</strong><br>$V = \pi r^2 \ell$<br>$S = 2\pi r \ell + 2\pi r^2$
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <strong>Sphere</strong><br>$V = \frac{4}{3}\pi r^3$<br>$S = 4\pi r^2$
+                            </td>
+                            <td>
+                                <strong>Right triangle</strong><br>
+                                $a^2 + b^2 = c^2$<br>
+                                $\sin\theta = \frac{a}{c}$<br>
+                                $\cos\theta = \frac{b}{c}$<br>
+                                $\tan\theta = \frac{a}{b}$
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">VECTORS, CALCULUS, AND IDENTITIES</div>
+                    <table class="ref-table">
+                        <tr>
+                            <th style="width: 33.33%;">VECTORS</th>
+                            <th style="width: 33.33%;">CALCULUS</th>
+                            <th style="width: 33.33%;">IDENTITIES</th>
+                        </tr>
+                        <tr>
+                            <td style="line-height: 1.8;">
+                                $\vec{A}\cdot\vec{B}=AB \cos \theta$<br><br>
+                                $|\vec{A}\times\vec{B}|=AB \sin \theta$<br><br>
+                                $\vec{r} = x\hat{i}+y\hat{j}+z\hat{k}$<br><br>
+                                $\vec{C}=\vec{A}+\vec{B}$<br><br>
+                                $\vec{C}=(A_{x}+B_{x})\hat{i}+(A_{y}+B_{y})\hat{j}$
+                            </td>
+                            <td style="line-height: 1.7;">
+                                $\frac{df}{dx}=\frac{df}{du}\frac{du}{dx}$<br><br>
+                                $\frac{d}{dx}(x^{n})=nx^{n-1}$<br><br>
+                                $\frac{d}{dx}(e^{ax})=ae^{ax}$<br><br>
+                                $\frac{d}{dx}(\ln ax)=\frac{1}{x}$<br><br>
+                                $\frac{d}{dx}[\sin(ax)]=a \cos(ax)$<br><br>
+                                $\frac{d}{dx}[\cos(ax)]=-a \sin(ax)$
+                            </td>
+                            <td style="line-height: 1.8;">
+                                $\log(a\cdot b^{x})=\log a+x \log b$<br><br>
+                                $\sin^{2}\theta+\cos^{2}\theta=1$<br><br>
+                                $\sin(2\theta)=2 \sin \theta \cos \theta$<br><br>
+                                $\frac{\sin \theta}{\cos \theta}=\tan \theta$
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="line-height: 1.7;">
+                                $\int x^{n}dx=\frac{1}{n+1}x^{n+1},n\ne-1$<br><br>
+                                $\int e^{ax}dx=\frac{1}{a}e^{ax}$<br><br>
+                                $\int\frac{dx}{x+a}=\ln|x+a|$<br><br>
+                                $\int \cos(ax)dx=\frac{1}{a}\sin(ax)$<br><br>
+                                $\int \sin(ax)dx=-\frac{1}{a}\cos(ax)$
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
                 </div>
 
                 <div id="ref-page-6" class="ref-page-content">
@@ -1031,39 +1099,100 @@
                     
                     <div class="official-two-col-container">
                         <div class="equations-column">
-                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 12px;">Kinematics & Dynamics</div>
-                            $v_x = v_{x0} + a_x t$<br>
-                            $x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$<br>
-                            $v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$<br>
-                            $\Delta x = \int v_x(t)dt$<br>
-                            $\Delta v_x = \int a_x(t)dt$<br>
-                            $\vec{x}_{\text{cm}} = \frac{\sum m_i \vec{x}_i}{\sum m_i}$<br>
-                            $\vec{r}_{\text{cm}} = \frac{\int \vec{r} dm}{\int dm}$<br>
-                            <br>
-                            <em>(Add remaining Mechanics equations here...)</em>
+                            $v_{x}=v_{x0}+a_{x}t$<br>
+                            $x=x_{0}+v_{x0}t+\frac{1}{2}a_{x}t^{2}$<br>
+                            $v_{x}^{2}=v_{x0}^{2}+2a_{x}(x-x_{0})$<br>
+                            $\Delta x=\int v_{x}(t)dt$<br>
+                            $\Delta v_{x}=\int a_{x}(t)dt$<br><br>
+                            
+                            $\vec{x}_{cm}=\frac{\sum m_{i}\vec{x}_{i}}{\sum m_{i}}$<br>
+                            $\vec{r}_{cm}=\frac{\int\vec{r}dm}{\int dm}$<br>
+                            $\lambda=\frac{dm}{d\ell}$<br><br>
+                            
+                            $\vec{a}_{sys}=\frac{\sum\vec{F}}{m_{sys}}=\frac{\vec{F}_{net}}{m_{sys}}$<br>
+                            $|\vec{F}_{g}|=G\frac{m_{1}m_{2}}{r^{2}}$<br>
+                            $|\vec{F}_{f}|\le \mu|\vec{F}_{N}|$<br>
+                            $\vec{F}_{s}=-k\Delta\vec{x}$<br>
+                            $a_{c}=\frac{v^{2}}{r}=r\omega^{2}$<br><br>
+                            
+                            $K=\frac{1}{2}mv^{2}$<br>
+                            $W=\int_{a}^{b}\vec{F}\cdot d\vec{r}$<br>
+                            $\Delta K=\sum W_{i}=\sum F_{\parallel,i}d_{i}$<br><br>
+                            
+                            $\Delta U=-\int_{a}^{b}\vec{F}_{cf}(r)\cdot d\vec{r}$<br>
+                            $F_{x}=-\frac{dU(x)}{dx}$<br>
+                            $U_{s}=\frac{1}{2}k(\Delta x)^{2}$<br>
+                            $U_{G}=-G\frac{m_{1}m_{2}}{r}$<br>
+                            $\Delta U_{g}=mg\Delta y$
                         </div>
 
                         <div class="equations-column">
-                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 12px;">Rotation & Oscillations</div>
-                            $\omega = \frac{d\theta}{dt}$<br>
-                            $\alpha = \frac{d\omega}{dt}$<br>
-                            $\omega = \omega_0 + \alpha t$<br>
-                            $\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$<br>
-                            $\omega^2 = \omega_0^2 + 2\alpha(\theta - \theta_0)$<br>
-                            <br>
-                            <em>(Add remaining Mechanics equations here...)</em>
+                            $\omega=\frac{d\theta}{dt}$<br>
+                            $\alpha=\frac{d\omega}{dt}$<br>
+                            $\omega=\omega_{0}+\alpha t$<br>
+                            $\theta=\theta_{0}+\omega_{0}t+\frac{1}{2}\alpha t^{2}$<br>
+                            $\omega^{2}=\omega_{0}^{2}+2\alpha(\theta-\theta_{0})$<br>
+                            $v=r\omega$<br>
+                            $a_{T}=r\alpha$<br><br>
+                            
+                            $\vec{\tau}=\vec{r}\times\vec{F}$<br>
+                            $I_{tot}=\sum I_{i}=\sum m_{i}{r_{i}}^{2}$<br>
+                            $I=\int r^{2}dm$<br>
+                            $I^{\prime}=I_{cm}+Md^{2}$<br>
+                            $\alpha_{sys}=\frac{\Sigma\tau}{I_{sys}}=\frac{\tau_{net}}{I_{sys}}$<br><br>
+                            
+                            $K_{rot}=\frac{1}{2}I\omega^{2}$<br>
+                            $W=\int\tau\cdot d\theta$<br>
+                            $\vec{L}=\vec{r}\times\vec{p}=I\vec{\omega}$<br>
+                            $\Delta L=\int\tau dt$<br>
+                            $\Delta x_{cm}=r\Delta\theta$<br><br>
+                            
+                            $P_{avg}=\frac{W}{\Delta t}=\frac{\Delta E}{\Delta t}$<br>
+                            $P_{inst}=\frac{dW}{dt}$<br><br>
+                            
+                            $\vec{p}=m\vec{v}$<br>
+                            $\vec{F}_{net}=\frac{d\vec{p}}{dt}$<br>
+                            $\vec{J}=\int_{t_{1}}^{t_{2}}\vec{F}_{net}(t)dt=\Delta\vec{p}$<br>
+                            $\vec{v}_{cm}=\frac{\sum\vec{p}_{i}}{\sum m_{i}}=\frac{\sum m_{i}\vec{v}_{i}}{\sum m_{i}}$<br><br>
+                            
+                            $T=\frac{2\pi}{\omega}=\frac{1}{f}$<br>
+                            $T_{s}=2\pi\sqrt{\frac{m}{k}}$<br>
+                            $T_{p}=2\pi\sqrt{\frac{\ell}{g}}$<br>
+                            $T_{phys}=2\pi\sqrt{\frac{I}{mgd}}$<br>
+                            $x=x_{max}\cos(\omega t+\phi)$
                         </div>
 
                         <div class="symbols-right-pane">
                             <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">symbols</div>
                             $a$ = acceleration<br>
-                            $d$ = distance<br>
+                            $d$ = distance or separation<br>
                             $E$ = energy<br>
                             $f$ = frequency<br>
                             $F$ = force<br>
                             $I$ = rotational inertia<br>
-                            <br>
-                            <em>(Add remaining Mechanics symbols here...)</em>
+                            $J$ = impulse<br>
+                            $k$ = spring constant<br>
+                            $K$ = kinetic energy<br>
+                            $\ell$ = length<br>
+                            $L$ = angular momentum<br>
+                            $m, M$ = mass<br>
+                            $p$ = momentum<br>
+                            $P$ = power<br>
+                            $r$ = radius, distance, or position<br>
+                            $t$ = time<br>
+                            $T$ = period<br>
+                            $U$ = potential energy<br>
+                            $v$ = velocity or speed<br>
+                            $W$ = work<br>
+                            $x$ = position or distance<br>
+                            $y$ = vertical position<br>
+                            $\alpha$ = angular acceleration<br>
+                            $\theta$ = angle or angular position<br>
+                            $\lambda$ = linear mass density<br>
+                            $\mu$ = coefficient of friction<br>
+                            $\tau$ = torque<br>
+                            $\phi$ = phase angle<br>
+                            $\omega$ = angular frequency or angular speed
                         </div>
                     </div>
                 </div>
