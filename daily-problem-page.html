@@ -354,7 +354,6 @@
                         <tr>
                             <td>
                                 hertz, $\text{Hz}$<br>
-                                joule, $\text{J}$<br>
                                 kilogram, $\text{kg}$<br>
                                 meter, $\text{m}$
                             </td>
@@ -718,6 +717,35 @@
                         • The direction of current is the direction in which positive charges would drift.<br>
                         • All batteries, wires, and meters are assumed to be ideal unless otherwise stated.
                     </div>
+
+                    <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">GEOMETRY AND TRIGONOMETRY</div>
+                    <table class="ref-table">
+                        <tr>
+                            <td style="width: 33.33%;">
+                                <strong>Rectangle</strong><br>$A = bh$<br><br>
+                                <strong>Triangle</strong><br>$A = \frac{1}{2}bh$
+                            </td>
+                            <td style="width: 33.33%;">
+                                <strong>Circle</strong><br>$A = \pi r^2$<br>$C = 2\pi r$<br>$s = r\theta$
+                            </td>
+                            <td style="width: 33.33%;">
+                                <strong>Rectangular solid</strong><br>$V = \ell wh$<br><br>
+                                <strong>Cylinder</strong><br>$V = \pi r^2 \ell$<br>$S = 2\pi r \ell + 2\pi r^2$
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <strong>Sphere</strong><br>$V = \frac{4}{3}\pi r^3$<br>$S = 4\pi r^2$
+                            </td>
+                            <td>
+                                <strong>Right triangle</strong><br>
+                                $a^2 + b^2 = c^2$<br>
+                                $\sin\theta = \frac{a}{c}$<br>
+                                $\cos\theta = \frac{b}{c}$<br>
+                                $\tan\theta = \frac{a}{b}$
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
                 <div id="ref-page-4" class="ref-page-content">
@@ -847,15 +875,6 @@
                             $E = mc^2$<br>
                             $N = N_0 e^{-\lambda t}$<br>
                             $\lambda = \frac{\ln 2}{t_{1/2}}$<br>
-                            
-                            <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; text-transform: uppercase; font-size: 12px;">Geometry and Trigonometry</div>
-                            <strong>Rectangle</strong> $A = bh$<br>
-                            <strong>Triangle</strong> $A = \frac{1}{2}bh$<br>
-                            <strong>Circle</strong> $A = \pi r^2$, $C = 2\pi r$, $s = r\theta$<br>
-                            <strong>Rectangular solid</strong> $V = \ell wh$<br>
-                            <strong>Cylinder</strong> $V = \pi r^2 \ell$, $S = 2\pi r \ell + 2\pi r^2$<br>
-                            <strong>Sphere</strong> $V = \frac{4}{3}\pi r^3$, $S = 4\pi r^2$<br>
-                            <strong>Right triangle</strong> $a^2 + b^2 = c^2$, $\sin\theta = \frac{a}{c}$, $\cos\theta = \frac{b}{c}$, $\tan\theta = \frac{a}{b}$
                         </div>
 
                         <div class="symbols-right-pane">
@@ -1309,19 +1328,16 @@
             const urlParams = new URLSearchParams(window.location.search);
             subject = urlParams.get('subject') || 'ap1';
 
-            // Always show the reference sheet tab no matter what course is selected
             document.getElementById('ref-tab-trigger').style.display = 'block';
 
-            // Automatically pre-select the correct course sheet in your reference dropdown drawer
             const refSelect = document.getElementById('course-ref-select');
             if (refSelect) {
-                // Map query string names ('mech', 'em') to match your option values ('apc-mech', 'apc-em')
                 let selectVal = subject;
                 if (subject === 'mech') selectVal = 'apc-mech';
                 if (subject === 'em') selectVal = 'apc-em';
 
                 refSelect.value = selectVal;
-                switchCourseRef(); // Fire the function to update the visible reference layout
+                switchCourseRef();
             }
 
             const configs = {
@@ -1488,12 +1504,9 @@
             if (!targetPage) return;
             const container = targetPage.closest('.course-ref-container');
             
-            // Hide all pages in THIS container
             container.querySelectorAll('.ref-page-content').forEach(p => p.classList.remove('active'));
-            // Show target page
             targetPage.classList.add('active');
 
-            // Update button styling for THIS container
             container.querySelectorAll('.toggle-page-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(`btn-page-${pageNum}`).classList.add('active');
         }
@@ -1501,12 +1514,10 @@
         function switchCourseRef() {
             const selectedCourse = document.getElementById('course-ref-select').value;
 
-            // Hide every course layout view
             document.querySelectorAll('.course-ref-container').forEach(container => {
                 container.style.display = 'none';
             });
 
-            // Unhide the chosen course wrapper
             const activeContainer = document.getElementById(`ref-${selectedCourse}`);
             if (activeContainer) {
                 activeContainer.style.display = 'flex';
