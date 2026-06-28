@@ -26,7 +26,6 @@
     <script src="daily-pool/ap2.js"></script>
     <script src="daily-pool/mech.js"></script>
     <script src="daily-pool/em.js"></script>
-    <script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=YOUR_API_KEY_HERE"></script>
 
     <style>
         :root {
@@ -45,7 +44,6 @@
             color: var(--text-main);
         }
         .workspace { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; position: relative; }
-        .workspace hr { border: none; border-top: 1px solid var(--border-color); margin-top: 25px; }
         .panel { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
         .panel-header { background-color: var(--header-bg); padding: 12px 16px; font-size: 14px; font-weight: bold; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; color: #ffffff; }
         .panel-content { padding: 24px; }
@@ -119,22 +117,13 @@
         #explanation-box { background: rgba(0,0,0,0.02); border-left: 4px solid var(--header-bg); border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 16px; margin-top: 25px; display: none; font-size: 13px; line-height: 1.6; border-radius: 0 4px 4px 0; }
 
         .meta-line { margin-bottom: 8px; }
-        .meta-line.spaced { margin-top: 12px; margin-bottom: 12px; }
-        .meta-line.footer { border-top: 1px dashed var(--border-color); padding-top: 8px; font-size: 11px; }
         .meta-label { color: var(--text-main); font-weight: bold; opacity: 0.85; }
-        .meta-label.block { display: block; margin-bottom: 4px; }
         .meta-val { color: var(--text-main); }
-        .text-dim { color: var(--text-dim); }
-        .m-0 { margin: 0; }
 
         .difficulty-tag { display: inline-block; padding: 2px 6px; font-size: 11px; font-weight: bold; border-radius: 3px; margin-left: 5px; text-transform: uppercase;}
         .diff-easy { background-color: #def7ec; color: #1e4620; border: 1px solid #31c48d; }
         .diff-medium { background-color: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
         .diff-hard { background-color: #fde8e8; color: #7a1e1e; border: 1px solid #f98080; }
-
-        #subject-title { margin-top: 0; color: var(--text-main); margin-bottom: 4px; }
-        #midnight-countdown { font-size: 12px; color: var(--text-dim); margin-bottom: 18px; display: none; }
-        #question-text { font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
 
         /* --- Reference Sheet Drawer Styling --- */
         .ref-sheet-tab {
@@ -160,7 +149,9 @@
             transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .ref-sheet-tab.drawer-open { right: 680px; }
+        .ref-sheet-tab.drawer-open {
+            right: 680px; 
+        }
 
         .ref-drawer {
             position: fixed;
@@ -216,7 +207,11 @@
             border-color: rgba(255, 255, 255, 0.35);
         }
 
-        #course-ref-select option { background-color: var(--header-bg); color: #ffffff; font-weight: normal; }
+        #course-ref-select option {
+            background-color: var(--header-bg);
+            color: #ffffff;
+            font-weight: normal;
+        }
 
         .drawer-page-toggle {
             display: flex;
@@ -240,69 +235,73 @@
             transition: all 0.2s;
         }
 
-        .toggle-page-btn:hover { background-color: rgba(0, 0, 0, 0.05); }
-        .toggle-page-btn.active { background-color: var(--header-bg); color: #ffffff; border-color: var(--header-bg); }
-        .drawer-scroll-body { padding: 25px; overflow-y: auto; flex-grow: 1; }
-        .ref-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 13px; }
-        .ref-table th, .ref-table td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; vertical-align: top; color: var(--text-main); }
-        .ref-table th { background-color: rgba(0, 0, 0, 0.03); font-weight: bold; }
-
-        .official-two-col-container { display: grid; grid-template-columns: max-content max-content 1fr; gap: 25px; margin-bottom: 25px; }
-        .equations-column { font-size: 14px; line-height: 2.4; }
-        .symbols-right-pane { font-size: 12px; line-height: 1.7; background-color: rgba(0,0,0,0.01); border: 1px solid var(--border-color); padding: 14px; border-radius: 4px; height: fit-content; }
-        .ref-page-content { display: none; }
-        .ref-page-content.active { display: block; }
-
-        /* --- Refactored Utility & Structural Classes --- */
-        .flex-col-grow { display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; }
-        .ref-page-title { font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold; }
-        .ref-section-title { font-weight: bold; margin-bottom: 8px; font-size: 12px; }
-        .ref-section-title.bordered { border-top: 1px solid var(--border-color); padding-top: 15px; }
-        .ref-section-title.spaced { margin-top: 15px; }
-        .ref-section-title.uppercase { text-transform: uppercase; font-size: 11px; }
-        .ref-sub-title { font-weight: bold; margin-bottom: 8px; margin-top: 0px; text-transform: uppercase; font-size: 12px; }
-        .ref-sub-title.spaced { margin-top: 15px; }
-        .exam-conventions-box { font-size: 12px; line-height: 1.6; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color); }
-        .col-50 { width: 50%; }
-        .col-33 { width: 33.33%; }
-        .text-center { text-align: center; }
-        .flex-1 { flex: 1; }
-        .flex-start-gap { display: flex; align-items: flex-start; gap: 20px; }
-        .flex-wrap-gap { display: flex; flex-wrap: wrap; gap: 20px; }
-        .min-w-250 { min-width: 250px; }
-        .min-w-200 { min-width: 200px; }
-        .symbols-right-pane-styled { background-color: #f9f9f9; padding: 10px; border-radius: 5px; }
-        .symbols-title { border-bottom: 1px solid #ccc; }
-        .line-height-18 { line-height: 1.8; }
-        .line-height-17 { line-height: 1.7; }
-        .desmos-drawer {
-            position: fixed; top: 0; left: -500px; width: 500px; height: 100vh;
-            background-color: var(--panel-bg); box-shadow: 2px 0 10px var(--border-color);
-            transition: left 0.3s ease-in-out; z-index: 1000; display: flex;
+        .toggle-page-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
         }
-        .desmos-drawer.open { left: 0; }
-        .desmos-tab {
-            position: absolute; top: 50%; right: -40px; width: 40px; height: 120px;
-            background-color: var(--header-bg); color: #fff; display: flex;
-            align-items: center; justify-content: center; cursor: pointer;
-            border-radius: 0 8px 8px 0; transform: translateY(-50%);
-            box-shadow: 2px 0 5px rgba(0,0,0,0.2); writing-mode: vertical-rl;
-            text-orientation: mixed; font-weight: bold; letter-spacing: 2px; user-select: none;
+
+        .toggle-page-btn.active {
+            background-color: var(--header-bg);
+            color: #ffffff;
+            border-color: var(--header-bg);
         }
-        .desmos-content { width: 100%; height: 100%; padding: 10px; box-sizing: border-box; background: var(--bg-color); }
-        #calculator { width: 100%; height: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); }
-    </style>
-</head>
+
+        .drawer-scroll-body {
+            padding: 25px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 13px;
+        }
+
+        .ref-table th, .ref-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+            color: var(--text-main);
+        }
+
+        .ref-table th {
+            background-color: rgba(0, 0, 0, 0.03);
+            font-weight: bold;
+        }
+
+        .official-two-col-container {
+            display: grid;
+            grid-template-columns: max-content max-content 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .equations-column {
+            font-size: 14px;
+            line-height: 2.4;
+        }
+
+        .symbols-right-pane {
+            font-size: 12px;
+            line-height: 1.7;
+            background-color: rgba(0,0,0,0.01);
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            border-radius: 4px;
+            height: fit-content;
+        }
+
+        .ref-page-content {
+            display: none;
+        }
+        .ref-page-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body class="tex2jax_ignore">
-
-    <div id="desmos-drawer-panel" class="desmos-drawer">
-        <div id="desmos-tab-trigger" class="desmos-tab" onclick="toggleDesmosDrawer()">DESMOS</div>
-        <div class="desmos-content">
-            <div id="calculator"></div>
-        </div>
-    </div>
 
     <button id="ref-tab-trigger" class="ref-sheet-tab" onclick="toggleRefDrawer()">
         Reference Sheet
@@ -318,7 +317,7 @@
             </select>
         </div>
 
-        <div id="ref-ap1" class="course-ref-container flex-col-grow">
+        <div id="ref-ap1" class="course-ref-container" style="display: flex; flex-direction: column; flex-grow: 1; overflow: hidden;">
             <div class="drawer-page-toggle">
                 <button id="btn-page-1" class="toggle-page-btn active" onclick="switchRefPage(1, 'ap1')">Table of Information</button>
                 <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2, 'ap1')">Mechanics & Fluids</button>
@@ -326,13 +325,15 @@
 
             <div class="drawer-scroll-body tex2jax_process">
                 <div id="ref-page-1" class="ref-page-content active">
-                    <h2 class="ref-page-title">ADVANCED PLACEMENT PHYSICS 1 TABLE OF INFORMATION</h2>
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        ADVANCED PLACEMENT PHYSICS 1 TABLE OF INFORMATION
+                    </h2>
 
-                    <div class="ref-section-title">CONSTANTS AND CONVERSION FACTORS</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
                     <table class="ref-table">
                         <tr>
-                            <td class="col-50">Universal gravitational constant,</td>
-                            <td class="col-50">$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2) = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
+                            <td style="width: 50%;">Universal gravitational constant,</td>
+                            <td style="width: 50%;">$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2) = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
                         </tr>
                         <tr>
                             <td>Magnitude of the acceleration due to gravity at Earth’s surface,</td>
@@ -348,7 +349,7 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title">UNIT SYMBOLS</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
                     <table class="ref-table">
                         <tr>
                             <td>
@@ -365,7 +366,7 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title">PREFIXES</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">PREFIXES</div>
                     <table class="ref-table">
                         <tr>
                             <th>Factor</th>
@@ -383,8 +384,8 @@
                         <tr><td>$10^{-12}$</td><td>pico</td><td>p</td></tr>
                     </table>
 
-                    <div class="ref-section-title bordered">VALUES OF TRIGONOMETRIC FUNCTIONS FOR COMMON ANGLES</div>
-                    <table class="ref-table text-center">
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">VALUES OF TRIGONOMETRIC FUNCTIONS FOR COMMON ANGLES</div>
+                    <table class="ref-table" style="text-align: center;">
                         <tr>
                             <th>$\theta$</th><th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th>
                         </tr>
@@ -399,25 +400,25 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title bordered">EXAM CONVENTIONS</div>
-                    <div class="exam-conventions-box">
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">EXAM CONVENTIONS</div>
+                    <div style="font-size: 12px; line-height: 1.6; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color);">
                         • The frame of reference of any problem is assumed to be inertial unless otherwise stated.<br>
                         • Air resistance is assumed to be negligible unless otherwise stated.<br>
                         • Springs and strings are assumed to be ideal unless otherwise stated.<br>
                         • Fluids are assumed to be ideal, and pipes are assumed to be completely filled by fluid, unless otherwise stated.
                     </div>
 
-                    <div class="ref-section-title spaced bordered">GEOMETRY AND TRIGONOMETRY</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">GEOMETRY AND TRIGONOMETRY</div>
                     <table class="ref-table">
                         <tr>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Rectangle</strong><br>$A = bh$<br><br>
                                 <strong>Triangle</strong><br>$A = \frac{1}{2}bh$
                             </td>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Circle</strong><br>$A = \pi r^2$<br>$C = 2\pi r$<br>$s = r\theta$
                             </td>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Rectangular solid</strong><br>$V = \ell wh$<br><br>
                                 <strong>Cylinder</strong><br>$V = \pi r^2 \ell$<br>$S = 2\pi r \ell + 2\pi r^2$
                             </td>
@@ -438,7 +439,9 @@
                 </div>
 
                 <div id="ref-page-2" class="ref-page-content">
-                    <h2 class="ref-page-title">ADVANCED PLACEMENT PHYSICS 1 EQUATIONS</h2>
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        ADVANCED PLACEMENT PHYSICS 1 EQUATIONS
+                    </h2>
 
                     <div class="official-two-col-container">
                         <div class="equations-column">
@@ -508,7 +511,7 @@
                         </div>
 
                         <div class="symbols-right-pane">
-                            <div class="ref-section-title uppercase">symbols</div>
+                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">symbols</div>
                             $a$ = acceleration<br>
                             $A$ = amplitude or area<br>
                             $d$ = distance<br>
@@ -545,7 +548,7 @@
             </div>
         </div>
 
-        <div id="ref-ap2" class="course-ref-container flex-col-grow" style="display: none;">
+        <div id="ref-ap2" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
             <div class="drawer-page-toggle">
                 <button id="btn-page-3" class="toggle-page-btn active" onclick="switchRefPage(3, 'ap2')">Table of Information</button>
                 <button id="btn-page-4" class="toggle-page-btn" onclick="switchRefPage(4, 'ap2')">Equations</button>
@@ -553,13 +556,15 @@
 
             <div class="drawer-scroll-body tex2jax_process">
                 <div id="ref-page-3" class="ref-page-content active">
-                    <h2 class="ref-page-title">ADVANCED PLACEMENT PHYSICS 2 TABLE OF INFORMATION</h2>
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        ADVANCED PLACEMENT PHYSICS 2 TABLE OF INFORMATION
+                    </h2>
 
-                    <div class="ref-section-title">CONSTANTS AND CONVERSION FACTORS</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
                     <table class="ref-table">
                         <tr>
-                            <td class="col-50">Avogadro's number,</td>
-                            <td class="col-50">$N_0 = 6.02 \times 10^{23} \text{ mol}^{-1}$</td>
+                            <td style="width: 50%;">Avogadro's number,</td>
+                            <td style="width: 50%;">$N_0 = 6.02 \times 10^{23} \text{ mol}^{-1}$</td>
                         </tr>
                         <tr>
                             <td>Universal gas constant,</td>
@@ -639,7 +644,7 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title">UNIT SYMBOLS</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
                     <table class="ref-table">
                         <tr>
                             <td>
@@ -669,7 +674,7 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title">PREFIXES</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">PREFIXES</div>
                     <table class="ref-table">
                         <tr>
                             <th>Factor</th>
@@ -687,8 +692,8 @@
                         <tr><td>$10^{-12}$</td><td>pico</td><td>p</td></tr>
                     </table>
 
-                    <div class="ref-section-title bordered">VALUES OF TRIGONOMETRIC FUNCTIONS FOR COMMON ANGLES</div>
-                    <table class="ref-table text-center">
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">VALUES OF TRIGONOMETRIC FUNCTIONS FOR COMMON ANGLES</div>
+                    <table class="ref-table" style="text-align: center;">
                         <tr>
                             <th>$\theta$</th><th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th>
                         </tr>
@@ -703,8 +708,8 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title bordered">EXAM CONVENTIONS</div>
-                    <div class="exam-conventions-box">
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">EXAM CONVENTIONS</div>
+                    <div style="font-size: 12px; line-height: 1.6; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color);">
                         • The frame of reference of any problem is assumed to be inertial unless otherwise stated.<br>
                         • Air resistance is assumed to be negligible unless otherwise stated.<br>
                         • Springs and strings are assumed to be ideal unless otherwise stated.<br>
@@ -713,17 +718,17 @@
                         • All batteries, wires, and meters are assumed to be ideal unless otherwise stated.
                     </div>
 
-                    <div class="ref-section-title spaced bordered">GEOMETRY AND TRIGONOMETRY</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">GEOMETRY AND TRIGONOMETRY</div>
                     <table class="ref-table">
                         <tr>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Rectangle</strong><br>$A = bh$<br><br>
                                 <strong>Triangle</strong><br>$A = \frac{1}{2}bh$
                             </td>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Circle</strong><br>$A = \pi r^2$<br>$C = 2\pi r$<br>$s = r\theta$
                             </td>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Rectangular solid</strong><br>$V = \ell wh$<br><br>
                                 <strong>Cylinder</strong><br>$V = \pi r^2 \ell$<br>$S = 2\pi r \ell + 2\pi r^2$
                             </td>
@@ -744,11 +749,13 @@
                 </div>
 
                 <div id="ref-page-4" class="ref-page-content">
-                    <h2 class="ref-page-title">ADVANCED PLACEMENT PHYSICS 2 EQUATIONS</h2>
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        ADVANCED PLACEMENT PHYSICS 2 EQUATIONS
+                    </h2>
 
-                    <div class="official-two-col-container flex-start-gap">
-                        <div class="equations-column flex-1">
-                            <div class="ref-sub-title">Thermal Physics</div>
+                    <div class="official-two-col-container" style="display: flex; align-items: flex-start; gap: 20px;">
+                        <div class="equations-column" style="flex: 1;">
+                            <div style="font-weight: bold; margin-bottom: 8px; margin-top: 0px; text-transform: uppercase; font-size: 12px;">Thermal Physics</div>
                             $P = \frac{F_{\perp}}{A}$<br>
                             $K_{\text{avg}} = \frac{3}{2} k_B T = \frac{1}{2} m v_{\text{rms}}^2$<br>
                             $\frac{Q}{\Delta t} = \frac{k A \Delta T}{L}$<br>
@@ -758,7 +765,7 @@
                             $\Delta U = Q + W$<br>
                             $Q = mc \Delta T$<br>
 
-                            <div class="ref-sub-title spaced">Waves, Sound, and Optics</div>
+                            <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; text-transform: uppercase; font-size: 12px;">Waves, Sound, and Optics</div>
                             $\lambda = \frac{v}{f}$<br>
                             $n = \frac{c}{v}$<br>
                             $n_1 \sin\theta_1 = n_2 \sin\theta_2$<br>
@@ -775,7 +782,7 @@
                             $y(x) = A \cos\left(2\pi \frac{x}{\lambda}\right)$<br>
                             $|f_{\text{beat}}| = |f_1 - f_2|$
 
-                            <div class="ref-sub-title spaced">Modern Physics</div>
+                            <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; text-transform: uppercase; font-size: 12px;">Modern Physics</div>
                             $E = hf$<br>
                             $\lambda = \frac{h}{p}$<br>
                             $\lambda = \frac{c}{f}$<br>
@@ -788,8 +795,8 @@
                             $\lambda = \frac{\ln 2}{t_{1/2}}$<br>
                         </div>
 
-                        <div class="equations-column flex-1">
-                            <div class="ref-sub-title">Electricity</div>
+                        <div class="equations-column" style="flex: 1;">
+                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 12px;">Electricity</div>
                             $|\vec{F}_E| = \frac{1}{4\pi\epsilon_0} \frac{|q_1 q_2|}{r^2} = k \frac{|q_1 q_2|}{r^2}$<br>
                             $\vec{E} = \frac{\vec{F}_E}{q}$<br>
                             $|\vec{E}| = \frac{1}{4\pi\epsilon_0} \frac{|q|}{r^2} = k \frac{|q|}{r^2}$<br>
@@ -811,7 +818,7 @@
                             $C_{eq,p} = \sum_i C_i$<br>
                             $\tau = R_{eq} C_{eq}$<br>
 
-                            <div class="ref-sub-title spaced">Magnetism</div>
+                            <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; text-transform: uppercase; font-size: 12px;">Magnetism</div>
                             $F_B = qvB \sin\theta$<br>
                             $B = \frac{\mu_0 I}{2\pi r}$<br>
                             $F_B = I \ell B \sin\theta$<br>
@@ -822,8 +829,8 @@
 
                         </div>
 
-                        <div class="symbols-right-pane flex-1 min-w-200 symbols-right-pane-styled">
-                            <div class="ref-section-title uppercase symbols-title">Symbols</div>
+                        <div class="symbols-right-pane" style="flex: 1; min-width: 200px; background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
+                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; border-bottom: 1px solid #ccc;">Symbols</div>
                             $A$ = area or amplitude<br>
                             $a$ = width<br>
                             $B$ = magnetic field<br>
@@ -874,7 +881,7 @@
             </div>
         </div>
 
-        <div id="ref-apc-mech" class="course-ref-container flex-col-grow" style="display: none;">
+        <div id="ref-apc-mech" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
             <div class="drawer-page-toggle">
                 <button id="btn-page-5" class="toggle-page-btn active" onclick="switchRefPage(5, 'apc-mech')">Table of Information</button>
                 <button id="btn-page-6" class="toggle-page-btn" onclick="switchRefPage(6, 'apc-mech')">Equations</button>
@@ -882,13 +889,15 @@
 
             <div class="drawer-scroll-body tex2jax_process">
                 <div id="ref-page-5" class="ref-page-content active">
-                    <h2 class="ref-page-title">ADVANCED PLACEMENT PHYSICS C: MECHANICS TABLE OF INFORMATION</h2>
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        ADVANCED PLACEMENT PHYSICS C: MECHANICS TABLE OF INFORMATION
+                    </h2>
 
-                    <div class="ref-section-title">CONSTANTS AND CONVERSION FACTORS</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
                     <table class="ref-table">
                         <tr>
-                            <td class="col-50">Universal gravitational constant,</td>
-                            <td class="col-50">$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2) = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
+                            <td style="width: 50%;">Universal gravitational constant,</td>
+                            <td style="width: 50%;">$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2) = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
                         </tr>
                         <tr>
                             <td>Magnitude of the acceleration due to gravity at Earth's surface,</td>
@@ -900,7 +909,7 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title">UNIT SYMBOLS</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
                     <table class="ref-table">
                         <tr>
                             <td>
@@ -917,7 +926,7 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title">PREFIXES</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">PREFIXES</div>
                     <table class="ref-table">
                         <tr>
                             <th>Factor</th>
@@ -935,8 +944,8 @@
                         <tr><td>$10^{-12}$</td><td>pico</td><td>p</td></tr>
                     </table>
 
-                    <div class="ref-section-title bordered">VALUES OF TRIGONOMETRIC FUNCTIONS FOR COMMON ANGLES</div>
-                    <table class="ref-table text-center">
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">VALUES OF TRIGONOMETRIC FUNCTIONS FOR COMMON ANGLES</div>
+                    <table class="ref-table" style="text-align: center;">
                         <tr>
                             <th>$\theta$</th><th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th>
                         </tr>
@@ -951,24 +960,24 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title bordered">EXAM CONVENTIONS</div>
-                    <div class="exam-conventions-box">
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">EXAM CONVENTIONS</div>
+                    <div style="font-size: 12px; line-height: 1.6; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color);">
                         • The frame of reference of any problem is assumed to be inertial unless otherwise stated.<br>
                         • Air resistance is assumed to be negligible unless otherwise stated.<br>
                         • Springs and strings are assumed to be ideal unless otherwise stated.
                     </div>
 
-                    <div class="ref-section-title spaced bordered">GEOMETRY AND TRIGONOMETRY</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">GEOMETRY AND TRIGONOMETRY</div>
                     <table class="ref-table">
                         <tr>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Rectangle</strong><br>$A = bh$<br><br>
                                 <strong>Triangle</strong><br>$A = \frac{1}{2}bh$
                             </td>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Circle</strong><br>$A = \pi r^2$<br>$C = 2\pi r$<br>$s = r\theta$
                             </td>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Rectangular solid</strong><br>$V = \ell wh$<br><br>
                                 <strong>Cylinder</strong><br>$V = \pi r^2 \ell$<br>$S = 2\pi r \ell + 2\pi r^2$
                             </td>
@@ -987,22 +996,22 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title spaced bordered">VECTORS, CALCULUS, AND IDENTITIES</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">VECTORS, CALCULUS, AND IDENTITIES</div>
                     <table class="ref-table">
                         <tr>
-                            <th class="col-33">VECTORS</th>
-                            <th class="col-33">CALCULUS</th>
-                            <th class="col-33">IDENTITIES</th>
+                            <th style="width: 33.33%;">VECTORS</th>
+                            <th style="width: 33.33%;">CALCULUS</th>
+                            <th style="width: 33.33%;">IDENTITIES</th>
                         </tr>
                         <tr>
-                            <td class="line-height-18">
+                            <td style="line-height: 1.8;">
                                 $\vec{A}\cdot\vec{B}=AB \cos \theta$<br><br>
                                 $|\vec{A}\times\vec{B}|=AB \sin \theta$<br><br>
                                 $\vec{r} = x\hat{i}+y\hat{j}+z\hat{k}$<br><br>
                                 $\vec{C}=\vec{A}+\vec{B}$<br><br>
                                 $\vec{C}=(A_{x}+B_{x})\hat{i}+(A_{y}+B_{y})\hat{j}$
                             </td>
-                            <td class="line-height-17">
+                            <td style="line-height: 1.7;">
                                 $\frac{df}{dx}=\frac{df}{du}\frac{du}{dx}$<br><br>
                                 $\frac{d}{dx}(x^{n})=nx^{n-1}$<br><br>
                                 $\frac{d}{dx}(e^{ax})=ae^{ax}$<br><br>
@@ -1010,7 +1019,7 @@
                                 $\frac{d}{dx}[\sin(ax)]=a \cos(ax)$<br><br>
                                 $\frac{d}{dx}[\cos(ax)]=-a \sin(ax)$
                             </td>
-                            <td class="line-height-18">
+                            <td style="line-height: 1.8;">
                                 $\log(a\cdot b^{x})=\log a+x \log b$<br><br>
                                 $\sin^{2}\theta+\cos^{2}\theta=1$<br><br>
                                 $\sin(2\theta)=2 \sin \theta \cos \theta$<br><br>
@@ -1019,7 +1028,7 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td class="line-height-17">
+                            <td style="line-height: 1.7;">
                                 $\int x^{n}dx=\frac{1}{n+1}x^{n+1},n\ne-1$<br><br>
                                 $\int e^{ax}dx=\frac{1}{a}e^{ax}$<br><br>
                                 $\int\frac{dx}{x+a}=\ln|x+a|$<br><br>
@@ -1032,7 +1041,9 @@
                 </div>
 
                 <div id="ref-page-6" class="ref-page-content">
-                    <h2 class="ref-page-title">ADVANCED PLACEMENT PHYSICS C: MECHANICS EQUATIONS</h2>
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        ADVANCED PLACEMENT PHYSICS C: MECHANICS EQUATIONS
+                    </h2>
 
                     <div class="official-two-col-container">
                         <div class="equations-column">
@@ -1100,7 +1111,7 @@
                         </div>
 
                         <div class="symbols-right-pane">
-                            <div class="ref-section-title uppercase">symbols</div>
+                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">symbols</div>
                             $a$ = acceleration<br>
                             $d$ = distance or separation<br>
                             $E$ = energy<br>
@@ -1136,7 +1147,7 @@
             </div>
         </div>
 
-        <div id="ref-apc-em" class="course-ref-container flex-col-grow" style="display: none;">
+        <div id="ref-apc-em" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
             <div class="drawer-page-toggle">
                 <button id="btn-page-7" class="toggle-page-btn active" onclick="switchRefPage(7, 'apc-em')">Table of Information</button>
                 <button id="btn-page-8" class="toggle-page-btn" onclick="switchRefPage(8, 'apc-em')">Equations</button>
@@ -1144,13 +1155,15 @@
 
             <div class="drawer-scroll-body tex2jax_process">
                 <div id="ref-page-7" class="ref-page-content active">
-                    <h2 class="ref-page-title">ADVANCED PLACEMENT PHYSICS C: ELECTRICITY AND MAGNETISM TABLE OF INFORMATION</h2>
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        ADVANCED PLACEMENT PHYSICS C: ELECTRICITY AND MAGNETISM TABLE OF INFORMATION
+                    </h2>
 
-                    <div class="ref-section-title">CONSTANTS AND CONVERSION FACTORS</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
                     <table class="ref-table">
                         <tr>
-                            <td class="col-50">Coulomb constant,</td>
-                            <td class="col-50">$k = \frac{1}{4\pi\epsilon_0} = 9.0 \times 10^9 \text{ N}\cdot\text{m}^2/\text{C}^2$</td>
+                            <td style="width: 50%;">Coulomb constant,</td>
+                            <td style="width: 50%;">$k = \frac{1}{4\pi\epsilon_0} = 9.0 \times 10^9 \text{ N}\cdot\text{m}^2/\text{C}^2$</td>
                         </tr>
                         <tr>
                             <td>Vacuum permittivity,</td>
@@ -1202,7 +1215,7 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title">UNIT SYMBOLS</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
                     <table class="ref-table">
                         <tr>
                             <td>
@@ -1233,7 +1246,7 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title">PREFIXES</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">PREFIXES</div>
                     <table class="ref-table">
                         <tr>
                             <th>Factor</th>
@@ -1251,8 +1264,8 @@
                         <tr><td>$10^{-12}$</td><td>pico</td><td>p</td></tr>
                     </table>
 
-                    <div class="ref-section-title bordered">VALUES OF TRIGONOMETRIC FUNCTIONS FOR COMMON ANGLES</div>
-                    <table class="ref-table text-center">
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">VALUES OF TRIGONOMETRIC FUNCTIONS FOR COMMON ANGLES</div>
+                    <table class="ref-table" style="text-align: center;">
                         <tr>
                             <th>$\theta$</th><th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th>
                         </tr>
@@ -1267,8 +1280,8 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title bordered">EXAM CONVENTIONS</div>
-                    <div class="exam-conventions-box">
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">EXAM CONVENTIONS</div>
+                    <div style="font-size: 12px; line-height: 1.6; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color);">
                         • The frame of reference of any problem is assumed to be inertial unless otherwise stated.<br>
                         • Air resistance is assumed to be negligible unless otherwise stated.<br>
                         • Springs and strings are assumed to be ideal unless otherwise stated.<br>
@@ -1276,17 +1289,17 @@
                         • The direction of current is the direction in which positive charges would drift.<br>
                         • All batteries, wires, and meters are assumed to be ideal unless otherwise stated.
                     </div>
-                    <div class="ref-section-title spaced bordered">GEOMETRY AND TRIGONOMETRY</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">GEOMETRY AND TRIGONOMETRY</div>
                     <table class="ref-table">
                         <tr>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Rectangle</strong><br>$A = bh$<br><br>
                                 <strong>Triangle</strong><br>$A = \frac{1}{2}bh$
                             </td>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Circle</strong><br>$A = \pi r^2$<br>$C = 2\pi r$<br>$s = r\theta$
                             </td>
-                            <td class="col-33">
+                            <td style="width: 33.33%;">
                                 <strong>Rectangular solid</strong><br>$V = \ell wh$<br><br>
                                 <strong>Cylinder</strong><br>$V = \pi r^2 \ell$<br>$S = 2\pi r \ell + 2\pi r^2$
                             </td>
@@ -1305,22 +1318,22 @@
                         </tr>
                     </table>
 
-                    <div class="ref-section-title spaced bordered">VECTORS, CALCULUS, AND IDENTITIES</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">VECTORS, CALCULUS, AND IDENTITIES</div>
                     <table class="ref-table">
                         <tr>
-                            <th class="col-33">VECTORS</th>
-                            <th class="col-33">CALCULUS</th>
-                            <th class="col-33">IDENTITIES</th>
+                            <th style="width: 33.33%;">VECTORS</th>
+                            <th style="width: 33.33%;">CALCULUS</th>
+                            <th style="width: 33.33%;">IDENTITIES</th>
                         </tr>
                         <tr>
-                            <td class="line-height-18">
+                            <td style="line-height: 1.8;">
                                 $\vec{A}\cdot\vec{B}=AB \cos \theta$<br><br>
                                 $|\vec{A}\times\vec{B}|=AB \sin \theta$<br><br>
                                 $\vec{r} = x\hat{i}+y\hat{j}+z\hat{k}$<br><br>
                                 $\vec{C}=\vec{A}+\vec{B}$<br><br>
                                 $\vec{C}=(A_{x}+B_{x})\hat{i}+(A_{y}+B_{y})\hat{j}$
                             </td>
-                            <td class="line-height-17">
+                            <td style="line-height: 1.7;">
                                 $\frac{df}{dx}=\frac{df}{du}\frac{du}{dx}$<br><br>
                                 $\frac{d}{dx}(x^{n})=nx^{n-1}$<br><br>
                                 $\frac{d}{dx}(e^{ax})=ae^{ax}$<br><br>
@@ -1328,7 +1341,7 @@
                                 $\frac{d}{dx}[\sin(ax)]=a \cos(ax)$<br><br>
                                 $\frac{d}{dx}[\cos(ax)]=-a \sin(ax)$
                             </td>
-                            <td class="line-height-18">
+                            <td style="line-height: 1.8;">
                                 $\log(a\cdot b^{x})=\log a+x \log b$<br><br>
                                 $\sin^{2}\theta+\cos^{2}\theta=1$<br><br>
                                 $\sin(2\theta)=2 \sin \theta \cos \theta$<br><br>
@@ -1337,7 +1350,7 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td class="line-height-17">
+                            <td style="line-height: 1.7;">
                                 $\int x^{n}dx=\frac{1}{n+1}x^{n+1},n\ne-1$<br><br>
                                 $\int e^{ax}dx=\frac{1}{a}e^{ax}$<br><br>
                                 $\int\frac{dx}{x+a}=\ln|x+a|$<br><br>
@@ -1350,10 +1363,12 @@
                 </div>
 
                 <div id="ref-page-8" class="ref-page-content">
-                    <h2 class="ref-page-title">ADVANCED PLACEMENT PHYSICS C: ELECTRICITY & MAGNETISM EQUATIONS</h2>
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        ADVANCED PLACEMENT PHYSICS C: ELECTRICITY & MAGNETISM EQUATIONS
+                    </h2>
 
-                    <div class="official-two-col-container flex-wrap-gap">
-                        <div class="equations-column flex-1 min-w-250">
+                    <div class="official-two-col-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
+                        <div class="equations-column" style="flex: 1; min-width: 250px;">
                             $|\vec{F}_E| = \frac{1}{4\pi\epsilon_0} \frac{|q_1 q_2|}{r^2} = k \frac{|q_1 q_2|}{r^2}$<br>
                             $\vec{E} = \frac{\vec{F}_E}{q}$<br>
                             $\vec{E} = \frac{1}{4\pi\epsilon_0} \int \frac{dq}{r^2} \hat{r}$<br>
@@ -1382,7 +1397,7 @@
                             $\tau = R_{\text{eq}} C_{\text{eq}}$
                         </div>
 
-                        <div class="equations-column flex-1 min-w-250">
+                        <div class="equations-column" style="flex: 1; min-width: 250px;">
                             $\oint \vec{B} \cdot d\vec{A} = 0$<br>
                             $\vec{F}_B = q(\vec{v} \times \vec{B})$<br>
                             $d\vec{B} = \frac{\mu_0}{4\pi} \frac{I(d\vec{\ell} \times \hat{r})}{r^2}$<br>
@@ -1399,8 +1414,8 @@
                             $\omega_{\text{LC}} = \frac{1}{\sqrt{LC}}$
                         </div>
 
-                        <div class="symbols-right-pane flex-1 min-w-200 symbols-right-pane-styled">
-                            <div class="ref-section-title uppercase symbols-title">Symbols</div>
+                        <div class="symbols-right-pane" style="flex: 1; min-width: 200px; background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
+                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; border-bottom: 1px solid #ccc;">Symbols</div>
                             $A$ = area<br>
                             $B$ = magnetic field<br>
                             $C$ = capacitance<br>
@@ -1443,15 +1458,15 @@
                 <span id="timer" class="timer-box">02:00</span>
             </div>
             <div class="panel-content">
-                <h3 id="subject-title">Loading...</h3>
+                <h3 id="subject-title" style="margin-top:0; color: var(--text-main); margin-bottom: 4px;">Loading...</h3>
 
-                <div id="midnight-countdown">New Question in: --:--:--</div>
+                <div id="midnight-countdown" style="font-size: 12px; color: var(--text-dim); margin-bottom: 18px; display: none;">New Question in: --:--:--</div>
 
                 <div id="image-container" class="question-image-container">
                     <img id="question-img" src="" class="question-image" alt="Question Diagram">
                 </div>
 
-                <div id="question-text">Finding today's question...</div>
+                <div id="question-text" style="font-size: 15px; margin-bottom: 20px; line-height: 1.5;">Finding today's question...</div>
 
                 <div id="choices-container"></div>
 
@@ -1469,16 +1484,16 @@
                     <div class="meta-line">
                         <span class="meta-label">Skill:</span> <span id="meta-skill" class="meta-val"></span>
                     </div>
-                    <div class="meta-line spaced">
-                        <span class="meta-label block">Explanation:</span>
-                        <p id="explanation-text" class="m-0"></p>
+                    <div class="meta-line" style="margin-top: 12px; margin-bottom: 12px;">
+                        <span class="meta-label" style="display: block; margin-bottom: 4px;">Explanation:</span>
+                        <p id="explanation-text" style="margin: 0;"></p>
                     </div>
-                    <div class="meta-line footer">
-                        <span class="meta-label text-dim">Question ID:</span> <span id="meta-id" class="text-dim"></span>
+                    <div class="meta-line" style="border-top: 1px dashed var(--border-color); padding-top: 8px; font-size: 11px;">
+                        <span class="meta-label" style="color: var(--text-dim);">Question ID:</span> <span id="meta-id" style="color: var(--text-dim);"></span>
                     </div>
                 </div>
 
-                <hr>
+                <hr style="border: none; border-top: 1px solid var(--border-color); margin-top: 25px;">
 
                 <div class="action-bar">
                     <a href="home-page.html" class="nav-btn">◀ Go Back Home</a>
@@ -1489,6 +1504,7 @@
     </div>
 
     <div id="notification" class="toast-notification">⚠️ Notice: 30 seconds remaining</div>
+    <div id="notification" class="toast-notification">Notice: 30 seconds remaining</div>
 
     <script>
         let selectedIndex = null;
@@ -1699,21 +1715,6 @@
                 activeContainer.style.display = 'flex';
             }
         }
-
-        /* NEW: Desmos Drawer Toggle Logic & Init */
-        function toggleDesmosDrawer() {
-            const drawer = document.getElementById('desmos-drawer-panel');
-            drawer.classList.toggle('open');
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const elt = document.getElementById('calculator');
-            if (window.Desmos) {
-                const calculator = Desmos.GraphingCalculator(elt, {
-                    keypad: true, expressions: true, settingsMenu: true, zoomButtons: true
-                });
-            }
-        });
     </script>
 </body>
 </html>
