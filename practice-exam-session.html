@@ -211,7 +211,6 @@
             color: var(--text-main);
         }
 
-        /* Scrollable container view for long FRQs */
         .panel-content.frq-scroll-active {
             max-height: 68vh;
             overflow-y: auto;
@@ -258,6 +257,15 @@
             margin-bottom: 20px; 
             line-height: 1.5;
             color: var(--text-main) !important;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Container for optional diagrams on top of the question */
+        .question-diagram-container {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: flex-start;
         }
         
         .question-text-field * {
@@ -270,7 +278,8 @@
         }
 
         .choice-btn { 
-            display: block; 
+            display: flex; 
+            flex-direction: column;
             width: 100%; 
             text-align: left; 
             background: rgba(0,0,0,0.02); 
@@ -284,7 +293,17 @@
             font-size: 14px; 
             transition: all 0.2s; 
             box-sizing: border-box;
+            gap: 10px;
         }
+        .choice-text-layout {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+        .choice-diagram-container {
+            padding-left: 28px; /* Aligns with text past the ( A ) */
+        }
+        
         .choice-btn:hover { 
             background-color: rgba(0,0,0,0.06); 
         }
@@ -305,7 +324,6 @@
             border-color: rgba(0,0,0,0.1);
         }
 
-        /* FRQ Typography & Form Input Mechanics */
         .frq-textarea {
             width: 100%;
             min-height: 130px;
@@ -364,7 +382,6 @@
             margin-bottom: 15px;
         }
 
-        /* Enlarged Grid styles for Review Screen */
         .review-grid-large {
             grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
             gap: 12px;
@@ -578,7 +595,6 @@
             box-sizing: border-box;
         }
 
-        /* Re-used styling for Break Overlay */
         .immersive-pause-overlay {
             display: none;
             position: fixed;
@@ -842,621 +858,412 @@
             </div>
         </div>
     </div>
+<!-- Assume the MCQ pool is loaded before this script -->
+    <script src="ap1-practice-mcq-pool-1.js"></script>
 
     <script>
-        const searchParameters = new URLSearchParams(window.location.search);
-        const subjectCode = searchParameters.get('subject') || 'ap1';
-        const examIdentity = searchParameters.get('exam') || '1';
-        const mapAlphaIntegerWord = ["Zero", "One", "Two", "Three", "Four", "Five"];
-
-        const localStorageStateKey = `exam_state_${subjectCode}_${examIdentity}`;
-
-        // Phase Tracking Setup
-        let currentActivePhase = 'MCQ'; // 'MCQ' or 'FRQ'
-        let currentProblemIndex = 0;
-        let examinationPool = []; // Set dynamically via active pool references
-        let poolMCQ = [];
-        let poolFRQ = [];
-
-        // Dual Structure Memory Layout Storage
-        let catalogedUserResponses = [];
-        let catalogedFRQResponses = []; // 3D Data Array Matrix [qIdx][partIdx][subpartIdx]
-        let markedReviewMatrix = [];
-        let markedFRQReviewMatrix = [];
-        let optionCrossoutMatrix = [];
+        // --- State Management ---
+        let examData = []; // Will be populated from ap1PracticeExamMCQPoolOne
+        let currentIndex = 0;
+        let answers = {};
+        let eliminated = {};
+        let flagged = {};
         
-        let isDropupMatrixOpen = false;
-        let isOptionsMenuOpen = false;
+        // --- Timer Variables ---
+        let totalSeconds = 80 * 60; 
+        let timerInterval;
+        let isTimerHidden = false;
+        let isPaused = false;
 
-        let continuousCountdownSeconds = 80 * 60;
-        let hideClockStateActive = false;
-        let isTimerPausedActive = false;
-        let processingTickerInterval = null;
+        // --- Hold to Resume Variables ---
+        let holdTimer;
+        let holdStartTime;
+        let holdDuration = 3000; 
+        let animationFrameId;
 
-        let holdProgressIntervalReference = null;
-        let currentHoldElapsedMilliseconds = 0;
-        const TARGET_HOLD_DURATION_MS = 3000;
-        
-        // Break Timer Variables
-        let breakCountdownSeconds = 60;
-        let breakTimerInterval = null;
+        // --- Break Variables ---
+        let breakSeconds = 60;
+        let breakInterval;
 
-        // Load MCQ Script Pool Asset
-        const remoteScriptAsset = document.createElement('script');
-        remoteScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
-        document.head.appendChild(remoteScriptAsset);
-
-        // Load FRQ Script Pool Asset
-        const frqScriptAsset = document.createElement('script');
-        frqScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-frqs/${subjectCode}-practice-exam-frq-pool-${examIdentity}.js`;
-        document.head.appendChild(frqScriptAsset);
-
-        let scriptVerificationCounter = 0;
-        remoteScriptAsset.onload = frqScriptAsset.onload = function() {
-            scriptVerificationCounter++;
-            if (scriptVerificationCounter === 2) {
-                initializeIntegratedExamSystem();
-            }
-        };
-
-        function initializeIntegratedExamSystem() {
-            // Target MCQ Reference Maps
-            if (typeof practiceExamPool !== 'undefined') poolMCQ = practiceExamPool;
-            else if (window[`${subjectCode}PracticeExamPool${mapAlphaIntegerWord[parseInt(examIdentity)] || 'One'}`]) poolMCQ = window[`${subjectCode}PracticeExamPool${mapAlphaIntegerWord[parseInt(examIdentity)] || 'One'}`];
-            else if (typeof ap1PracticeExamMCQPoolOne !== 'undefined') poolMCQ = ap1PracticeExamMCQPoolOne;
-
-            // Target FRQ Reference Maps
-            if (typeof practiceExamFRQPool !== 'undefined') poolFRQ = practiceExamFRQPool;
-            else if (window[`${subjectCode}PracticeExamFRQPool${mapAlphaIntegerWord[parseInt(examIdentity)] || 'One'}`]) poolFRQ = window[`${subjectCode}PracticeExamFRQPool${mapAlphaIntegerWord[parseInt(examIdentity)] || 'One'}`];
-            else if (typeof ap1PracticeExamFRQPoolOne !== 'undefined') poolFRQ = ap1PracticeExamFRQPoolOne;
-
-            // Instantiation arrays
-            catalogedUserResponses = new Array(poolMCQ.length).fill(null);
-            markedReviewMatrix = new Array(poolMCQ.length).fill(false);
-            optionCrossoutMatrix = Array.from({ length: poolMCQ.length }, () => []);
-
-            catalogedFRQResponses = poolFRQ.map(q => q.parts.map(p => p.subparts.map(s => "")));
-            markedFRQReviewMatrix = new Array(poolFRQ.length).fill(false);
-
-            examinationPool = poolMCQ;
-
-            loadSavedExamProgressState();
-            startSessionTimerLoop();
-            generateMatrices();
-            
-            if (currentActivePhase === 'FRQ') {
-                transitionUIConfigurationToFRQ();
+        window.onload = function() {
+            // Check if the external data loaded correctly
+            if (typeof ap1PracticeExamMCQPoolOne !== 'undefined') {
+                examData = ap1PracticeExamMCQPoolOne;
             } else {
-                if (currentProblemIndex >= examinationPool.length) showReviewScreen();
-                else renderTargetQuestionBlock();
-            }
-        }
-
-        remoteScriptAsset.onerror = frqScriptAsset.onerror = function() {
-            document.getElementById('target-question-box').innerText = `Failed to load integrated script assets references.`;
-        };
-
-        function saveActiveExamProgressState() {
-            try {
-                const packagedData = {
-                    currentPhase: currentActivePhase,
-                    currentIndex: currentProblemIndex,
-                    responses: catalogedUserResponses,
-                    frqResponses: catalogedFRQResponses,
-                    flags: markedReviewMatrix,
-                    frqFlags: markedFRQReviewMatrix,
-                    crossouts: optionCrossoutMatrix,
-                    timeLeft: continuousCountdownSeconds
-                };
-                localStorage.setItem(localStorageStateKey, JSON.stringify(packagedData));
-            } catch (err) {
-                console.error("Failed to compile local layout state capture snapshot:", err);
-            }
-        }
-
-        function loadSavedExamProgressState() {
-            try {
-                const recoveredRawPayload = localStorage.getItem(localStorageStateKey);
-                if (recoveredRawPayload) {
-                    const parsed = JSON.parse(recoveredRawPayload);
-                    currentActivePhase = parsed.currentPhase || 'MCQ';
-                    currentProblemIndex = parsed.currentIndex || 0;
-                    catalogedUserResponses = parsed.responses || catalogedUserResponses;
-                    catalogedFRQResponses = parsed.frqResponses || catalogedFRQResponses;
-                    markedReviewMatrix = parsed.flags || markedReviewMatrix;
-                    markedFRQReviewMatrix = parsed.frqFlags || markedFRQReviewMatrix;
-                    optionCrossoutMatrix = parsed.crossouts || optionCrossoutMatrix;
-                    
-                    // Safety check: if loaded state is FRQ but time is cached higher than 80 mins, force reset it to 80 mins
-                    if (currentActivePhase === 'FRQ' && typeof parsed.timeLeft === 'number' && parsed.timeLeft > 80 * 60) {
-                        continuousCountdownSeconds = 80 * 60;
-                    } else {
-                        continuousCountdownSeconds = typeof parsed.timeLeft === 'number' ? parsed.timeLeft : 80 * 60;
-                    }
-                    
-                    document.getElementById('welcome-modal-overlay').style.display = 'none';
-                    examinationPool = (currentActivePhase === 'FRQ') ? poolFRQ : poolMCQ;
-                }
-            } catch (err) {
-                console.error("Local recovery cache loading fail parse operation:", err);
-            }
-        }
-
-        function clearSavedExamProgressState() {
-            localStorage.removeItem(localStorageStateKey);
-        }
-
-        function startSessionTimerLoop() {
-            if (processingTickerInterval) clearInterval(processingTickerInterval);
-            processingTickerInterval = setInterval(() => {
-                if (isTimerPausedActive) return;
-                
-                if (continuousCountdownSeconds <= 0) {
-                    clearInterval(processingTickerInterval);
-                    if (currentActivePhase === 'MCQ') {
-                        terminateActiveSessionInstance();
-                    } else {
-                        executeFinalSubmissionRedirect();
-                    }
-                    return;
-                }
-                continuousCountdownSeconds--;
-                updateTimerDisplayConsole();
-                
-                saveActiveExamProgressState();
-            }, 1000);
-        }
-
-        function updateTimerDisplayConsole() {
-            if (hideClockStateActive) {
-                document.getElementById('timer-display').innerText = "⌛︎";
+                document.getElementById('target-question-box').innerHTML = "<span style='color: var(--flag-red);'>Error: Exam data could not be loaded. Please ensure ap1-practice-mcq-pool-1.js is included.</span>";
                 return;
             }
-            const structuralMinutes = Math.floor(continuousCountdownSeconds / 60);
-            const structuralSeconds = continuousCountdownSeconds % 60;
-            document.getElementById('timer-display').innerText = 
-                `${structuralMinutes.toString().padStart(2, '0')}:${structuralSeconds.toString().padStart(2, '0')}`;
-        }
 
-        function toggleTimerClockVisibility() {
-            hideClockStateActive = !hideClockStateActive;
-            document.getElementById('timer-toggle-visibility').innerText = hideClockStateActive ? "Show" : "Hide";
-            updateTimerDisplayConsole();
-        }
+            // Initialize state objects
+            examData.forEach((_, index) => {
+                eliminated[index] = [];
+                flagged[index] = false;
+            });
 
-        function toggleOptionsDropdownMenu(event) {
-            event.stopPropagation();
-            isOptionsMenuOpen = !isOptionsMenuOpen;
-            document.getElementById('header-options-menu').style.display = isOptionsMenuOpen ? 'block' : 'none';
-        }
-
-        function openInstructionsFromMenu() {
-            isOptionsMenuOpen = false;
-            document.getElementById('header-options-menu').style.display = 'none';
             document.getElementById('welcome-modal-overlay').style.display = 'flex';
-        }
-
-        function triggerSessionCountdownPause() {
-            isTimerPausedActive = true;
-            isOptionsMenuOpen = false;
-            document.getElementById('header-options-menu').style.display = 'none';
-            
-            isDropupMatrixOpen = false;
-            document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
-            
-            resetHoldProgressState();
-            document.getElementById('screen-pause-overlay').style.display = 'flex';
-        }
-
-        function handleResumeHoldStart() {
-            if (!isTimerPausedActive) return;
-            resetHoldProgressState();
-
-            document.getElementById('hold-action-label').innerText = "Holding";
-            
-            const tickRateMs = 50;
-            holdProgressIntervalReference = setInterval(() => {
-                currentHoldElapsedMilliseconds += tickRateMs;
-                const ratioComputed = Math.min(currentHoldElapsedMilliseconds / TARGET_HOLD_DURATION_MS, 1);
-                
-                const perimeterOffsetValue = 282.7 - (ratioComputed * 282.7);
-                document.getElementById('hold-progress-bar-circle').style.strokeDashoffset = perimeterOffsetValue;
-
-                if (currentHoldElapsedMilliseconds >= TARGET_HOLD_DURATION_MS) {
-                    executeSessionResumeAction();
-                }
-            }, tickRateMs);
-        }
-
-        function handleResumeHoldEnd() {
-            resetHoldProgressState();
-        }
-
-        function resetHoldProgressState() {
-            if (holdProgressIntervalReference) clearInterval(holdProgressIntervalReference);
-            currentHoldElapsedMilliseconds = 0;
-            document.getElementById('hold-progress-bar-circle').style.strokeDashoffset = 282.7;
-            document.getElementById('hold-action-label').innerText = "Hold";
-        }
-
-        function executeSessionResumeAction() {
-            isTimerPausedActive = false;
-            resetHoldProgressState();
-            document.getElementById('screen-pause-overlay').style.display = 'none';
-        }
-
-        function toggleDropupMatrixNavigationView(event) {
-            if (event) event.stopPropagation();
-            isDropupMatrixOpen = !isDropupMatrixOpen;
-            const dropupPanel = document.getElementById('dropup-nav-matrix-panel');
-            const progressLabel = document.getElementById('footer-progress-label');
-            
-            if (isDropupMatrixOpen) {
-                dropupPanel.style.display = 'block';
-                progressLabel.innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ▾`;
-            } else {
-                dropupPanel.style.display = 'none';
-                progressLabel.innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ▴`;
-            }
-        }
-
-        window.onclick = function() {
-            isOptionsMenuOpen = false;
-            document.getElementById('header-options-menu').style.display = 'none';
-            
-            isDropupMatrixOpen = false;
-            document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
-            if (examinationPool.length > 0 && currentProblemIndex < examinationPool.length) {
-                document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ▴`;
-            }
         };
 
-        function showReviewScreen() {
-            isDropupMatrixOpen = false;
-            document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
-            
-            document.getElementById('question-panel-content').style.display = 'none';
-            document.getElementById('review-panel-content').style.display = 'block';
-            
-            document.getElementById('panel-header-tools').style.display = 'none';
-            document.getElementById('panel-header-review-title').style.display = 'block';
-            document.getElementById('dropup-navigation-wrapper').style.display = 'none';
-            
-            const nextBtn = document.getElementById('footer-next-btn');
-            nextBtn.innerText = (currentActivePhase === 'MCQ') ? 'Submit Section I' : 'Submit Final Exam';
-            nextBtn.onclick = (currentActivePhase === 'MCQ') ? terminateActiveSessionInstance : executeFinalSubmissionRedirect;
-            
-            const prevBtn = document.getElementById('footer-prev-btn');
-            prevBtn.disabled = false;
-            prevBtn.onclick = () => {
-                currentProblemIndex = examinationPool.length - 1;
-                renderTargetQuestionBlock();
-                saveActiveExamProgressState();
-            };
-
-            if (currentActivePhase === 'FRQ') {
-                document.getElementById('review-panel-heading').innerText = "Review Your Section II Answers";
-                document.getElementById('review-panel-description').innerHTML = "You have reached the end of the FRQ examination block. Please review your written responses. When you are fully satisfied, click <strong>Submit Final Exam</strong>.";
-            }
-
-            updateConsoleMatrixHighlights();
+        function closeWelcomeInstructionsModal() {
+            document.getElementById('welcome-modal-overlay').style.display = 'none';
+            buildNavigationMatrix();
+            renderQuestion(currentIndex);
+            startTimer();
         }
 
-        function renderTargetQuestionBlock() {
-            document.getElementById('question-panel-content').style.display = 'block';
-            document.getElementById('question-panel-content').scrollTop = 0;
-            document.getElementById('review-panel-content').style.display = 'none';
-            document.getElementById('dropup-navigation-wrapper').style.display = 'flex';
-            document.getElementById('panel-header-tools').style.display = 'flex';
-            document.getElementById('panel-header-review-title').style.display = 'none';
+        // --- Rendering Logic (Updated for SVG Diagrams) ---
+        function renderQuestion(index) {
+            const q = examData[index];
+            if (!q) return;
 
-            const questionRecord = examinationPool[currentProblemIndex];
-            document.getElementById('current-badge-id').innerText = currentProblemIndex + 1;
-
-            const activeFlags = (currentActivePhase === 'MCQ') ? markedReviewMatrix : markedFRQReviewMatrix;
-            const flagSymbolSlot = document.getElementById('flag-symbol-slot');
-            const flagElementRef = document.getElementById('review-flag-trigger');
+            // 1. Render Question Area
+            const questionBox = document.getElementById('target-question-box');
+            let qHtml = "";
             
-            if (activeFlags[currentProblemIndex]) {
-                flagElementRef.classList.add('flagged-active');
-                flagSymbolSlot.innerText = "⚑";
-            } else {
-                flagElementRef.classList.remove('flagged-active');
-                flagSymbolSlot.innerText = "⚐";
+            // Inject optional question diagram if it exists
+            if (q.svgDiagram && q.svgDiagram.trim() !== "") {
+                qHtml += `<div class="question-diagram-container">${q.svgDiagram}</div>`;
             }
+            qHtml += `<div>${q.question}</div>`;
+            questionBox.innerHTML = qHtml;
 
-            const optionsContentBox = document.getElementById('target-choices-container');
+            // 2. Render Answer Choices
+            const choicesBox = document.getElementById('target-choices-container');
+            choicesBox.innerHTML = "";
             
-            if (currentActivePhase === 'MCQ') {
-                document.getElementById('target-question-box').innerHTML = questionRecord.question;
-                optionsContentBox.innerHTML = '';
+            const labels = ["A", "B", "C", "D", "E"];
+            q.choices.forEach((choice, cIndex) => {
+                const isSelected = answers[index] === cIndex;
+                const isEliminated = eliminated[index] && eliminated[index].includes(cIndex);
+                
+                const row = document.createElement('div');
+                row.className = `choice-row ${isEliminated ? 'eliminated' : ''}`;
+                
+                const btn = document.createElement('button');
+                btn.className = `choice-btn ${isSelected ? 'selected' : ''}`;
+                
+                // Build choice content
+                let choiceHtml = `<div class="choice-text-layout"><strong>(${labels[cIndex]})</strong> <span>${choice.text}</span></div>`;
+                
+                // Inject optional choice diagram if it exists
+                if (choice.svgDiagram && choice.svgDiagram.trim() !== "") {
+                    choiceHtml += `<div class="choice-diagram-container">${choice.svgDiagram}</div>`;
+                }
+                
+                btn.innerHTML = choiceHtml;
 
-                const alphaPrefixes = ['A', 'B', 'C', 'D'];
-                questionRecord.choices.forEach((choiceStringText, stringIdx) => {
-                    const choiceWrapperNode = document.createElement('div');
-                    choiceWrapperNode.className = 'choice-row';
+                // Event Listeners for Selection and Elimination
+                btn.onclick = (e) => {
+                    if (isEliminated) return; // Prevent selecting eliminated options
+                    selectAnswer(index, cIndex);
+                };
+                
+                btn.oncontextmenu = (e) => {
+                    e.preventDefault(); 
+                    toggleElimination(index, cIndex); 
+                };
+                
+                // Touch support for holding to eliminate
+                let touchTimer;
+                btn.addEventListener('touchstart', (e) => {
+                    touchTimer = setTimeout(() => {
+                        toggleElimination(index, cIndex);
+                    }, 500); 
+                }, {passive: true});
+                btn.addEventListener('touchend', () => clearTimeout(touchTimer));
+                btn.addEventListener('touchmove', () => clearTimeout(touchTimer));
 
-                    const targetBtnNode = document.createElement('button');
-                    targetBtnNode.className = 'choice-btn';
-                    targetBtnNode.innerHTML = `<span><strong>( ${alphaPrefixes[stringIdx]} )</strong></span> <span>${choiceStringText}</span>`;
-                    
-                    targetBtnNode.onclick = () => selectTargetOptionIndex(stringIdx);
-                    
-                    targetBtnNode.oncontextmenu = (event) => {
-                        event.preventDefault();
-                        toggleIndividualOptionElimination(stringIdx);
-                    };
+                row.appendChild(btn);
+                choicesBox.appendChild(row);
+            });
 
-                    if (catalogedUserResponses[currentProblemIndex] === stringIdx) {
-                        targetBtnNode.classList.add('selected');
-                    }
-                    if (optionCrossoutMatrix[currentProblemIndex].includes(stringIdx)) {
-                        choiceWrapperNode.classList.add('eliminated');
-                    }
+            // Update UI elements
+            document.getElementById('current-badge-id').innerText = index + 1;
+            updateFlagUI();
+            updateFooterUI();
+            updateNavigationMatrixStyles();
 
-                    choiceWrapperNode.appendChild(targetBtnNode);
-                    optionsContentBox.appendChild(choiceWrapperNode);
-                });
-            } else {
-                // Free Response Render Phase Configuration
-                let frqHTML = `<div><strong>${questionRecord.problemType || 'Free Response'}</strong></div><p>${questionRecord.problemSetup}</p>`;
-                if (questionRecord.svgDiagram) frqHTML += `<div style="margin: 20px 0;">${questionRecord.svgDiagram}</div>`;
-                if (questionRecord.dataTable) frqHTML += buildTableHTML(questionRecord.dataTable);
-
-                questionRecord.parts.forEach((part, pIdx) => {
-                    frqHTML += `<div class="part-header">${part.partTitle}</div>`;
-                    if (part.partIntroText) frqHTML += `<p>${part.partIntroText}</p>`;
-                    if (part.svgDiagram) frqHTML += `<div style="margin: 15px 0;">${part.svgDiagram}</div>`;
-                    if (part.dataTable) frqHTML += buildTableHTML(part.dataTable);
-
-                    part.subparts.forEach((subpart, sIdx) => {
-                        frqHTML += `<div class="subpart-block">`;
-                        if (subpart.subpartLabel) frqHTML += `<strong>${subpart.subpartLabel}</strong> `;
-                        frqHTML += `<span>${subpart.subpartQuestion}</span>`;
-                        if (subpart.svgDiagram) frqHTML += `<div style="margin: 15px 0;">${subpart.svgDiagram}</div>`;
-                        
-                        // Added textbook input elements for FRQ
-                        const currentSessionAnswerText = catalogedFRQResponses[currentProblemIndex]?.[pIdx]?.[sIdx] || "";
-                        frqHTML += `<textarea class="frq-textarea" placeholder="Type your multi-part answer setup framework logic details here..." oninput="updateFRQDataValue(${currentProblemIndex}, ${pIdx}, ${sIdx}, this.value)">${currentSessionAnswerText}</textarea>`;
-                        
-                        frqHTML += `</div>`;
-                    });
-                });
-                document.getElementById('target-question-box').innerHTML = frqHTML;
-                optionsContentBox.innerHTML = '';
-            }
-
-            document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ${isDropupMatrixOpen ? '▾' : '▴'}`;
-            
-            document.getElementById('footer-prev-btn').disabled = currentProblemIndex === 0;
-            document.getElementById('footer-prev-btn').onclick = () => changeActiveQuestion(-1);
-            
-            const nextBtn = document.getElementById('footer-next-btn');
-            if (currentProblemIndex === examinationPool.length - 1) {
-                nextBtn.innerText = 'Review';
-            } else {
-                nextBtn.innerText = 'Next ▶';
-            }
-            nextBtn.onclick = () => changeActiveQuestion(1);
-
-            updateConsoleMatrixHighlights();
-
-            if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
+            // Re-typeset MathJax if applicable
+            if (window.MathJax) {
                 MathJax.typesetPromise();
             }
         }
 
-        function selectTargetOptionIndex(optionIdx) {
-            if (optionCrossoutMatrix[currentProblemIndex].includes(optionIdx)) return;
-            catalogedUserResponses[currentProblemIndex] = optionIdx;
-
-            document.querySelectorAll('.choice-row').forEach((rowWrapper, loopIdx) => {
-                const baseBtn = rowWrapper.querySelector('.choice-btn');
-                if (loopIdx === optionIdx) {
-                    baseBtn.classList.add('selected');
-                } else {
-                    baseBtn.classList.remove('selected');
-                }
-            });
-
-            updateConsoleMatrixHighlights();
-            saveActiveExamProgressState();
+        // --- Interaction Logic ---
+        function selectAnswer(qIndex, cIndex) {
+            answers[qIndex] = cIndex;
+            renderQuestion(qIndex);
         }
 
-        function toggleIndividualOptionElimination(choiceOptionIdx) {
-            const matrixIndexPos = optionCrossoutMatrix[currentProblemIndex].indexOf(choiceOptionIdx);
-            const operationalRowsList = document.querySelectorAll('.choice-row');
-
-            if (matrixIndexPos > -1) {
-                optionCrossoutMatrix[currentProblemIndex].splice(matrixIndexPos, 1);
-                operationalRowsList[choiceOptionIdx].classList.remove('eliminated');
-            } else {
-                optionCrossoutMatrix[currentProblemIndex].push(choiceOptionIdx);
-                operationalRowsList[choiceOptionIdx].classList.add('eliminated');
-
-                if (catalogedUserResponses[currentProblemIndex] === choiceOptionIdx) {
-                    catalogedUserResponses[currentProblemIndex] = null;
-                    operationalRowsList[choiceOptionIdx].querySelector('.choice-btn').classList.remove('selected');
-                }
+        function toggleElimination(qIndex, cIndex) {
+            // Unselect if the user eliminates their currently selected answer
+            if (answers[qIndex] === cIndex) {
+                delete answers[qIndex];
             }
-            updateConsoleMatrixHighlights();
-            saveActiveExamProgressState();
-        }
 
-        window.updateFRQDataValue = function(qIdx, pIdx, sIdx, payloadValue) {
-            catalogedFRQResponses[qIdx][pIdx][sIdx] = payloadValue;
-            saveActiveExamProgressState();
-            updateConsoleMatrixHighlights();
-        };
-
-        function buildTableHTML(tableObjRef) {
-            if (!tableObjRef || !tableObjRef.rows || tableObjRef.rows.length === 0) return "";
-            let dataTableHTML = `<table class="frq-data-table"><tbody>`;
-            tableObjRef.rows.forEach((row, rIdx) => {
-                dataTableHTML += `<tr>`;
-                row.forEach(cell => { dataTableHTML += rIdx === 0 ? `<th>${cell}</th>` : `<td>${cell}</td>`; });
-                dataTableHTML += `</tr>`;
-            });
-            return dataTableHTML + `</tbody></table>`;
+            const indexInArray = eliminated[qIndex].indexOf(cIndex);
+            if (indexInArray > -1) {
+                eliminated[qIndex].splice(indexInArray, 1); // Remove elimination
+            } else {
+                eliminated[qIndex].push(cIndex); // Add elimination
+            }
+            renderQuestion(qIndex);
         }
 
         function toggleQuestionReviewMark() {
-            const activeFlags = (currentActivePhase === 'MCQ') ? markedReviewMatrix : markedFRQReviewMatrix;
-            activeFlags[currentProblemIndex] = !activeFlags[currentProblemIndex];
-            renderTargetQuestionBlock();
-            saveActiveExamProgressState();
+            flagged[currentIndex] = !flagged[currentIndex];
+            updateFlagUI();
+            updateNavigationMatrixStyles();
         }
 
-        function changeActiveQuestion(directionValue) {
-            currentProblemIndex += directionValue;
-            if (currentProblemIndex >= examinationPool.length) {
-                currentProblemIndex = examinationPool.length; 
+        function updateFlagUI() {
+            const flagTrigger = document.getElementById('review-flag-trigger');
+            const flagSymbol = document.getElementById('flag-symbol-slot');
+            
+            if (flagged[currentIndex]) {
+                flagTrigger.classList.add('flagged-active');
+                flagSymbol.innerText = "⚑";
+            } else {
+                flagTrigger.classList.remove('flagged-active');
+                flagSymbol.innerText = "⚐";
+            }
+        }
+
+        // --- Navigation Logic ---
+        function changeActiveQuestion(direction) {
+            if (currentIndex + direction >= 0 && currentIndex + direction < examData.length) {
+                currentIndex += direction;
+                switchToQuestionView();
+                renderQuestion(currentIndex);
+            } else if (currentIndex + direction === examData.length) {
                 showReviewScreen();
-                saveActiveExamProgressState();
-                return;
             }
-            renderTargetQuestionBlock();
-            saveActiveExamProgressState();
         }
 
-        function generateMatrices() {
-            buildGridIntoContainer('navigation-matrix-grid', 'nav-cell-');
-            buildGridIntoContainer('review-matrix-grid', 'review-cell-');
+        function jumpToQuestion(index) {
+            currentIndex = index;
+            switchToQuestionView();
+            renderQuestion(currentIndex);
+            closeDropupMenu();
         }
 
-        function buildGridIntoContainer(containerId, idPrefix) {
-            const matrixGridBoxElement = document.getElementById(containerId);
-            matrixGridBoxElement.innerHTML = '';
+        function updateFooterUI() {
+            const prevBtn = document.getElementById('footer-prev-btn');
+            const nextBtn = document.getElementById('footer-next-btn');
+            const progressLabel = document.getElementById('footer-progress-label');
 
-            examinationPool.forEach((_, stepIndex) => {
-                const cellElementNode = document.createElement('div');
-                cellElementNode.className = 'nav-cell';
-                cellElementNode.id = `${idPrefix}${stepIndex}`;
-                
-                const textSpan = document.createElement('span');
-                textSpan.innerText = (stepIndex + 1).toString().padStart(2, '0');
-                cellElementNode.appendChild(textSpan);
-
-                const flagIndicator = document.createElement('span');
-                flagIndicator.className = 'nav-cell-flag-indicator';
-                flagIndicator.innerText = '⚑';
-                cellElementNode.appendChild(flagIndicator);
-
-                cellElementNode.onclick = (event) => {
-                    event.stopPropagation();
-                    currentProblemIndex = stepIndex;
-                    renderTargetQuestionBlock();
-                    saveActiveExamProgressState();
-                };
-                matrixGridBoxElement.appendChild(cellElementNode);
-            });
-        }
-
-        function checkFRQIsAnswered(qIdx) {
-            const parts = catalogedFRQResponses[qIdx];
-            for (let p = 0; p < parts.length; p++) {
-                for (let s = 0; s < parts[p].length; s++) {
-                    if (parts[p][s].trim().length > 0) return true;
+            prevBtn.disabled = (currentIndex === 0);
+            
+            if (document.getElementById('review-panel-content').style.display === 'block') {
+                progressLabel.innerHTML = `Review Mode ▴`;
+                nextBtn.innerText = "Submit ▶";
+                nextBtn.onclick = triggerBreakScreen;
+            } else {
+                progressLabel.innerHTML = `Question ${currentIndex + 1} of ${examData.length} ▴`;
+                if (currentIndex === examData.length - 1) {
+                    nextBtn.innerText = "Review ▶";
+                } else {
+                    nextBtn.innerText = "Next ▶";
                 }
+                nextBtn.onclick = () => changeActiveQuestion(1);
             }
-            return false;
         }
 
-        function updateConsoleMatrixHighlights() {
-            const activeFlags = (currentActivePhase === 'MCQ') ? markedReviewMatrix : markedFRQReviewMatrix;
-            examinationPool.forEach((_, stepIndex) => {
-                ['nav-cell-', 'review-cell-'].forEach(prefix => {
-                    const targetedCellRef = document.getElementById(`${prefix}${stepIndex}`);
-                    if (!targetedCellRef) return;
-                    
-                    targetedCellRef.className = 'nav-cell';
-
-                    if (stepIndex === currentProblemIndex) targetedCellRef.classList.add('current-active');
-                    
-                    const isAnswered = (currentActivePhase === 'MCQ') ? (catalogedUserResponses[stepIndex] !== null) : checkFRQIsAnswered(stepIndex);
-                    if (isAnswered) targetedCellRef.classList.add('state-filled');
-                    if (activeFlags[stepIndex]) targetedCellRef.classList.add('state-review');
-                });
-            });
+        function switchToQuestionView() {
+            document.getElementById('question-panel-content').style.display = 'block';
+            document.getElementById('review-panel-content').style.display = 'none';
+            document.getElementById('panel-header-tools').style.display = 'flex';
+            document.getElementById('panel-header-review-title').style.display = 'none';
         }
 
-        function closeWelcomeInstructionsModal() {
-            document.getElementById('welcome-modal-overlay').style.display = 'none';
-        }
-
-        function terminateActiveSessionInstance() {
-            // Instantly clear saved progress and halt the main timer
-            clearInterval(processingTickerInterval);
+        function showReviewScreen() {
+            document.getElementById('question-panel-content').style.display = 'none';
+            document.getElementById('review-panel-content').style.display = 'block';
+            document.getElementById('panel-header-tools').style.display = 'none';
+            document.getElementById('panel-header-review-title').style.display = 'block';
             
-            // Initiate the 1-minute break screen sequence
-            startBreakSequence();
+            const reviewGrid = document.getElementById('review-matrix-grid');
+            populateGrid(reviewGrid);
+            updateFooterUI();
         }
 
-        function startBreakSequence() {
-            document.getElementById('break-screen-overlay').style.display = 'flex';
-            breakCountdownSeconds = 60; // 1 minute break
-            
-            document.getElementById('break-timer-display').innerText = "01:00";
+        // --- Dropup / Grid Matrix Logic ---
+        function toggleDropupMatrixNavigationView(event) {
+            event.stopPropagation();
+            const panel = document.getElementById('dropup-nav-matrix-panel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }
 
-            breakTimerInterval = setInterval(() => {
-                breakCountdownSeconds--;
+        function closeDropupMenu() {
+            document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
+            document.getElementById('header-options-menu').style.display = 'none';
+        }
+
+        window.onclick = function() {
+            closeDropupMenu();
+        };
+
+        function buildNavigationMatrix() {
+            const navGrid = document.getElementById('navigation-matrix-grid');
+            populateGrid(navGrid);
+        }
+
+        function populateGrid(container) {
+            container.innerHTML = "";
+            examData.forEach((_, index) => {
+                const cell = document.createElement('div');
+                cell.className = 'nav-cell';
+                cell.id = `grid-cell-${container.id}-${index}`;
+                cell.onclick = () => jumpToQuestion(index);
                 
-                const m = Math.floor(breakCountdownSeconds / 60).toString().padStart(2, '0');
-                const s = (breakCountdownSeconds % 60).toString().padStart(2, '0');
+                const numberSpan = document.createElement('span');
+                numberSpan.innerText = index + 1;
+                cell.appendChild(numberSpan);
+
+                const flagInd = document.createElement('div');
+                flagInd.className = 'nav-cell-flag-indicator';
+                flagInd.innerText = '⚐';
+                cell.appendChild(flagInd);
+
+                container.appendChild(cell);
+            });
+            updateNavigationMatrixStyles();
+        }
+
+        function updateNavigationMatrixStyles() {
+            const updateCellsForContainer = (containerId) => {
+                examData.forEach((_, index) => {
+                    const cell = document.getElementById(`grid-cell-${containerId}-${index}`);
+                    if (!cell) return;
+
+                    // Reset classes
+                    cell.className = 'nav-cell';
+
+                    if (answers[index] !== undefined) cell.classList.add('state-filled');
+                    if (flagged[index]) cell.classList.add('state-review');
+                    if (index === currentIndex && document.getElementById('question-panel-content').style.display === 'block') {
+                        cell.classList.add('current-active');
+                    }
+                });
+            };
+
+            updateCellsForContainer('navigation-matrix-grid');
+            updateCellsForContainer('review-matrix-grid');
+        }
+
+        // --- Timer Logic ---
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (!isPaused) {
+                    totalSeconds--;
+                    updateTimerDisplay();
+                    if (totalSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        triggerBreakScreen();
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+            const s = (totalSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('timer-display').innerText = `${m}:${s}`;
+        }
+
+        function toggleTimerClockVisibility() {
+            isTimerHidden = !isTimerHidden;
+            const display = document.getElementById('timer-display');
+            const btn = document.getElementById('timer-toggle-visibility');
+            if (isTimerHidden) {
+                display.style.visibility = 'hidden';
+                btn.innerText = 'Show';
+            } else {
+                display.style.visibility = 'visible';
+                btn.innerText = 'Hide';
+            }
+        }
+
+        // --- Top Right Options Menu ---
+        function toggleOptionsDropdownMenu(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('header-options-menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
+        }
+
+        function openInstructionsFromMenu() {
+            document.getElementById('welcome-modal-overlay').style.display = 'flex';
+            document.getElementById('header-options-menu').style.display = 'none';
+        }
+
+        // --- Pause / Resume Logic ---
+        function triggerSessionCountdownPause() {
+            isPaused = true;
+            document.getElementById('header-options-menu').style.display = 'none';
+            document.getElementById('screen-pause-overlay').style.display = 'flex';
+            resetHoldProgress();
+        }
+
+        function handleResumeHoldStart() {
+            holdStartTime = performance.now();
+            document.getElementById('hold-action-label').innerText = "Holding...";
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = requestAnimationFrame(updateHoldProgress);
+        }
+
+        function handleResumeHoldEnd() {
+            cancelAnimationFrame(animationFrameId);
+            resetHoldProgress();
+        }
+
+        function updateHoldProgress(currentTime) {
+            const elapsedTime = currentTime - holdStartTime;
+            const progress = Math.min(elapsedTime / holdDuration, 1);
+            
+            // Circle circumference is 282.7
+            const offset = 282.7 - (progress * 282.7);
+            document.getElementById('hold-progress-bar-circle').style.strokeDashoffset = offset;
+
+            if (progress >= 1) {
+                // Resume
+                isPaused = false;
+                document.getElementById('screen-pause-overlay').style.display = 'none';
+                resetHoldProgress();
+            } else {
+                animationFrameId = requestAnimationFrame(updateHoldProgress);
+            }
+        }
+
+        function resetHoldProgress() {
+            document.getElementById('hold-progress-bar-circle').style.strokeDashoffset = 282.7;
+            document.getElementById('hold-action-label').innerText = "Hold";
+        }
+
+        // --- Break Screen Transition ---
+        function triggerBreakScreen() {
+            clearInterval(timerInterval);
+            document.getElementById('break-screen-overlay').style.display = 'flex';
+            
+            breakInterval = setInterval(() => {
+                breakSeconds--;
+                const m = Math.floor(breakSeconds / 60).toString().padStart(2, '0');
+                const s = (breakSeconds % 60).toString().padStart(2, '0');
                 document.getElementById('break-timer-display').innerText = `${m}:${s}`;
                 
-                if (breakCountdownSeconds <= 0) {
-                    clearInterval(breakTimerInterval);
+                if (breakSeconds <= 0) {
+                    clearInterval(breakInterval);
                     startFRQSection();
                 }
             }, 1000);
         }
 
         function startFRQSection() {
-            if (breakTimerInterval) {
-                clearInterval(breakTimerInterval);
-            }
-            document.getElementById('break-screen-overlay').style.display = 'none';
-            
-            // Reset Timing Parameters & Set Phase State to Section II
-            currentActivePhase = 'FRQ';
-            continuousCountdownSeconds = 80 * 60; // 80 minutes for Free Response
-            currentProblemIndex = 0;
-            examinationPool = poolFRQ;
-
-            transitionUIConfigurationToFRQ();
-            saveActiveExamProgressState();
-            startSessionTimerLoop();
+            // Ideally, you would navigate to the FRQ html page or render FRQ logic here.
+            alert("Transitioning to Free Response Section...");
+            // window.location.href = 'frq-exam-session.html';
         }
 
-        function transitionUIConfigurationToFRQ() {
-            // Reconfigure Layout and Enable Workspace Scollbars
-            document.getElementById('section-title').innerText = "Section II: FRQ";
-            document.getElementById('master-workspace-container').style.maxWidth = "1000px";
-            document.getElementById('question-panel-content').classList.add('frq-scroll-active');
-            document.getElementById('elimination-badge-tip').style.display = 'none';
-
-            // Swap out Modal Profile configuration variables context for FRQ Instructions
-            document.getElementById('modal-title-header').innerText = "Section II: Free Response Instructions";
-            document.getElementById('modal-welcome-message').innerText = "Welcome to Section II (FRQ).";
-            document.getElementById('modal-instructions-bulletpoints').innerHTML = `
-                <li>You have an uninterrupted clock countdown allocation of <strong>80 minutes</strong>.</li>
-                <li>Read each multi-part layout carefully. Use the internal container scrollbar to view all prompt setups.</li>
-                <li>Please write your answers clearly on the provided paper sheets. No responses typed on-screen will be recorded.</li>`;
-            document.getElementById('welcome-modal-overlay').style.display = 'flex';
-
-            generateMatrices();
-            if (currentProblemIndex >= examinationPool.length) showReviewScreen();
-            else renderTargetQuestionBlock();
-        }
-
-        function executeFinalSubmissionRedirect() {
-            if (confirm("Are you sure you want to finalize this exam block session and submit your responses?")) {
-                clearInterval(processingTickerInterval);
-                clearSavedExamProgressState();
-                window.location.href = 'home-page.html';
-            }
-        }
     </script>
 </body>
 </html>
