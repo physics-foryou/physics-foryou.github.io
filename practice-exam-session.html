@@ -1168,17 +1168,25 @@
             const optionsContentBox = document.getElementById('target-choices-container');
             
             if (currentActivePhase === 'MCQ') {
-                document.getElementById('target-question-box').innerHTML = questionRecord.question;
+                // Support optional main question SVG diagram
+                let questionContent = questionRecord.svgDiagram ? `<div style="margin-bottom: 20px;">${questionRecord.svgDiagram}</div>${questionRecord.question}` : questionRecord.question;
+                document.getElementById('target-question-box').innerHTML = questionContent;
                 optionsContentBox.innerHTML = '';
 
                 const alphaPrefixes = ['A', 'B', 'C', 'D'];
-                questionRecord.choices.forEach((choiceStringText, stringIdx) => {
+                questionRecord.choices.forEach((choiceData, stringIdx) => {
                     const choiceWrapperNode = document.createElement('div');
                     choiceWrapperNode.className = 'choice-row';
 
                     const targetBtnNode = document.createElement('button');
                     targetBtnNode.className = 'choice-btn';
-                    targetBtnNode.innerHTML = `<span><strong>( ${alphaPrefixes[stringIdx]} )</strong></span> <span>${choiceStringText}</span>`;
+                    
+                    // Support object structure and optional choice SVG diagram
+                    let choiceHTML = `<span><strong>( ${alphaPrefixes[stringIdx]} )</strong></span> <span>${choiceData.text}</span>`;
+                    if (choiceData.svgDiagram) {
+                        choiceHTML += `<div style="margin-top: 10px;">${choiceData.svgDiagram}</div>`;
+                    }
+                    targetBtnNode.innerHTML = choiceHTML;
                     
                     targetBtnNode.onclick = () => selectTargetOptionIndex(stringIdx);
                     
