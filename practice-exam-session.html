@@ -685,9 +685,487 @@
             line-height: 1.6;
             font-size: 13px;
         }
+
+        /* --- Reference Sheet Drawer Styling --- */
+        .ref-sheet-tab {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--header-bg);
+            color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-right: none;
+            padding: 15px 10px;
+            cursor: pointer;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-weight: bold;
+            font-size: 12px;
+            z-index: 1001; 
+            box-shadow: -2px 4px 12px rgba(0,0,0,0.1);
+            display: none; 
+            transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .ref-sheet-tab.drawer-open {
+            right: 680px; 
+        }
+
+        .ref-drawer {
+            position: fixed;
+            top: 0;
+            right: -720px; 
+            width: 680px; 
+            height: 100%;
+            background-color: var(--panel-bg);
+            border-left: 2px solid var(--header-bg);
+            box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+            transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ref-drawer.open { right: 0; }
+
+        .drawer-header {
+            background-color: var(--header-bg);
+            padding: 10px 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        #course-ref-select {
+            width: 100%;
+            padding: 8px 30px 8px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23ffffff' d='M0 0l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            transition: all 0.2s ease;
+        }
+
+        #course-ref-select:hover {
+            background-color: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        #course-ref-select option {
+            background-color: var(--header-bg);
+            color: #ffffff;
+            font-weight: normal;
+        }
+
+        .drawer-page-toggle {
+            display: flex;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 12px;
+            gap: 8px;
+        }
+
+        .toggle-page-btn {
+            flex: 1;
+            background: var(--panel-bg);
+            border: 1px solid var(--text-dim);
+            color: var(--text-main);
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .toggle-page-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .toggle-page-btn.active {
+            background-color: var(--header-bg);
+            color: #ffffff;
+            border-color: var(--header-bg);
+        }
+
+        .drawer-scroll-body {
+            padding: 25px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 13px;
+        }
+
+        .ref-table th, .ref-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+            color: var(--text-main);
+        }
+
+        .ref-table th {
+            background-color: rgba(0, 0, 0, 0.03);
+            font-weight: bold;
+        }
+
+        .official-two-col-container {
+            display: grid;
+            grid-template-columns: max-content max-content 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .equations-column {
+            font-size: 14px;
+            line-height: 2.4;
+        }
+
+        .symbols-right-pane {
+            font-size: 12px;
+            line-height: 1.7;
+            background-color: rgba(0,0,0,0.01);
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            border-radius: 4px;
+            height: fit-content;
+        }
+
+        .ref-page-content {
+            display: none;
+        }
+        .ref-page-content.active {
+            display: block;
+        }
+
+        .desmos-tab {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--header-bg);
+            color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-left: none;
+            padding: 15px 10px;
+            cursor: pointer;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-weight: bold;
+            font-size: 12px;
+            z-index: 1001; 
+            box-shadow: 2px 4px 12px rgba(0,0,0,0.1);
+            display: none; 
+            transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .desmos-tab.drawer-open { left: 680px; }
+
+        .desmos-drawer {
+            position: fixed;
+            top: 0;
+            left: -720px; 
+            width: 680px; 
+            height: 100%;
+            background-color: var(--panel-bg);
+            border-right: 2px solid var(--header-bg);
+            box-shadow: 5px 0 25px rgba(0,0,0,0.15);
+            transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .desmos-drawer.open { left: 0; }
+
+        .desmos-container {
+            flex-grow: 1;
+            width: 100%;
+            height: 100%;
+        }
     </style>
+    <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=d833b47ebb4744f09e6a1e4358dcb7fb"></script>
 </head>
 <body class="tex2jax_ignore">
+
+    <button id="ref-tab-trigger" class="ref-sheet-tab" onclick="toggleRefDrawer()">
+        Reference Sheet
+    </button>
+
+    <button id="desmos-tab-trigger" class="desmos-tab" onclick="toggleDesmosDrawer()">
+        Desmos Calculator
+    </button>
+
+    <div id="desmos-drawer-panel" class="desmos-drawer">
+        <div class="drawer-header">
+            <span style="font-size: 13px; font-weight: bold; color: #ffffff;">Desmos Graphing Calculator</span>
+        </div>
+        <div id="desmos-calculator" class="desmos-container"></div>
+    </div>
+
+    <div id="ref-drawer-panel" class="ref-drawer">
+        <div class="drawer-header">
+            <select id="course-ref-select" onchange="switchCourseRef()">
+                <option value="ap1">AP Physics 1</option>
+                <option value="ap2">AP Physics 2</option>
+                <option value="apc-mech">AP Physics C: Mechanics</option>
+                <option value="apc-em">AP Physics C: Electricity & Magnetism</option>
+            </select>
+        </div>
+
+        <div id="ref-ap1" class="course-ref-container" style="display: flex; flex-direction: column; flex-grow: 1; overflow: hidden;">
+            <div class="drawer-page-toggle">
+                <button id="btn-page-1" class="toggle-page-btn active" onclick="switchRefPage(1, 'ap1')">Table of Information</button>
+                <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2, 'ap1')">Mechanics & Fluids</button>
+            </div>
+
+            <div class="drawer-scroll-body tex2jax_process">
+                <div id="ref-page-1" class="ref-page-content active">
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        SELECTED CONSTANTS AND UNITS
+                    </h2>
+
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
+                    <table class="ref-table">
+                        <tr><td>Acceleration due to gravity</td><td>g = 10 m/s²</td></tr>
+                        <tr><td>Coulomb's law constant</td><td>k = 9.0 × 10⁹ N·m²/C²</td></tr>
+                        <tr><td>Charge of electron</td><td>e = 1.6 × 10⁻¹⁹ C</td></tr>
+                        <tr><td>Mass of electron</td><td>m_e = 9.11 × 10⁻³¹ kg</td></tr>
+                        <tr><td>Permittivity of free space</td><td>ε₀ = 8.85 × 10⁻¹² F/m</td></tr>
+                        <tr><td>Permeability of free space</td><td>μ₀ = 4π × 10⁻⁷ T·m/A</td></tr>
+                        <tr><td>Gravitational constant</td><td>G = 6.67 × 10⁻¹¹ N·m²/kg²</td></tr>
+                        <tr><td>Planck's constant</td><td>h = 6.63 × 10⁻³⁴ J·s</td></tr>
+                        <tr><td>Bohr radius</td><td>a₀ = 5.29 × 10⁻¹¹ m</td></tr>
+                        <tr><td>Boltzmann constant</td><td>k_B = 1.38 × 10⁻²³ J/K</td></tr>
+                    </table>
+
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
+                    <table class="ref-table">
+                        <tr><td>meter</td><td>m</td><td>volt</td><td>V</td></tr>
+                        <tr><td>kilogram</td><td>kg</td><td>ampere</td><td>A</td></tr>
+                        <tr><td>second</td><td>s</td><td>hertz</td><td>Hz</td></tr>
+                        <tr><td>newton</td><td>N</td><td>farad</td><td>F</td></tr>
+                        <tr><td>pascal</td><td>Pa</td><td>ohm</td><td>Ω</td></tr>
+                        <tr><td>joule</td><td>J</td><td>tesla</td><td>T</td></tr>
+                        <tr><td>watt</td><td>W</td><td>henry</td><td>H</td></tr>
+                    </table>
+
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">PREFIXES</div>
+                    <table class="ref-table">
+                        <tr><td>tera</td><td>T = 10¹²</td><td>milli</td><td>m = 10⁻³</td></tr>
+                        <tr><td>giga</td><td>G = 10⁹</td><td>micro</td><td>μ = 10⁻⁶</td></tr>
+                        <tr><td>mega</td><td>M = 10⁶</td><td>nano</td><td>n = 10⁻⁹</td></tr>
+                        <tr><td>kilo</td><td>k = 10³</td><td>pico</td><td>p = 10⁻¹²</td></tr>
+                        <tr><td>centi</td><td>c = 10⁻²</td><td></td><td></td></tr>
+                    </table>
+
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">VALUES OF TRIGONOMETRIC FUNCTIONS FOR COMMON ANGLES</div>
+                    <table class="ref-table" style="text-align: center;">
+                        <tr><th>θ (°)</th><th>sin θ</th><th>cos θ</th><th>tan θ</th></tr>
+                        <tr><td>0°</td><td>0</td><td>1</td><td>0</td></tr>
+                        <tr><td>30°</td><td>0.5</td><td>0.866</td><td>0.577</td></tr>
+                        <tr><td>45°</td><td>0.707</td><td>0.707</td><td>1</td></tr>
+                        <tr><td>60°</td><td>0.866</td><td>0.5</td><td>1.732</td></tr>
+                        <tr><td>90°</td><td>1</td><td>0</td><td>∞</td></tr>
+                    </table>
+
+                    <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">EXAM CONVENTIONS</div>
+                    <div style="font-size: 12px; line-height: 1.6; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color);">
+                        • The positive direction is to the right.<br>
+                        • The positive rotational direction is counterclockwise.<br>
+                        • The upward direction is positive.<br>
+                        • Assume g = 10 m/s² throughout all problems.<br>
+                        • Use the small angle approximation where appropriate.
+                    </div>
+
+                    <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">GEOMETRY AND TRIGONOMETRY</div>
+                    <table class="ref-table">
+                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Rectangle</td><td colspan="2">A = bh; P = 2b + 2h</td></tr>
+                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Triangle</td><td colspan="2">A = ½bh</td></tr>
+                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Circle</td><td colspan="2">A = πr²; C = 2πr</td></tr>
+                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Ellipse</td><td colspan="2">A = πab</td></tr>
+                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Rectangular Solid</td><td colspan="2">V = lwh</td></tr>
+                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Cylinder</td><td colspan="2">V = πr²h; A = 2πrh + 2πr²</td></tr>
+                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Sphere</td><td colspan="2">V = (4/3)πr³; A = 4πr²</td></tr>
+                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Right Triangle</td><td colspan="2">a² + b² = c²</td></tr>
+                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">sin θ</td><td>opposite / hypotenuse</td><td></td></tr>
+                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">cos θ</td><td>adjacent / hypotenuse</td><td></td></tr>
+                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">tan θ</td><td>opposite / adjacent</td><td></td></tr>
+                    </table>
+                </div>
+
+                <div id="ref-page-2" class="ref-page-content">
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        MECHANICS & FLUIDS EQUATIONS
+                    </h2>
+
+                    <div class="official-two-col-container">
+                        <div class="equations-column">
+                            <strong>Kinematics:</strong><br>
+                            $v_f = v_i + at$<br>
+                            $x = x_i + v_i t + \frac{1}{2}at^2$<br>
+                            $v_f^2 = v_i^2 + 2a(x - x_i)$<br>
+                            $\bar{v} = \frac{x_f - x_i}{t_f - t_i}$<br><br>
+                            <strong>Dynamics:</strong><br>
+                            $\vec{F} = m\vec{a}$<br>
+                            $\vec{F}_{net} = m\vec{a}$<br>
+                            $F_f = \mu_k N$<br>
+                            $F_s \leq \mu_s N$<br><br>
+                            <strong>Circular Motion:</strong><br>
+                            $a_c = \frac{v^2}{r}$<br>
+                            $\vec{F}_c = \frac{mv^2}{r}$<br>
+                            $\omega = \frac{\Delta \theta}{\Delta t}$<br>
+                            $v = r\omega$<br><br>
+                            <strong>Work & Energy:</strong><br>
+                            $W = \vec{F} \cdot \vec{d} = Fd \cos \theta$<br>
+                            $KE = \frac{1}{2}mv^2$<br>
+                            $PE_{grav} = mgh$<br>
+                            $PE_{spring} = \frac{1}{2}kx^2$<br>
+                            $E_{total} = KE + PE$<br>
+                            $P = \frac{W}{t} = \frac{\Delta E}{t}$<br>
+                        </div>
+                        <div class="equations-column">
+                            <strong>Momentum:</strong><br>
+                            $\vec{p} = m\vec{v}$<br>
+                            $\vec{F} = \frac{\Delta \vec{p}}{\Delta t}$<br>
+                            $\vec{J} = \vec{F} \Delta t = \Delta \vec{p}$<br><br>
+                            <strong>Collisions & Rotation:</strong><br>
+                            $\tau = r F \sin \theta = I\alpha$<br>
+                            $L = I\omega = mvr$<br>
+                            $KE_{rot} = \frac{1}{2}I\omega^2$<br>
+                            $I_{cylinder} = \frac{1}{2}MR^2$<br>
+                            $I_{sphere} = \frac{2}{5}MR^2$<br>
+                            $I_{rod} = \frac{1}{12}ML^2$<br><br>
+                            <strong>Oscillations & Waves:</strong><br>
+                            $T = \frac{1}{f}$<br>
+                            $v = \lambda f$<br>
+                            $x = A \cos(\omega t + \phi)$<br>
+                            $v = -A\omega \sin(\omega t + \phi)$<br>
+                            $F = -kx$<br>
+                            $T = 2\pi\sqrt{\frac{m}{k}}$<br>
+                            $T = 2\pi\sqrt{\frac{L}{g}}$<br>
+                        </div>
+                        <div class="symbols-right-pane">
+                            <strong>Symbols:</strong><br>
+                            $v$ = velocity<br>
+                            $a$ = acceleration<br>
+                            $F$ = force<br>
+                            $m$ = mass<br>
+                            $W$ = work<br>
+                            $KE$ = kinetic energy<br>
+                            $PE$ = potential energy<br>
+                            $p$ = momentum<br>
+                            $\tau$ = torque<br>
+                            $I$ = moment of inertia<br>
+                            $\omega$ = angular velocity<br>
+                            $T$ = period<br>
+                            $f$ = frequency<br>
+                            $\lambda$ = wavelength<br>
+                            $k$ = spring constant<br>
+                            $\mu_k$ = kinetic friction coefficient<br>
+                            $r$ = radius<br>
+                            $\theta$ = angle<br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ref-ap2" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
+            <div class="drawer-page-toggle">
+                <button id="btn-page-3" class="toggle-page-btn active" onclick="switchRefPage(3, 'ap2')">Table of Information</button>
+                <button id="btn-page-4" class="toggle-page-btn" onclick="switchRefPage(4, 'ap2')">Equations</button>
+            </div>
+
+            <div class="drawer-scroll-body tex2jax_process">
+                <div id="ref-page-3" class="ref-page-content active">
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        AP PHYSICS 2 REFERENCE TABLE
+                    </h2>
+                    <p style="text-align: center; font-size: 12px; color: var(--text-dim);">Constants and reference information for AP Physics 2</p>
+                </div>
+
+                <div id="ref-page-4" class="ref-page-content">
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        AP PHYSICS 2 EQUATIONS
+                    </h2>
+                    <p style="text-align: center; font-size: 12px; color: var(--text-dim);">Thermodynamics, Electricity, Magnetism, Optics, and Modern Physics equations</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="ref-apc-mech" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
+            <div class="drawer-page-toggle">
+                <button id="btn-page-5" class="toggle-page-btn active" onclick="switchRefPage(5, 'apc-mech')">Table of Information</button>
+                <button id="btn-page-6" class="toggle-page-btn" onclick="switchRefPage(6, 'apc-mech')">Equations</button>
+            </div>
+
+            <div class="drawer-scroll-body tex2jax_process">
+                <div id="ref-page-5" class="ref-page-content active">
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        AP PHYSICS C: MECHANICS REFERENCE TABLE
+                    </h2>
+                    <p style="text-align: center; font-size: 12px; color: var(--text-dim);">Constants and reference information for AP Physics C: Mechanics</p>
+                </div>
+
+                <div id="ref-page-6" class="ref-page-content">
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        AP PHYSICS C: MECHANICS EQUATIONS
+                    </h2>
+                    <p style="text-align: center; font-size: 12px; color: var(--text-dim);">Differential and integral calculus-based mechanics equations</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="ref-apc-em" class="course-ref-container" style="display: none; flex-direction: column; flex-grow: 1; overflow: hidden;">
+            <div class="drawer-page-toggle">
+                <button id="btn-page-7" class="toggle-page-btn active" onclick="switchRefPage(7, 'apc-em')">Table of Information</button>
+                <button id="btn-page-8" class="toggle-page-btn" onclick="switchRefPage(8, 'apc-em')">Equations</button>
+            </div>
+
+            <div class="drawer-scroll-body tex2jax_process">
+                <div id="ref-page-7" class="ref-page-content active">
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        AP PHYSICS C: E&M REFERENCE TABLE
+                    </h2>
+                    <p style="text-align: center; font-size: 12px; color: var(--text-dim);">Constants and reference information for AP Physics C: Electricity & Magnetism</p>
+                </div>
+
+                <div id="ref-page-8" class="ref-page-content">
+                    <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
+                        AP PHYSICS C: E&M EQUATIONS
+                    </h2>
+                    <p style="text-align: center; font-size: 12px; color: var(--text-dim);">Calculus-based electricity and magnetism equations</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     <div id="screen-pause-overlay" class="immersive-pause-overlay" onmousedown="handleResumeHoldStart()" onmouseup="handleResumeHoldEnd()" onmouseleave="handleResumeHoldEnd()">
         <div class="pause-title">EXAMINATION PAUSED</div>
@@ -1465,6 +1943,81 @@
                 window.location.href = 'home-page.html';
             }
         }
+
+        // Reference Sheet and Calculator Functions
+        let desmosCalcInstance = null;
+
+        function toggleRefDrawer() {
+            const drawer = document.getElementById('ref-drawer-panel');
+            const tabTrigger = document.getElementById('ref-tab-trigger');
+
+            drawer.classList.toggle('open');
+            tabTrigger.classList.toggle('drawer-open');
+        }
+
+        function toggleDesmosDrawer() {
+            const drawer = document.getElementById('desmos-drawer-panel');
+            const tabTrigger = document.getElementById('desmos-tab-trigger');
+
+            drawer.classList.toggle('open');
+            tabTrigger.classList.toggle('drawer-open');
+
+            if (desmosCalcInstance) {
+                setTimeout(() => {
+                    desmosCalcInstance.resize();
+                }, 310);
+            }
+        }
+
+        function switchRefPage(pageNum, coursePrefix) {
+            const targetPage = document.getElementById(`ref-page-${pageNum}`);
+            if (!targetPage) return;
+            const container = targetPage.closest('.course-ref-container');
+
+            container.querySelectorAll('.ref-page-content').forEach(p => p.classList.remove('active'));
+            targetPage.classList.add('active');
+
+            container.querySelectorAll('.toggle-page-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-page-${pageNum}`).classList.add('active');
+        }
+
+        function switchCourseRef() {
+            const selectedCourse = document.getElementById('course-ref-select').value;
+
+            document.querySelectorAll('.course-ref-container').forEach(container => {
+                container.style.display = 'none';
+            });
+
+            const activeContainer = document.getElementById(`ref-${selectedCourse}`);
+            if (activeContainer) {
+                activeContainer.style.display = 'flex';
+            }
+        }
+
+        // Initialize Reference Sheet and Calculator on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('ref-tab-trigger').style.display = 'block';
+            document.getElementById('desmos-tab-trigger').style.display = 'block';
+
+            const elt = document.getElementById('desmos-calculator');
+            if (elt && typeof Desmos !== 'undefined') {
+                desmosCalcInstance = Desmos.GraphingCalculator(elt, {
+                    keypad: true,
+                    expressionsTopbar: true
+                });
+            }
+
+            const refSelect = document.getElementById('course-ref-select');
+            if (refSelect) {
+                const currentSubject = subjectCode || 'ap1';
+                let selectVal = currentSubject;
+                if (currentSubject === 'mech') selectVal = 'apc-mech';
+                if (currentSubject === 'em') selectVal = 'apc-em';
+
+                refSelect.value = selectVal;
+                switchCourseRef();
+            }
+        });
     </script>
 </body>
 </html>

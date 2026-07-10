@@ -8,7 +8,7 @@ const ap1PracticeExamMCQPoolOne = [
         sciencePractice: "2.B – Calculate or estimate an unknown quantity with units from known quantities by selecting and following a logical computational pathway.",
         difficulty: "Medium",
 
-        jpegDiagram: `<img src="./images/mcq-diagram-1.jpg" alt="MCQ Diagram 1" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        jpegDiagram: null,
 
         question: "A 2.0 kg block is held against a horizontal spring of spring constant 400 N/m, compressing the spring by 0.20 m. The block is then released from rest on a frictionless horizontal surface. What is the maximum speed achieved by the block after release?",
 
@@ -39,7 +39,7 @@ const ap1PracticeExamMCQPoolOne = [
         sciencePractice: "3.B – Apply an appropriate law, definition, theoretical relationship, or model to make a claim.",
         difficulty: "Hard",
 
-        jpegDiagram: `<img src="./images/mcq-diagram-2.jpg" alt="MCQ Diagram 2" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        jpegDiagram: null,
 
 
         question: "A small block is launched along the inside of a rough, vertical circular track. Due to friction, the block moves at a constant speed v as it successfully traverses the complete circular path. Which of the following options correctly represents the relative magnitudes of the normal force F_N exerted by the track on the block at the four labeled positions?",
@@ -47,15 +47,15 @@ const ap1PracticeExamMCQPoolOne = [
         choices: [
             {
                 text: "Normal force is identical in length (equal) at all four positions.",
-                jpegDiagram: `<img src="./images/mcq-diagram-3.jpg" alt="MCQ Diagram 3" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                jpegDiagram: null
             },
             {
                 text: "Normal force at Point 1 (bottom) is longest; Points 2 and 4 (sides) are equal and medium; Point 3 (top) is shortest.",
-                jpegDiagram: `<img src="./images/mcq-diagram-4.jpg" alt="MCQ Diagram 4" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                jpegDiagram: null
             },
             {
                 text: "Normal force at Point 3 (top) is longest; Points 2 and 4 are equal; Point 1 (bottom) is shortest.",
-                jpegDiagram: `<img src="./images/mcq-diagram-5.jpg" alt="MCQ Diagram 5" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                jpegDiagram: null
             },
             {
                 text: "Normal force at Point 2 is longer than Point 4 due to the direction of motion.",
@@ -83,7 +83,7 @@ const ap1PracticeExamMCQPoolOne = [
         sciencePractice: "2.A – Derive a symbolic expression from known quantities.",
         difficulty: "Hard",
 
-        jpegDiagram: `<img src="./images/mcq-diagram-6.jpg" alt="MCQ Diagram 4" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        jpegDiagram: null,
 
 
         question: "A projectile of mass m is launched from the ground with an initial speed v₀ at an angle θ above the horizontal. Air resistance is negligible. Using principles of conservation of energy, derive an expression for the speed v_p of the projectile when it passes through Point P at a known vertical height h above the ground.",
@@ -115,7 +115,7 @@ const ap1PracticeExamMCQPoolOne = [
         sciencePractice: "2.C – Compare physical quantities between two or more scenarios.",
         difficulty: "Medium",
 
-        jpegDiagram: `<img src="./images/mcq-diagram-7.jpg" alt="MCQ Diagram 5" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        jpegDiagram: null,
 
 
         question: "In both scenarios described above, a uniform beam of length L and mass M is held in perfect horizontal static equilibrium by a cable. Let T_A be the tension in Scenario A (cable at the right end, 30° from beam) and T_B be the tension in Scenario B (cable at the midpoint, 60° from beam). Which of the following correctly describes the relationship between T_A and T_B?",
@@ -147,7 +147,7 @@ const ap1PracticeExamMCQPoolOne = [
         sciencePractice: "3.B – Apply an appropriate physical model to make a claim.",
         difficulty: "Hard",
 
-        jpegDiagram: `<img src="./images/mcq-diagram-8.jpg" alt="MCQ Diagram 6" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        jpegDiagram: null,
 
 
         question: "A sticky projectile of mass m is moving horizontally with speed v₀ when it strikes and sticks to the edge of an initially stationary uniform disk of radius R and mass M (I_disk = (1/2)MR²). Which of the following statements is true regarding the linear momentum and angular momentum of the system during the collision?",
@@ -179,7 +179,7 @@ const ap1PracticeExamMCQPoolOne = [
         sciencePractice: "2.D – Predict new values using functional dependence between variables.",
         difficulty: "Medium",
 
-        jpegDiagram: `<img src="./images/mcq-diagram-9.jpg" alt="MCQ Diagram 7" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        jpegDiagram: null,
 
 
         question: "An object attached to an ideal spring undergoes simple harmonic motion. Its position as a function of time is shown above as x(t) = A·cos(ωt), beginning at maximum positive displacement +A at t = 0. Which of the following velocity vs. time graphs correctly corresponds to this motion?",
@@ -187,19 +187,19 @@ const ap1PracticeExamMCQPoolOne = [
         choices: [
             {
                 text: "Positive sine curve: starts at v = 0 at t = 0, rises to +v_max at t = T/4, returns to zero at t = T/2.",
-                jpegDiagram: `<img src="./images/mcq-diagram-10.jpg" alt="MCQ Diagram 10" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                jpegDiagram: null
             },
             {
                 text: "Negative sine curve: starts at v = 0 at t = 0, drops to −v_max at t = T/4, passes through zero at T/2, rises to +v_max at t = 3T/4.",
-                jpegDiagram: `<img src="./images/mcq-diagram-11.jpg" alt="MCQ Diagram 11" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                jpegDiagram: null
             },
             {
                 text: "Cosine curve identical in shape to the position graph (same phase), scaled up in amplitude.",
-                jpegDiagram: `<img src="./images/mcq-diagram-12.jpg" alt="MCQ Diagram 12" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                jpegDiagram: null
             },
             {
                 text: "Negative cosine curve: starts at −v_max at t = 0.",
-                jpegDiagram: `<img src="./images/mcq-diagram-13.jpg" alt="MCQ Diagram 13" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                jpegDiagram: null
             }
         ],
 
@@ -223,7 +223,7 @@ const ap1PracticeExamMCQPoolOne = [
         sciencePractice: "2.B – Calculate an unknown quantity.",
         difficulty: "Medium",
 
-        jpegDiagram: `<img src="./images/mcq-diagram-14.jpg" alt="MCQ Diagram 8" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        jpegDiagram: null,
 
 
         question: "A 5.0 kg block slides down an incline tilted at an angle of 37° relative to the horizontal. If the coefficient of kinetic friction between the block and the incline is 0.25, what is the magnitude of the acceleration of the block down the ramp? (Use g = 10 m/s², sin 37° ≈ 0.60, cos 37° ≈ 0.80)",
@@ -255,7 +255,7 @@ const ap1PracticeExamMCQPoolOne = [
         sciencePractice: "3.B – Apply an appropriate physical model to make a claim.",
         difficulty: "Hard",
 
-        jpegDiagram: `<img src="./images/mcq-diagram-15.jpg" alt="MCQ Diagram 9" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        jpegDiagram: null,
 
 
         question: "Students are designing an experiment to verify the Impulse-Momentum Theorem (∫F dt = Δp) during a collision between two carts. Cart A has an electronic force sensor mounted on it, and a motion detector tracks its velocity. To completely verify that the impulse delivered equals the change in linear momentum of Cart A, which of the following describes the correct data analysis?",
@@ -287,7 +287,7 @@ const ap1PracticeExamMCQPoolOne = [
         sciencePractice: "2.C – Compare physical quantities.",
         difficulty: "Medium",
 
-        jpegDiagram: `<img src="./images/mcq-diagram-16.jpg" alt="MCQ Diagram 10" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        jpegDiagram: null,
 
 
         question: "An open container holds an ideal static fluid as shown. Point X is 5 cm below the surface near the left wall, Point Y is 5 cm below the surface near the center, and Point Z is 15 cm below the surface near the bottom. Which of the following correctly ranks the absolute hydrostatic pressures P_X, P_Y, and P_Z?",
@@ -319,7 +319,7 @@ const ap1PracticeExamMCQPoolOne = [
         sciencePractice: "2.B – Calculate an unknown quantity.",
         difficulty: "Medium",
 
-        jpegDiagram: `<img src="./images/mcq-diagram-17.jpg" alt="MCQ Diagram 11" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        jpegDiagram: null,
 
 
         question: "A solid, uniform cylinder (I = (1/2)MR²) starts from rest and rolls without slipping down an incline from a vertical height H. What fraction of the cylinder's total kinetic energy at the bottom of the ramp is stored as rotational kinetic energy?",
