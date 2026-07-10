@@ -1168,8 +1168,8 @@
             const optionsContentBox = document.getElementById('target-choices-container');
             
             if (currentActivePhase === 'MCQ') {
-                // Support optional main question SVG diagram
-                let questionContent = questionRecord.svgDiagram ? `<div style="margin-bottom: 20px;">${questionRecord.svgDiagram}</div>${questionRecord.question}` : questionRecord.question;
+                // Support optional main question JPEG diagram
+                let questionContent = questionRecord.jpegDiagram ? `<div style="margin-bottom: 20px;">${questionRecord.jpegDiagram}</div>${questionRecord.question}` : questionRecord.question;
                 document.getElementById('target-question-box').innerHTML = questionContent;
                 optionsContentBox.innerHTML = '';
 
@@ -1181,10 +1181,10 @@
                     const targetBtnNode = document.createElement('button');
                     targetBtnNode.className = 'choice-btn';
                     
-                    // Support object structure and optional choice SVG diagram
+                    // Support object structure and optional choice JPEG diagram
                     let choiceHTML = `<span><strong>( ${alphaPrefixes[stringIdx]} )</strong></span> <span>${choiceData.text}</span>`;
-                    if (choiceData.svgDiagram) {
-                        choiceHTML += `<div style="margin-top: 10px;">${choiceData.svgDiagram}</div>`;
+                    if (choiceData.jpegDiagram) {
+                        choiceHTML += `<div style="margin-top: 10px;">${choiceData.jpegDiagram}</div>`;
                     }
                     targetBtnNode.innerHTML = choiceHTML;
                     
@@ -1208,20 +1208,20 @@
             } else {
                 // Free Response Render Phase Configuration
                 let frqHTML = `<div><strong>${questionRecord.problemType || 'Free Response'}</strong></div><p>${questionRecord.problemSetup}</p>`;
-                if (questionRecord.svgDiagram) frqHTML += `<div style="margin: 20px 0;">${questionRecord.svgDiagram}</div>`;
+                if (questionRecord.jpegDiagram) frqHTML += `<div style="margin: 20px 0;">${questionRecord.jpegDiagram}</div>`;
                 if (questionRecord.dataTable) frqHTML += buildTableHTML(questionRecord.dataTable);
 
                 questionRecord.parts.forEach((part, pIdx) => {
                     frqHTML += `<div class="part-header">${part.partTitle}</div>`;
                     if (part.partIntroText) frqHTML += `<p>${part.partIntroText}</p>`;
-                    if (part.svgDiagram) frqHTML += `<div style="margin: 15px 0;">${part.svgDiagram}</div>`;
+                    if (part.jpegDiagram) frqHTML += `<div style="margin: 15px 0;">${part.jpegDiagram}</div>`;
                     if (part.dataTable) frqHTML += buildTableHTML(part.dataTable);
 
                     part.subparts.forEach((subpart, sIdx) => {
                         frqHTML += `<div class="subpart-block">`;
                         if (subpart.subpartLabel) frqHTML += `<strong>${subpart.subpartLabel}</strong> `;
                         frqHTML += `<span>${subpart.subpartQuestion}</span>`;
-                        if (subpart.svgDiagram) frqHTML += `<div style="margin: 15px 0;">${subpart.svgDiagram}</div>`;
+                        if (subpart.jpegDiagram) frqHTML += `<div style="margin: 15px 0;">${subpart.jpegDiagram}</div>`;
                         
                         // Added textbook input elements for FRQ
                         const currentSessionAnswerText = catalogedFRQResponses[currentProblemIndex]?.[pIdx]?.[sIdx] || "";
