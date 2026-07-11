@@ -1666,7 +1666,7 @@
                         
                         // Added textbook input elements for FRQ
                         const currentSessionAnswerText = catalogedFRQResponses[currentProblemIndex]?.[pIdx]?.[sIdx] || "";
-                        frqHTML += `<textarea class="frq-textarea" placeholder="Type your multi-part answer setup framework logic details here..." oninput="updateFRQDataValue(${currentProblemIndex}, ${pIdx}, ${sIdx}, this.value)">${currentSessionAnswerText}</textarea>`;
+                        frqHTML += `<textarea class="frq-textarea" placeholder="Type your answer here..." oninput="updateFRQDataValue(${currentProblemIndex}, ${pIdx}, ${sIdx}, this.value)">${currentSessionAnswerText}</textarea>`;
                         
                         frqHTML += `</div>`;
                     });
