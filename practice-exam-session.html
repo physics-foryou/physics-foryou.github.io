@@ -106,6 +106,26 @@
             font-family: monospace;
         }
 
+        .timer-box.low-time {
+            color: var(--flag-red);
+        }
+
+        .timer-warning-pill {
+            display: none;
+            margin-top: 2px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: var(--panel-bg);
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            text-align: center;
+        }
+
         .utility-btn {
             background-color: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.25);
@@ -289,13 +309,9 @@
             background-color: rgba(0,0,0,0.06); 
         }
         .choice-btn.selected { 
-            border-color: var(--selected-bg) !important; 
-            background-color: var(--selected-bg) !important; 
-            color: var(--selected-text) !important;
+            border-color: var(--text-main) !important; 
+            background-color: rgba(0,0,0,0.12) !important; 
             font-weight: bold; 
-        }
-        .choice-btn.selected * {
-            color: var(--selected-text) !important;
         }
 
         .choice-row.eliminated .choice-btn {
@@ -305,28 +321,6 @@
             border-color: rgba(0,0,0,0.1);
         }
 
-        /* FRQ Typography & Form Input Mechanics */
-        .frq-textarea {
-            width: 100%;
-            min-height: 130px;
-            background-color: rgba(0,0,0,0.02);
-            border: 1px solid var(--text-dim);
-            color: var(--text-main);
-            font-family: inherit;
-            font-size: 14px;
-            padding: 12px;
-            border-radius: 4px;
-            resize: vertical;
-            box-sizing: border-box;
-            margin-top: 10px;
-            margin-bottom: 24px;
-            transition: all 0.2s;
-        }
-        .frq-textarea:focus {
-            outline: none;
-            border-color: var(--header-bg);
-            background-color: var(--panel-bg);
-        }
         .part-header {
             font-weight: bold;
             font-size: 16px;
@@ -807,7 +801,8 @@
         }
 
         .drawer-scroll-body {
-            padding: 25px;
+              padding: 25px 25px 80px;
+              box-sizing: border-box;
             overflow-y: auto;
             flex-grow: 1;
         }
@@ -952,70 +947,110 @@
 
                     <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">CONSTANTS AND CONVERSION FACTORS</div>
                     <table class="ref-table">
-                        <tr><td>Acceleration due to gravity</td><td>g = 10 m/s²</td></tr>
-                        <tr><td>Coulomb's law constant</td><td>k = 9.0 × 10⁹ N·m²/C²</td></tr>
-                        <tr><td>Charge of electron</td><td>e = 1.6 × 10⁻¹⁹ C</td></tr>
-                        <tr><td>Mass of electron</td><td>m_e = 9.11 × 10⁻³¹ kg</td></tr>
-                        <tr><td>Permittivity of free space</td><td>ε₀ = 8.85 × 10⁻¹² F/m</td></tr>
-                        <tr><td>Permeability of free space</td><td>μ₀ = 4π × 10⁻⁷ T·m/A</td></tr>
-                        <tr><td>Gravitational constant</td><td>G = 6.67 × 10⁻¹¹ N·m²/kg²</td></tr>
-                        <tr><td>Planck's constant</td><td>h = 6.63 × 10⁻³⁴ J·s</td></tr>
-                        <tr><td>Bohr radius</td><td>a₀ = 5.29 × 10⁻¹¹ m</td></tr>
-                        <tr><td>Boltzmann constant</td><td>k_B = 1.38 × 10⁻²³ J/K</td></tr>
+                        <tr>
+                            <td style="width: 50%;">Universal gravitational constant,</td>
+                            <td style="width: 50%;">$G = 6.67 \times 10^{-11} \text{ m}^3/(\text{kg}\cdot\text{s}^2) = 6.67 \times 10^{-11} \text{ N}\cdot\text{m}^2/\text{kg}^2$</td>
+                        </tr>
+                        <tr>
+                            <td>Magnitude of the acceleration due to gravity at Earth’s surface,</td>
+                            <td>$g = 9.8 \text{ m/s}^2$</td>
+                        </tr>
+                        <tr>
+                            <td>Magnitude of the gravitational field strength at Earth’s surface,</td>
+                            <td>$g = 9.8 \text{ N/kg}$</td>
+                        </tr>
+                        <tr>
+                            <td>1 atmosphere of pressure,</td>
+                            <td>$1 \text{ atm} = 1.0 \times 10^5 \text{ N/m}^2 = 1.0 \times 10^5 \text{ Pa}$</td>
+                        </tr>
                     </table>
 
                     <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">UNIT SYMBOLS</div>
                     <table class="ref-table">
-                        <tr><td>meter</td><td>m</td><td>volt</td><td>V</td></tr>
-                        <tr><td>kilogram</td><td>kg</td><td>ampere</td><td>A</td></tr>
-                        <tr><td>second</td><td>s</td><td>hertz</td><td>Hz</td></tr>
-                        <tr><td>newton</td><td>N</td><td>farad</td><td>F</td></tr>
-                        <tr><td>pascal</td><td>Pa</td><td>ohm</td><td>Ω</td></tr>
-                        <tr><td>joule</td><td>J</td><td>tesla</td><td>T</td></tr>
-                        <tr><td>watt</td><td>W</td><td>henry</td><td>H</td></tr>
+                        <tr>
+                            <td>
+                                hertz, $\text{Hz}$<br>
+                                kilogram, $\text{kg}$<br>
+                                meter, $\text{m}$
+                            </td>
+                            <td>
+                                newton, $\text{N}$<br>
+                                pascal, $\text{Pa}$<br>
+                                second, $\text{s}$<br>
+                                watt, $\text{W}$
+                            </td>
+                        </tr>
                     </table>
 
                     <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px;">PREFIXES</div>
                     <table class="ref-table">
-                        <tr><td>tera</td><td>T = 10¹²</td><td>milli</td><td>m = 10⁻³</td></tr>
-                        <tr><td>giga</td><td>G = 10⁹</td><td>micro</td><td>μ = 10⁻⁶</td></tr>
-                        <tr><td>mega</td><td>M = 10⁶</td><td>nano</td><td>n = 10⁻⁹</td></tr>
-                        <tr><td>kilo</td><td>k = 10³</td><td>pico</td><td>p = 10⁻¹²</td></tr>
-                        <tr><td>centi</td><td>c = 10⁻²</td><td></td><td></td></tr>
+                        <tr>
+                            <th>Factor</th>
+                            <th>Prefix</th>
+                            <th>Symbol</th>
+                        </tr>
+                        <tr><td>$10^{12}$</td><td>tera</td><td>T</td></tr>
+                        <tr><td>$10^9$</td><td>giga</td><td>G</td></tr>
+                        <tr><td>$10^6$</td><td>mega</td><td>M</td></tr>
+                        <tr><td>$10^3$</td><td>kilo</td><td>k</td></tr>
+                        <tr><td>$10^{-2}$</td><td>centi</td><td>c</td></tr>
+                        <tr><td>$10^{-3}$</td><td>milli</td><td>m</td></tr>
+                        <tr><td>$10^{-6}$</td><td>micro</td><td>$\mu$</td></tr>
+                        <tr><td>$10^{-9}$</td><td>nano</td><td>n</td></tr>
+                        <tr><td>$10^{-12}$</td><td>pico</td><td>p</td></tr>
                     </table>
 
                     <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">VALUES OF TRIGONOMETRIC FUNCTIONS FOR COMMON ANGLES</div>
                     <table class="ref-table" style="text-align: center;">
-                        <tr><th>θ (°)</th><th>sin θ</th><th>cos θ</th><th>tan θ</th></tr>
-                        <tr><td>0°</td><td>0</td><td>1</td><td>0</td></tr>
-                        <tr><td>30°</td><td>0.5</td><td>0.866</td><td>0.577</td></tr>
-                        <tr><td>45°</td><td>0.707</td><td>0.707</td><td>1</td></tr>
-                        <tr><td>60°</td><td>0.866</td><td>0.5</td><td>1.732</td></tr>
-                        <tr><td>90°</td><td>1</td><td>0</td><td>∞</td></tr>
+                        <tr>
+                            <th>$\theta$</th><th>$0^\circ$</th><th>$30^\circ$</th><th>$37^\circ$</th><th>$45^\circ$</th><th>$53^\circ$</th><th>$60^\circ$</th><th>$90^\circ$</th>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">$\sin\theta$</td><td>$0$</td><td>$1/2$</td><td>$3/5$</td><td>$\sqrt{2}/2$</td><td>$4/5$</td><td>$\sqrt{3}/2$</td><td>$1$</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">$\cos\theta$</td><td>$1$</td><td>$\sqrt{3}/2$</td><td>$4/5$</td><td>$\sqrt{2}/2$</td><td>$3/5$</td><td>$1/2$</td><td>$0$</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">$\tan\theta$</td><td>$0$</td><td>$\sqrt{3}/3$</td><td>$3/4$</td><td>$1$</td><td>$4/3$</td><td>$\sqrt{3}$</td><td>$\infty$</td>
+                        </tr>
                     </table>
 
                     <div style="font-weight: bold; margin-bottom: 8px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">EXAM CONVENTIONS</div>
                     <div style="font-size: 12px; line-height: 1.6; color: var(--text-main); background: rgba(0,0,0,0.02); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color);">
-                        • The positive direction is to the right.<br>
-                        • The positive rotational direction is counterclockwise.<br>
-                        • The upward direction is positive.<br>
-                        • Assume g = 10 m/s² throughout all problems.<br>
-                        • Use the small angle approximation where appropriate.
+                        • The frame of reference of any problem is assumed to be inertial unless otherwise stated.<br>
+                        • Air resistance is assumed to be negligible unless otherwise stated.<br>
+                        • Springs and strings are assumed to be ideal unless otherwise stated.<br>
+                        • Fluids are assumed to be ideal, and pipes are assumed to be completely filled by fluid, unless otherwise stated.
                     </div>
 
                     <div style="font-weight: bold; margin-bottom: 8px; margin-top: 15px; font-size: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">GEOMETRY AND TRIGONOMETRY</div>
                     <table class="ref-table">
-                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Rectangle</td><td colspan="2">A = bh; P = 2b + 2h</td></tr>
-                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Triangle</td><td colspan="2">A = ½bh</td></tr>
-                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Circle</td><td colspan="2">A = πr²; C = 2πr</td></tr>
-                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Ellipse</td><td colspan="2">A = πab</td></tr>
-                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Rectangular Solid</td><td colspan="2">V = lwh</td></tr>
-                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Cylinder</td><td colspan="2">V = πr²h; A = 2πrh + 2πr²</td></tr>
-                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Sphere</td><td colspan="2">V = (4/3)πr³; A = 4πr²</td></tr>
-                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">Right Triangle</td><td colspan="2">a² + b² = c²</td></tr>
-                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">sin θ</td><td>opposite / hypotenuse</td><td></td></tr>
-                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">cos θ</td><td>adjacent / hypotenuse</td><td></td></tr>
-                        <tr><td colspan="2" style="background: rgba(0,0,0,0.03); font-weight: bold;">tan θ</td><td>opposite / adjacent</td><td></td></tr>
+                        <tr>
+                            <td style="width: 33.33%;">
+                                <strong>Rectangle</strong><br>$A = bh$<br><br>
+                                <strong>Triangle</strong><br>$A = \frac{1}{2}bh$
+                            </td>
+                            <td style="width: 33.33%;">
+                                <strong>Circle</strong><br>$A = \pi r^2$<br>$C = 2\pi r$<br>$s = r\theta$
+                            </td>
+                            <td style="width: 33.33%;">
+                                <strong>Rectangular solid</strong><br>$V = \ell wh$<br><br>
+                                <strong>Cylinder</strong><br>$V = \pi r^2 \ell$<br>$S = 2\pi r \ell + 2\pi r^2$
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <strong>Sphere</strong><br>$V = \frac{4}{3}\pi r^3$<br>$S = 4\pi r^2$
+                            </td>
+                            <td>
+                                <strong>Right triangle</strong><br>
+                                $a^2 + b^2 = c^2$<br>
+                                $\sin\theta = \frac{a}{c}$<br>
+                                $\cos\theta = \frac{b}{c}$<br>
+                                $\tan\theta = \frac{a}{b}$
+                            </td>
+                        </tr>
                     </table>
                 </div>
 
@@ -1328,7 +1363,6 @@
                             </td>
                         </tr>
                     </table>
-                </div>
                 </div>
 
                 <div id="ref-page-4" class="ref-page-content">
@@ -2044,10 +2078,10 @@
 
     <div id="break-screen-overlay" class="immersive-pause-overlay" style="z-index: 6000;">
         <div class="pause-title">SECTION I COMPLETE</div>
-        <div class="pause-instructions">Your Multiple Choice Question responses have been saved. You have a short break before Section II (FRQ) begins automatically.</div>
+        <div class="pause-instructions">Your Multiple Choice Question responses have been saved. You have the option to skip the break and start the FRQ section immediately. However, on the actual AP exam, you will not have the option to skip the break.</div>
         
         <div class="timer-zone" style="margin-bottom: 20px;">
-            <span id="break-timer-display" class="timer-box" style="font-size: 48px; color: var(--text-main);">01:00</span>
+            <span id="break-timer-display" class="timer-box" style="font-size: 48px; color: var(--text-main);">10:00</span>
         </div>
         
         <button class="action-btn" onclick="startFRQSection()">Skip Break & Start FRQ</button>
@@ -2059,6 +2093,7 @@
             
             <div class="timer-zone">
                 <span id="timer-display" class="timer-box">80:00</span>
+                <span id="timer-warning-message" class="timer-warning-pill">5 minutes remain</span>
                 <button id="timer-toggle-visibility" class="utility-btn" onclick="toggleTimerClockVisibility()">Hide</button>
             </div>
             
@@ -2178,7 +2213,7 @@
                     <li><strong>Elimination Mode:</strong> Right-click (or hold down on touchscreens) directly onto any option row to cross it out instantly.</li>
                     <li>Left-click any uneliminated answer option to select it normally.</li>
                 </ul>
-                <button class="action-btn" style="width: 100%; margin-top: 15px; padding: 12px;" onclick="closeWelcomeInstructionsModal()">Begin Examination Block</button>
+                <button class="action-btn" style="width: 100%; margin-top: 15px; padding: 12px;" onclick="closeWelcomeInstructionsModal()">Start</button>
             </div>
         </div>
     </div>
@@ -2200,7 +2235,6 @@
 
         // Dual Structure Memory Layout Storage
         let catalogedUserResponses = [];
-        let catalogedFRQResponses = []; // 3D Data Array Matrix [qIdx][partIdx][subpartIdx]
         let markedReviewMatrix = [];
         let markedFRQReviewMatrix = [];
         let optionCrossoutMatrix = [];
@@ -2220,6 +2254,113 @@
         // Break Timer Variables
         let breakCountdownSeconds = 60;
         let breakTimerInterval = null;
+
+        const instructionProfiles = {
+            'ap1': {
+                mcq: {
+                    title: 'AP Physics 1 Practice Exam Instructions',
+                    welcome: 'Section I: Multiple Choice Questions',
+                    bullets: [
+                        'The directions provided is not exactly what you will see on the actual exam. This is a mock exam that is intended to represent the different kinds of questions and functionality you could encounter on exam day.',
+                        'Section I has 42 multiple-choice questions and lasts 85 minutes',
+                        'Each question or incomplete statements is followed by four answer choices or completions. Select the one that best answers the question or incomplete statement.',
+                        'To simplify calculations, you may use g = 10 m/s² in all problems.',
+                        'The following tools, either digital or physical, are allowed: a calculator, ruler, and straightedge. You may use a handheld four-function, scientific, or graphing calculator, or the calculator provided on the left-hand side.',
+                        'Reference sheets, including lists of equations, are provided and may be used throughout the exam. A digital version is available on the right-hand side; however, limit yourself to the reference sheet intended for this course.',
+                        'You can go back and forth between questions until the time is up. The countdown will turn red when 5 minutes remain. On exam day, the proctor will not warn you about pacing.'
+                    ]
+                },
+                frq: {
+                    title: 'AP Physics 1 Practice Exam Instructions',
+                    welcome: 'Section II: Free Response Questions',
+                    bullets: [
+                        'The directions provided is not exactly what you will see on the actual exam. This is a mock exam that is intended to represent the different kinds of questions and functionality you could encounter on exam day.',
+                        'Section II has 4 questions and lasts 95 minutes',
+                        'Use a separate piece of paper to work out your answers. On the actual exam, only work written in the free-response booklet will be scored and work done on scratch paper will not be scored',
+                        'The following tools, either digital or physical, are allowed: a calculator, ruler, and straightedge. You may use a handheld four-function, scientific, or graphing calculator, or the calculator provided on the left-hand side.',
+                        'All final numerical answers should include appropriate units. After completing this section, you will review and grade your own work. To receive credit, your responses should demonstrate that you understand which principles and concepts apply to each situation. Credit should only be given for work that is clearly identified as the solution to the specific part of the question. The quality of your reasoning and explanations should also be considered, so be sure to show your work for every part.',
+                        'Pace yourself as you answer these problems. Also, you may use these timing recommendations:',
+                        'It\'s suggested that you spend about 25 minutes on questions 1 and 3, 30 minutes on question 2, and 20 minutes on question 4.',
+                        'You can go back and forth between questions until the time is up. The countdown will turn red when 5 minutes remain. On exam day, the proctor will not warn you about pacing.'
+                    ]
+                }
+            },
+            'ap2': {
+                mcq: {
+                    title: 'AP Physics 2 Practice Exam Instructions',
+                    welcome: 'Welcome to AP Physics 2 practice testing.',
+                    bullets: [
+                        'You have an uninterrupted countdown of <strong>80 minutes</strong> for Section I.',
+                        '<strong>Elimination Mode:</strong> Right-click (or hold on touchscreens) on any option row to cross it out.',
+                        'Section I emphasizes fluids, thermodynamics, electricity, magnetism, optics, and modern physics topics.'
+                    ]
+                },
+                frq: {
+                    title: 'AP Physics 2 Section II Instructions',
+                    welcome: 'Welcome to Section II (FRQ) for AP Physics 2.',
+                    bullets: [
+                        'Work each FRQ on separate paper and enter no written response in the browser.',
+                        'Use complete justifications for multi-topic reasoning, especially when connecting physics principles across units.',
+                        'The problems, diagrams, data tables, reference sheet, and Desmos calculator remain available.'
+                    ]
+                }
+            },
+            'apc-mech': {
+                mcq: {
+                    title: 'AP Physics C: Mechanics Practice Exam Instructions',
+                    welcome: 'Welcome to AP Physics C: Mechanics practice testing.',
+                    bullets: [
+                        'You have an uninterrupted countdown of <strong>80 minutes</strong> for Section I.',
+                        '<strong>Elimination Mode:</strong> Right-click (or hold on touchscreens) on any option row to cross it out.',
+                        'Section I is calculus-based mechanics; expect derivatives, integrals, and multi-step quantitative reasoning.'
+                    ]
+                },
+                frq: {
+                    title: 'AP Physics C: Mechanics Section II Instructions',
+                    welcome: 'Welcome to Section II (FRQ) for AP Physics C: Mechanics.',
+                    bullets: [
+                        'Work each FRQ on separate paper and enter no written response in the browser.',
+                        'Set up calculus-based models clearly and show symbolic steps before substituting numbers.',
+                        'The problems, diagrams, data tables, reference sheet, and Desmos calculator remain available.'
+                    ]
+                }
+            },
+            'apc-em': {
+                mcq: {
+                    title: 'AP Physics C: Electricity & Magnetism Practice Exam Instructions',
+                    welcome: 'Welcome to AP Physics C: Electricity & Magnetism practice testing.',
+                    bullets: [
+                        'You have an uninterrupted countdown of <strong>80 minutes</strong> for Section I.',
+                        '<strong>Elimination Mode:</strong> Right-click (or hold on touchscreens) on any option row to cross it out.',
+                        'Section I is calculus-based E&M; expect field integrals, flux, circuits, and electromagnetic induction.'
+                    ]
+                },
+                frq: {
+                    title: 'AP Physics C: Electricity & Magnetism Section II Instructions',
+                    welcome: 'Welcome to Section II (FRQ) for AP Physics C: Electricity & Magnetism.',
+                    bullets: [
+                        'Work each FRQ on separate paper and enter no written response in the browser.',
+                        'State your field, potential, and circuit assumptions clearly and support answers with correct vector/scalar reasoning.',
+                        'The problems, diagrams, data tables, reference sheet, and Desmos calculator remain available.'
+                    ]
+                }
+            }
+        };
+
+        function getInstructionProfile() {
+            return instructionProfiles[subjectCode] || instructionProfiles.ap1;
+        }
+
+        function applyInstructionsToModal(sectionKey) {
+            const profile = getInstructionProfile();
+            const instructions = profile[sectionKey] || profile.mcq;
+
+            document.getElementById('modal-title-header').innerText = instructions.title;
+            document.getElementById('modal-welcome-message').innerText = instructions.welcome;
+            document.getElementById('modal-instructions-bulletpoints').innerHTML = instructions.bullets
+                .map(bullet => `<li>${bullet}</li>`)
+                .join('');
+        }
 
         // Load MCQ Script Pool Asset
         const remoteScriptAsset = document.createElement('script');
@@ -2255,7 +2396,6 @@
             markedReviewMatrix = new Array(poolMCQ.length).fill(false);
             optionCrossoutMatrix = Array.from({ length: poolMCQ.length }, () => []);
 
-            catalogedFRQResponses = poolFRQ.map(q => q.parts.map(p => p.subparts.map(s => "")));
             markedFRQReviewMatrix = new Array(poolFRQ.length).fill(false);
 
             examinationPool = poolMCQ;
@@ -2282,7 +2422,6 @@
                     currentPhase: currentActivePhase,
                     currentIndex: currentProblemIndex,
                     responses: catalogedUserResponses,
-                    frqResponses: catalogedFRQResponses,
                     flags: markedReviewMatrix,
                     frqFlags: markedFRQReviewMatrix,
                     crossouts: optionCrossoutMatrix,
@@ -2302,7 +2441,6 @@
                     currentActivePhase = parsed.currentPhase || 'MCQ';
                     currentProblemIndex = parsed.currentIndex || 0;
                     catalogedUserResponses = parsed.responses || catalogedUserResponses;
-                    catalogedFRQResponses = parsed.frqResponses || catalogedFRQResponses;
                     markedReviewMatrix = parsed.flags || markedReviewMatrix;
                     markedFRQReviewMatrix = parsed.frqFlags || markedFRQReviewMatrix;
                     optionCrossoutMatrix = parsed.crossouts || optionCrossoutMatrix;
@@ -2348,13 +2486,24 @@
         }
 
         function updateTimerDisplayConsole() {
+            const timerDisplayNode = document.getElementById('timer-display');
+            const timerWarningNode = document.getElementById('timer-warning-message');
+
+            if (continuousCountdownSeconds <= 300 && continuousCountdownSeconds > 0) {
+                timerDisplayNode.classList.add('low-time');
+                timerWarningNode.style.display = 'block';
+            } else {
+                timerDisplayNode.classList.remove('low-time');
+                timerWarningNode.style.display = 'none';
+            }
+
             if (hideClockStateActive) {
-                document.getElementById('timer-display').innerText = "⌛︎";
+                timerDisplayNode.innerText = "⌛︎";
                 return;
             }
             const structuralMinutes = Math.floor(continuousCountdownSeconds / 60);
             const structuralSeconds = continuousCountdownSeconds % 60;
-            document.getElementById('timer-display').innerText = 
+            timerDisplayNode.innerText = 
                 `${structuralMinutes.toString().padStart(2, '0')}:${structuralSeconds.toString().padStart(2, '0')}`;
         }
 
@@ -2373,6 +2522,7 @@
         function openInstructionsFromMenu() {
             isOptionsMenuOpen = false;
             document.getElementById('header-options-menu').style.display = 'none';
+            applyInstructionsToModal(currentActivePhase === 'FRQ' ? 'frq' : 'mcq');
             document.getElementById('welcome-modal-overlay').style.display = 'flex';
         }
 
@@ -2551,21 +2701,17 @@
                 if (questionRecord.jpegDiagram) frqHTML += `<div style="margin: 20px 0;">${questionRecord.jpegDiagram}</div>`;
                 if (questionRecord.dataTable) frqHTML += buildTableHTML(questionRecord.dataTable);
 
-                questionRecord.parts.forEach((part, pIdx) => {
+                questionRecord.parts.forEach((part) => {
                     frqHTML += `<div class="part-header">${part.partTitle}</div>`;
                     if (part.partIntroText) frqHTML += `<p>${part.partIntroText}</p>`;
                     if (part.jpegDiagram) frqHTML += `<div style="margin: 15px 0;">${part.jpegDiagram}</div>`;
                     if (part.dataTable) frqHTML += buildTableHTML(part.dataTable);
 
-                    part.subparts.forEach((subpart, sIdx) => {
+                    part.subparts.forEach((subpart) => {
                         frqHTML += `<div class="subpart-block">`;
                         if (subpart.subpartLabel) frqHTML += `<strong>${subpart.subpartLabel}</strong> `;
                         frqHTML += `<span>${subpart.subpartQuestion}</span>`;
                         if (subpart.jpegDiagram) frqHTML += `<div style="margin: 15px 0;">${subpart.jpegDiagram}</div>`;
-                        
-                        // Added textbook input elements for FRQ
-                        const currentSessionAnswerText = catalogedFRQResponses[currentProblemIndex]?.[pIdx]?.[sIdx] || "";
-                        frqHTML += `<textarea class="frq-textarea" placeholder="Type your answer here..." oninput="updateFRQDataValue(${currentProblemIndex}, ${pIdx}, ${sIdx}, this.value)">${currentSessionAnswerText}</textarea>`;
                         
                         frqHTML += `</div>`;
                     });
@@ -2631,12 +2777,6 @@
             saveActiveExamProgressState();
         }
 
-        window.updateFRQDataValue = function(qIdx, pIdx, sIdx, payloadValue) {
-            catalogedFRQResponses[qIdx][pIdx][sIdx] = payloadValue;
-            saveActiveExamProgressState();
-            updateConsoleMatrixHighlights();
-        };
-
         function buildTableHTML(tableObjRef) {
             if (!tableObjRef || !tableObjRef.rows || tableObjRef.rows.length === 0) return "";
             let dataTableHTML = `<table class="frq-data-table"><tbody>`;
@@ -2700,16 +2840,6 @@
             });
         }
 
-        function checkFRQIsAnswered(qIdx) {
-            const parts = catalogedFRQResponses[qIdx];
-            for (let p = 0; p < parts.length; p++) {
-                for (let s = 0; s < parts[p].length; s++) {
-                    if (parts[p][s].trim().length > 0) return true;
-                }
-            }
-            return false;
-        }
-
         function updateConsoleMatrixHighlights() {
             const activeFlags = (currentActivePhase === 'MCQ') ? markedReviewMatrix : markedFRQReviewMatrix;
             examinationPool.forEach((_, stepIndex) => {
@@ -2721,7 +2851,7 @@
 
                     if (stepIndex === currentProblemIndex) targetedCellRef.classList.add('current-active');
                     
-                    const isAnswered = (currentActivePhase === 'MCQ') ? (catalogedUserResponses[stepIndex] !== null) : checkFRQIsAnswered(stepIndex);
+                    const isAnswered = (currentActivePhase === 'MCQ') ? (catalogedUserResponses[stepIndex] !== null) : false;
                     if (isAnswered) targetedCellRef.classList.add('state-filled');
                     if (activeFlags[stepIndex]) targetedCellRef.classList.add('state-review');
                 });
@@ -2742,9 +2872,9 @@
 
         function startBreakSequence() {
             document.getElementById('break-screen-overlay').style.display = 'flex';
-            breakCountdownSeconds = 60; // 1 minute break
+            breakCountdownSeconds = 600; // 10 minute break
             
-            document.getElementById('break-timer-display').innerText = "01:00";
+            document.getElementById('break-timer-display').innerText = "10:00";
 
             breakTimerInterval = setInterval(() => {
                 breakCountdownSeconds--;
@@ -2784,13 +2914,7 @@
             document.getElementById('question-panel-content').classList.add('frq-scroll-active');
             document.getElementById('elimination-badge-tip').style.display = 'none';
 
-            // Swap out Modal Profile configuration variables context for FRQ Instructions
-            document.getElementById('modal-title-header').innerText = "Section II: Free Response Instructions";
-            document.getElementById('modal-welcome-message').innerText = "Welcome to Section II (FRQ).";
-            document.getElementById('modal-instructions-bulletpoints').innerHTML = `
-                <li>You have an uninterrupted clock countdown  of <strong>80 minutes</strong>.</li>
-                <li>Read each question carefully</li>
-                <li>Poop</li>`;
+            applyInstructionsToModal('frq');
             document.getElementById('welcome-modal-overlay').style.display = 'flex';
 
             generateMatrices();
@@ -2858,6 +2982,7 @@
 
         // Initialize Reference Sheet and Calculator on page load
         document.addEventListener('DOMContentLoaded', function() {
+            applyInstructionsToModal('mcq');
             document.getElementById('ref-tab-trigger').style.display = 'block';
             document.getElementById('desmos-tab-trigger').style.display = 'block';
 
