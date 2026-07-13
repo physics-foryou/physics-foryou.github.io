@@ -52,6 +52,8 @@
         :root {
             --review-gold: #f59e0b;
             --flag-red: #ef4444;
+            --choice-image-width: 220px;
+            --choice-image-height: 130px;
         }
 
         body {
@@ -296,14 +298,34 @@
             background: rgba(0,0,0,0.02); 
             border: 1px solid var(--text-dim); 
             color: var(--text-main); 
-            padding: 14px; 
+            padding: 16px; 
             margin: 0; 
             cursor: pointer; 
             font-family: inherit; 
             border-radius: 4px; 
-            font-size: 14px; 
+            font-size: 16px; 
+            line-height: 1.55;
             transition: all 0.2s; 
             box-sizing: border-box;
+            position: relative;
+        }
+
+        .choice-option-label {
+            font-size: 16px;
+        }
+
+        .choice-option-text {
+            font-size: 15px;
+            line-height: 1.5;
+            font-family: inherit;
+        }
+
+        .choice-option-text table,
+        .choice-option-text th,
+        .choice-option-text td {
+            font-size: inherit !important;
+            line-height: inherit !important;
+            font-family: inherit !important;
         }
         .choice-btn:hover { 
             background-color: rgba(0,0,0,0.06); 
@@ -314,11 +336,42 @@
             font-weight: bold; 
         }
 
+        .choice-btn .mjx-container {
+            font-size: 175% !important;
+            margin-top: 8px;
+        }
+
         .choice-row.eliminated .choice-btn {
             opacity: 0.25;
-            text-decoration: line-through;
             background-color: rgba(0,0,0,0.04);
             border-color: rgba(0,0,0,0.1);
+        }
+
+        .choice-row.eliminated .choice-btn::after {
+            content: "";
+            position: absolute;
+            left: 14px;
+            right: 14px;
+            top: 50%;
+            height: 1px;
+            background-color: rgba(0, 0, 0, 0.35);
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .choice-diagram-wrap {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .choice-diagram-wrap img {
+            display: block;
+            width: min(100%, var(--choice-image-width));
+            height: var(--choice-image-height);
+            object-fit: contain;
+            border-radius: 4px;
         }
 
         .part-header {
@@ -356,6 +409,10 @@
             grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
             gap: 10px;
             margin-bottom: 15px;
+        }
+
+        #navigation-matrix-grid {
+            grid-template-columns: repeat(10, minmax(0, 1fr));
         }
 
         /* Enlarged Grid styles for Review Screen */
@@ -405,6 +462,12 @@
             z-index: 2;
             color: var(--text-main) !important;
         }
+
+        .nav-cell.current-active.state-filled {
+            border: 2px solid var(--text-main) !important;
+            animation: pulse-glow 2s infinite ease-in-out;
+            z-index: 2;
+        }
         
         .nav-cell.state-filled,
         .nav-cell.state-filled * {
@@ -425,7 +488,10 @@
             background: none !important;
         }
         .nav-cell.state-review .nav-cell-flag-indicator {
-            display: block;
+            display: block !important;
+            color: var(--flag-red) !important;
+            background-color: transparent !important;
+            z-index: 3;
         }
 
         .footer-belt {
@@ -2064,8 +2130,8 @@
     </div>
 
     <div id="screen-pause-overlay" class="immersive-pause-overlay" onmousedown="handleResumeHoldStart()" onmouseup="handleResumeHoldEnd()" onmouseleave="handleResumeHoldEnd()">
-        <div class="pause-title">EXAMINATION PAUSED</div>
-        <div class="pause-instructions">Hold your mouse down anywhere on the screen for 3 seconds to resume your block.</div>
+        <div class="pause-title">EXAM PAUSED</div>
+        <div class="pause-instructions">Your exam and timer have been paused. Press and hold anywhere to resume. On the official AP exam, you will not be able to pause the exam unless you have an approved accommodation.</div>
         
         <div class="resume-progress-container">
             <svg class="progress-ring-svg">
@@ -2136,7 +2202,7 @@
             <div id="review-panel-content" class="panel-content" style="display: none;">
                 <h2 id="review-panel-heading" style="margin-top: 0; font-size: 20px;">Review Your Answers</h2>
                 <p id="review-panel-description" style="color: var(--text-dim); margin-bottom: 25px; line-height: 1.5; font-size: 14px;">
-                    You have reached the end of the examination block. Please review your answers below. You may click on any question number to return to that question. When you are ready, click the <strong>Submit</strong> button at the bottom right to finalize your attempt.
+                    On exam day, you won't be able to skip to the next section until the timer runs out. For this practice exam, you can skip to the next section whenever you are ready.
                 </p>
                 
                 <div id="review-matrix-grid" class="navigation-grid review-grid-large"></div>
@@ -2440,10 +2506,28 @@
                     const parsed = JSON.parse(recoveredRawPayload);
                     currentActivePhase = parsed.currentPhase || 'MCQ';
                     currentProblemIndex = parsed.currentIndex || 0;
-                    catalogedUserResponses = parsed.responses || catalogedUserResponses;
-                    markedReviewMatrix = parsed.flags || markedReviewMatrix;
-                    markedFRQReviewMatrix = parsed.frqFlags || markedFRQReviewMatrix;
-                    optionCrossoutMatrix = parsed.crossouts || optionCrossoutMatrix;
+
+                    // Normalize recovered arrays to current pool lengths so stale saves never crash rendering.
+                    const recoveredResponses = Array.isArray(parsed.responses) ? parsed.responses : [];
+                    catalogedUserResponses = Array.from({ length: poolMCQ.length }, (_, idx) =>
+                        idx < recoveredResponses.length ? recoveredResponses[idx] : null
+                    );
+
+                    const recoveredFlags = Array.isArray(parsed.flags) ? parsed.flags : [];
+                    markedReviewMatrix = Array.from({ length: poolMCQ.length }, (_, idx) =>
+                        idx < recoveredFlags.length ? !!recoveredFlags[idx] : false
+                    );
+
+                    const recoveredFrqFlags = Array.isArray(parsed.frqFlags) ? parsed.frqFlags : [];
+                    markedFRQReviewMatrix = Array.from({ length: poolFRQ.length }, (_, idx) =>
+                        idx < recoveredFrqFlags.length ? !!recoveredFrqFlags[idx] : false
+                    );
+
+                    const recoveredCrossouts = Array.isArray(parsed.crossouts) ? parsed.crossouts : [];
+                    optionCrossoutMatrix = Array.from({ length: poolMCQ.length }, (_, idx) => {
+                        const row = recoveredCrossouts[idx];
+                        return Array.isArray(row) ? row : [];
+                    });
                     
                     // Safety check: if loaded state is FRQ but time is cached higher than 80 mins, force reset it to 80 mins
                     if (currentActivePhase === 'FRQ' && typeof parsed.timeLeft === 'number' && parsed.timeLeft > 80 * 60) {
@@ -2454,6 +2538,9 @@
                     
                     document.getElementById('welcome-modal-overlay').style.display = 'none';
                     examinationPool = (currentActivePhase === 'FRQ') ? poolFRQ : poolMCQ;
+                    if (currentProblemIndex < 0 || currentProblemIndex >= examinationPool.length) {
+                        currentProblemIndex = 0;
+                    }
                 }
             } catch (err) {
                 console.error("Local recovery cache loading fail parse operation:", err);
@@ -2640,6 +2727,11 @@
             document.getElementById('panel-header-tools').style.display = 'flex';
             document.getElementById('panel-header-review-title').style.display = 'none';
 
+            const resolveDiagramMarkup = (nodeRef) => {
+                if (!nodeRef || typeof nodeRef !== 'object') return null;
+                return nodeRef.pngDiagram || nodeRef.jpegDiagram || null;
+            };
+
             const questionRecord = examinationPool[currentProblemIndex];
             document.getElementById('current-badge-id').innerText = currentProblemIndex + 1;
 
@@ -2658,8 +2750,9 @@
             const optionsContentBox = document.getElementById('target-choices-container');
             
             if (currentActivePhase === 'MCQ') {
-                // Support optional main question JPEG diagram
-                let questionContent = questionRecord.jpegDiagram ? `<div style="margin-bottom: 20px;">${questionRecord.jpegDiagram}</div>${questionRecord.question}` : questionRecord.question;
+                // Support optional main question diagram (pngDiagram or jpegDiagram)
+                const questionDiagram = resolveDiagramMarkup(questionRecord);
+                let questionContent = questionDiagram ? `<div style="margin-bottom: 20px;">${questionDiagram}</div>${questionRecord.question}` : questionRecord.question;
                 document.getElementById('target-question-box').innerHTML = questionContent;
                 optionsContentBox.innerHTML = '';
 
@@ -2671,10 +2764,16 @@
                     const targetBtnNode = document.createElement('button');
                     targetBtnNode.className = 'choice-btn';
                     
-                    // Support object structure and optional choice JPEG diagram
-                    let choiceHTML = `<span><strong>( ${alphaPrefixes[stringIdx]} )</strong></span> <span>${choiceData.text}</span>`;
-                    if (choiceData.jpegDiagram) {
-                        choiceHTML += `<div style="margin-top: 10px;">${choiceData.jpegDiagram}</div>`;
+                    // Support object structure and optional choice diagram
+                    const normalizedChoiceText = (choiceData && typeof choiceData === 'object')
+                        ? (choiceData.text ?? '')
+                        : String(choiceData ?? '');
+                    let choiceHTML = `<span class="choice-option-label"><strong>( ${alphaPrefixes[stringIdx]} )</strong></span> <span class="choice-option-text">${normalizedChoiceText}</span>`;
+                    const choiceDiagram = (choiceData && typeof choiceData === 'object')
+                        ? resolveDiagramMarkup(choiceData)
+                        : null;
+                    if (choiceDiagram) {
+                        choiceHTML += `<div class="choice-diagram-wrap" style="margin-top: 10px;">${choiceDiagram}</div>`;
                     }
                     targetBtnNode.innerHTML = choiceHTML;
                     
@@ -2688,7 +2787,8 @@
                     if (catalogedUserResponses[currentProblemIndex] === stringIdx) {
                         targetBtnNode.classList.add('selected');
                     }
-                    if (optionCrossoutMatrix[currentProblemIndex].includes(stringIdx)) {
+                    const currentCrossouts = optionCrossoutMatrix[currentProblemIndex] || [];
+                    if (currentCrossouts.includes(stringIdx)) {
                         choiceWrapperNode.classList.add('eliminated');
                     }
 
@@ -2698,20 +2798,23 @@
             } else {
                 // Free Response Render Phase Configuration
                 let frqHTML = `<div><strong>${questionRecord.problemType || 'Free Response'}</strong></div><p>${questionRecord.problemSetup}</p>`;
-                if (questionRecord.jpegDiagram) frqHTML += `<div style="margin: 20px 0;">${questionRecord.jpegDiagram}</div>`;
+                const frqQuestionDiagram = resolveDiagramMarkup(questionRecord);
+                if (frqQuestionDiagram) frqHTML += `<div style="margin: 20px 0;">${frqQuestionDiagram}</div>`;
                 if (questionRecord.dataTable) frqHTML += buildTableHTML(questionRecord.dataTable);
 
                 questionRecord.parts.forEach((part) => {
                     frqHTML += `<div class="part-header">${part.partTitle}</div>`;
                     if (part.partIntroText) frqHTML += `<p>${part.partIntroText}</p>`;
-                    if (part.jpegDiagram) frqHTML += `<div style="margin: 15px 0;">${part.jpegDiagram}</div>`;
+                    const partDiagram = resolveDiagramMarkup(part);
+                    if (partDiagram) frqHTML += `<div style="margin: 15px 0;">${partDiagram}</div>`;
                     if (part.dataTable) frqHTML += buildTableHTML(part.dataTable);
 
                     part.subparts.forEach((subpart) => {
                         frqHTML += `<div class="subpart-block">`;
                         if (subpart.subpartLabel) frqHTML += `<strong>${subpart.subpartLabel}</strong> `;
                         frqHTML += `<span>${subpart.subpartQuestion}</span>`;
-                        if (subpart.jpegDiagram) frqHTML += `<div style="margin: 15px 0;">${subpart.jpegDiagram}</div>`;
+                        const subpartDiagram = resolveDiagramMarkup(subpart);
+                        if (subpartDiagram) frqHTML += `<div style="margin: 15px 0;">${subpartDiagram}</div>`;
                         
                         frqHTML += `</div>`;
                     });
@@ -2741,7 +2844,8 @@
         }
 
         function selectTargetOptionIndex(optionIdx) {
-            if (optionCrossoutMatrix[currentProblemIndex].includes(optionIdx)) return;
+            const currentCrossouts = optionCrossoutMatrix[currentProblemIndex] || [];
+            if (currentCrossouts.includes(optionIdx)) return;
             catalogedUserResponses[currentProblemIndex] = optionIdx;
 
             document.querySelectorAll('.choice-row').forEach((rowWrapper, loopIdx) => {
@@ -2758,6 +2862,9 @@
         }
 
         function toggleIndividualOptionElimination(choiceOptionIdx) {
+            if (!Array.isArray(optionCrossoutMatrix[currentProblemIndex])) {
+                optionCrossoutMatrix[currentProblemIndex] = [];
+            }
             const matrixIndexPos = optionCrossoutMatrix[currentProblemIndex].indexOf(choiceOptionIdx);
             const operationalRowsList = document.querySelectorAll('.choice-row');
 

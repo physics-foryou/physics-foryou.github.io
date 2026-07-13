@@ -1,64 +1,59 @@
 const ap1PracticeExamMCQPoolOne = [
 
-    {
+    {//1
         id: "AP001-WRENP-KX72M",
-        unit: "Work, Energy, and Power",
-        topic: "Conservation of Mechanical Energy (Spring Systems)",
+        unit: "Kinematics",
+        topic: "Displacement, Velocity, and Acceleration",
         skill: "Mathematical Routines",
-        sciencePractice: "2.B – Calculate or estimate an unknown quantity with units from known quantities by selecting and following a logical computational pathway.",
-        difficulty: "Medium",
+        sciencePractice: "Solve for or approximate a missing value (complete with correct units) using given data and formulas.",
+        difficulty: "Easy",
 
-        jpegDiagram: null,
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-1-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
-        question: "A 2.0 kg block is held against a horizontal spring of spring constant 400 N/m, compressing the spring by 0.20 m. The block is then released from rest on a frictionless horizontal surface. What is the maximum speed achieved by the block after release?",
+        question: "A toy car moves along a straight, horizontal track aligned with the x-axis. The graph shown tracks the car's position, x, as a function of time t, over a 6 second interval. What is the car's velocity during this time interval?",
 
         choices: [
-            { text: "2.0 m/s", jpegDiagram: null },
-            { text: "2.8 m/s", jpegDiagram: null },
-            { text: "4.0 m/s", jpegDiagram: null },
-            { text: "8.0 m/s", jpegDiagram: null }
+            { text: "$-2.0\\text{ m/s}$", jpegDiagram: null },
+            { text: "$-0.5\\text{ m/s}$", jpegDiagram: null },
+            { text: "$0.5\\text{ m/s}$", jpegDiagram: null },
+            { text: "$2.0\\text{ m/s}$", jpegDiagram: null }
         ],
 
         correctIndex: 1,
 
         explanation: {
-            correct: "By conservation of mechanical energy, all elastic potential energy converts to kinetic energy at release: (1/2)k(Δx)² = (1/2)mv². Substituting: (1/2)(400)(0.20)² = 8.0 J = (1/2)(2.0)v², so v = √8.0 ≈ 2.8 m/s.",
-            distractors: [
-                "2.0 m/s – Obtained by forgetting to square the compression distance, using (1/2)kΔx instead of (1/2)k(Δx)².",
-                "4.0 m/s – Calculated by omitting the 1/2 coefficients entirely from both sides.",
-                "8.0 m/s – This is the value of the kinetic energy (8.0 J), confusing energy units with speed units."
-            ]
+            correct: "The car's velocity is the slope of the position vs. time graph. From the graph, the car moves from x = 2 m to x = 1 m over 2 s, so v = (1 - 2) / 2 = -0.5 m/s."
         }
     },
 
-    {
+    {//2
         id: "AP001-DYNAM-PR58N",
-        unit: "Force and Translational Dynamics",
-        topic: "Net Force in Vertical Circular Motion",
+        unit: "Force and Translational Dynamics + Torque and Rotational Dynamics",
+        topic: "Newton's Second Law and Torque",
         skill: "Argumentation",
-        sciencePractice: "3.B – Apply an appropriate law, definition, theoretical relationship, or model to make a claim.",
+        sciencePractice: "Create algebraic formulas by combining known variables through a step-by-step mathematical proof.",
         difficulty: "Hard",
 
-        jpegDiagram: null,
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-2-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "A small block is launched along the inside of a rough, vertical circular track. Due to friction, the block moves at a constant speed v as it successfully traverses the complete circular path. Which of the following options correctly represents the relative magnitudes of the normal force F_N exerted by the track on the block at the four labeled positions?",
+        question: "A block of mass $m$ is attached to a light, inextensible string wrapped securely around a solid, uniform cylindrical pulley of mass $M$, radius $R$, and rotational inertia $I = \\frac{1}{2}MR^2$. The pulley is mounted on a frictionless horizontal axle. The block is released from rest. What is the linear acceleration a of the falling block?",
 
         choices: [
             {
-                text: "Normal force is identical in length (equal) at all four positions.",
+                text: "$\\frac{2mg}{2m + M}$",
                 jpegDiagram: null
             },
             {
-                text: "Normal force at Point 1 (bottom) is longest; Points 2 and 4 (sides) are equal and medium; Point 3 (top) is shortest.",
+                text: "$\\frac{mg}{m + M}$",
                 jpegDiagram: null
             },
             {
-                text: "Normal force at Point 3 (top) is longest; Points 2 and 4 are equal; Point 1 (bottom) is shortest.",
+                text: "$\\frac{2mg}{M - 2m}$",
                 jpegDiagram: null
             },
             {
-                text: "Normal force at Point 2 is longer than Point 4 due to the direction of motion.",
+                text: "$\\frac{mg}{m - \\frac{1}{2}M}$",
                 jpegDiagram: null
             }
         ],
@@ -66,184 +61,154 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 1,
 
         explanation: {
-            correct: "At constant speed, net radial force = mv²/R everywhere. At the bottom (Pt 1): F_N1 − mg = mv²/R → F_N1 = mv²/R + mg. At the sides (Pts 2 & 4): gravity is tangential, so F_N2 = F_N4 = mv²/R. At the top (Pt 3): F_N3 + mg = mv²/R → F_N3 = mv²/R − mg. Therefore F_N1 > F_N2 = F_N4 > F_N3.",
-            distractors: [
-                "Choice A is wrong because the centripetal requirement is constant but gravity adds/subtracts from the needed normal force depending on position.",
-                "Choice C reverses the correct order — the normal force is largest at the bottom where it must support weight AND provide centripetal force.",
-                "Choice D is wrong because the horizontal side positions are symmetric; the direction of travel does not change the magnitude of normal force."
-            ]
+            correct: "At constant speed, net radial force = mvÂ²/R everywhere. At the bottom (Pt 1): F_N1 âˆ’ mg = mvÂ²/R â†’ F_N1 = mvÂ²/R + mg. At the sides (Pts 2 & 4): gravity is tangential, so F_N2 = F_N4 = mvÂ²/R. At the top (Pt 3): F_N3 + mg = mvÂ²/R â†’ F_N3 = mvÂ²/R âˆ’ mg. Therefore F_N1 > F_N2 = F_N4 > F_N3."
         }
     },
 
-    {
+    {//3
         id: "AP001-KINMA-WT31B",
-        unit: "Kinematics",
-        topic: "Projectile Motion and Mechanical Energy Conservation",
+        unit: "Work, Energy, and Power",
+        topic: "Conservation of Mechanical Energy",
         skill: "Mathematical Routines",
-        sciencePractice: "2.A – Derive a symbolic expression from known quantities.",
-        difficulty: "Hard",
-
-        jpegDiagram: null,
-
-
-        question: "A projectile of mass m is launched from the ground with an initial speed v₀ at an angle θ above the horizontal. Air resistance is negligible. Using principles of conservation of energy, derive an expression for the speed v_p of the projectile when it passes through Point P at a known vertical height h above the ground.",
-
-        choices: [
-            { text: "v_p = v₀cosθ − √(2gh)", jpegDiagram: null },
-            { text: "v_p = √(v₀² − 2gh)", jpegDiagram: null },
-            { text: "v_p = √((v₀sinθ)² − 2gh)", jpegDiagram: null },
-            { text: "v_p = √(v₀²cos²θ − 2gh)", jpegDiagram: null }
-        ],
-
-        correctIndex: 1,
-
-        explanation: {
-            correct: "By conservation of mechanical energy: (1/2)mv₀² = (1/2)mv_p² + mgh. Dividing by m and solving: v_p = √(v₀² − 2gh). The launch angle θ does not appear in the final expression because the formula uses total speed, not components.",
-            distractors: [
-                "Choice A incorrectly subtracts speeds rather than energies, and needlessly restricts to the horizontal component.",
-                "Choice C is a common error: using only the vertical velocity component (v₀sinθ) instead of the total initial speed v₀.",
-                "Choice D considers only the horizontal component of initial kinetic energy, ignoring the vertical contribution."
-            ]
-        }
-    },
-
-    {
-        id: "AP001-ROTDY-CL47V",
-        unit: "Torque and Rotational Dynamics",
-        topic: "Rotational Equilibrium",
-        skill: "Quantitative/Qualitative Translation",
-        sciencePractice: "2.C – Compare physical quantities between two or more scenarios.",
+        sciencePractice: "Contrast how values change across different situations, moments in time, or positions within a system.",
         difficulty: "Medium",
 
-        jpegDiagram: null,
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-3-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "In both scenarios described above, a uniform beam of length L and mass M is held in perfect horizontal static equilibrium by a cable. Let T_A be the tension in Scenario A (cable at the right end, 30° from beam) and T_B be the tension in Scenario B (cable at the midpoint, 60° from beam). Which of the following correctly describes the relationship between T_A and T_B?",
+        question: "A roller coaster car of mass $m$ is released from rest at Point $A$, which is at a height $H$ above the ground, as shown in the diagram. The car travels along a frictionless track. Point $B$ is at a height of $\\frac{2}{3}H$ above the ground, and Point $C$ is at a height of $\\frac{1}{3}H$ above the ground. Let $K_B$ and $K_C$ represent the kinetic energy of the car at points $B$ and $C$, respectively. Which of the following correctly compares $K_B$ and $K_C$?",
 
         choices: [
-            { text: "T_A = (√3/2) T_B", jpegDiagram: null },
-            { text: "T_A = T_B", jpegDiagram: null },
-            { text: "T_A = √3 · T_B", jpegDiagram: null },
-            { text: "T_A = (1/2) T_B", jpegDiagram: null }
+            { text: "$K_C = 2K_B$", jpegDiagram: null },
+            { text: "$K_C = \\frac{1}{2}K_B$", jpegDiagram: null },
+            { text: "$K_C = \\frac{3}{2}K_B$", jpegDiagram: null },
+            { text: "$K_C = 4K_B$", jpegDiagram: null }
         ],
 
         correctIndex: 0,
 
         explanation: {
-            correct: "Setting net torque about the hinge = 0 for each scenario: Scenario A: T_A · L · sin(30°) = Mg(L/2) → T_A·(1/2) = Mg/2 → T_A = Mg. Scenario B: T_B · (L/2) · sin(60°) = Mg(L/2) → T_B · (√3/2) = Mg → T_B = (2/√3)Mg. Ratio: T_A/T_B = Mg / [(2/√3)Mg] = √3/2. Therefore T_A = (√3/2)T_B.",
-            distractors: [
-                "Choice B (T_A = T_B) is wrong — both cables balance the same beam weight, but different attachment points and angles require different tensions.",
-                "Choice C (T_A = √3·T_B) incorrectly inverts the ratio.",
-                "Choice D (T_A = (1/2)T_B) uses a wrong proportionality."
-            ]
+            correct: "By conservation of mechanical energy: (1/2)mvâ‚€Â² = (1/2)mv_pÂ² + mgh. Dividing by m and solving: v_p = âˆš(vâ‚€Â² âˆ’ 2gh). The launch angle Î¸ does not appear in the final expression because the formula uses total speed, not components."
         }
     },
 
-    {
-        id: "AP001-ROTDY-NG85Q",
-        unit: "Torque and Rotational Dynamics",
-        topic: "Angular Momentum During a Collision",
-        skill: "Argumentation",
-        sciencePractice: "3.B – Apply an appropriate physical model to make a claim.",
-        difficulty: "Hard",
+    {//4
+        id: "AP001-ROTDY-CL47V",
+        unit: "Linear Momentum",
+        topic: "Change in Momentum and Impulse",
+        skill: "Quantitative/Qualitative Translation",
+        sciencePractice: "Use established physics laws, theories, or models to make an accurate scientific assertion.",
+        difficulty: "Medium",
 
-        jpegDiagram: null,
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-4-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "A sticky projectile of mass m is moving horizontally with speed v₀ when it strikes and sticks to the edge of an initially stationary uniform disk of radius R and mass M (I_disk = (1/2)MR²). Which of the following statements is true regarding the linear momentum and angular momentum of the system during the collision?",
+        question: "A block of mass $m$ moves to the right along a frictionless surface with a constant speed $v_0$. It collides head-on with a rigid vertical wall and bounces back elastically. The graph shows the magnitude of the force $F$ exerted on the block by the wall as a function of time $t$ during the collision window from $t = 0$ to $t = t_1$.The total area under the force-time graph is equal to $A$. Taking the initial direction of the block's motion as the positive direction, which of the following correctly identifies the change in momentum of the block and the relationship between the area $A$, mass $m$, and initial speed $v_0$?",
 
         choices: [
-            { text: "Both linear momentum and angular momentum are conserved because there are no external forces acting on the disk-projectile system.", jpegDiagram: null },
-            { text: "Neither linear momentum nor angular momentum are conserved because the axle exerts a force and a torque during the collision.", jpegDiagram: null },
-            { text: "Linear momentum is conserved because the collision is completely inelastic, but angular momentum is not conserved.", jpegDiagram: null },
-            { text: "Angular momentum about the central axle is conserved because the force exerted by the axle acts at zero radius, producing no external torque. Linear momentum is not conserved.", jpegDiagram: null }
+            {
+                text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Change in Momentum</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Relationship for A</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$+A$</td><td style='border:1px solid #999; padding:4px;'>$A = mv_0$</td></tr></tbody></table>",
+                jpegDiagram: null
+            },
+            {
+                text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Change in Momentum</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Relationship for A</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$-A$</td><td style='border:1px solid #999; padding:4px;'>$A = mv_0$</td></tr></tbody></table>",
+                jpegDiagram: null
+            },
+            {
+                text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Change in Momentum</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Relationship for A</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$-A$</td><td style='border:1px solid #999; padding:4px;'>$A = 2mv_0$</td></tr></tbody></table>",
+                jpegDiagram: null
+            },
+            {
+                text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Change in Momentum</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Relationship for A</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$-2A$</td><td style='border:1px solid #999; padding:4px;'>$A = mv_0$</td></tr></tbody></table>",
+                jpegDiagram: null
+            }
+        ],
+
+        correctIndex: 2,
+
+        explanation: {
+            correct: "Setting net torque about the hinge = 0 for each scenario: Scenario A: T_A Â· L Â· sin(30Â°) = Mg(L/2) â†’ T_AÂ·(1/2) = Mg/2 â†’ T_A = Mg. Scenario B: T_B Â· (L/2) Â· sin(60Â°) = Mg(L/2) â†’ T_B Â· (âˆš3/2) = Mg â†’ T_B = (2/âˆš3)Mg. Ratio: T_A/T_B = Mg / [(2/âˆš3)Mg] = âˆš3/2. Therefore T_A = (âˆš3/2)T_B."
+        }
+    },
+
+    {//5
+        id: "AP001-ROTDY-NG85Q",
+        unit: "Fluids",
+        topic: "Pressure",
+        skill: "Argumentation",
+        sciencePractice: "Solve for or approximate a missing value using given data and formulas.",
+        difficulty: "Medium",
+
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-5-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
+
+
+        question: "A vertical cylindrical storage tank with a radius of $2.0\\text{ m}$ and a total height of $10\\text{ m}$ is open to the atmosphere at the top. The tank is completely filled with an ideal fluid. The total weight of the fluid contained within the tank is $1.25 \\times 10^6\\text{ N}$. What is the absolute pressure exerted at the inner bottom surface of the tank?",
+
+        choices: [
+            { text: "$1.0 \\times 10^5\\text{ Pa}$", jpegDiagram: null },
+            { text: "$2.0 \\times 10^5\\text{ Pa}$", jpegDiagram: null },
+            { text: "$4.0 \\times 10^5\\text{ Pa}$", jpegDiagram: null },
+            { text: "$7.25 \\times 10^5\\text{ Pa}$", jpegDiagram: null }
+        ],
+
+        correctIndex: 1,
+
+        explanation: {
+            correct: "The central axle must exert an external force on the disk during collision to keep it from translating, so linear momentum is NOT conserved. However, this axle force acts at r = 0 from the pivot, producing zero torque (Ï„ = rFÂ·sinÎ¸ = 0). With no external torques about the axle, angular momentum about the axle IS conserved."
+        }
+    },
+
+    {//6
+        id: "AP001-OSCIL-BM19Z",
+        unit: "Oscillations",
+        topic: "Kinematics of Simple Harmonic Motion",
+        skill: "Quantitative/Qualitative Translation",
+        sciencePractice: "2.D â€“ Predict new values using functional dependence between variables.",
+        difficulty: "Medium",
+
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-6-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
+
+
+        question: "A thin-walled cylindrical hoop and a solid cylinder each have an identical mass $M$ and an outer radius $R$. Both objects are released from rest at the top of identical inclined planes of height $h$, as shown in the diagram, and roll down the inclines without slipping. At the bottom of the inclines, the ratio of the hoop's rotational kinetic energy to the solid cylinder's rotational kinetic energy is $X$, where $X = \\frac{K_{\\text{rot, hoop}}}{K_{\\text{rot, cyl}}}$. The experiment is repeated on a different incline. Which of the following modifications would cause the new ratio $Y$ to be equal to $2X$?",
+
+        choices: [
+            {text: "Doubling the mass $M$ of both the cylinder and the hoop.", jpegDiagram: null},
+            {text: "Doubling the height $h$ of both inclined planes.", jpegDiagram: null},
+            {text: "Replacing the solid cylinder with a second identical thin-walled hoop.", jpegDiagram: null},
+            {text: "No modification of mass, radius, or ramp height can change the value of $Y$.", jpegDiagram: null}
         ],
 
         correctIndex: 3,
 
         explanation: {
-            correct: "The central axle must exert an external force on the disk during collision to keep it from translating, so linear momentum is NOT conserved. However, this axle force acts at r = 0 from the pivot, producing zero torque (τ = rF·sinθ = 0). With no external torques about the axle, angular momentum about the axle IS conserved.",
-            distractors: [
-                "Choice A is wrong because the axle does exert an external force, breaking linear momentum conservation.",
-                "Choice B is wrong because the axle force produces zero torque (it acts at r = 0), so angular momentum about the axle is conserved.",
-                "Choice C is wrong — the collision type (inelastic) is irrelevant to momentum conservation, and this choice incorrectly identifies which momentum is conserved."
-            ]
+            correct: "Velocity is the derivative of position. Since x(t) = AÂ·cos(Ï‰t), then v(t) = âˆ’AÏ‰Â·sin(Ï‰t). At t = 0 the slope of x(t) is zero (flat peak), so v = 0. Just after t = 0, position decreases (slope is negative), making velocity negative. At t = T/4, the cosine curve crosses zero at its steepest downward slope, giving v = âˆ’v_max. This matches a negative sine curve."
         }
     },
 
-    {
-        id: "AP001-OSCIL-BM19Z",
-        unit: "Oscillations",
-        topic: "Kinematics of Simple Harmonic Motion",
-        skill: "Quantitative/Qualitative Translation",
-        sciencePractice: "2.D – Predict new values using functional dependence between variables.",
-        difficulty: "Medium",
-
-        jpegDiagram: null,
-
-
-        question: "An object attached to an ideal spring undergoes simple harmonic motion. Its position as a function of time is shown above as x(t) = A·cos(ωt), beginning at maximum positive displacement +A at t = 0. Which of the following velocity vs. time graphs correctly corresponds to this motion?",
-
-        choices: [
-            {
-                text: "Positive sine curve: starts at v = 0 at t = 0, rises to +v_max at t = T/4, returns to zero at t = T/2.",
-                jpegDiagram: null
-            },
-            {
-                text: "Negative sine curve: starts at v = 0 at t = 0, drops to −v_max at t = T/4, passes through zero at T/2, rises to +v_max at t = 3T/4.",
-                jpegDiagram: null
-            },
-            {
-                text: "Cosine curve identical in shape to the position graph (same phase), scaled up in amplitude.",
-                jpegDiagram: null
-            },
-            {
-                text: "Negative cosine curve: starts at −v_max at t = 0.",
-                jpegDiagram: null
-            }
-        ],
-
-        correctIndex: 1,
-
-        explanation: {
-            correct: "Velocity is the derivative of position. Since x(t) = A·cos(ωt), then v(t) = −Aω·sin(ωt). At t = 0 the slope of x(t) is zero (flat peak), so v = 0. Just after t = 0, position decreases (slope is negative), making velocity negative. At t = T/4, the cosine curve crosses zero at its steepest downward slope, giving v = −v_max. This matches a negative sine curve.",
-            distractors: [
-                "Choice A (positive sine) is wrong because the position graph slopes downward immediately after t = 0, meaning velocity must go negative, not positive.",
-                "Choice C (cosine) is wrong because velocity is not in phase with position; it is the derivative, shifted by 90°.",
-                "Choice D (negative cosine) starts at −v_max at t = 0, but velocity is zero at t = 0 since the position graph has zero slope at its peak."
-            ]
-        }
-    },
-
-    {
+    {//7
         id: "AP001-KINMA-HF62D",
         unit: "Kinematics",
         topic: "Motion on an Inclined Plane",
         skill: "Mathematical Routines",
-        sciencePractice: "2.B – Calculate an unknown quantity.",
+        sciencePractice: "2.B â€“ Calculate an unknown quantity.",
         difficulty: "Medium",
 
-        jpegDiagram: null,
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-7-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "A 5.0 kg block slides down an incline tilted at an angle of 37° relative to the horizontal. If the coefficient of kinetic friction between the block and the incline is 0.25, what is the magnitude of the acceleration of the block down the ramp? (Use g = 10 m/s², sin 37° ≈ 0.60, cos 37° ≈ 0.80)",
+        question: "A heavy wooden shipping crate of mass $m$ rests on a flat, rough platform. An electric pump slowly and continuously raises one end of the platform to form an incline of angle $\\theta$ with the horizontal, as shown in the diagram. An experimenter notes that the crate remains completely stationary until the platform reaches a critical angle $\\theta_c$, at which point the crate is on the verge of slipping. Which of the following correctly represents the free-body diagram for the crate at the instant $\\theta = \\theta_c$?",
 
         choices: [
-            { text: "2.0 m/s²", jpegDiagram: null },
-            { text: "4.0 m/s²", jpegDiagram: null },
-            { text: "6.0 m/s²", jpegDiagram: null },
-            { text: "8.0 m/s²", jpegDiagram: null }
+            { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-1.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' },
+            { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-2.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' },
+            { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-3.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' },
+            { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-4.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' }
         ],
 
         correctIndex: 1,
 
         explanation: {
-            correct: "Applying Newton's second law along the incline: a = g·sinθ − μk·g·cosθ = (10)(0.60) − (0.25)(10)(0.80) = 6.0 − 2.0 = 4.0 m/s². The mass cancels out entirely.",
-            distractors: [
-                "2.0 m/s² is only the friction deceleration term (μk·g·cosθ), ignoring the gravity component along the slope.",
-                "6.0 m/s² is the gravity component along the slope (g·sinθ) alone, ignoring friction entirely.",
-                "8.0 m/s² uses g·cosθ instead of g·sinθ for the gravity component, swapping the sin and cos."
-            ]
+            correct: "Applying Newton's second law along the incline: a = gÂ·sinÎ¸ âˆ’ Î¼kÂ·gÂ·cosÎ¸ = (10)(0.60) âˆ’ (0.25)(10)(0.80) = 6.0 âˆ’ 2.0 = 4.0 m/sÂ². The mass cancels out entirely."
         }
     },
 
@@ -252,16 +217,16 @@ const ap1PracticeExamMCQPoolOne = [
         unit: "Linear Momentum",
         topic: "Experimental Design Using the Impulse-Momentum Theorem",
         skill: "Argumentation",
-        sciencePractice: "3.B – Apply an appropriate physical model to make a claim.",
+        sciencePractice: "3.B â€“ Apply an appropriate physical model to make a claim.",
         difficulty: "Hard",
 
         jpegDiagram: null,
 
 
-        question: "Students are designing an experiment to verify the Impulse-Momentum Theorem (∫F dt = Δp) during a collision between two carts. Cart A has an electronic force sensor mounted on it, and a motion detector tracks its velocity. To completely verify that the impulse delivered equals the change in linear momentum of Cart A, which of the following describes the correct data analysis?",
+        question: "Students are designing an experiment to verify the Impulse-Momentum Theorem (âˆ«F dt = Î”p) during a collision between two carts. Cart A has an electronic force sensor mounted on it, and a motion detector tracks its velocity. To completely verify that the impulse delivered equals the change in linear momentum of Cart A, which of the following describes the correct data analysis?",
 
         choices: [
-            { text: "Calculate the area under the Force vs. Time graph during the collision, and compare it to Cart A's mass times its change in velocity (mΔv).", jpegDiagram: null },
+            { text: "Calculate the area under the Force vs. Time graph during the collision, and compare it to Cart A's mass times its change in velocity (mÎ”v).", jpegDiagram: null },
             { text: "Find the peak maximum force on the Force vs. Time graph, multiply it by the total collision duration, and set it equal to mv_f.", jpegDiagram: null },
             { text: "Plot Force vs. Distance, find the slope of the linear fit, and check if it equals the kinetic energy change.", jpegDiagram: null },
             { text: "Measure the total duration of the impact using the force sensor and multiply it by the initial momentum to confirm it matches the final force value.", jpegDiagram: null }
@@ -270,12 +235,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 0,
 
         explanation: {
-            correct: "The Impulse-Momentum Theorem states that ∫F dt (the area under a Force vs. Time curve) equals the change in momentum Δp = mΔv. The area under the F-t graph gives total impulse; comparing that to m·(v_f − v_i) from the motion detector directly verifies the theorem.",
-            distractors: [
-                "Choice B incorrectly uses F_max · Δt, which assumes constant force. Real collision forces vary and peak near the middle, so this method would overestimate impulse.",
-                "Choice C describes the work-energy theorem (∫F dx = ΔKE), not the impulse-momentum theorem.",
-                "Choice D reverses the relationship and uses meaningless quantities — impulse is force integrated over time, not momentum multiplied by time."
-            ]
+            correct: "The Impulse-Momentum Theorem states that âˆ«F dt (the area under a Force vs. Time curve) equals the change in momentum Î”p = mÎ”v. The area under the F-t graph gives total impulse; comparing that to mÂ·(v_f âˆ’ v_i) from the motion detector directly verifies the theorem."
         }
     },
 
@@ -284,7 +244,7 @@ const ap1PracticeExamMCQPoolOne = [
         unit: "Fluids",
         topic: "Pressure in Static Fluids",
         skill: "Quantitative/Qualitative Translation",
-        sciencePractice: "2.C – Compare physical quantities.",
+        sciencePractice: "2.C â€“ Compare physical quantities.",
         difficulty: "Medium",
 
         jpegDiagram: null,
@@ -302,12 +262,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 0,
 
         explanation: {
-            correct: "Hydrostatic pressure depends only on vertical depth: P = P_atm + ρgh. Points X and Y are both at depth h = 5 cm, so P_X = P_Y regardless of horizontal position. Point Z is at h = 15 cm, giving a larger pressure. Therefore P_X = P_Y < P_Z.",
-            distractors: [
-                "Choice B incorrectly assumes horizontal position affects pressure — it does not in a static fluid.",
-                "Choice C reverses the correct order; deeper points have higher pressure, not lower.",
-                "Choice D would only be correct if all three points were at the same depth, which they are not."
-            ]
+            correct: "Hydrostatic pressure depends only on vertical depth: P = P_atm + Ïgh. Points X and Y are both at depth h = 5 cm, so P_X = P_Y regardless of horizontal position. Point Z is at h = 15 cm, giving a larger pressure. Therefore P_X = P_Y < P_Z."
         }
     },
 
@@ -316,13 +271,13 @@ const ap1PracticeExamMCQPoolOne = [
         unit: "Energy and Momentum of Rotating Systems",
         topic: "Rotational Kinetic Energy",
         skill: "Mathematical Routines",
-        sciencePractice: "2.B – Calculate an unknown quantity.",
+        sciencePractice: "2.B â€“ Calculate an unknown quantity.",
         difficulty: "Medium",
 
         jpegDiagram: null,
 
 
-        question: "A solid, uniform cylinder (I = (1/2)MR²) starts from rest and rolls without slipping down an incline from a vertical height H. What fraction of the cylinder's total kinetic energy at the bottom of the ramp is stored as rotational kinetic energy?",
+        question: "A solid, uniform cylinder (I = (1/2)MRÂ²) starts from rest and rolls without slipping down an incline from a vertical height H. What fraction of the cylinder's total kinetic energy at the bottom of the ramp is stored as rotational kinetic energy?",
 
         choices: [
             { text: "1/4", jpegDiagram: null },
@@ -334,13 +289,9 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 1,
 
         explanation: {
-            correct: "K_trans = (1/2)Mv², K_rot = (1/2)·(1/2)MR²·(v/R)² = (1/4)Mv². Total KE = (3/4)Mv². Fraction that is rotational: K_rot / K_total = (1/4)Mv² / (3/4)Mv² = 1/3.",
-            distractors: [
-                "1/4 is the ratio of rotational to translational energy alone (K_rot/K_trans), not the fraction of the total.",
-                "1/2 would apply to a hollow cylindrical shell (I = MR²), where rotational and translational energies are equal.",
-                "2/3 is the fraction of translational kinetic energy — it is 1 minus the correct answer."
-            ]
+            correct: "K_trans = (1/2)MvÂ², K_rot = (1/2)Â·(1/2)MRÂ²Â·(v/R)Â² = (1/4)MvÂ². Total KE = (3/4)MvÂ². Fraction that is rotational: K_rot / K_total = (1/4)MvÂ² / (3/4)MvÂ² = 1/3."
         }
     }
 
 ];
+
