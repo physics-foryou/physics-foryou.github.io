@@ -160,11 +160,11 @@ const ap1PracticeExamMCQPoolOne = [
 
     {//6
         id: "AP001-OSCIL-BM19Z",
-        unit: "Oscillations",
-        topic: "Kinematics of Simple Harmonic Motion",
+        unit: "Torque and Rotational Dynamics + Energy and Momentum of Rotating Systems",
+        topic: "Rotational Inertia and Rotational Kinetic Energy",
         skill: "Quantitative/Qualitative Translation",
-        sciencePractice: "2.D â€“ Predict new values using functional dependence between variables.",
-        difficulty: "Medium",
+        sciencePractice: "Determine how a variable changes when another is modified based on their mathematical relationship.",
+        difficulty: "Hard",
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-6-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
@@ -187,10 +187,10 @@ const ap1PracticeExamMCQPoolOne = [
 
     {//7
         id: "AP001-KINMA-HF62D",
-        unit: "Kinematics",
-        topic: "Motion on an Inclined Plane",
+        unit: "Force and Translational Dynamics",
+        topic: "Kinetic and Static Friction",
         skill: "Mathematical Routines",
-        sciencePractice: "2.B â€“ Calculate an unknown quantity.",
+        sciencePractice: "Defend a scientific conclusion using laboratory data, graphs, diagrams, or fundamental laws of physics",
         difficulty: "Medium",
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-7-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
@@ -212,61 +212,73 @@ const ap1PracticeExamMCQPoolOne = [
         }
     },
 
-    {
+    {//8
         id: "AP001-LINMO-SV04R",
-        unit: "Linear Momentum",
-        topic: "Experimental Design Using the Impulse-Momentum Theorem",
+        unit: "Oscillations",
+        topic: "Frequency and Period of SHM",
         skill: "Argumentation",
-        sciencePractice: "3.B â€“ Apply an appropriate physical model to make a claim.",
-        difficulty: "Hard",
-
-        jpegDiagram: null,
-
-
-        question: "Students are designing an experiment to verify the Impulse-Momentum Theorem (âˆ«F dt = Î”p) during a collision between two carts. Cart A has an electronic force sensor mounted on it, and a motion detector tracks its velocity. To completely verify that the impulse delivered equals the change in linear momentum of Cart A, which of the following describes the correct data analysis?",
-
-        choices: [
-            { text: "Calculate the area under the Force vs. Time graph during the collision, and compare it to Cart A's mass times its change in velocity (mÎ”v).", jpegDiagram: null },
-            { text: "Find the peak maximum force on the Force vs. Time graph, multiply it by the total collision duration, and set it equal to mv_f.", jpegDiagram: null },
-            { text: "Plot Force vs. Distance, find the slope of the linear fit, and check if it equals the kinetic energy change.", jpegDiagram: null },
-            { text: "Measure the total duration of the impact using the force sensor and multiply it by the initial momentum to confirm it matches the final force value.", jpegDiagram: null }
-        ],
-
-        correctIndex: 0,
-
-        explanation: {
-            correct: "The Impulse-Momentum Theorem states that âˆ«F dt (the area under a Force vs. Time curve) equals the change in momentum Î”p = mÎ”v. The area under the F-t graph gives total impulse; comparing that to mÂ·(v_f âˆ’ v_i) from the motion detector directly verifies the theorem."
-        }
-    },
-
-    {
-        id: "AP001-FLUID-EJ37A",
-        unit: "Fluids",
-        topic: "Pressure in Static Fluids",
-        skill: "Quantitative/Qualitative Translation",
-        sciencePractice: "2.C â€“ Compare physical quantities.",
+        sciencePractice: "Determine how a variable changes when another is modified based on their mathematical relationship.",
         difficulty: "Medium",
 
         jpegDiagram: null,
 
 
-        question: "An open container holds an ideal static fluid as shown. Point X is 5 cm below the surface near the left wall, Point Y is 5 cm below the surface near the center, and Point Z is 15 cm below the surface near the bottom. Which of the following correctly ranks the absolute hydrostatic pressures P_X, P_Y, and P_Z?",
+        question: "An astronaut on Earth sets up a simple pendulum of length $L$ that oscillates with a period $T_0$. The astronaut then travels to a distant planet and alters the setup, decreasing the length of the pendulum string to $\\frac{1}{2}L$. On this planet, the local acceleration due to gravity is exactly $\\frac{1}{8}$ of the acceleration due to gravity on Earth. What is the new period of oscillation for the pendulum on this planet in terms of $T_0$?",
 
         choices: [
-            { text: "P_X = P_Y < P_Z", jpegDiagram: null },
-            { text: "P_X < P_Y < P_Z", jpegDiagram: null },
-            { text: "P_Z < P_X = P_Y", jpegDiagram: null },
-            { text: "P_X = P_Y = P_Z", jpegDiagram: null }
+            { text: "$\\frac{1}{4}T_0$", jpegDiagram: null },
+            { text: " $\\frac{1}{2}T_0$", jpegDiagram: null },
+            { text: "$2T_0$", jpegDiagram: null },
+            { text: "$4T_0$", jpegDiagram: null }
         ],
 
-        correctIndex: 0,
+        correctIndex: 2,
+
+        explanation: {
+            correct: "The period of a simple pendulum is given by $T = 2\\pi\\sqrt{\\frac{L}{g}}$. On the distant planet, the new period $T$ is $2\\pi\\sqrt{\\frac{L/2}{g/8}} = 2\\pi\\sqrt{\\frac{4L}{g}} = 2T_0$."
+        }
+    },
+
+    {//9
+        id: "AP001-FLUID-EJ37A",
+        unit: "Work, Energy, and Power + Linear Momentum",
+        topic: "Elastic and Inelastic Collisions and Kinetic Energy Changes",
+        skill: "Quantitative/Qualitative Translation",
+        sciencePractice: "Contrast how values change across different situations, moments in time, or positions within a system.",
+        difficulty: "Hard",
+
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-9-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
+
+
+        question: "Two identical carts, each of mass $m$, are on a horizontal, low-friction track. Initially, Cart 1 moves to the right with speed $v_0$ and Cart 2 is at rest. The carts collide and stick together, moving with a common final speed $v_f$. Which of the following correctly relates the total mechanical energy $E$ and total linear momentum $p$ of the two-cart system after the collision to the system's initial values before the collision?",
+
+        choices: [
+            {
+                text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Mechanical Energy</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Linear Momentum</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$E_{\\text{after}} = E_{\\text{before}}$</td><td style='border:1px solid #999; padding:4px;'>$p_{\\text{after}} = p_{\\text{before}}$</td></tr></tbody></table>",
+                jpegDiagram: null
+            },
+            {
+                text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Mechanical Energy</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Linear Momentum</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$E_{\\text{after}} = \\frac{1}{2}E_{\\text{before}}$</td><td style='border:1px solid #999; padding:4px;'>$p_{\\text{after}} = p_{\\text{before}}$</td></tr></tbody></table>",
+                jpegDiagram: null
+            },
+            {
+                text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Mechanical Energy</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Linear Momentum</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$E_{\\text{after}} = \\frac{1}{4}E_{\\text{before}}$</td><td style='border:1px solid #999; padding:4px;'>$p_{\\text{after}} = \\frac{1}{2}p_{\\text{before}}$</td></tr></tbody></table>",
+                jpegDiagram: null
+            },
+            {
+                text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Mechanical Energy</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Linear Momentum</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$E_{\\text{after}} = \\frac{1}{2}E_{\\text{before}}$</td><td style='border:1px solid #999; padding:4px;'>$p_{\\text{after}} = \\frac{1}{2}p_{\\text{before}}$</td></tr></tbody></table>",
+                jpegDiagram: null
+            }
+        ],
+
+        correctIndex: 1,
 
         explanation: {
             correct: "Hydrostatic pressure depends only on vertical depth: P = P_atm + Ïgh. Points X and Y are both at depth h = 5 cm, so P_X = P_Y regardless of horizontal position. Point Z is at h = 15 cm, giving a larger pressure. Therefore P_X = P_Y < P_Z."
         }
     },
 
-    {
+    {//10
         id: "AP001-ROTEN-LQ28S",
         unit: "Energy and Momentum of Rotating Systems",
         topic: "Rotational Kinetic Energy",
@@ -274,19 +286,19 @@ const ap1PracticeExamMCQPoolOne = [
         sciencePractice: "2.B â€“ Calculate an unknown quantity.",
         difficulty: "Medium",
 
-        jpegDiagram: null,
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-10-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "A solid, uniform cylinder (I = (1/2)MRÂ²) starts from rest and rolls without slipping down an incline from a vertical height H. What fraction of the cylinder's total kinetic energy at the bottom of the ramp is stored as rotational kinetic energy?",
+        question: "A small projectile is launched horizontally to the right with an initial speed $v_0$ from the top of a high platform. The projectile experiences an air resistance force. The magnitude of this resistive force is governed by the equation $F_D = kv$, where $v$ is the speed of the projectile and $k$ is a non-zero positive constant. Which of the following graphs best represents the horizontal component of the projectile's velocity, $v_x$, as a function of time $t$ from the moment it is launched until it reaches the ground far below?",
 
         choices: [
-            { text: "1/4", jpegDiagram: null },
-            { text: "1/3", jpegDiagram: null },
-            { text: "1/2", jpegDiagram: null },
-            { text: "2/3", jpegDiagram: null }
+            { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-5.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' },
+            { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-6.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' },
+            { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-7.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' },
+            { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-8.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' }
         ],
 
-        correctIndex: 1,
+        correctIndex: 3,
 
         explanation: {
             correct: "K_trans = (1/2)MvÂ², K_rot = (1/2)Â·(1/2)MRÂ²Â·(v/R)Â² = (1/4)MvÂ². Total KE = (3/4)MvÂ². Fraction that is rotational: K_rot / K_total = (1/4)MvÂ² / (3/4)MvÂ² = 1/3."
