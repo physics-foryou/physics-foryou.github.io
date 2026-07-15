@@ -10,7 +10,8 @@ const ap1PracticeExamMCQPoolOne = [
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-1-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
-        question: "A toy car moves along a straight, horizontal track aligned with the x-axis. The graph shown tracks the car's position, x, as a function of time t, over a 6 second interval. What is the car's velocity during this time interval?",
+        problemSetup: "A toy car moves along a straight, horizontal track aligned with the x-axis. The graph shown tracks the car's position, x, as a function of time t, over a 6 second interval.",
+        problemPrompt: "What is the car's velocity during this time interval?",
 
         choices: [
             { text: "$-2.0\\text{ m/s}$", jpegDiagram: null },
@@ -37,7 +38,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-2-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "A block of mass $m$ is attached to a light, inextensible string wrapped securely around a solid, uniform cylindrical pulley of mass $M$, radius $R$, and rotational inertia $I = \\frac{1}{2}MR^2$. The pulley is mounted on a frictionless horizontal axle. The block is released from rest. What is the linear acceleration a of the falling block?",
+        problemSetup: "A block of mass $m$ is attached to a light, inextensible string wrapped securely around a solid, uniform cylindrical pulley of mass $M$, radius $R$, and rotational inertia $I = \\frac{1}{2}MR^2$. The pulley is mounted on a frictionless horizontal axle. The block is released from rest.",
+        problemPrompt: "What is the linear acceleration a of the falling block?",
 
         choices: [
             {
@@ -76,7 +78,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-3-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "A roller coaster car of mass $m$ is released from rest at Point $A$, which is at a height $H$ above the ground, as shown in the diagram. The car travels along a frictionless track. Point $B$ is at a height of $\\frac{2}{3}H$ above the ground, and Point $C$ is at a height of $\\frac{1}{3}H$ above the ground. Let $K_B$ and $K_C$ represent the kinetic energy of the car at points $B$ and $C$, respectively. Which of the following correctly compares $K_B$ and $K_C$?",
+        problemSetup: "A roller coaster car of mass $m$ is released from rest at Point $A$, which is at a height $H$ above the ground, as shown in the diagram. The car travels along a frictionless track. Point $B$ is at a height of $\\frac{2}{3}H$ above the ground, and Point $C$ is at a height of $\\frac{1}{3}H$ above the ground. Let $K_B$ and $K_C$ represent the kinetic energy of the car at points $B$ and $C$, respectively.",
+        problemPrompt: "Which of the following correctly compares $K_B$ and $K_C$?",
 
         choices: [
             { text: "$K_C = 2K_B$", jpegDiagram: null },
@@ -103,7 +106,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-4-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "A block of mass $m$ moves to the right along a frictionless surface with a constant speed $v_0$. It collides head-on with a rigid vertical wall and bounces back elastically. The graph shows the magnitude of the force $F$ exerted on the block by the wall as a function of time $t$ during the collision window from $t = 0$ to $t = t_1$.The total area under the force-time graph is equal to $A$. Taking the initial direction of the block's motion as the positive direction, which of the following correctly identifies the change in momentum of the block and the relationship between the area $A$, mass $m$, and initial speed $v_0$?",
+        problemSetup: "A block of mass $m$ moves to the right along a frictionless surface with a constant speed $v_0$. It collides head-on with a rigid vertical wall and bounces back elastically. The graph shows the magnitude of the force $F$ exerted on the block by the wall as a function of time $t$ during the collision window from $t = 0$ to $t = t_1$. The total area under the force-time graph is equal to $A$. Take the initial direction of the block's motion as the positive direction.",
+        problemPrompt: "Which of the following correctly identifies the change in momentum of the block and the relationship between the area $A$, mass $m$, and initial speed $v_0$?",
 
         choices: [
             {
@@ -142,7 +146,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-5-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "A vertical cylindrical storage tank with a radius of $2.0\\text{ m}$ and a total height of $10\\text{ m}$ is open to the atmosphere at the top. The tank is completely filled with an ideal fluid. The total weight of the fluid contained within the tank is $1.25 \\times 10^6\\text{ N}$. What is the absolute pressure exerted at the inner bottom surface of the tank?",
+        problemSetup: "A vertical cylindrical storage tank with a radius of $2.0\\text{ m}$ and a total height of $10\\text{ m}$ is open to the atmosphere at the top. The tank is completely filled with an ideal fluid. The total weight of the fluid contained within the tank is $1.25 \\times 10^6\\text{ N}$.",
+        problemPrompt: "What is the absolute pressure exerted at the inner bottom surface of the tank?",
 
         choices: [
             { text: "$1.0 \\times 10^5\\text{ Pa}$", jpegDiagram: null },
@@ -169,7 +174,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-6-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "A thin-walled cylindrical hoop and a solid cylinder each have an identical mass $M$ and an outer radius $R$. Both objects are released from rest at the top of identical inclined planes of height $h$, as shown in the diagram, and roll down the inclines without slipping. At the bottom of the inclines, the ratio of the hoop's rotational kinetic energy to the solid cylinder's rotational kinetic energy is $X$, where $X = \\frac{K_{\\text{rot, hoop}}}{K_{\\text{rot, cyl}}}$. The experiment is repeated on a different incline. Which of the following modifications would cause the new ratio $Y$ to be equal to $2X$?",
+        problemSetup: "A thin-walled cylindrical hoop and a solid cylinder each have an identical mass $M$ and an outer radius $R$. Both objects are released from rest at the top of identical inclined planes of height $h$, as shown in the diagram, and roll down the inclines without slipping. At the bottom of the inclines, the ratio of the hoop's rotational kinetic energy to the solid cylinder's rotational kinetic energy is $X$, where $X = \\frac{K_{\\text{rot, hoop}}}{K_{\\text{rot, cyl}}}$.",
+        problemPrompt: "The experiment is repeated on a different incline. Which of the following modifications would cause the new ratio $Y$ to be equal to $2X$?",
 
         choices: [
             {text: "Doubling the mass $M$ of both the cylinder and the hoop.", jpegDiagram: null},
@@ -196,7 +202,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-7-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "A heavy wooden shipping crate of mass $m$ rests on a flat, rough platform. An electric pump slowly and continuously raises one end of the platform to form an incline of angle $\\theta$ with the horizontal, as shown in the diagram. An experimenter notes that the crate remains completely stationary until the platform reaches a critical angle $\\theta_c$, at which point the crate is on the verge of slipping. Which of the following correctly represents the free-body diagram for the crate at the instant $\\theta = \\theta_c$?",
+        problemSetup: "A heavy wooden shipping crate of mass $m$ rests on a flat, rough platform. An electric pump slowly and continuously raises one end of the platform to form an incline of angle $\\theta$ with the horizontal, as shown in the diagram. An experimenter notes that the crate remains completely stationary until the platform reaches a critical angle $\\theta_c$, at which point the crate is on the verge of slipping.",
+        problemPrompt: "Which of the following correctly represents the free-body diagram for the crate at the instant $\\theta = \\theta_c$?",
 
         choices: [
             { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-1.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' },
@@ -223,7 +230,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: null,
 
 
-        question: "An astronaut on Earth sets up a simple pendulum of length $L$ that oscillates with a period $T_0$. The astronaut then travels to a distant planet and alters the setup, decreasing the length of the pendulum string to $\\frac{1}{2}L$. On this planet, the local acceleration due to gravity is exactly $\\frac{1}{8}$ of the acceleration due to gravity on Earth. What is the new period of oscillation for the pendulum on this planet in terms of $T_0$?",
+        problemSetup: "An astronaut on Earth sets up a simple pendulum of length $L$ that oscillates with a period $T_0$. The astronaut then travels to a distant planet and alters the setup, decreasing the length of the pendulum string to $\\frac{1}{2}L$. On this planet, the acceleration due to gravity is exactly $\\frac{1}{8}$ of the acceleration due to gravity on Earth.",
+        problemPrompt: "What is the new period of oscillation for the pendulum on this planet in terms of $T_0$?",
 
         choices: [
             { text: "$\\frac{1}{4}T_0$", jpegDiagram: null },
@@ -250,7 +258,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-9-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "Two identical carts, each of mass $m$, are on a horizontal, low-friction track. Initially, Cart 1 moves to the right with speed $v_0$ and Cart 2 is at rest. The carts collide and stick together, moving with a common final speed $v_f$. Which of the following correctly relates the total mechanical energy $E$ and total linear momentum $p$ of the two-cart system after the collision to the system's initial values before the collision?",
+        problemSetup: "Two identical carts, each of mass $m$, are on a horizontal, low-friction track. Initially, Cart 1 moves to the right with speed $v_0$ and Cart 2 is at rest. The carts collide and stick together, moving with a common final speed $v_f$.",
+        problemPrompt: "Which of the following correctly relates the total mechanical energy $E$ and total linear momentum $p$ of the two-cart system after the collision to the system's initial values before the collision?",
 
         choices: [
             {
@@ -289,7 +298,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-10-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        question: "A small projectile is launched horizontally to the right with an initial speed $v_0$ from the top of a high platform. The projectile experiences an air resistance force. The magnitude of this resistive force is governed by the equation $F_D = kv$, where $v$ is the speed of the projectile and $k$ is a non-zero positive constant. Which of the following graphs best represents the horizontal component of the projectile's velocity, $v_x$, as a function of time $t$ from the moment it is launched until it reaches the ground far below?",
+        problemSetup: "A small projectile is launched horizontally to the right with an initial speed $v_0$ from the top of a high platform. The projectile experiences an air resistance force. The magnitude of this resistive force is governed by the equation $F_D = kv$, where $v$ is the speed of the projectile and $k$ is a non-zero positive constant.",
+        problemPrompt: "Which of the following graphs best represents the horizontal component of the projectile's velocity, $v_x$, as a function of time $t$ from the moment it is launched until it reaches the ground far below?",
 
         choices: [
             { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-5.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' },
