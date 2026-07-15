@@ -2884,7 +2884,23 @@
             saveActiveExamProgressState();
 
             if (currentActivePhase === 'MCQ' || currentActivePhase === 'FRQ') {
-                renderTargetQuestionBlock();
+                const questionPanelContentNode = document.getElementById('question-panel-content');
+                const workspaceWrapperNode = document.getElementById('master-workspace-container');
+
+                // Match render-time class behavior without re-rendering heavy content.
+                questionPanelContentNode.classList.remove('mcq-two-column');
+                questionPanelContentNode.classList.remove('frq-scroll-active');
+                workspaceWrapperNode.classList.remove('mcq-split-active');
+                workspaceWrapperNode.classList.remove('frq-stacked-active');
+
+                if (mcqLayoutMode === 'split') {
+                    applyMCQSplitPaneWidth();
+                    questionPanelContentNode.classList.add('mcq-two-column');
+                    workspaceWrapperNode.classList.add('mcq-split-active');
+                } else if (currentActivePhase === 'FRQ') {
+                    questionPanelContentNode.classList.add('frq-scroll-active');
+                    workspaceWrapperNode.classList.add('frq-stacked-active');
+                }
             }
 
             // Keep the menu open after toggling layout; only outside clicks should close it.
@@ -3207,13 +3223,10 @@
                     });
                 });
 
-                if (isSplitFRQLayout) {
-                    document.getElementById('target-question-box').innerHTML = frqSetupHTML;
-                    optionsContentBox.innerHTML = frqPartsHTML;
-                } else {
-                    document.getElementById('target-question-box').innerHTML = frqSetupHTML + frqPartsHTML;
-                    optionsContentBox.innerHTML = '';
-                }
+                // Keep FRQ content mapped to left/right panes in both modes so toggling layout
+                // only changes classes/sizing, which preserves a smooth transition.
+                document.getElementById('target-question-box').innerHTML = frqSetupHTML;
+                optionsContentBox.innerHTML = frqPartsHTML;
             }
 
             document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ${isDropupMatrixOpen ? '▾' : '▴'}`;
