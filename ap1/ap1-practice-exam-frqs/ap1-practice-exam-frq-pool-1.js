@@ -67,7 +67,7 @@ const ap1PracticeExamFRQPoolOne = [
                     {
                         subpartId: "APPHY-EX001-SU001-P0002-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "In a alternate configuration, the separation distance between each planet is increased to a distance greater than $d$. Planet A and Planet B still have the same original orbital velocities. The gravitational potential energy of this new 3-body system is $U_g$. <br> If the original gravitational potential energy of the 3-body system is $U_{g0}$, indicate whether $U_g$ is greater than, less than, or equal to $U_{g0}$, by writing one of the following. <br> - $U_g > U_{g0}$ <br> - $U_g < U_{g0}$ <br> - $U_g = U_{g0}$ <br> Justify your answer with a qualitative reasoning without mathematical derivations or expressions.",
+                        subpartQuestion: "In a alternate configuration, the separation distance between each planet is increased to a distance greater than $d$. Planet A and Planet B still have the same original orbital velocities. The gravitational potential energy of this new 3-body system is $U_g$. <br><br> If the original gravitational potential energy of the 3-body system is $U_{g0}$, indicate whether $U_g$ is greater than, less than, or equal to $U_{g0}$, by writing one of the following. <br> - $U_g > U_{g0}$ <br> - $U_g < U_{g0}$ <br> - $U_g = U_{g0}$ <br><br> Justify your answer with a qualitative reasoning without mathematical derivations or expressions.",
                         pngDiagram: null
                     }
                 ]
@@ -260,7 +260,7 @@ const ap1PracticeExamFRQPoolOne = [
                     {
                         subpartId: "APPHY-EX001-SU004-P0001-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "Indicate whether $f$ is greater than, less than, or equal to $f_0$ by writing one of the following. <br> - $f > f_0$ <br> - $f < f_0$ <br> - $f = f_0$ <br> Justify your answer using qualitative reasoning without referencing equations.",
+                        subpartQuestion: "Indicate whether $f$ is greater than, less than, or equal to $f_0$ by writing one of the following. <br> - $f > f_0$ <br> - $f < f_0$ <br> - $f = f_0$ <br><br> Justify your answer using qualitative reasoning without referencing equations.",
                         pngDiagram: null
                     }
                 ]
