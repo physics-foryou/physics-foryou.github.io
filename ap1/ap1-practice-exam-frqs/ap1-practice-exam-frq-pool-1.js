@@ -82,21 +82,21 @@ const ap1PracticeExamFRQPoolOne = [
         setupId: "APPHY-EX001-SU002",
         problemNumber: 2,
         problemType: "Translation Between Representations",
-        problemSetup: "A horizontal, uniform solid disk of mass $M_0$ and radius $R_0$ is free to rotate with negligible friction about a vertical axle through its center. At time $t=0$, the disk rotates with a constant initial angular speed $\\omega_0$ in the counterclockwise (positive) direction. At time $t=t_1$, a small piece of sticky clay of mass $\\frac{1}{2}M_0$ is dropped vertically onto the outer edge of the rotating disk and sticks to it. Immediately after the collision, the disk-clay system rotates together with a new constant angular speed. Frictional forces from air resistance are negligible.",
-        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q2-disk-clay-setup.png" alt="Rotating Disk with Dropped Clay" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        problemSetup: "A uniform drawbridge of mass $M$ and length $L$ is attached to a vertical castle wall by an axle at its base. A string attached to the castle wall holds the drawbridge at rest. The string is attached to the outer end of the drawbridge and is oriented perpendicular to the drawbridge. The angle $\\theta_0$ is measured between the vertical castle wall and the drawbridge, as shown in the diagram above.",
+        pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-2.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`,
         dataTable: null,
         parts: [
             {
                 partId: "APPHY-EX001-SU002-P0001",
                 partTitle: "Part A",
-                partIntroText: "The angular momentum-vector diagram in Figure 1 represents the angular momentum $L$ of the disk and the clay before the collision at $t < t_1$.",
-                pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q2-part-a-figure1.png" alt="Figure 1: Angular Momentum Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+                partIntroText: null,
+                pngDiagram: null,
                 subparts: [
                     {
                         subpartId: "APPHY-EX001-SU002-P0001-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "On Figure 2 below, draw arrows to represent the angular momentum vectors of the disk and the clay immediately after the collision ($t > t_1$). Each arrow must start on, and point away from, each dot. If the angular momentum of either object is zero, write \"$L=0$\" next to the dot. Draw the length of each arrow to represent the magnitude of each angular momentum, keeping your scale consistent with Figure 1. (Note: The rotational inertia of a solid disk is $I = \\frac{1}{2}MR^2$.)",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q2-collision-vectors.png" alt="Figure 2: Angular Momentum Vectors After Collision" style="display:block; margin:auto; max-width:340px; height:auto;" />`
+                        subpartQuestion: "On the diagram shown, which represents the drawbridge, draw and label the forces, not components, exerted on the drawbridge. Each force must be represented by a distinct arrow starting on, and pointing away from, the point at which the force is exerted.",
+                        pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-2A.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`
                     }
                 ]
             },
@@ -104,40 +104,40 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "APPHY-EX001-SU002-P0002",
                 partTitle: "Part B",
                 partIntroText: "",
-                pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q2-part-b-intro.png" alt="Part B Introduction Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+                pngDiagram: null,
                 subparts: [
                     {
                         subpartId: "APPHY-EX001-SU002-P0002-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "Starting with the conservation of angular momentum, derive an expression for the final angular speed $\\omega_f$ of the disk-clay system immediately after the collision. Express your final answer in terms of $\\omega_0$ and physical constants, as appropriate. Begin your derivation by writing a fundamental physics principle or an equation from the reference information.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q2-part-b-s0001-diagram.png" alt="Part B Subpart Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                        subpartQuestion: "Derive an expression for the magnitude of the tension $T_0$ in the string at the instant shown in the diagram. Express your final answer in terms of $M$, $L$, $\\theta_0$, and physical constants, as appropriate. Start by writing a fundamental physics principle or an equation from the reference sheet.",
+                        pngDiagram: null
                     }
                 ]
             },
             {
                 partId: "APPHY-EX001-SU002-P0003",
                 partTitle: "Part C",
-                partIntroText: "The graph shown in Figure 3 below represents the angular velocities $\\omega$ as functions of time $t$ from $t=0$ until the collision at $t=t_1$ for each of the following:\n- The rotating disk\n- The dropped clay\n- The total system (disk + clay)",
-                pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q2-part-c-figure3-intro.png" alt="Figure 3: Angular Velocity Diagram (0 to t1)" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+                partIntroText: null,
+                pngDiagram: null,
                 subparts: [
                     {
                         subpartId: "APPHY-EX001-SU002-P0003-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "On the graph in Figure 3, draw three lines that represent the angular velocities $\\omega$ of the disk, the clay, and the total system as functions of $t$ from $t=t_1$ to $t=2t_1$. Distinctly label each line.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q2-angular-velocity-graph.png" alt="Figure 3: Angular Velocity vs Time Graph" style="display:block; margin:auto; max-width:320px; height:auto;" />`
+                        subpartQuestion: "The drawbridge is now lowered at a constant angular velocity $\\omega_0$ from an initial angle $\\theta_0$ until it reaches a final angle $\\theta_f$ where the drawbridge rests on the floor. On the axes below, sketch a graph of the magnitude of the tension $T$ in the string as a function of the angle $\\theta$ as it approaches $\\theta_f$ from $\\theta_0$.",
+                        pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-2C.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`
                     }
                 ]
             },
             {
                 partId: "APPHY-EX001-SU002-P0004",
                 partTitle: "Part D",
-                partIntroText: "During the collision, the magnitudes of the changes in angular momentum of the disk and the clay are $|\\Delta L_{\\text{disk}}|$ and $|\\Delta L_{\\text{clay}}|$, respectively.",
-                pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q2-part-d-intro.png" alt="Part D Introduction Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+                partIntroText: null,
+                pngDiagram: null,
                 subparts: [
                     {
                         subpartId: "APPHY-EX001-SU002-P0004-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "Indicate whether $|\\Delta L_{\\text{disk}}|$ is greater than, less than, or equal to $|\\Delta L_{\\text{clay}}|$ by selecting one of the options:\n\n$$\\text{___ } |\\Delta L_{\\text{disk}}| > |\\Delta L_{\\text{clay}}| \\quad \\text{___ } |\\Delta L_{\\text{disk}}| < |\\Delta L_{\\text{clay}}| \\quad \\text{___ } |\\Delta L_{\\text{disk}}| = |\\Delta L_{\\text{clay}}|$$\n\nBriefly justify your response by referencing a fundamental physics principle.",
+                        subpartQuestion: "Suppose the original drawbridge is replaced with a new, non-uniform drawbridge. The new drawbridge has the same mass $M$ and length $L$, but the mass is concentrated a distance $\\frac{3L}{4}$ from the axle. The drawbridge is held at rest at the same initial angle $\\theta_0$. <br><br> Let $T_{\\text{uniform}}$ be the magnitude of the tension required to hold the original drawbridge at $\\theta_0$, and let $T_{\\text{new}}$ be the magnitude of the tension required to hold the new non-uniform drawbridge at $\\theta_0$. <br><br> Indicate whether $T_{\\text{new}}$ is greater than, less than, or equal to $T_{\\text{uniform}}$ by writing one of the following. <br> - $T_{\\text{new}} > T_{\\text{uniform}}$ <br> - $T_{\\text{new}} < T_{\\text{uniform}}$ <br> - $T_{\\text{new}} = T_{\\text{uniform}}$ <br><br> Briefly justify your response by referencing a fundamental physics principle.",
                         pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q2-part-d-s0001-diagram.png" alt="Part D Subpart Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
                     }
                 ]
