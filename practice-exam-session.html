@@ -41,6 +41,7 @@
                 processEscapes: true
             },
             options: {
+                enableMenu: false,
                 ignoreHtmlClass: 'tex2jax_ignore',
                 processHtmlClass: 'tex2jax_process'
             }
@@ -360,6 +361,15 @@
             max-height: 68vh;
             overflow-y: auto;
         }
+
+        /* Keep FRQ diagrams larger by default, regardless of inline image max-width in pool data. */
+        .panel-content.frq-image-scale-active #target-question-box img,
+        .panel-content.frq-image-scale-active #target-choices-container img {
+            width: min(100%, 560px) !important;
+            max-width: 560px !important;
+            height: auto !important;
+        }
+
         .panel-content::-webkit-scrollbar { width: 8px; }
         .panel-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); border-radius: 4px; }
         .panel-content::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
@@ -1683,8 +1693,8 @@
 
                         </div>
 
-                        <div class="symbols-right-pane" style="flex: 1; min-width: 200px; background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
-                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; border-bottom: 1px solid #ccc;">Symbols</div>
+                        <div class="symbols-right-pane" style="flex: 1; min-width: 200px;">
+                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; border-bottom: 1px solid var(--border-color);">Symbols</div>
                             $A$ = area or amplitude<br>
                             $a$ = width<br>
                             $B$ = magnetic field<br>
@@ -2264,8 +2274,8 @@
                             $\omega_{\text{LC}} = \frac{1}{\sqrt{LC}}$
                         </div>
 
-                        <div class="symbols-right-pane" style="flex: 1; min-width: 200px; background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
-                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; border-bottom: 1px solid #ccc;">Symbols</div>
+                        <div class="symbols-right-pane" style="flex: 1; min-width: 200px;">
+                            <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; border-bottom: 1px solid var(--border-color);">Symbols</div>
                             $A$ = area<br>
                             $B$ = magnetic field<br>
                             $C$ = capacitance<br>
@@ -2341,7 +2351,7 @@
                     <div id="header-options-menu" class="options-menu-popup">
                         <button onclick="triggerSessionCountdownPause()">Pause</button>
                         <button onclick="openInstructionsFromMenu()">Instructions</button>
-                        <button id="toggle-mcq-layout-btn" onclick="toggleMCQLayoutMode(event)">Layout: Stacked</button>
+                        <button id="toggle-mcq-layout-btn" onclick="toggleMCQLayoutMode(event)">Layout: Split</button>
                     </div>
                 </div>
             </div>
@@ -2492,8 +2502,8 @@
         let isTimerPausedActive = false;
         let processingTickerInterval = null;
 
-        // MCQ presentation mode: 'stacked' = setup above prompt/choices, 'split' = setup left and prompt/choices right.
-        let mcqLayoutMode = 'stacked';
+        // Layout mode shared by MCQ and FRQ: 'stacked' = vertical, 'split' = side-by-side.
+        let mcqLayoutMode = 'split';
         let mcqSplitPanePercent = 50;
 
         let holdProgressIntervalReference = null;
@@ -2729,7 +2739,7 @@
 
                     mcqLayoutMode = (parsed.mcqLayout === 'split' || parsed.mcqLayout === 'stacked')
                         ? parsed.mcqLayout
-                        : 'stacked';
+                        : 'split';
                     mcqSplitPanePercent = (typeof parsed.mcqSplitPanePercent === 'number')
                         ? parsed.mcqSplitPanePercent
                         : 50;
@@ -3068,6 +3078,14 @@
                 return nodeRef.pngDiagram || nodeRef.jpegDiagram || null;
             };
 
+            const resolveFRQDiagramMarkup = (nodeRef) => {
+                const markup = resolveDiagramMarkup(nodeRef);
+                if (!markup) return null;
+                // Ignore legacy placeholder assets carried over from old PCQ image paths.
+                if (markup.includes('pcq-problem-images')) return null;
+                return markup;
+            };
+
             const questionRecord = examinationPool[currentProblemIndex];
             document.getElementById('current-badge-id').innerText = currentProblemIndex + 1;
 
@@ -3087,6 +3105,7 @@
             
             if (currentActivePhase === 'MCQ') {
                 questionPanelContentNode.classList.remove('mcq-two-column');
+                questionPanelContentNode.classList.remove('frq-image-scale-active');
                 workspaceWrapperNode.classList.remove('mcq-split-active');
                 workspaceWrapperNode.classList.remove('frq-stacked-active');
                 if (mcqLayoutMode === 'split') {
@@ -3185,6 +3204,7 @@
                 });
             } else {
                 questionPanelContentNode.classList.remove('mcq-two-column');
+                questionPanelContentNode.classList.add('frq-image-scale-active');
                 workspaceWrapperNode.classList.remove('mcq-split-active');
                 workspaceWrapperNode.classList.remove('frq-stacked-active');
 
@@ -3201,7 +3221,7 @@
 
                 // Free Response Render Phase Configuration
                 let frqSetupHTML = `<div><strong>${questionRecord.problemType || 'Free Response'}</strong></div><p>${questionRecord.problemSetup}</p>`;
-                const frqQuestionDiagram = resolveDiagramMarkup(questionRecord);
+                const frqQuestionDiagram = resolveFRQDiagramMarkup(questionRecord);
                 if (frqQuestionDiagram) frqSetupHTML += `<div style="margin: 20px 0;">${frqQuestionDiagram}</div>`;
                 if (questionRecord.dataTable) frqSetupHTML += buildTableHTML(questionRecord.dataTable);
 
@@ -3209,7 +3229,7 @@
                 questionRecord.parts.forEach((part) => {
                     frqPartsHTML += `<div class="part-header">${part.partTitle}</div>`;
                     if (part.partIntroText) frqPartsHTML += `<p>${part.partIntroText}</p>`;
-                    const partDiagram = resolveDiagramMarkup(part);
+                    const partDiagram = resolveFRQDiagramMarkup(part);
                     if (partDiagram) frqPartsHTML += `<div style="margin: 15px 0;">${partDiagram}</div>`;
                     if (part.dataTable) frqPartsHTML += buildTableHTML(part.dataTable);
 
@@ -3217,7 +3237,7 @@
                         frqPartsHTML += `<div class="subpart-block">`;
                         if (subpart.subpartLabel) frqPartsHTML += `<strong>${subpart.subpartLabel}</strong> `;
                         frqPartsHTML += `<span>${subpart.subpartQuestion}</span>`;
-                        const subpartDiagram = resolveDiagramMarkup(subpart);
+                        const subpartDiagram = resolveFRQDiagramMarkup(subpart);
                         if (subpartDiagram) frqPartsHTML += `<div style="margin: 15px 0;">${subpartDiagram}</div>`;
                         frqPartsHTML += `</div>`;
                     });
@@ -3501,6 +3521,13 @@
             document.getElementById('ref-tab-trigger').style.display = 'block';
             document.getElementById('desmos-tab-trigger').style.display = 'block';
             initializeMCQSplitDividerDrag();
+
+            // Disable context menu on rendered MathJax text to prevent menu-based tampering tools.
+            document.addEventListener('contextmenu', (event) => {
+                if (event.target && event.target.closest && event.target.closest('.mjx-container')) {
+                    event.preventDefault();
+                }
+            }, true);
 
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape') closeImageZoomOverlay();

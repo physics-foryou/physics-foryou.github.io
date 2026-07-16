@@ -28,47 +28,47 @@ const ap1PracticeExamFRQPoolOne = [
         setupId: "APPHY-EX001-SU001",
         problemNumber: 1,
         problemType: "Mathematical Routines",
-        problemSetup: "A futuristic drone uses a lightweight, inextensible cable of length $L$ to fly a small cargo package of mass $m$ in a horizontal circle at a constant speed. The cable makes a constant angle $\\theta_0$ relative to the vertical, as shown in Figure 1. At a height $H$ above the ground, the cable suddenly snaps, releasing the package. The package then travels as a projectile before striking the flat ground at a horizontal distance $D$ from the release point. Frictional forces from air resistance are negligible.",
-        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q1-drone-setup.png" alt="Drone System - Circular Motion Setup" style="display:block; margin:auto; max-width:360px; height:auto;" />`,
+        problemSetup: "A stationary planet of mass $M$ is located at the center of a circular orbit. Two identical moons, Moon A and Moon B, each of mass $m$, orbit the planet. At the instant shown, the three bodies form the vertices of an equilateral triangle, where the distance between any two bodies is $d$.",
+        pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-1.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`,
         dataTable: null,
         parts: [
             {
                 partId: "APPHY-EX001-SU001-P0001",
                 partTitle: "Part A",
-                partIntroText: "",
-                pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q1-part-a-intro.png" alt="Part A Introduction Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+                partIntroText: null,
+                pngDiagram: null,
                 subparts: [
                     {
                         subpartId: "APPHY-EX001-SU001-P0001-S0001",
                         subpartLabel: "i.",
-                        subpartQuestion: "On the dot below, which represents the package while it is still flying in the horizontal circle, draw and label the forces (not components) acting on the package. Each force must be represented by a distinct arrow starting on, and pointing away from, the dot.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q1-force-diagram.png" alt="Force Diagram - Package" style="display:block; margin:auto; max-width:200px; height:auto;" />`
+                        subpartQuestion: "On the dot below, which represents Moon B at the instant shown in the diagram, draw and label the forces, not components, exerted on Moon B. Each force must be represented by a distinct arrow starting on, and pointing away from, the dot. The relative lengths of the arrows should reflect the relative magnitudes of the forces.",
+                        pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-1A.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`
                     },
                     {
                         subpartId: "APPHY-EX001-SU001-P0001-S0002",
                         subpartLabel: "ii.",
-                        subpartQuestion: "Starting with Newton's second law, derive an expression for the tangential speed $v_0$ of the package while it is moving in the circular path. Express your final answer in terms of $m$, $L$, $\\theta_0$, and physical constants, as appropriate. Begin your derivation by writing a fundamental physics principle or an equation from the reference information.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q1-subpart-ii-diagram.png" alt="Subpart ii Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                        subpartQuestion: "Derive an expression for the orbital speed of Moon B. Express your final answer in terms of $m$, $M$, $d$, and physical constants, as appropriate. Begin your derivation by writing a fundamental physics principle or an equation from the reference sheet.",
+                        pngDiagram: null
                     },
                     {
                         subpartId: "APPHY-EX001-SU001-P0001-S0003",
                         subpartLabel: "iii.",
-                        subpartQuestion: "Derive an expression for the horizontal distance $D$ traveled by the package from the moment the cable snaps until it hits the ground. Express your final answer in terms of $v_0$, $H$, and physical constants, as appropriate. Begin your derivation by writing a fundamental physics principle or an equation from the reference information.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q1-subpart-iii-diagram.png" alt="Subpart iii Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                        subpartQuestion: "Derive an expression for the orbital period $T$ of Moon B. Express your final answer in terms of $m$, $M$, $d$, and physical constants, as appropriate.",
+                        pngDiagram: null
                     }
                 ]
             },
             {
                 partId: "APPHY-EX001-SU001-P0002",
                 partTitle: "Part B",
-                partIntroText: "The drone system is adjusted so that it carries a new package with a mass greater than $m$. The cable length remains $L$, and the drone flies the package such that the cable maintains the exact same angle $\\theta_0$ relative to the vertical. The new package is flown at the same height $H$ when the cable snaps.",
-                pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q1-part-b-intro.png" alt="Part B Introduction Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+                partIntroText: null,
+                pngDiagram: null,
                 subparts: [
                     {
                         subpartId: "APPHY-EX001-SU001-P0002-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "Indicate whether the horizontal distance $D_{\\text{new}}$ traveled by the heavier package is greater than, less than, or equal to the original distance $D$.\n\n$$\\text{___ } D_{\\text{new}} > D \\quad \\text{___ } D_{\\text{new}} < D \\quad \\text{___ } D_{\\text{new}} = D$$\n\nJustify your answer. In your justification, include qualitative reasoning beyond mathematical derivations or expressions.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q1-part-b-s0001-diagram.png" alt="Part B Subpart Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                        subpartQuestion: "In a alternate configuration, the separation distance between each planet is increased to a distance greater than $d$. Planet A and Planet B still have the same original orbital velocities. The gravitational potential energy of this new 3-body system is $U_g$. <br> If the original gravitational potential energy of the 3-body system is $U_{g0}$, indicate whether $U_g$ is greater than, less than, or equal to $U_{g0}$, by writing one of the following. <br> - $U_g > U_{g0}$ <br> - $U_g < U_{g0}$ <br> - $U_g = U_{g0}$ <br> Justify your answer with a qualitative reasoning without mathematical derivations or expressions.",
+                        pngDiagram: null
                     }
                 ]
             }
@@ -247,21 +247,21 @@ const ap1PracticeExamFRQPoolOne = [
         setupId: "APPHY-EX001-SU004",
         problemNumber: 4,
         problemType: "Qualitative/Quantitative Translation",
-        problemSetup: "Two identical planetary probes, Probe X and Probe Y, are in stable circular orbits around a distant planet of mass $M_0$. Probe X is in a low orbit of radius $R_X = R_0$. Probe Y is in a higher orbit of radius $R_Y = 4R_0$. Both probes enter a very thin region of upper-atmospheric gas that exerts a small, constant resisting drag force of magnitude $F_0$ on each probe. The drag force acts opposite to each probe's direction of motion over a short tracking interval. Because the orbits remain nearly circular during this brief interval, the orbital speed $v$ of a probe at any radius $R$ can be approximated using the relationship for a stable circular orbit.",
-        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q4-orbital-probes.png" alt="Planet with Two Orbital Probes" style="display:block; margin:auto; max-width:260px; height:auto;" />`,
+        problemSetup: "A small bob of mass $m$ is attached to a long, lightweight string that is wrapped several turns around a pulley and is then anchored at a point, as shown. The active length of the pendulum, which is the distance from the bob to the point where the string first contacts the pulley, is initially $L$. The bob is pulled back to a small angle $\\theta$ and is then released, oscillating with a frequency $f_0$.<br>The anchor is then moved and secured such that the active length of the pendulum becomes $2L$. The bob is again pulled back to the same small angle $\\theta$ and released, oscillating with a new frequency $f$.",
+        pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-4.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`,
         dataTable: null,
         parts: [
             {
                 partId: "APPHY-EX001-SU004-P0001",
                 partTitle: "Part A",
                 partIntroText: "",
-                pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q4-part-a-intro.png" alt="Part A Introduction Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+                pngDiagram: null,
                 subparts: [
                     {
                         subpartId: "APPHY-EX001-SU004-P0001-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "Indicate whether the orbital speed $v_X$ of Probe X is greater than, less than, or equal to the orbital speed $v_Y$ of Probe Y during their circular orbits.\n\n$$\\bigcirc \\quad v_X > v_Y \\qquad \\bigcirc \\quad v_X < v_Y \\qquad \\bigcirc \\quad v_X = v_Y$$\n\nJustify your answer using qualitative reasoning beyond referencing equations.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q4-part-a-s0001-diagram.png" alt="Part A Subpart Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                        subpartQuestion: "Indicate whether $f$ is greater than, less than, or equal to $f_0$ by writing one of the following. <br> - $f > f_0$ <br> - $f < f_0$ <br> - $f = f_0$ <br> Justify your answer using qualitative reasoning without referencing equations.",
+                        pngDiagram: null
                     }
                 ]
             },
@@ -269,13 +269,13 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "APPHY-EX001-SU004-P0002",
                 partTitle: "Part B",
                 partIntroText: "",
-                pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q4-part-b-intro.png" alt="Part B Introduction Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+                pngDiagram: null,
                 subparts: [
                     {
                         subpartId: "APPHY-EX001-SU004-P0002-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "Starting with Newton's second law in translational form or the definition of centripetal acceleration, derive an expression for the exact mathematical ratio of the orbital speeds $\\frac{v_X}{v_Y}$. Express your final numerical ratio as a simplified integer or fraction.\n\nBegin your derivation by writing a fundamental physics principle or an equation from the reference information.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q4-part-b-s0001-diagram.png" alt="Part B Subpart Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                        subpartQuestion: "The pulley is removed, and the bob is attached to a string of fixed length $L$. The bob is pulled to the left to a small angle $\\theta$ and is then released from rest. The moment the bob reaches point 2, the string is cut. Indicate and justify which path, A, B, or C, the bob would follow.",
+                        pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-4B.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`
                     }
                 ]
             },
@@ -288,8 +288,8 @@ const ap1PracticeExamFRQPoolOne = [
                     {
                         subpartId: "APPHY-EX001-SU004-P0003-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "In a cohesive, paragraph-length response, explain how your quantitative derivation in Part B is consistent with your qualitative reasoning in Part A. Your response must explicitly translate how specific features of your mathematical solution align with the physical principles you described conceptually.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q4-part-c-s0001-diagram.png" alt="Part C Subpart Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                        subpartQuestion: "Continuing with the setup from Part B, the rigid string is replaced with an elastic string of unstretched length $L$. The bob is pulled to the left at a small angle $\\theta$ such that the string remains unstretched, and is then released from rest. If the string is cut at the exact moment the bob reaches Point 2, briefly explain what would happen to the resulting trajectory of the bob.",
+                        pngDiagram: null
                     }
                 ]
             }
