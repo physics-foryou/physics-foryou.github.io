@@ -3043,7 +3043,7 @@
             document.getElementById('dropup-navigation-wrapper').style.display = 'none';
             
             const nextBtn = document.getElementById('footer-next-btn');
-            nextBtn.innerText = (currentActivePhase === 'MCQ') ? 'Submit Section I' : 'Submit Final Exam';
+            nextBtn.innerText = (currentActivePhase === 'MCQ') ? 'Submit Section I' : 'Submit Section II';
             nextBtn.onclick = (currentActivePhase === 'MCQ') ? terminateActiveSessionInstance : executeFinalSubmissionRedirect;
             
             const prevBtn = document.getElementById('footer-prev-btn');
@@ -3056,7 +3056,7 @@
 
             if (currentActivePhase === 'FRQ') {
                 document.getElementById('review-panel-heading').innerText = "Review Your Section II Answers";
-                document.getElementById('review-panel-description').innerHTML = "You have reached the end of the FRQ examination block. Please review your written responses. When you are fully satisfied, click <strong>Submit Final Exam</strong>.";
+                document.getElementById('review-panel-description').innerHTML = "On exam day, you won't be able to submit before the timer runs out. For this practice exam, you can submit and finish your exam whenver you are ready.";
             }
 
             updateConsoleMatrixHighlights();
@@ -3461,11 +3461,9 @@
         }
 
         function executeFinalSubmissionRedirect() {
-            if (confirm("Are you sure you want to finalize this exam block session and submit your responses?")) {
-                clearInterval(processingTickerInterval);
-                clearSavedExamProgressState();
-                window.location.href = 'home-page.html';
-            }
+            clearInterval(processingTickerInterval);
+            clearSavedExamProgressState();
+            window.location.href = 'home-page.html';
         }
 
         // Reference Sheet and Calculator Functions
