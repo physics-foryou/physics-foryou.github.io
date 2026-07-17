@@ -235,7 +235,7 @@ const ap1PracticeExamFRQPoolOne = [
                     {
                         subpartId: "APPHY-EX001-SU003-P0004-S0003",
                         subpartLabel: "iii.",
-                        subpartQuestion: "Draw a best-fit line for the data plotted in part C (ii)",
+                        subpartQuestion: "Draw a best-fit line for the data plotted in part C (ii).",
                         pngDiagram: null
                     }
                 ]
