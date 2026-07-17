@@ -53,8 +53,8 @@
         :root {
             --review-gold: #f59e0b;
             --flag-red: #ef4444;
-            --choice-image-width: 220px;
-            --choice-image-height: 130px;
+            --choice-image-width: 360px;
+            --choice-image-height: 240px;
             --mcq-left-pane-width: 50%;
         }
 
@@ -420,7 +420,17 @@
             overflow-y: auto;
         }
 
+        .panel-content.stacked-scroll-active {
+            max-height: 68vh;
+            overflow-y: auto;
+        }
+
         .panel.resizable-question-shell .panel-content.frq-scroll-active {
+            max-height: none;
+            height: 100%;
+        }
+
+        .panel.resizable-question-shell .panel-content.stacked-scroll-active {
             max-height: none;
             height: 100%;
         }
@@ -580,6 +590,23 @@
             height: auto;
             object-fit: contain;
             border-radius: 4px;
+        }
+
+        .choice-row.image-only-choice .choice-btn {
+            padding: 12px;
+        }
+
+        .choice-row.image-only-choice .choice-diagram-wrap {
+            margin: 6px auto 0;
+            width: min(100%, var(--choice-image-width));
+        }
+
+        .choice-row.image-only-choice .choice-diagram-wrap img {
+            width: 100% !important;
+            max-width: var(--choice-image-width) !important;
+            max-height: var(--choice-image-height) !important;
+            height: auto !important;
+            object-fit: contain;
         }
 
         .zoomable-image {
@@ -3152,6 +3179,7 @@
                 // Match render-time class behavior without re-rendering heavy content.
                 questionPanelContentNode.classList.remove('mcq-two-column');
                 questionPanelContentNode.classList.remove('frq-scroll-active');
+                questionPanelContentNode.classList.remove('stacked-scroll-active');
                 workspaceWrapperNode.classList.remove('mcq-split-active');
                 workspaceWrapperNode.classList.remove('frq-stacked-active');
 
@@ -3159,6 +3187,8 @@
                     applyMCQSplitPaneWidth();
                     questionPanelContentNode.classList.add('mcq-two-column');
                     workspaceWrapperNode.classList.add('mcq-split-active');
+                } else if (currentActivePhase === 'MCQ') {
+                    questionPanelContentNode.classList.add('stacked-scroll-active');
                 } else if (currentActivePhase === 'FRQ') {
                     questionPanelContentNode.classList.add('frq-scroll-active');
                     workspaceWrapperNode.classList.add('frq-stacked-active');
@@ -3410,13 +3440,23 @@
             const getQuestionPanelResizeMode = (clientX, clientY) => {
                 if (!questionShellNode) return '';
                 const rect = questionShellNode.getBoundingClientRect();
-                const edgeSize = 12;
-                const cornerSize = 18;
-                const nearLeft = clientX <= rect.left + edgeSize && clientX >= rect.left - 6;
-                const nearRight = clientX >= rect.right - edgeSize && clientX <= rect.right + 6;
-                const nearBottom = clientY >= rect.bottom - edgeSize && clientY <= rect.bottom + 6;
-                const nearBottomLeft = clientX <= rect.left + cornerSize && clientY >= rect.bottom - cornerSize;
-                const nearBottomRight = clientX >= rect.right - cornerSize && clientY >= rect.bottom - cornerSize;
+                const edgeSize = 14;
+                const edgeOutsideAllowance = 12;
+                const cornerInlineSize = 34;
+                const cornerBlockSize = 34;
+                const nearLeft = clientX <= rect.left + edgeSize && clientX >= rect.left - edgeOutsideAllowance;
+                const nearRight = clientX >= rect.right - edgeSize && clientX <= rect.right + edgeOutsideAllowance;
+                const nearBottom = clientY >= rect.bottom - edgeSize && clientY <= rect.bottom + edgeOutsideAllowance;
+                const nearBottomLeft =
+                    clientX <= rect.left + cornerInlineSize &&
+                    clientX >= rect.left - edgeOutsideAllowance &&
+                    clientY >= rect.bottom - cornerBlockSize &&
+                    clientY <= rect.bottom + edgeOutsideAllowance;
+                const nearBottomRight =
+                    clientX >= rect.right - cornerInlineSize &&
+                    clientX <= rect.right + edgeOutsideAllowance &&
+                    clientY >= rect.bottom - cornerBlockSize &&
+                    clientY <= rect.bottom + edgeOutsideAllowance;
 
                 if (nearBottomLeft) return 'left-width-height';
                 if (nearBottomRight) return 'right-width-height';
@@ -3462,11 +3502,10 @@
                     questionShellNode.style.cursor = '';
                 });
 
-                const startResize = (evt) => {
-                    const startPoint = extractClientPoint(evt);
-                    const resizeMode = getQuestionPanelResizeMode(startPoint.x, startPoint.y);
+                const startResizeByMode = (resizeMode, evt) => {
                     if (!resizeMode) return;
 
+                    const startPoint = extractClientPoint(evt);
                     evt.preventDefault();
                     evt.stopPropagation();
 
@@ -3515,15 +3554,21 @@
                     window.addEventListener('touchend', stopResize);
                 };
 
+                const startResize = (evt) => {
+                    const startPoint = extractClientPoint(evt);
+                    const resizeMode = getQuestionPanelResizeMode(startPoint.x, startPoint.y);
+                    startResizeByMode(resizeMode, evt);
+                };
+
                 questionShellNode.addEventListener('mousedown', startResize);
                 questionShellNode.addEventListener('touchstart', startResize, { passive: false });
+
                 questionShellNode.dataset.resizeBound = 'true';
             };
 
             const ensureResizableQuestionPanel = () => {
                 applyQuestionPanelSizing();
                 if (!questionShellNode) return;
-                questionShellNode.querySelectorAll(':scope > .display-resize-handle').forEach((staleHandle) => staleHandle.remove());
                 bindQuestionPanelResizeInteractions();
             };
 
@@ -3547,12 +3592,15 @@
             if (currentActivePhase === 'MCQ') {
                 questionPanelContentNode.classList.remove('mcq-two-column');
                 questionPanelContentNode.classList.remove('frq-image-scale-active');
+                questionPanelContentNode.classList.remove('stacked-scroll-active');
                 workspaceWrapperNode.classList.remove('mcq-split-active');
                 workspaceWrapperNode.classList.remove('frq-stacked-active');
                 if (mcqLayoutMode === 'split') {
                     applyMCQSplitPaneWidth();
                     questionPanelContentNode.classList.add('mcq-two-column');
                     workspaceWrapperNode.classList.add('mcq-split-active');
+                } else {
+                    questionPanelContentNode.classList.add('stacked-scroll-active');
                 }
                 questionPanelContentNode.classList.remove('frq-scroll-active');
 
@@ -3616,10 +3664,16 @@
                     const normalizedChoiceText = (choiceData && typeof choiceData === 'object')
                         ? (choiceData.text ?? '')
                         : String(choiceData ?? '');
-                    let choiceHTML = `<span class="choice-option-label"><strong>( ${alphaPrefixes[stringIdx]} )</strong></span> <span class="choice-option-text">${normalizedChoiceText}</span>`;
                     const choiceDiagram = (choiceData && typeof choiceData === 'object')
                         ? resolveDiagramMarkup(choiceData)
                         : null;
+                    const isImageOnlyChoice = !!(choiceDiagram && !String(normalizedChoiceText).trim());
+
+                    if (isImageOnlyChoice) {
+                        choiceWrapperNode.classList.add('image-only-choice');
+                    }
+
+                    let choiceHTML = `<span class="choice-option-label"><strong>( ${alphaPrefixes[stringIdx]} )</strong></span> <span class="choice-option-text">${normalizedChoiceText}</span>`;
                     if (choiceDiagram) {
                         choiceHTML += `<div class="choice-diagram-wrap" style="margin-top: 10px;">${choiceDiagram}</div>`;
                     }
@@ -3646,6 +3700,7 @@
             } else {
                 questionPanelContentNode.classList.remove('mcq-two-column');
                 questionPanelContentNode.classList.add('frq-image-scale-active');
+                questionPanelContentNode.classList.remove('stacked-scroll-active');
                 workspaceWrapperNode.classList.remove('mcq-split-active');
                 workspaceWrapperNode.classList.remove('frq-stacked-active');
 
