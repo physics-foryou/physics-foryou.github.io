@@ -227,6 +227,22 @@
             box-sizing: border-box;
         }
 
+        .panel.resizable-question-shell {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: none;
+            margin-inline: 0;
+        }
+
+        .panel.resizable-question-shell #question-panel-content,
+        .panel.resizable-question-shell #review-panel-content {
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+
         .panel-header {
             background-color: var(--header-bg);
             padding: 12px 16px;
@@ -245,6 +261,42 @@
             box-sizing: border-box;
             background-color: var(--panel-bg);
             color: var(--text-main);
+        }
+
+        #master-workspace-container.text-size-small .panel-header,
+        #master-workspace-container.text-size-small .panel-content {
+            font-size: 14px;
+        }
+
+        #master-workspace-container.text-size-medium .panel-header,
+        #master-workspace-container.text-size-medium .panel-content {
+            font-size: 16px;
+        }
+
+        #master-workspace-container.text-size-large .panel-header,
+        #master-workspace-container.text-size-large .panel-content {
+            font-size: 18px;
+        }
+
+        #master-workspace-container.text-size-small .panel-header *,
+        #master-workspace-container.text-size-small .panel-content *,
+        #master-workspace-container.text-size-medium .panel-header *,
+        #master-workspace-container.text-size-medium .panel-content *,
+        #master-workspace-container.text-size-large .panel-header *,
+        #master-workspace-container.text-size-large .panel-content * {
+            font-size: inherit !important;
+        }
+
+        #master-workspace-container.text-size-small .panel-header,
+        #master-workspace-container.text-size-medium .panel-header,
+        #master-workspace-container.text-size-large .panel-header {
+            line-height: 1.25;
+        }
+
+        #master-workspace-container.text-size-small .panel-content,
+        #master-workspace-container.text-size-medium .panel-content,
+        #master-workspace-container.text-size-large .panel-content {
+            line-height: 1.5;
         }
 
         .panel-content.mcq-two-column {
@@ -267,6 +319,12 @@
             overflow-y: auto;
             padding: 22px 24px;
             box-sizing: border-box;
+        }
+
+        .panel.resizable-question-shell .panel-content.mcq-two-column #target-question-box,
+        .panel.resizable-question-shell .panel-content.mcq-two-column #target-choices-container {
+            max-height: none;
+            height: 100%;
         }
 
         .panel-content.mcq-two-column #target-question-box {
@@ -362,11 +420,28 @@
             overflow-y: auto;
         }
 
+        .panel.resizable-question-shell .panel-content.frq-scroll-active {
+            max-height: none;
+            height: 100%;
+        }
+
+        /* Let MCQ and FRQ images respond to the available pane width. */
+        .panel-content.mcq-two-column #target-question-box img,
+        .panel-content.mcq-two-column #target-choices-container img,
+        .panel-content.frq-image-scale-active #target-question-box img,
+        .panel-content.frq-image-scale-active #target-choices-container img {
+            display: block;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+            object-fit: contain;
+        }
+
         /* Keep FRQ diagrams larger by default, regardless of inline image max-width in pool data. */
         .panel-content.frq-image-scale-active #target-question-box img,
         .panel-content.frq-image-scale-active #target-choices-container img {
-            width: min(100%, 560px) !important;
-            max-width: 560px !important;
+            width: 100% !important;
+            max-width: 100% !important;
             height: auto !important;
         }
 
@@ -413,7 +488,7 @@
             line-height: 1.5;
             color: var(--text-main) !important;
         }
-        
+
         .question-text-field * {
             color: var(--text-main) !important;
         }
@@ -500,8 +575,9 @@
 
         .choice-diagram-wrap img {
             display: block;
-            width: min(100%, var(--choice-image-width));
-            height: var(--choice-image-height);
+            width: 100%;
+            max-width: 100%;
+            height: auto;
             object-fit: contain;
             border-radius: 4px;
         }
@@ -1076,15 +1152,21 @@
         }
 
         .official-two-col-container {
-            display: grid;
-            grid-template-columns: max-content max-content 1fr;
-            gap: 25px;
-            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 18px;
         }
 
         .equations-column {
-            font-size: 14px;
-            line-height: 2.4;
+            font-size: 15px;
+            line-height: 2.15;
+        }
+
+        .official-two-col-container .equations-column > mjx-container {
+            display: block;
+            margin: 0.12em 0;
+            font-size: 1.06em !important;
         }
 
         .symbols-right-pane {
@@ -1095,6 +1177,34 @@
             padding: 14px;
             border-radius: 4px;
             height: fit-content;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Keep reference-sheet math visually even, especially inside fractions and roots. */
+        #ref-drawer-panel mjx-container[jax="CHTML"] mjx-mfrac mjx-num,
+        #ref-drawer-panel mjx-container[jax="CHTML"] mjx-mfrac mjx-den,
+        #ref-drawer-panel mjx-container[jax="CHTML"] mjx-msqrt mjx-box,
+        #ref-drawer-panel mjx-container[jax="CHTML"] mjx-mroot mjx-box {
+            font-size: 1em !important;
+        }
+
+        #ref-drawer-panel mjx-container[jax="CHTML"] mjx-mfrac mjx-num [size="s"],
+        #ref-drawer-panel mjx-container[jax="CHTML"] mjx-mfrac mjx-den [size="s"],
+        #ref-drawer-panel mjx-container[jax="CHTML"] mjx-msqrt mjx-box [size="s"],
+        #ref-drawer-panel mjx-container[jax="CHTML"] mjx-mroot mjx-box [size="s"] {
+            font-size: 1em !important;
+        }
+
+        /* Keep script sizing uniform so subscripts look consistent across all equation sheets. */
+        #ref-drawer-panel .equations-column mjx-container[jax="CHTML"] mjx-script {
+            font-size: 13.5px !important;
+        }
+
+        #ref-drawer-panel .equations-column mjx-container[jax="CHTML"] mjx-script [size="s"],
+        #ref-drawer-panel .equations-column mjx-container[jax="CHTML"] mjx-script [size="ss"],
+        #ref-drawer-panel .equations-column mjx-container[jax="CHTML"] mjx-script [size="Tn"] {
+            font-size: 1em !important;
         }
 
         .ref-page-content {
@@ -1102,6 +1212,89 @@
         }
         .ref-page-content.active {
             display: block;
+        }
+
+        #ref-page-2 .official-two-col-container {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(180px, 220px);
+            column-gap: 48px;
+            row-gap: 18px;
+            align-items: start;
+        }
+
+        #ref-page-2 .equations-column {
+            font-size: 16px;
+            line-height: 2.02;
+        }
+
+        #ref-page-2 .equations-column > mjx-container {
+            display: block;
+            margin: 0.28em 0;
+            font-size: 1.08em !important;
+        }
+
+        #ref-page-2 .symbols-right-pane {
+            font-size: 11px;
+            line-height: 1.55;
+        }
+
+        #ref-page-4 .official-two-col-container,
+        #ref-page-6 .official-two-col-container,
+        #ref-page-8 .official-two-col-container {
+            display: grid !important;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(180px, 220px);
+            gap: 18px 48px !important;
+            column-gap: 48px !important;
+            row-gap: 18px !important;
+            align-items: start;
+        }
+
+        #ref-page-4 .equations-column,
+        #ref-page-6 .equations-column,
+        #ref-page-8 .equations-column {
+            font-size: 16px;
+            line-height: 2.02;
+        }
+
+        #ref-page-6 .equations-column {
+            line-height: 2.02;
+        }
+
+        #ref-page-6 .equations-column > mjx-container {
+            display: block;
+            margin: 0.28em 0;
+            font-size: 1.08em !important;
+        }
+
+        #ref-page-4 .equations-column > mjx-container,
+        #ref-page-6 .equations-column > mjx-container,
+        #ref-page-8 .equations-column > mjx-container {
+            display: block;
+            margin: 0.28em 0;
+            font-size: 1.08em !important;
+        }
+
+        #ref-page-4 .symbols-right-pane,
+        #ref-page-6 .symbols-right-pane,
+        #ref-page-8 .symbols-right-pane {
+            font-size: 11px;
+            line-height: 1.45;
+        }
+
+        #ref-page-4 .symbols-right-pane {
+            margin-top: 320px;
+        }
+
+        #ref-page-8 .official-two-col-container {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(180px, 220px);
+        }
+
+        #ref-page-8 .equations-column {
+            min-width: 0 !important;
+        }
+
+        #ref-page-8 .official-two-col-container > .equations-column:nth-child(2) {
+            margin-top: 4.8em;
         }
 
         .desmos-tab {
@@ -1310,28 +1503,28 @@
                         <div class="equations-column">
                             $v_x = v_{x0} + a_x t$<br>
                             $x = x_0 + v_{x0}t + \frac{1}{2}a_x t^2$<br>
-                            $v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$<br><br>
+                            $v_x^2 = v_{x0}^2 + 2a_x(x - x_0)$<br>
 
-                            $\vec{x}_{\text{cm}} = \frac{\sum m_i \vec{x}_i}{\sum m_i}$<br><br>
+                            $\vec{x}_{\text{cm}} = \frac{\sum m_i \vec{x}_i}{\sum m_i}$<br>
 
-                            $\vec{a}_{\text{sys}} = \frac{\sum \vec{F}}{m_{\text{sys}}} = \frac{\vec{F}_{\text{net}}}{m_{\text{sys}}}$<br><br>
+                            $\vec{a}_{\text{sys}} = \frac{\sum \vec{F}}{m_{\mathrm{sys}}} = \frac{\vec{F}_{\text{net}}}{m_{\mathrm{sys}}}$<br>
 
                             $|\vec{F}_g| = G \frac{m_1 m_2}{r^2}$<br>
                             $|\vec{F}_f| \le \mu |\vec{F}_N|$<br>
-                            $\vec{F}_s = -k \Delta\vec{x}$<br><br>
+                            $\vec{F}_s = -k \Delta\vec{x}$<br>
 
-                            $a_c = \frac{v^2}{r}$<br><br>
+                            $a_c = \frac{v^2}{r}$<br>
 
                             $K = \frac{1}{2} m v^2$<br>
                             $W = F_{\parallel} d = F d \cos\theta$<br>
                             $\Delta K = \sum W_i = \sum F_{\parallel,i} d_i$<br>
-                            $U_s = \frac{1}{2} k (\Delta x)^2$<br><br>
+                            $U_s = \frac{1}{2} k (\Delta x)^2$<br>
 
                             $U_G = -\frac{G m_1 m_2}{r}$<br>
-                            $\Delta U_g = m g \Delta y$<br><br>
+                            $\Delta U_g = m g \Delta y$<br>
 
                             $P_{\text{avg}} = \frac{W}{\Delta t} = \frac{\Delta E}{\Delta t}$<br>
-                            $P_{\text{inst}} = F_{\parallel} v = F v \cos\theta$<br><br>
+                            $P_{\text{inst}} = F_{\parallel} v = F v \cos\theta$<br>
 
                             $\vec{p} = m \vec{v}$<br>
                             $\vec{F}_{\text{net}} = \frac{\Delta \vec{p}}{\Delta t} = m \frac{\Delta \vec{v}}{\Delta t} = m\vec{a}$<br>
@@ -1347,7 +1540,7 @@
                             $a_T = r\alpha$<br>
                             $\tau = r_{\perp} F = r F \sin\theta$<br>
                             $I = \sum m_i r_i^2$<br>
-                            $I' = I_{\text{cm}} + M d^2$<br><br>
+                            $I' = I_{\text{cm}} + M d^2$<br>
 
                             $\alpha_{\text{sys}} = \frac{\sum \tau}{I_{\text{sys}}} = \frac{\tau_{\text{net}}}{I_{\text{sys}}}$<br>
                             $K = \frac{1}{2} I \omega^2$<br>
@@ -1355,14 +1548,14 @@
                             $L = I \omega$<br>
                             $L = r m v \sin\theta$<br>
                             $\Delta L = \tau \Delta t$<br>
-                            $\Delta x_{\text{cm}} = r \Delta \theta$<br><br>
+                            $\Delta x_{\text{cm}} = r \Delta \theta$<br>
 
                             $T = \frac{1}{f}$<br>
                             $T_s = 2\pi \sqrt{\frac{m}{k}}$<br>
-                            $T_p = 2\pi \sqrt{\frac{\ell}{g}}$<br><br>
+                            $T_p = 2\pi \sqrt{\frac{\ell}{g}}$<br>
 
                             $x = A \cos(2\pi f t)$<br>
-                            $x = A \sin(2\pi f t)$<br><br>
+                            $x = A \sin(2\pi f t)$<br>
 
                             $\rho = \frac{m}{V}$<br>
                             $P = \frac{F_{\perp}}{A}$<br>
@@ -1617,8 +1810,8 @@
                     <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
                         AP PHYSICS 2 EQUATIONS
                     </h2>
-                    <div class="official-two-col-container" style="display: flex; align-items: flex-start; gap: 20px;">
-                        <div class="equations-column" style="flex: 1;">
+                    <div class="official-two-col-container">
+                        <div class="equations-column">
                             <div style="font-weight: bold; margin-bottom: 8px; margin-top: 0px; text-transform: uppercase; font-size: 12px;">Thermal Physics</div>
                             $P = \frac{F_{\perp}}{A}$<br>
                             $K_{\text{avg}} = \frac{3}{2} k_B T = \frac{1}{2} m v_{\text{rms}}^2$<br>
@@ -1659,7 +1852,7 @@
                             $\lambda = \frac{\ln 2}{t_{1/2}}$<br>
                         </div>
 
-                        <div class="equations-column" style="flex: 1;">
+                        <div class="equations-column">
                             <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 12px;">Electricity</div>
                             $|\vec{F}_E| = \frac{1}{4\pi\epsilon_0} \frac{|q_1 q_2|}{r^2} = k \frac{|q_1 q_2|}{r^2}$<br>
                             $\vec{E} = \frac{\vec{F}_E}{q}$<br>
@@ -1693,7 +1886,7 @@
 
                         </div>
 
-                        <div class="symbols-right-pane" style="flex: 1; min-width: 200px;">
+                        <div class="symbols-right-pane">
                             <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; border-bottom: 1px solid var(--border-color);">Symbols</div>
                             $A$ = area or amplitude<br>
                             $a$ = width<br>
@@ -1913,21 +2106,21 @@
                             $x=x_{0}+v_{x0}t+\frac{1}{2}a_{x}t^{2}$<br>
                             $v_{x}^{2}=v_{x0}^{2}+2a_{x}(x-x_{0})$<br>
                             $\Delta x=\int v_{x}(t)dt$<br>
-                            $\Delta v_{x}=\int a_{x}(t)dt$<br><br>
+                            $\Delta v_{x}=\int a_{x}(t)dt$<br>
 
                             $\vec{x}_{cm}=\frac{\sum m_{i}\vec{x}_{i}}{\sum m_{i}}$<br>
                             $\vec{r}_{cm}=\frac{\int\vec{r}dm}{\int dm}$<br>
-                            $\lambda=\frac{dm}{d\ell}$<br><br>
+                            $\lambda=\frac{dm}{d\ell}$<br>
 
                             $\vec{a}_{sys}=\frac{\sum\vec{F}}{m_{sys}}=\frac{\vec{F}_{net}}{m_{sys}}$<br>
                             $|\vec{F}_{g}|=G\frac{m_{1}m_{2}}{r^{2}}$<br>
                             $|\vec{F}_{f}|\le \mu|\vec{F}_{N}|$<br>
                             $\vec{F}_{s}=-k\Delta\vec{x}$<br>
-                            $a_{c}=\frac{v^{2}}{r}=r\omega^{2}$<br><br>
+                            $a_{c}=\frac{v^{2}}{r}=r\omega^{2}$<br>
 
                             $K=\frac{1}{2}mv^{2}$<br>
                             $W=\int_{a}^{b}\vec{F}\cdot d\vec{r}$<br>
-                            $\Delta K=\sum W_{i}=\sum F_{\parallel,i}d_{i}$<br><br>
+                            $\Delta K=\sum W_{i}=\sum F_{\parallel,i}d_{i}$<br>
 
                             $\Delta U=-\int_{a}^{b}\vec{F}_{cf}(r)\cdot d\vec{r}$<br>
                             $F_{x}=-\frac{dU(x)}{dx}$<br>
@@ -1943,27 +2136,27 @@
                             $\theta=\theta_{0}+\omega_{0}t+\frac{1}{2}\alpha t^{2}$<br>
                             $\omega^{2}=\omega_{0}^{2}+2\alpha(\theta-\theta_{0})$<br>
                             $v=r\omega$<br>
-                            $a_{T}=r\alpha$<br><br>
+                            $a_{T}=r\alpha$<br>
 
                             $\vec{\tau}=\vec{r}\times\vec{F}$<br>
                             $I_{tot}=\sum I_{i}=\sum m_{i}{r_{i}}^{2}$<br>
                             $I=\int r^{2}dm$<br>
                             $I^{\prime}=I_{cm}+Md^{2}$<br>
-                            $\alpha_{sys}=\frac{\Sigma\tau}{I_{sys}}=\frac{\tau_{net}}{I_{sys}}$<br><br>
+                            $\alpha_{sys}=\frac{\Sigma\tau}{I_{sys}}=\frac{\tau_{net}}{I_{sys}}$<br>
 
                             $K_{rot}=\frac{1}{2}I\omega^{2}$<br>
                             $W=\int\tau\cdot d\theta$<br>
                             $\vec{L}=\vec{r}\times\vec{p}=I\vec{\omega}$<br>
                             $\Delta L=\int\tau dt$<br>
-                            $\Delta x_{cm}=r\Delta\theta$<br><br>
+                            $\Delta x_{cm}=r\Delta\theta$<br>
 
                             $P_{avg}=\frac{W}{\Delta t}=\frac{\Delta E}{\Delta t}$<br>
-                            $P_{inst}=\frac{dW}{dt}$<br><br>
+                            $P_{inst}=\frac{dW}{dt}$<br>
 
                             $\vec{p}=m\vec{v}$<br>
                             $\vec{F}_{net}=\frac{d\vec{p}}{dt}$<br>
                             $\vec{J}=\int_{t_{1}}^{t_{2}}\vec{F}_{net}(t)dt=\Delta\vec{p}$<br>
-                            $\vec{v}_{cm}=\frac{\sum\vec{p}_{i}}{\sum m_{i}}=\frac{\sum m_{i}\vec{v}_{i}}{\sum m_{i}}$<br><br>
+                            $\vec{v}_{cm}=\frac{\sum\vec{p}_{i}}{\sum m_{i}}=\frac{\sum m_{i}\vec{v}_{i}}{\sum m_{i}}$<br>
 
                             $T=\frac{2\pi}{\omega}=\frac{1}{f}$<br>
                             $T_{s}=2\pi\sqrt{\frac{m}{k}}$<br>
@@ -2227,8 +2420,8 @@
                     <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
                         AP PHYSICS C: ELECTRICITY & MAGNETISM EQUATIONS
                     </h2>
-                    <div class="official-two-col-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
-                        <div class="equations-column" style="flex: 1; min-width: 250px;">
+                    <div class="official-two-col-container">
+                        <div class="equations-column">
                             $|\vec{F}_E| = \frac{1}{4\pi\epsilon_0} \frac{|q_1 q_2|}{r^2} = k \frac{|q_1 q_2|}{r^2}$<br>
                             $\vec{E} = \frac{\vec{F}_E}{q}$<br>
                             $\vec{E} = \frac{1}{4\pi\epsilon_0} \int \frac{dq}{r^2} \hat{r}$<br>
@@ -2257,7 +2450,7 @@
                             $\tau = R_{\text{eq}} C_{\text{eq}}$
                         </div>
 
-                        <div class="equations-column" style="flex: 1; min-width: 250px;">
+                        <div class="equations-column">
                             $\oint \vec{B} \cdot d\vec{A} = 0$<br>
                             $\vec{F}_B = q(\vec{v} \times \vec{B})$<br>
                             $d\vec{B} = \frac{\mu_0}{4\pi} \frac{I(d\vec{\ell} \times \hat{r})}{r^2}$<br>
@@ -2274,7 +2467,7 @@
                             $\omega_{\text{LC}} = \frac{1}{\sqrt{LC}}$
                         </div>
 
-                        <div class="symbols-right-pane" style="flex: 1; min-width: 200px;">
+                        <div class="symbols-right-pane">
                             <div style="font-weight: bold; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; border-bottom: 1px solid var(--border-color);">Symbols</div>
                             $A$ = area<br>
                             $B$ = magnetic field<br>
@@ -2352,6 +2545,7 @@
                         <button onclick="triggerSessionCountdownPause()">Pause</button>
                         <button onclick="openInstructionsFromMenu()">Instructions</button>
                         <button id="toggle-mcq-layout-btn" onclick="toggleMCQLayoutMode(event)">Layout: Split</button>
+                        <button id="toggle-text-size-btn" onclick="toggleTextSizeMode(event)">Text Size: Medium</button>
                     </div>
                 </div>
             </div>
@@ -2505,10 +2699,13 @@
         // Layout mode shared by MCQ and FRQ: 'stacked' = vertical, 'split' = side-by-side.
         let mcqLayoutMode = 'split';
         let mcqSplitPanePercent = 50;
+        let textSizeMode = 'medium';
 
         let holdProgressIntervalReference = null;
         let currentHoldElapsedMilliseconds = 0;
         const TARGET_HOLD_DURATION_MS = 3000;
+
+        let questionPanelSizingState = { width: null, height: null };
         
         // Break Timer Variables
         let breakCountdownSeconds = 60;
@@ -2686,7 +2883,9 @@
                     crossouts: optionCrossoutMatrix,
                     timeLeft: continuousCountdownSeconds,
                     mcqLayout: mcqLayoutMode,
-                    mcqSplitPanePercent
+                    mcqSplitPanePercent,
+                    textSizeMode,
+                    questionPanelSize: questionPanelSizingState
                 };
                 localStorage.setItem(localStorageStateKey, JSON.stringify(packagedData));
             } catch (err) {
@@ -2695,7 +2894,7 @@
         }
 
         function applyMCQSplitPaneWidth() {
-            const clampedPercent = Math.min(72, Math.max(28, Number(mcqSplitPanePercent) || 50));
+            const clampedPercent = Math.min(80, Math.max(20, Number(mcqSplitPanePercent) || 50));
             mcqSplitPanePercent = clampedPercent;
             document.documentElement.style.setProperty('--mcq-left-pane-width', `${clampedPercent}%`);
         }
@@ -2743,7 +2942,19 @@
                     mcqSplitPanePercent = (typeof parsed.mcqSplitPanePercent === 'number')
                         ? parsed.mcqSplitPanePercent
                         : 50;
+                    textSizeMode = (parsed.textSizeMode === 'small' || parsed.textSizeMode === 'medium' || parsed.textSizeMode === 'large')
+                        ? parsed.textSizeMode
+                        : 'medium';
+
+                    if (parsed.questionPanelSize && typeof parsed.questionPanelSize === 'object') {
+                        questionPanelSizingState = {
+                            width: Number(parsed.questionPanelSize.width) || null,
+                            height: Number(parsed.questionPanelSize.height) || null
+                        };
+                    }
+
                     applyMCQSplitPaneWidth();
+                    applyTextSizeMode();
                     
                     document.getElementById('welcome-modal-overlay').style.display = 'none';
                     examinationPool = (currentActivePhase === 'FRQ') ? poolFRQ : poolMCQ;
@@ -2754,6 +2965,8 @@
 
                 updateMCQLayoutMenuLabel();
                 applyMCQSplitPaneWidth();
+                updateTextSizeMenuLabel();
+                applyTextSizeMode();
             } catch (err) {
                 console.error("Local recovery cache loading fail parse operation:", err);
             }
@@ -2885,6 +3098,45 @@
             toggleBtn.innerText = mcqLayoutMode === 'split'
                 ? 'Layout: Split'
                 : 'Layout: Stacked';
+        }
+
+        function applyTextSizeMode() {
+            const workspaceNode = document.getElementById('master-workspace-container');
+            if (!workspaceNode) return;
+
+            workspaceNode.classList.remove('text-size-small', 'text-size-medium', 'text-size-large');
+            workspaceNode.classList.add(`text-size-${textSizeMode}`);
+        }
+
+        function updateTextSizeMenuLabel() {
+            const toggleBtn = document.getElementById('toggle-text-size-btn');
+            if (!toggleBtn) return;
+
+            const labelMap = {
+                small: 'Small',
+                medium: 'Medium',
+                large: 'Large'
+            };
+
+            toggleBtn.innerText = `Text Size: ${labelMap[textSizeMode] || 'Medium'}`;
+        }
+
+        function toggleTextSizeMode(event) {
+            if (event) event.stopPropagation();
+
+            const sizeOrder = ['small', 'medium', 'large'];
+            const currentIndex = sizeOrder.indexOf(textSizeMode);
+            textSizeMode = sizeOrder[(currentIndex + 1) % sizeOrder.length];
+
+            updateTextSizeMenuLabel();
+            applyTextSizeMode();
+            saveActiveExamProgressState();
+
+            setTimeout(() => {
+                isOptionsMenuOpen = true;
+                const optionsMenu = document.getElementById('header-options-menu');
+                if (optionsMenu) optionsMenu.style.display = 'block';
+            }, 0);
         }
 
         function toggleMCQLayoutMode(event) {
@@ -3071,6 +3323,7 @@
             document.getElementById('panel-header-review-title').style.display = 'none';
 
             const questionPanelContentNode = document.getElementById('question-panel-content');
+            const questionShellNode = document.querySelector('#master-workspace-container .panel');
             const workspaceWrapperNode = document.getElementById('master-workspace-container');
 
             const resolveDiagramMarkup = (nodeRef) => {
@@ -3084,6 +3337,194 @@
                 // Ignore legacy placeholder assets carried over from old PCQ image paths.
                 if (markup.includes('pcq-problem-images')) return null;
                 return markup;
+            };
+
+            const clampDisplayBoxDimension = (value, minimum, maximum) => {
+                if (!Number.isFinite(value)) return minimum;
+                return Math.min(maximum, Math.max(minimum, value));
+            };
+
+            const getQuestionPanelResizeBounds = () => {
+                if (!questionShellNode) {
+                    return { minWidth: 320, maxWidth: 320, minHeight: 240, maxHeight: 240 };
+                }
+
+                const shellRect = questionShellNode.getBoundingClientRect();
+                const workspaceRect = workspaceWrapperNode
+                    ? workspaceWrapperNode.getBoundingClientRect()
+                    : { left: 0, width: window.innerWidth };
+                const shellCenterX = workspaceRect.left + (workspaceRect.width / 2);
+                const footerBeltNode = document.querySelector('.footer-belt');
+                const rightSidebarButtonNode = document.getElementById('ref-tab-trigger');
+                const leftSidebarButtonNode = document.getElementById('desmos-tab-trigger');
+                const horizontalGap = 18;
+                const verticalGap = 18;
+
+                let leftBoundary = 20;
+                let rightBoundary = window.innerWidth - 20;
+
+                if (leftSidebarButtonNode && getComputedStyle(leftSidebarButtonNode).display !== 'none') {
+                    leftBoundary = leftSidebarButtonNode.getBoundingClientRect().right + horizontalGap;
+                }
+
+                if (rightSidebarButtonNode && getComputedStyle(rightSidebarButtonNode).display !== 'none') {
+                    rightBoundary = rightSidebarButtonNode.getBoundingClientRect().left - horizontalGap;
+                }
+
+                const availableHalfWidth = Math.min(shellCenterX - leftBoundary, rightBoundary - shellCenterX);
+                const footerTop = footerBeltNode
+                    ? footerBeltNode.getBoundingClientRect().top
+                    : window.innerHeight - 20;
+
+                return {
+                    minWidth: 320,
+                    maxWidth: Math.max(320, Math.floor(availableHalfWidth * 2)),
+                    minHeight: 240,
+                    maxHeight: Math.max(240, Math.floor(footerTop - shellRect.top - verticalGap))
+                };
+            };
+
+            const applyQuestionPanelSizing = () => {
+                if (!questionShellNode) return;
+                const resizeBounds = getQuestionPanelResizeBounds();
+
+                if (questionPanelSizingState.width) {
+                    questionPanelSizingState.width = Math.round(
+                        clampDisplayBoxDimension(questionPanelSizingState.width, resizeBounds.minWidth, resizeBounds.maxWidth)
+                    );
+                }
+
+                if (questionPanelSizingState.height) {
+                    questionPanelSizingState.height = Math.round(
+                        clampDisplayBoxDimension(questionPanelSizingState.height, resizeBounds.minHeight, resizeBounds.maxHeight)
+                    );
+                }
+
+                questionShellNode.classList.add('resizable-question-shell');
+                questionShellNode.style.width = questionPanelSizingState.width ? `${questionPanelSizingState.width}px` : '';
+                questionShellNode.style.height = questionPanelSizingState.height ? `${questionPanelSizingState.height}px` : '';
+                questionPanelContentNode.style.width = '';
+                questionPanelContentNode.style.height = '';
+            };
+
+            const getQuestionPanelResizeMode = (clientX, clientY) => {
+                if (!questionShellNode) return '';
+                const rect = questionShellNode.getBoundingClientRect();
+                const edgeSize = 12;
+                const cornerSize = 18;
+                const nearLeft = clientX <= rect.left + edgeSize && clientX >= rect.left - 6;
+                const nearRight = clientX >= rect.right - edgeSize && clientX <= rect.right + 6;
+                const nearBottom = clientY >= rect.bottom - edgeSize && clientY <= rect.bottom + 6;
+                const nearBottomLeft = clientX <= rect.left + cornerSize && clientY >= rect.bottom - cornerSize;
+                const nearBottomRight = clientX >= rect.right - cornerSize && clientY >= rect.bottom - cornerSize;
+
+                if (nearBottomLeft) return 'left-width-height';
+                if (nearBottomRight) return 'right-width-height';
+                if (nearLeft) return 'left-width';
+                if (nearRight) return 'width';
+                if (nearBottom) return 'height';
+                return '';
+            };
+
+            const syncQuestionPanelResizeCursor = (clientX, clientY) => {
+                if (!questionShellNode) return;
+                const resizeMode = getQuestionPanelResizeMode(clientX, clientY);
+                questionShellNode.style.cursor = resizeMode === 'right-width-height'
+                    ? 'nwse-resize'
+                    : resizeMode === 'left-width-height'
+                        ? 'nesw-resize'
+                        : resizeMode === 'width' || resizeMode === 'left-width'
+                        ? 'ew-resize'
+                        : resizeMode === 'height'
+                            ? 'ns-resize'
+                            : '';
+            };
+
+            const bindQuestionPanelResizeInteractions = () => {
+                if (!questionShellNode || questionShellNode.dataset.resizeBound === 'true') return;
+
+                const extractClientPoint = (evt) => {
+                    if (evt.touches && evt.touches.length > 0) {
+                        return { x: evt.touches[0].clientX, y: evt.touches[0].clientY };
+                    }
+                    if (evt.changedTouches && evt.changedTouches.length > 0) {
+                        return { x: evt.changedTouches[0].clientX, y: evt.changedTouches[0].clientY };
+                    }
+                    return { x: evt.clientX, y: evt.clientY };
+                };
+
+                questionShellNode.addEventListener('mousemove', (evt) => {
+                    const point = extractClientPoint(evt);
+                    syncQuestionPanelResizeCursor(point.x, point.y);
+                });
+
+                questionShellNode.addEventListener('mouseleave', () => {
+                    questionShellNode.style.cursor = '';
+                });
+
+                const startResize = (evt) => {
+                    const startPoint = extractClientPoint(evt);
+                    const resizeMode = getQuestionPanelResizeMode(startPoint.x, startPoint.y);
+                    if (!resizeMode) return;
+
+                    evt.preventDefault();
+                    evt.stopPropagation();
+
+                    const startRect = questionShellNode.getBoundingClientRect();
+
+                    const updateResize = (moveEvt) => {
+                        const movePoint = extractClientPoint(moveEvt);
+                        const nextSizing = { ...questionPanelSizingState };
+                        const resizeBounds = getQuestionPanelResizeBounds();
+
+                        if (resizeMode.includes('width')) {
+                            const deltaX = movePoint.x - startPoint.x;
+                            const horizontalDirection = resizeMode.includes('left-width') ? -1 : 1;
+                            const nextWidth = startRect.width + (deltaX * 2 * horizontalDirection);
+                            nextSizing.width = Math.round(
+                                clampDisplayBoxDimension(nextWidth, resizeBounds.minWidth, resizeBounds.maxWidth)
+                            );
+                            questionShellNode.style.width = `${nextSizing.width}px`;
+                        }
+
+                        if (resizeMode.includes('height')) {
+                            const deltaY = movePoint.y - startPoint.y;
+                            const nextHeight = startRect.height + deltaY;
+                            nextSizing.height = Math.round(
+                                clampDisplayBoxDimension(nextHeight, resizeBounds.minHeight, resizeBounds.maxHeight)
+                            );
+                            questionShellNode.style.height = `${nextSizing.height}px`;
+                        }
+
+                        questionPanelSizingState = nextSizing;
+                        if (moveEvt.cancelable) moveEvt.preventDefault();
+                    };
+
+                    const stopResize = () => {
+                        window.removeEventListener('mousemove', updateResize);
+                        window.removeEventListener('mouseup', stopResize);
+                        window.removeEventListener('touchmove', updateResize);
+                        window.removeEventListener('touchend', stopResize);
+                        questionShellNode.style.cursor = '';
+                        saveActiveExamProgressState();
+                    };
+
+                    window.addEventListener('mousemove', updateResize);
+                    window.addEventListener('mouseup', stopResize);
+                    window.addEventListener('touchmove', updateResize, { passive: false });
+                    window.addEventListener('touchend', stopResize);
+                };
+
+                questionShellNode.addEventListener('mousedown', startResize);
+                questionShellNode.addEventListener('touchstart', startResize, { passive: false });
+                questionShellNode.dataset.resizeBound = 'true';
+            };
+
+            const ensureResizableQuestionPanel = () => {
+                applyQuestionPanelSizing();
+                if (!questionShellNode) return;
+                questionShellNode.querySelectorAll(':scope > .display-resize-handle').forEach((staleHandle) => staleHandle.remove());
+                bindQuestionPanelResizeInteractions();
             };
 
             const questionRecord = examinationPool[currentProblemIndex];
@@ -3251,6 +3692,8 @@
                 document.getElementById('target-question-box').innerHTML = frqSetupHTML;
                 optionsContentBox.innerHTML = frqPartsHTML;
             }
+
+            ensureResizableQuestionPanel();
 
             document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ${isDropupMatrixOpen ? '▾' : '▴'}`;
             
