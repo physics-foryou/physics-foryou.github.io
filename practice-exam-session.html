@@ -3231,9 +3231,12 @@
                     if (part.partIntroText) frqPartsHTML += `<p>${part.partIntroText}</p>`;
                     const partDiagram = resolveFRQDiagramMarkup(part);
                     if (partDiagram) frqPartsHTML += `<div style="margin: 15px 0;">${partDiagram}</div>`;
+                    if (part.partMidText) frqPartsHTML += `<p>${part.partMidText}</p>`;
                     if (part.dataTable) frqPartsHTML += buildTableHTML(part.dataTable);
+                    if (part.partEndText) frqPartsHTML += `<p>${part.partEndText}</p>`;
 
-                    part.subparts.forEach((subpart) => {
+                    const partSubparts = Array.isArray(part.subparts) ? part.subparts : [];
+                    partSubparts.forEach((subpart) => {
                         frqPartsHTML += `<div class="subpart-block">`;
                         if (subpart.subpartLabel) frqPartsHTML += `<strong>${subpart.subpartLabel}</strong> `;
                         frqPartsHTML += `<span>${subpart.subpartQuestion}</span>`;

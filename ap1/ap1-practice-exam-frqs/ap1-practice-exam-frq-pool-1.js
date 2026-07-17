@@ -82,7 +82,7 @@ const ap1PracticeExamFRQPoolOne = [
         setupId: "APPHY-EX001-SU002",
         problemNumber: 2,
         problemType: "Translation Between Representations",
-        problemSetup: "A uniform drawbridge of mass $M$ and length $L$ is attached to a vertical castle wall by an axle at its base. A string attached to the castle wall holds the drawbridge at rest. The string is attached to the outer end of the drawbridge and is oriented perpendicular to the drawbridge. The angle $\\theta_0$ is measured between the vertical castle wall and the drawbridge, as shown in the diagram above.",
+        problemSetup: "A uniform drawbridge of mass $M$ and length $L$ is attached to a vertical castle wall by an axle at its base. A winded cable attached to the castle wall holds the drawbridge at rest. The string is attached to the outer end of the drawbridge and is oriented perpendicular to the drawbridge. The angle $\\theta_0$ is measured between the vertical castle wall and the drawbridge, as shown in the diagram above.",
         pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-2.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`,
         dataTable: null,
         parts: [
@@ -109,7 +109,7 @@ const ap1PracticeExamFRQPoolOne = [
                     {
                         subpartId: "APPHY-EX001-SU002-P0002-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "Derive an expression for the magnitude of the tension $T_0$ in the string at the instant shown in the diagram. Express your final answer in terms of $M$, $L$, $\\theta_0$, and physical constants, as appropriate. Start by writing a fundamental physics principle or an equation from the reference sheet.",
+                        subpartQuestion: "Derive an expression for the magnitude of the tension $T_0$ in the cable at the instant shown in the diagram. Express your final answer in terms of $M$, $L$, $\\theta_0$, and physical constants, as appropriate. Start by writing a fundamental physics principle or an equation from the reference sheet.",
                         pngDiagram: null
                     }
                 ]
@@ -123,7 +123,7 @@ const ap1PracticeExamFRQPoolOne = [
                     {
                         subpartId: "APPHY-EX001-SU002-P0003-S0001",
                         subpartLabel: "",
-                        subpartQuestion: "The drawbridge is now lowered at a constant angular velocity $\\omega_0$ from an initial angle $\\theta_0$ until it reaches a final angle $\\theta_f$ where the drawbridge rests on the floor. On the axes below, sketch a graph of the magnitude of the tension $T$ in the string as a function of the angle $\\theta$ as it approaches $\\theta_f$ from $\\theta_0$.",
+                        subpartQuestion: "The drawbridge is now lowered at a constant angular velocity $\\omega_0$ from an initial angle $\\theta_0$ until it reaches a final angle $\\theta_f$ where the drawbridge rests on the floor. On the axes below, sketch a graph of the magnitude of the tension $T$ in the cable as a function of the angle $\\theta$ as it approaches $\\theta_f$ from $\\theta_0$.",
                         pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-2C.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`
                     }
                 ]
@@ -152,20 +152,20 @@ const ap1PracticeExamFRQPoolOne = [
         setupId: "APPHY-EX001-SU003",
         problemNumber: 3,
         problemType: "Experimental Design and Analysis",
-        problemSetup: "A group of students are investigating a magnetic launching system using the following procedure.\n\nA cart of unknown mass $M$ is placed on a horizontal track. A magnetic launcher at the end of the track uses a repelling magnetic force to accelerate the cart from rest over a fixed, short distance $x_0$. Frictional forces are negligible between the cart and the track while the cart is being launched. Once the cart leaves the launcher at a maximum speed $v$, it enters a rough section of the horizontal track where a constant kinetic frictional force is exerted on the cart until it comes to a stop. The students are asked to perform an experiment in which a single quantity is varied in order to collect data that could be graphed to determine the value $F_0$ of the constant launching force exerted by the magnetic launcher. The students have access to only a meterstick and a stopwatch.",
-        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q3-setup-diagram.png" alt="Magnetic Launching System Setup" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+        problemSetup: "A group of students are investigating momentum using the following procedure. The students use a launcher with a known, adjustable launch speed $v_0$ to fire a putty-tipped dart of known mass $m_d$ horizontally toward a dartboard mounted on a low-friction cart of known mass $M_c$. The cart is initially at rest on a horizontal track. The putty tip sticks firmly to the center of the dartboard upon impact, and the dart-cart system moves together down the track.",
+        pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-3.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`,
         dataTable: null,
         parts: [
             {
                 partId: "APPHY-EX001-SU003-P0001",
                 partTitle: "Part A",
-                partIntroText: "",
+                partIntroText: "The students are asked to perform an experiment in which a single quantity is varied in order to collect data that could be graphed to determine the final kinetic energy $K_f$ of the system immediately after the dart fully embeds itself onto the dartboard. The students have access to only a meterstick and a stopwatch.",
                 pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q3-part-a-intro.png" alt="Part A Introduction Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
                 subparts: [
                     {
                         subpartId: "APPHY-EX001-SU003-P0001-S0001",
                         subpartLabel: "i.",
-                        subpartQuestion: "Indicate quantities that could be measured by the students that would allow them to determine $F_0$ using a linear graph.",
+                        subpartQuestion: "Indicate quantities that could be measured by the students that would allow them to determine the final velocity of the cart after the dart fully embeds itself onto the dartboard.",
                         pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q3-part-a-s0001-diagram.png" alt="Part A Subpart i Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
                     },
                     {
@@ -180,60 +180,77 @@ const ap1PracticeExamFRQPoolOne = [
                 partId: "APPHY-EX001-SU003-P0002",
                 partTitle: "Part B",
                 partIntroText: "",
-                pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q3-part-b-intro.png" alt="Part B Introduction Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+                pngDiagram: null,
                 subparts: [
                     {
                         subpartId: "APPHY-EX001-SU003-P0002-S0001",
                         subpartLabel: "i.",
-                        subpartQuestion: "Indicate what quantities the students could graph on the horizontal and vertical axes to create a linear graph that can be used to determine $F_0$. Clearly state which quantity will be graphed on each axis.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q3-part-b-s0001-diagram.png" alt="Part B Subpart i Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                        subpartQuestion: "Indicate what quantities the students could graph on the horizontal and vertical axes to create a linear graph that can be used to determine the final kinetic energy $K_f$ of the system. Clearly state which quantity will be graphed on each axis.  ",
+                        pngDiagram: null
                     },
                     {
                         subpartId: "APPHY-EX001-SU003-P0002-S0002",
                         subpartLabel: "ii.",
-                        subpartQuestion: "Briefly describe the relationship between $F_0$ and a feature of the graph from part B (i). Your answer may include an equation that relates $F_0$ and the chosen feature of the graph.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q3-part-b-s0002-diagram.png" alt="Part B Subpart ii Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                        subpartQuestion: "Briefly describe the relationship between $K_f$ and a feature of the graph from part B (i). Your answer may include an equation that relates $K_f$ and the chosen feature of the graph.",
+                        pngDiagram: null
                     }
                 ]
             },
             {
-                partId: "APPHY-EX001-SU003-P0003",
-                partTitle: "Part C & D Context",
-                partIntroText: "In a different experiment, the students place a cart of known mass $M_0 = 0.50\\text{ kg}$ on a completely frictionless, horizontal track. The cart has a strong neodymium magnet fixed to its front face. At the end of the track, an identical magnet is securely anchored in place, oriented so that the two magnets repel each other. The cart is pushed toward the anchored magnet and held at rest at an initial separation distance $d$. The cart is then released from rest and travels away from the anchored magnet. A photogate positioned further down the track determines the final constant speed $v$ of the cart after it completely clears the magnetic field. The experiment is repeated several times with different initial release separation distances $d$ for the same cart. Table 1 shows the measured values of $d$ and $v$.\n\nThe students correctly determine that the relationship between $d$ and $v$ is given by:\n$$v^2 = \\left( \\frac{2C}{M_0} \\right) \\frac{1}{d}$$\nwhere $C$ is an unknown magnetic strength constant. The students want to determine $C$. The students create a graph with $\\frac{1}{d}$ plotted on the horizontal axis.",
-                pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q3-part-c-setup-diagram.png" alt="Part C & D Setup Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`,
+                partTitle: "The following information applies to Parts C and D.",
+                partIntroText: "In a different experiment, the students use a high-speed sensor system to investigate the changing momentum of the dart as the putty tip deforms against a rigid, fixed vertical wall. A dart of known mass $m_d$ is launched horizontally and strikes the wall with a known velocity $v_0$.",
+                pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-3CD.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`,
+                partMidText: "The system records the total accumulated impulse $J$ delivered to the wall at various time intervals $t$ from the precise instant the putty first contacts the wall, which is at time $t = 0$, until it comes to a complete stop. Table 1 shows the recorded values of $t$ and $J$.",
                 dataTable: {
                     rows: [
-                        ["0.10", "1.41"],
-                        ["0.20", "1.00"],
-                        ["0.30", "0.82"],
-                        ["0.40", "0.71"],
-                        ["0.50", "0.63"]
+                        ["Time (s)", "Impulse (N·s)"],
+                        ["0.01", "0.05"],
+                        ["0.02", "0.20"],
+                        ["0.03", "0.40"],
+                        ["0.04", "0.55"],
+                        ["0.05", "0.60"],
+                        ["0.06", "0.85"]
                     ]
                 },
+                partEndText: "The students want to determine the velocity of the dart as a function of time from the instant the putty first touches the target to the instant the dart comes to rest. The students create a graph with time $t$ plotted on the horizontal axis."
+            },
+            {
+                partId: "APPHY-EX001-SU003-P0004",
+                partTitle: "Part C",
+                partIntroText: null,
+                pngDiagram: null,
                 subparts: [
                     {
-                        subpartId: "APPHY-EX001-SU003-P0003-S0001",
+                        subpartId: "APPHY-EX001-SU003-P0004-S0001",
                         subpartLabel: "i.",
-                        subpartQuestion: "Label the vertical axis of Figure 3 with a measured or calculated quantity. Include units, as appropriate. The graphed quantities should yield a linear graph that can be used to determine $C$.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q3-part-c-s0001-diagram.png" alt="Part C Subpart i Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                        subpartQuestion: "Label the vertical axis of the grid provided with a measured or calculated quantity. Include units, as appropriate. The graphed quantities should yield a linear graph that can be used to determine the velocity of the dart as a function of time.",
+                        pngDiagram: null
                     },
                     {
-                        subpartId: "APPHY-EX001-SU003-P0003-S0002",
+                        subpartId: "APPHY-EX001-SU003-P0004-S0002",
                         subpartLabel: "ii.",
-                        subpartQuestion: "On the grid provided in Figure 3, create a graph that can be used to determine $C$. Clearly label the vertical axis with a numerical scale. Plot the corresponding data points on the grid.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q3-magnetic-graph.png" alt="Figure 3: Magnetic Strength Data Graph Grid" style="display:block; margin:auto; max-width:340px; height:auto;" />`
+                        subpartQuestion: "On a grid, create a graph that can be used to determine the average force. <br> - Plot the data from Table 1 on the grid below. <br> - Draw a best-fit line for the data points. <br> - Label the axes with the appropriate quantities and units.",
+                        pngDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-3C.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />'
                     },
                     {
-                        subpartId: "APPHY-EX001-SU003-P0003-S0003",
+                        subpartId: "APPHY-EX001-SU003-P0004-S0003",
                         subpartLabel: "iii.",
-                        subpartQuestion: "Draw a best-fit line for the data plotted in part C (ii).",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q3-part-c-s0003-diagram.png" alt="Part C Subpart iii Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
-                    },
+                        subpartQuestion: "Draw a best-fit line for the data plotted in part C (ii)",
+                        pngDiagram: null
+                    }
+                ]
+            },
+            {
+                partId: "APPHY-EX001-SU003-P0005",
+                partTitle: "Part D",
+                partIntroText: null,
+                pngDiagram: null,
+                subparts: [
                     {
-                        subpartId: "APPHY-EX001-SU003-P0003-S0004",
-                        subpartLabel: "Part D",
-                        subpartQuestion: "Using the best-fit line that you drew in part C (iii), calculate an experimental value for the magnetic strength constant $C$.",
-                        pngDiagram: `<img src="ap1/ap1-practice-exam-1-pcq-problem-images/q3-part-d-diagram.png" alt="Part D Diagram" style="display:block; margin:auto; max-width:300px; height:auto;" />`
+                        subpartId: "APPHY-EX001-SU003-P0005-S0001",
+                        subpartLabel: "",
+                        subpartQuestion: "Using the best-fit line that you drew in part C (iii), determine an experimental equation for the velocity of the dart as a function of time $t$ from the moment the putty contacts the wall to when it comes to rest.",
+                        pngDiagram: null
                     }
                 ]
             }
