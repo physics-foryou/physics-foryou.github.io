@@ -1380,6 +1380,12 @@
             color: var(--selected-text);
         }
 
+        .submission-part-score-btn:disabled {
+            opacity: 1;
+            cursor: default;
+            pointer-events: none;
+        }
+
         .submission-rubric-frame {
             display: block;
             width: 100%;
@@ -3100,8 +3106,8 @@
 
     <div id="submission-loading-overlay" class="submission-overlay" aria-live="polite">
         <div class="submission-card">
-            <h2 class="submission-title">Submitting Responses...</h2>
-            <p class="submission-subtext">Please wait while we securely finalize your practice exam session.</p>
+            <h2 class="submission-title">Submitting Responses</h2>
+            <p class="submission-subtext">Finalizing your exam, please wait...</p>
             <div class="submission-spinner" aria-hidden="true"></div>
         </div>
     </div>
@@ -3132,7 +3138,7 @@
                     <div class="submission-pane-content submission-rubric-pane-content">
                         <iframe id="submission-rubric-frame" class="submission-rubric-frame" title="FRQ Rubric PDF" src="about:blank"></iframe>
                         <p id="submission-rubric-fallback" class="submission-rubric-fallback" style="display: none;">
-                            Your browser could not display the rubric inline.
+                            Your browser could not display the rubric.
                             <a id="submission-rubric-fallback-link" href="#" target="_blank" rel="noopener">Open the rubric in a new tab.</a>
                         </p>
                     </div>
@@ -3152,9 +3158,9 @@
                 <div style="padding: 20px;">
                     <p style="margin-top: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">Use this workspace to review each FRQ and score your response with the rubric.</p>
                     <ul style="padding-left: 20px; line-height: 1.6; font-size: 13px; margin: 0;">
-                        <li>Use the question tabs on the left to switch between FRQ prompts.</li>
-                        <li>Use the rubric tab on the right to reference the official scoring guide.</li>
-                        <li>Take your time and evaluate each part and subpart before finishing.</li>
+                        <li>Use the question tabs on the left to switch between FRQ problems.</li>
+                        <li>Use the rubric tab on the right to reference the scoring guide.</li>
+                        <li>Take your time and evaluate all problems before finishing.</li>
                     </ul>
                     <button class="action-btn" style="width: 100%; margin-top: 15px; padding: 12px;" type="button" onclick="closeSubmissionInstructionsModal()">Start Grading</button>
                 </div>
@@ -3342,23 +3348,28 @@
                 .join('');
         }
 
-        // Load MCQ Script Pool Asset
-        const remoteScriptAsset = document.createElement('script');
-        remoteScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
-        document.head.appendChild(remoteScriptAsset);
+        function loadExamPoolScript(scriptPath) {
+            return new Promise((resolve, reject) => {
+                const scriptNode = document.createElement('script');
+                scriptNode.async = true;
+                scriptNode.onload = () => resolve();
+                scriptNode.onerror = () => reject(new Error(`Failed to load ${scriptPath}`));
+                scriptNode.src = scriptPath;
+                document.head.appendChild(scriptNode);
+            });
+        }
 
-        // Load FRQ Script Pool Asset
-        const frqScriptAsset = document.createElement('script');
-        frqScriptAsset.src = `${subjectCode}/${subjectCode}-practice-exam-frqs/${subjectCode}-practice-exam-frq-pool-${examIdentity}.js`;
-        document.head.appendChild(frqScriptAsset);
+        const mcqPoolScriptPath = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
+        const frqPoolScriptPath = `${subjectCode}/${subjectCode}-practice-exam-frqs/${subjectCode}-practice-exam-frq-pool-${examIdentity}.js`;
 
-        let scriptVerificationCounter = 0;
-        remoteScriptAsset.onload = frqScriptAsset.onload = function() {
-            scriptVerificationCounter++;
-            if (scriptVerificationCounter === 2) {
-                initializeIntegratedExamSystem();
-            }
-        };
+        Promise.all([
+            loadExamPoolScript(mcqPoolScriptPath),
+            loadExamPoolScript(frqPoolScriptPath)
+        ]).then(() => {
+            initializeIntegratedExamSystem();
+        }).catch(() => {
+            document.getElementById('target-question-box').innerText = 'Failed to load integrated script assets references.';
+        });
 
         function initializeIntegratedExamSystem() {
             // Target MCQ Reference Maps
@@ -3431,10 +3442,6 @@
             const headerStrip = document.querySelector('.full-width-top-strip');
             if (headerStrip) headerStrip.style.display = 'none';
         }
-
-        remoteScriptAsset.onerror = frqScriptAsset.onerror = function() {
-            document.getElementById('target-question-box').innerText = `Failed to load integrated script assets references.`;
-        };
 
         function saveActiveExamProgressState() {
             if (isReadOnlyQuestionPreviewMode) return;
@@ -4331,32 +4338,56 @@
                     workspaceWrapperNode.classList.add('frq-stacked-active');
                 }
 
-                // Free Response Render Phase Configuration
-                let frqSetupHTML = `<div><strong>${questionRecord.problemType || 'Free Response'}</strong></div><p>${questionRecord.problemSetup}</p>`;
-                const frqQuestionDiagram = resolveFRQDiagramMarkup(questionRecord);
-                if (frqQuestionDiagram) frqSetupHTML += `<div style="margin: 20px 0;">${frqQuestionDiagram}</div>`;
-                if (questionRecord.dataTable) frqSetupHTML += buildTableHTML(questionRecord.dataTable);
+                    // Free Response Render Phase Configuration
+                    const previewFrqScoreRecord = isReadOnlyQuestionPreviewMode
+                        ? getReadOnlyFrqScoreRecord(currentProblemIndex)
+                        : null;
+                    const previewFrqParts = previewFrqScoreRecord && Array.isArray(previewFrqScoreRecord.parts)
+                        ? previewFrqScoreRecord.parts
+                        : [];
 
-                let frqPartsHTML = '';
-                questionRecord.parts.forEach((part) => {
-                    frqPartsHTML += `<div class="part-header">${part.partTitle}</div>`;
-                    if (part.partIntroText) frqPartsHTML += `<p>${part.partIntroText}</p>`;
-                    const partDiagram = resolveFRQDiagramMarkup(part);
-                    if (partDiagram) frqPartsHTML += `<div style="margin: 15px 0;">${partDiagram}</div>`;
-                    if (part.partMidText) frqPartsHTML += `<p>${part.partMidText}</p>`;
-                    if (part.dataTable) frqPartsHTML += buildTableHTML(part.dataTable);
-                    if (part.partEndText) frqPartsHTML += `<p>${part.partEndText}</p>`;
+                    let frqSetupHTML = '';
+                    if (isReadOnlyQuestionPreviewMode && previewFrqScoreRecord) {
+                        const previewQuestionEarned = Number.isFinite(previewFrqScoreRecord.earned) ? previewFrqScoreRecord.earned : 0;
+                        const previewQuestionMax = Number.isFinite(previewFrqScoreRecord.max) ? previewFrqScoreRecord.max : 0;
+                        frqSetupHTML += `<div class="submission-total-score-banner">Total Points Earned for This Problem: <strong>${previewQuestionEarned} / ${previewQuestionMax}</strong></div>`;
+                    }
+                    frqSetupHTML += `<div><strong>${questionRecord.problemType || 'Free Response'}</strong></div><p>${questionRecord.problemSetup}</p>`;
+                    const frqQuestionDiagram = resolveFRQDiagramMarkup(questionRecord);
+                    if (frqQuestionDiagram) frqSetupHTML += `<div style="margin: 20px 0;">${frqQuestionDiagram}</div>`;
+                    if (questionRecord.dataTable) frqSetupHTML += buildTableHTML(questionRecord.dataTable);
 
-                    const partSubparts = Array.isArray(part.subparts) ? part.subparts : [];
-                    partSubparts.forEach((subpart) => {
-                        frqPartsHTML += `<div class="subpart-block">`;
-                        if (subpart.subpartLabel) frqPartsHTML += `<strong>${subpart.subpartLabel}</strong> `;
-                        frqPartsHTML += `<span>${subpart.subpartQuestion}</span>`;
-                        const subpartDiagram = resolveFRQDiagramMarkup(subpart);
-                        if (subpartDiagram) frqPartsHTML += `<div style="margin: 15px 0;">${subpartDiagram}</div>`;
-                        frqPartsHTML += `</div>`;
+                    let frqPartsHTML = '';
+                    questionRecord.parts.forEach((part, partIndex) => {
+                        frqPartsHTML += `<div class="part-header">${part.partTitle}</div>`;
+                        const isInfoOnlyPart = String(part.partTitle || '').trim().toLowerCase().startsWith('the following information applies');
+                        if (isReadOnlyQuestionPreviewMode && previewFrqParts[partIndex] && !isInfoOnlyPart) {
+                            const maxPartPoints = Number.isFinite(previewFrqParts[partIndex].max) ? previewFrqParts[partIndex].max : 0;
+                            const selectedPartScore = Math.min(maxPartPoints, Math.max(0, Number(previewFrqParts[partIndex].earned) || 0));
+                            const pointBoxes = Array.from({ length: maxPartPoints + 1 }, (_, scoreValue) => {
+                                const activeClass = scoreValue === selectedPartScore ? ' active' : '';
+                                return `<button type="button" class="submission-part-score-btn${activeClass}" disabled aria-disabled="true">${scoreValue}</button>`;
+                            }).join('');
+
+                            frqPartsHTML += `<div class="submission-part-score-row"><span class="submission-part-score-label">Points:</span><div class="submission-part-score-boxes">${pointBoxes}</div></div>`;
+                        }
+                        if (part.partIntroText) frqPartsHTML += `<p>${part.partIntroText}</p>`;
+                        const partDiagram = resolveFRQDiagramMarkup(part);
+                        if (partDiagram) frqPartsHTML += `<div style="margin: 15px 0;">${partDiagram}</div>`;
+                        if (part.partMidText) frqPartsHTML += `<p>${part.partMidText}</p>`;
+                        if (part.dataTable) frqPartsHTML += buildTableHTML(part.dataTable);
+                        if (part.partEndText) frqPartsHTML += `<p>${part.partEndText}</p>`;
+
+                        const partSubparts = Array.isArray(part.subparts) ? part.subparts : [];
+                        partSubparts.forEach((subpart) => {
+                            frqPartsHTML += `<div class="subpart-block">`;
+                            if (subpart.subpartLabel) frqPartsHTML += `<strong>${subpart.subpartLabel}</strong> `;
+                            frqPartsHTML += `<span>${subpart.subpartQuestion}</span>`;
+                            const subpartDiagram = resolveFRQDiagramMarkup(subpart);
+                            if (subpartDiagram) frqPartsHTML += `<div style="margin: 15px 0;">${subpartDiagram}</div>`;
+                            frqPartsHTML += `</div>`;
+                        });
                     });
-                });
 
                 // Keep FRQ content mapped to left/right panes in both modes so toggling layout
                 // only changes classes/sizing, which preserves a smooth transition.
@@ -4442,6 +4473,24 @@
                 dataTableHTML += `</tr>`;
             });
             return dataTableHTML + `</tbody></table>`;
+        }
+
+        function loadSavedExamResultsPayload() {
+            try {
+                const rawPayload = localStorage.getItem(examResultsStorageKey);
+                if (!rawPayload) return null;
+                return JSON.parse(rawPayload);
+            } catch (_err) {
+                return null;
+            }
+        }
+
+        function getReadOnlyFrqScoreRecord(questionIndex) {
+            const payload = loadSavedExamResultsPayload();
+            const frqQuestions = payload && payload.frq && Array.isArray(payload.frq.questions)
+                ? payload.frq.questions
+                : [];
+            return frqQuestions[questionIndex] || null;
         }
 
         function toggleQuestionReviewMark() {
@@ -4980,12 +5029,12 @@
                         : []
                 };
             });
-
             const frqQuestionStates = [];
             let frqEarnedTotal = 0;
             let frqMaxTotal = 0;
 
             frqQuestions.forEach((question, idx) => {
+                const parts = Array.isArray(question.parts) ? question.parts : [];
                 const totals = getSubmissionQuestionTotals(question, idx);
                 frqEarnedTotal += totals.earnedPoints;
                 frqMaxTotal += totals.maxPoints;
@@ -4999,10 +5048,21 @@
 
                 frqQuestionStates.push({
                     index: idx + 1,
+                    problemType: question.problemType || 'Free Response',
                     state,
                     flagged: isFlagged,
                     earned: totals.earnedPoints,
-                    max: totals.maxPoints
+                    max: totals.maxPoints,
+                    parts: parts.map((part, partIndex) => {
+                        const partMax = getSubmissionPartMaxPoints(part, question);
+                        const partScore = Math.min(partMax, Math.max(0, getSubmissionPartScore(idx, partIndex)));
+                        return {
+                            index: partIndex + 1,
+                            title: part.partTitle || `Part ${String.fromCharCode(65 + partIndex)}`,
+                            earned: partScore,
+                            max: partMax
+                        };
+                    })
                 });
             });
 

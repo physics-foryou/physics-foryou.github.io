@@ -409,6 +409,51 @@
             }
             window.location.href = `daily-problem-page.html?subject=${selectedSubject}`;
         }
+
+        function parseExamRouteFromHref(href) {
+            if (!href) return null;
+            try {
+                const resolvedUrl = new URL(href, window.location.href);
+                if (!resolvedUrl.pathname.endsWith('practice-exam-session.html')) return null;
+
+                const subject = resolvedUrl.searchParams.get('subject');
+                const exam = resolvedUrl.searchParams.get('exam');
+                if (!subject || !exam) return null;
+
+                return { subject, exam };
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function hasSavedExamResults(subject, exam) {
+            const storageKey = `exam_results_${subject}_${exam}`;
+            const storedPayload = localStorage.getItem(storageKey);
+            if (!storedPayload) return false;
+
+            try {
+                const parsedPayload = JSON.parse(storedPayload);
+                return !!parsedPayload && parsedPayload.subject === subject && String(parsedPayload.exam) === String(exam);
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function attachPracticeExamResultRedirects() {
+            const practiceExamLinks = document.querySelectorAll('a.test-link[href*="practice-exam-session.html"]');
+            practiceExamLinks.forEach((link) => {
+                link.addEventListener('click', (event) => {
+                    const route = parseExamRouteFromHref(link.getAttribute('href'));
+                    if (!route) return;
+                    if (!hasSavedExamResults(route.subject, route.exam)) return;
+
+                    event.preventDefault();
+                    window.location.href = `exam-results.html?subject=${encodeURIComponent(route.subject)}&exam=${encodeURIComponent(route.exam)}`;
+                });
+            });
+        }
+
+        attachPracticeExamResultRedirects();
     </script>
 </body>
 </html>

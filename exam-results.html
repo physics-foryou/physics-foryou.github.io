@@ -175,6 +175,8 @@
 			border-collapse: collapse;
 			font-size: 12px;
 			border: 1px solid var(--border-color);
+			outline: 1px solid var(--border-color);
+			outline-offset: 0;
 			background: var(--panel-bg);
 			border-radius: 2px;
 			overflow: hidden;
@@ -409,9 +411,14 @@
 			grid-row: 2;
 		}
 
-		#extra-card {
+		#mcq-skill-card {
 			grid-column: 3;
 			grid-row: 2;
+		}
+
+		#extra-card {
+			grid-column: 3;
+			grid-row: 3;
 		}
 
 		.feedback-text {
@@ -722,6 +729,73 @@
 			.bank-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 			.legend { grid-template-columns: 1fr; }
 		}
+
+		.dev-tools {
+			position: fixed;
+			right: 18px;
+			bottom: 18px;
+			z-index: 9100;
+		}
+
+		.dev-tools-btn {
+			background: var(--header-bg);
+			color: var(--panel-bg);
+			border: 1px solid var(--border-color);
+			border-radius: 999px;
+			padding: 10px 14px;
+			font-family: inherit;
+			font-size: 12px;
+			font-weight: bold;
+			letter-spacing: 0.2px;
+			cursor: pointer;
+			box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+		}
+
+		.dev-tools-menu {
+			position: absolute;
+			right: 0;
+			bottom: calc(100% + 10px);
+			min-width: 210px;
+			padding: 8px;
+			background: var(--panel-bg);
+			border: 1px solid var(--border-color);
+			border-radius: 8px;
+			box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+			display: none;
+		}
+
+		.dev-tools.open .dev-tools-menu {
+			display: block;
+		}
+
+		.dev-tool-item {
+			display: block;
+			width: 100%;
+			text-align: left;
+			background: transparent;
+			border: 1px solid transparent;
+			color: var(--text-main);
+			font-family: inherit;
+			font-size: 12px;
+			padding: 8px 10px;
+			border-radius: 6px;
+			cursor: pointer;
+		}
+
+		.dev-tool-item:hover {
+			background: rgba(0,0,0,0.06);
+		}
+
+		.dev-tool-item.danger {
+			color: #b91c1c;
+		}
+
+		.dev-tool-note {
+			margin: 6px 10px 2px;
+			font-size: 11px;
+			line-height: 1.35;
+			color: var(--text-dim);
+		}
 	</style>
 </head>
 <body>
@@ -737,9 +811,9 @@
 			<section class="card" id="estimate-card">
 				<div class="card-head estimate-card-head">
 					<span>Estimated Score</span>
-					<span class="score-req-info" tabindex="0" aria-label="View score requirements">i
+					<span class="score-req-info" tabindex="0" aria-label="View score cutoffs">i
 						<span class="score-req-tooltip" role="tooltip">
-							<div class="score-req-tooltip-title">Score Requirements</div>
+							<div class="score-req-tooltip-title">Score Cutoffs</div>
 							<div id="score-req-tooltip-content">Loading requirements...</div>
 						</span>
 					</span>
@@ -765,14 +839,14 @@
 				<div class="card-body">
 					<div class="bank-section-label">MCQ</div>
 					<div id="mcq-bank-grid" class="bank-grid mcq"></div>
-					<div class="bank-section-label">FRQ</div>
-					<div id="frq-bank-grid" class="bank-grid frq"></div>
 					<div class="legend">
 						<div class="legend-item"><span class="legend-swatch correct"></span><span>Correct</span></div>
 						<div class="legend-item"><span class="legend-swatch wrong"></span><span>Wrong</span></div>
 						<div class="legend-item"><span class="legend-swatch unanswered"></span><span>Unanswered</span></div>
 						<div class="legend-item"><span class="legend-flag">⚐</span><span>Marked for Review</span></div>
 					</div>
+					<div class="bank-section-label">FRQ</div>
+					<div id="frq-bank-grid" class="bank-grid frq"></div>
 				</div>
 			</section>
 
@@ -808,6 +882,14 @@
 				<div class="card-body feedback-text" id="feedback-content"></div>
 			</section>
 
+			<section class="card" id="mcq-skill-card">
+				<div class="card-head">Raw MCQ Skills Score</div>
+				<div class="card-body">
+					<ul id="mcq-skill-list" class="units-list"></ul>
+					<p id="mcq-skill-empty" class="empty-note" style="display:none;">No MCQ skill breakdown available.</p>
+				</div>
+			</section>
+
 			<section class="card" id="extra-card">
 				<div class="card-head">Extra Feedback</div>
 				<div class="card-body feedback-text" id="extra-feedback"></div>
@@ -831,16 +913,27 @@
 		</div>
 	</div>
 
+	<div id="dev-tools" class="dev-tools" aria-label="Developer tools">
+		<button id="dev-tools-btn" class="dev-tools-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleDevToolsMenu()">Dev Tool</button>
+		<div id="dev-tools-menu" class="dev-tools-menu" role="menu" aria-label="Developer options">
+			<button class="dev-tool-item danger" type="button" role="menuitem" onclick="eraseCurrentExamData()">Erase data for this exam</button>
+			<p class="dev-tool-note">Only clears this exam's saved state and results.</p>
+		</div>
+	</div>
+
 	<script>
 		const params = new URLSearchParams(window.location.search);
 		const subjectCode = params.get('subject') || 'ap1';
 		const examIdentity = params.get('exam') || '1';
 		const storageKey = `exam_results_${subjectCode}_${examIdentity}`;
 		const scoreRequirementKey = `${subjectCode}-${examIdentity}`;
+		const mapAlphaIntegerWord = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five'];
 		let activeResultsPayload = null;
 		let previewState = { phase: 'MCQ', index: 1, total: 0 };
 		let activeScoreRequirements = null;
 		let celebrationClearTimer = null;
+		const examStateKey = `exam_state_${subjectCode}_${examIdentity}`;
+		let activeMcqSkillLookup = [];
 
 		function clearCelebrationLayer() {
 			const layer = document.getElementById('celebration-layer');
@@ -890,6 +983,7 @@
 			const washColors = ['#2ec4ff', '#5b8cff', '#7b61ff', '#b16cff', '#2dd4bf', '#6ee7ff', '#4f46e5', '#22d3ee', '#34d399', '#a78bfa', '#38bdf8', '#14b8a6'];
 			const dimmer = document.createElement('span');
 			dimmer.className = 'rave-light dimmer';
+			dimmer.style.animationDelay = '0ms';
 			layer.appendChild(dimmer);
 
 			for (let i = 0; i < 10; i += 1) {
@@ -898,25 +992,25 @@
 				const c1 = washColors[Math.floor(Math.random() * washColors.length)];
 				const c2 = washColors[Math.floor(Math.random() * washColors.length)];
 				wash.style.background = `radial-gradient(circle at ${8 + ((i * 11) % 90)}% ${14 + ((i * 7) % 72)}%, ${c1} 0%, rgba(0,0,0,0) 52%), radial-gradient(circle at ${86 - ((i * 9) % 80)}% ${20 + ((i * 6) % 70)}%, ${c2} 0%, rgba(0,0,0,0) 50%)`;
-				wash.style.animationDelay = `${i * 220}ms`;
+				wash.style.animationDelay = '0ms';
 				wash.style.animationDuration = `${3000 + (i * 180)}ms`;
 				layer.appendChild(wash);
 			}
 
-			for (let i = 0; i < 12; i += 1) {
+			for (let i = 0; i < 8; i += 1) {
 				const side = i % 2 === 0 ? -1 : 1;
 				const lane = Math.floor(i / 2);
-				const centerOffset = side * (1.8 + (lane * 2.9));
-				const spread = side * (16 + (lane * 6.8));
+				const centerOffset = side * (2.8 + (lane * 3.8));
+				const spread = side * (22 + (lane * 8.4));
 
 				const leftBeam = document.createElement('span');
 				leftBeam.className = 'rave-light beam';
 				leftBeam.style.left = `calc(50vw - 15vw + ${centerOffset}vw)`;
 				leftBeam.style.background = `linear-gradient(to top, rgba(255,255,255,0.1) 0%, ${washColors[(i + 1) % washColors.length]} 36%, rgba(255,255,255,0.005) 100%), radial-gradient(ellipse at 50% 98%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 58%)`;
-				leftBeam.style.setProperty('--beam-start', `${side * (8 + (lane * 2.2))}deg`);
-				leftBeam.style.setProperty('--beam-end', `${side * (26 + (lane * 3.2))}deg`);
+				leftBeam.style.setProperty('--beam-start', `${side * (10 + (lane * 3.2))}deg`);
+				leftBeam.style.setProperty('--beam-end', `${side * (32 + (lane * 4.6))}deg`);
 				leftBeam.style.setProperty('--beam-drift', `${spread}vw`);
-				leftBeam.style.animationDelay = `${i * 210}ms`;
+				leftBeam.style.animationDelay = '0ms';
 				leftBeam.style.animationDuration = `${3000 + (i * 240)}ms`;
 				layer.appendChild(leftBeam);
 			}
@@ -934,7 +1028,7 @@
 				orb.style.left = `${x}vw`;
 				orb.style.top = `${y}vh`;
 				orb.style.background = `radial-gradient(circle, rgba(255,255,255,0.24) 0%, ${washColors[i % washColors.length]} 34%, rgba(0,0,0,0) 72%)`;
-				orb.style.animationDelay = `${160 + (i * 110)}ms`;
+				orb.style.animationDelay = '0ms';
 				orb.style.animationDuration = `${3000 + ((i % 6) * 200)}ms`;
 				layer.appendChild(orb);
 			}
@@ -945,7 +1039,7 @@
 				flare.style.left = `${10 + (Math.random() * 80)}vw`;
 				flare.style.top = `${18 + (Math.random() * 56)}vh`;
 				flare.style.background = `radial-gradient(circle, rgba(255,255,255,0.42) 0%, ${washColors[Math.floor(Math.random() * washColors.length)]} 28%, rgba(0,0,0,0) 70%)`;
-				flare.style.animationDelay = `${420 + (i * 260)}ms`;
+				flare.style.animationDelay = '0ms';
 				flare.style.animationDuration = `${2200 + (Math.random() * 320)}ms`;
 				layer.appendChild(flare);
 			}
@@ -999,6 +1093,47 @@
 			});
 		}
 
+		function resolveMcqPoolFromWindow() {
+			if (typeof practiceExamPool !== 'undefined' && Array.isArray(practiceExamPool)) {
+				return practiceExamPool;
+			}
+
+			const dynamicPoolName = `${subjectCode}PracticeExamPool${mapAlphaIntegerWord[parseInt(examIdentity, 10)] || 'One'}`;
+			if (Array.isArray(window[dynamicPoolName])) {
+				return window[dynamicPoolName];
+			}
+
+			if (typeof ap1PracticeExamMCQPoolOne !== 'undefined' && Array.isArray(ap1PracticeExamMCQPoolOne)) {
+				return ap1PracticeExamMCQPoolOne;
+			}
+
+			return [];
+		}
+
+		function loadMcqSkillLookup() {
+			return new Promise((resolve) => {
+				const mcqPoolScriptPath = `${subjectCode}/${subjectCode}-practice-exam-mcqs/${subjectCode}-practice-exam-mcq-pool-${examIdentity}.js`;
+				const script = document.createElement('script');
+				script.src = mcqPoolScriptPath;
+				script.async = true;
+
+				script.onload = () => {
+					const pool = resolveMcqPoolFromWindow();
+					activeMcqSkillLookup = Array.isArray(pool)
+						? pool.map((question) => (question && question.skill ? String(question.skill).trim() : 'Uncategorized Skill'))
+						: [];
+					resolve();
+				};
+
+				script.onerror = () => {
+					activeMcqSkillLookup = [];
+					resolve();
+				};
+
+				document.head.appendChild(script);
+			});
+		}
+
 		function loadResultsPayload() {
 			const raw = localStorage.getItem(storageKey);
 			if (!raw) return null;
@@ -1018,7 +1153,7 @@
 				: [];
 
 			if (!bands.length) {
-				contentNode.innerHTML = '<div class="score-req-tooltip-empty">No score requirements found for this exam.</div>';
+				contentNode.innerHTML = '<div class="score-req-tooltip-empty">No score cutoffs found for this exam.</div>';
 				return;
 			}
 
@@ -1042,7 +1177,7 @@
 				});
 
 			contentNode.innerHTML = `
-				<table class="score-req-tooltip-table" aria-label="Score requirements table">
+				<table class="score-req-tooltip-table" aria-label="Score cutoffs table">
 					<thead>
 						<tr><th>Score</th><th>Points</th></tr>
 					</thead>
@@ -1173,6 +1308,31 @@
 			previewState = { phase: 'MCQ', index: 1, total: 0 };
 		}
 
+		function setDevToolsMenuOpen(isOpen) {
+			const shell = document.getElementById('dev-tools');
+			const trigger = document.getElementById('dev-tools-btn');
+			if (!shell || !trigger) return;
+
+			shell.classList.toggle('open', !!isOpen);
+			trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+		}
+
+		function toggleDevToolsMenu() {
+			const shell = document.getElementById('dev-tools');
+			if (!shell) return;
+			setDevToolsMenuOpen(!shell.classList.contains('open'));
+		}
+
+		function eraseCurrentExamData() {
+			const confirmMessage = `Erase saved data for ${subjectCode.toUpperCase()} Test ${examIdentity}? This cannot be undone.`;
+			if (!window.confirm(confirmMessage)) return;
+
+			localStorage.removeItem(storageKey);
+			localStorage.removeItem(examStateKey);
+			setDevToolsMenuOpen(false);
+			renderPage();
+		}
+
 		function renderQuestionGrid(containerId, questions, phase) {
 			const container = document.getElementById(containerId);
 			container.innerHTML = '';
@@ -1180,31 +1340,25 @@
 			(questions || []).forEach((question) => {
 				const cell = document.createElement('button');
 				const state = question.state || 'unanswered';
+				const stateClass = phase === 'MCQ' ? state : '';
 				cell.type = 'button';
-				cell.className = `q-cell ${state}${question.flagged ? ' flagged' : ''}`;
+				cell.className = `q-cell${stateClass ? ` ${stateClass}` : ''}${question.flagged ? ' flagged' : ''}`;
 				cell.innerText = question.index;
 				cell.onclick = () => openQuestionPreview(phase, question.index, question.selectedOption, question.crossedOutOptions || []);
 				container.appendChild(cell);
 			});
 		}
 
-		function renderUnitBreakdown(units, frqQuestions) {
-			const frqTypeByQuestion = {
-				1: 'Mathematical Routines',
-				2: 'Translation Between Representations',
-				3: 'Experimental Design and Analysis',
-				4: 'Qualitative/Quantitative Translation'
-			};
-
+		function renderUnitBreakdown(units) {
 			const list = document.getElementById('mcq-units-list');
 			const empty = document.getElementById('mcq-units-empty');
-			const frqList = document.getElementById('frq-scores-list');
-			const frqEmpty = document.getElementById('frq-scores-empty');
+			if (!list || !empty) return;
+
 			list.innerHTML = '';
-			frqList.innerHTML = '';
 
 			if (!Array.isArray(units) || !units.length) {
 				empty.style.display = 'block';
+				return;
 			} else {
 				empty.style.display = 'none';
 				units
@@ -1216,6 +1370,21 @@
 						list.appendChild(li);
 					});
 			}
+		}
+
+		function renderFrqScoreBreakdown(frqQuestions) {
+			const frqList = document.getElementById('frq-scores-list');
+			const frqEmpty = document.getElementById('frq-scores-empty');
+			if (!frqList || !frqEmpty) return;
+
+			const frqTypeByQuestion = {
+				1: 'Mathematical Routines',
+				2: 'Translation Between Representations',
+				3: 'Experimental Design and Analysis',
+				4: 'Qualitative/Quantitative Translation'
+			};
+
+			frqList.innerHTML = '';
 
 			if (!Array.isArray(frqQuestions) || !frqQuestions.length) {
 				frqEmpty.style.display = 'block';
@@ -1225,9 +1394,60 @@
 			frqEmpty.style.display = 'none';
 			frqQuestions.forEach((item) => {
 				const li = document.createElement('li');
-				const questionType = frqTypeByQuestion[item.index] || 'Free-Response';
+				const questionType = item.problemType || frqTypeByQuestion[item.index] || 'Free-Response';
 				li.innerHTML = `<span class="unit-label">Question ${item.index}: ${questionType}</span><span class="unit-score">${item.earned} / ${item.max}</span>`;
 				frqList.appendChild(li);
+			});
+		}
+
+		function buildMcqSkillMap(mcqQuestions) {
+			const skillMap = {};
+			(mcqQuestions || []).forEach((question, index) => {
+				const payloadSkill = question && typeof question.skill === 'string' ? question.skill.trim() : '';
+				const lookupSkill = activeMcqSkillLookup[index] || '';
+				const skillName = payloadSkill || lookupSkill || 'Uncategorized Skill';
+
+				if (!skillMap[skillName]) {
+					skillMap[skillName] = { correct: 0, total: 0 };
+				}
+
+				skillMap[skillName].total += 1;
+				if (question && question.state === 'correct') {
+					skillMap[skillName].correct += 1;
+				}
+			});
+			return skillMap;
+		}
+
+		function normalizeLabelForSentence(label) {
+			if (typeof label !== 'string') return 'N/A';
+			const trimmed = label.trim();
+			if (!trimmed) return 'N/A';
+			return trimmed.replace(/[\s.!?]+$/, '');
+		}
+
+		function renderMcqSkillBreakdown(mcqQuestions) {
+			const list = document.getElementById('mcq-skill-list');
+			const empty = document.getElementById('mcq-skill-empty');
+			if (!list || !empty) return;
+
+			list.innerHTML = '';
+
+			if (!Array.isArray(mcqQuestions) || !mcqQuestions.length) {
+				empty.style.display = 'block';
+				return;
+			}
+
+			const skillMap = buildMcqSkillMap(mcqQuestions);
+
+			const sortedSkills = Object.keys(skillMap).sort((a, b) => a.localeCompare(b));
+			empty.style.display = sortedSkills.length ? 'none' : 'block';
+
+			sortedSkills.forEach((skillName) => {
+				const item = skillMap[skillName];
+				const li = document.createElement('li');
+				li.innerHTML = `<span class="unit-label">${skillName}</span><span class="unit-score">${item.correct} / ${item.total}</span>`;
+				list.appendChild(li);
 			});
 		}
 
@@ -1246,12 +1466,30 @@
 			const weakest = sortedByPercent[0];
 			const strongest = sortedByPercent[sortedByPercent.length - 1];
 
+			const mcqQuestions = (payload.mcq && Array.isArray(payload.mcq.questions)) ? payload.mcq.questions : [];
+			const skillMap = buildMcqSkillMap(mcqQuestions);
+			const rankedSkills = Object.entries(skillMap).sort((a, b) => {
+				const aCorrect = a[1].correct;
+				const bCorrect = b[1].correct;
+				if (aCorrect !== bCorrect) return aCorrect - bCorrect;
+				const aTotal = a[1].total;
+				const bTotal = b[1].total;
+				if (aTotal !== bTotal) return aTotal - bTotal;
+				return a[0].localeCompare(b[0]);
+			});
+			const weakestSkill = rankedSkills[0] || null;
+			const strongestSkill = rankedSkills[rankedSkills.length - 1] || null;
+			const strongestSkillLabel = strongestSkill ? normalizeLabelForSentence(strongestSkill[0]) : 'N/A';
+			const weakestSkillLabel = weakestSkill ? normalizeLabelForSentence(weakestSkill[0]) : 'N/A';
+
 			const mcqPct = payload.mcq && Number.isFinite(payload.mcq.percent) ? payload.mcq.percent : 0;
 			const frqPct = payload.frq && Number.isFinite(payload.frq.percent) ? payload.frq.percent : 0;
 
 			feedbackNode.innerHTML = `
-				<p>Your strongest MCQ unit was <strong>${strongest ? strongest.unit : 'N/A'}</strong>${strongest ? ` (${strongest.correct}/${strongest.total})` : ''}.</p>
+				<p>Your strongest MCQ unit was <strong>${strongest ? strongest.unit : 'N/A'}</strong>.</p>
 				<p>Your weakest MCQ unit was <strong>${weakest ? weakest.unit : 'N/A'}</strong>.</p>
+				<p>Your strongest MCQ skill was <strong>${strongestSkillLabel}</strong>.</p>
+				<p>Your weakest MCQ skill was <strong>${weakestSkillLabel}</strong>.</p>
 			`;
 
 			extraNode.innerHTML = `
@@ -1312,6 +1550,7 @@
 				renderQuestionGrid('mcq-bank-grid', [], 'MCQ');
 				renderQuestionGrid('frq-bank-grid', [], 'FRQ');
 				renderUnitBreakdown([], []);
+				renderMcqSkillBreakdown([]);
 				renderFeedback(null);
 				return;
 			}
@@ -1329,15 +1568,29 @@
 
 			renderQuestionGrid('mcq-bank-grid', payload.mcq.questions || [], 'MCQ');
 			renderQuestionGrid('frq-bank-grid', payload.frq.questions || [], 'FRQ');
-			renderUnitBreakdown(payload.units || [], (payload.frq && payload.frq.questions) || []);
+			renderUnitBreakdown(payload.units || []);
+			renderMcqSkillBreakdown((payload.mcq && payload.mcq.questions) || []);
+			renderFrqScoreBreakdown((payload.frq && payload.frq.questions) || []);
 			renderFeedback(payload);
 		}
 
 		document.addEventListener('keydown', (event) => {
-			if (event.key === 'Escape') closeQuestionPreview();
+			if (event.key === 'Escape') {
+				closeQuestionPreview();
+				setDevToolsMenuOpen(false);
+			}
 		});
 
-		loadScoreRequirementsConfig().then(() => {
+		document.addEventListener('click', (event) => {
+			const shell = document.getElementById('dev-tools');
+			if (!shell) return;
+			if (!shell.contains(event.target)) setDevToolsMenuOpen(false);
+		});
+
+		Promise.all([
+			loadScoreRequirementsConfig(),
+			loadMcqSkillLookup()
+		]).then(() => {
 			renderScoreRequirementsTooltip();
 			renderPage();
 		});

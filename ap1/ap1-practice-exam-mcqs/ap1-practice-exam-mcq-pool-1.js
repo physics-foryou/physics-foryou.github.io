@@ -4,8 +4,7 @@ const ap1PracticeExamMCQPoolOne = [
         id: "AP001-WRENP-KX72M",
         unit: "Kinematics",
         topic: "Displacement, Velocity, and Acceleration",
-        skill: "Mathematical Routines",
-        sciencePractice: "Solve for or approximate a missing value (complete with correct units) using given data and formulas.",
+        skill: "Solve for or approximate a missing value using given data and formulas.",
         difficulty: "Easy",
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-1-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
@@ -31,8 +30,7 @@ const ap1PracticeExamMCQPoolOne = [
         id: "AP001-DYNAM-PR58N",
         unit: "Force and Translational Dynamics + Torque and Rotational Dynamics",
         topic: "Newton's Second Law and Torque",
-        skill: "Argumentation",
-        sciencePractice: "Create algebraic formulas by combining known variables through a step-by-step mathematical proof.",
+        skill: "Create algebraic formulas by combining known variables through a step-by-step mathematical proof.",
         difficulty: "Hard",
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-2-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
@@ -71,8 +69,7 @@ const ap1PracticeExamMCQPoolOne = [
         id: "AP001-KINMA-WT31B",
         unit: "Work, Energy, and Power",
         topic: "Conservation of Mechanical Energy",
-        skill: "Mathematical Routines",
-        sciencePractice: "Contrast how values change across different situations, moments in time, or positions within a system.",
+        skill: "Contrast how values change across different situations, moments in time, or positions within a system.",
         difficulty: "Medium",
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-3-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
@@ -99,8 +96,7 @@ const ap1PracticeExamMCQPoolOne = [
         id: "AP001-ROTDY-CL47V",
         unit: "Linear Momentum",
         topic: "Change in Momentum and Impulse",
-        skill: "Quantitative/Qualitative Translation",
-        sciencePractice: "Use established physics laws, theories, or models to make an accurate scientific assertion.",
+        skill: "Use established physics laws, theories, or models to make an accurate scientific assertion.",
         difficulty: "Medium",
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-4-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
@@ -139,8 +135,7 @@ const ap1PracticeExamMCQPoolOne = [
         id: "AP001-ROTDY-NG85Q",
         unit: "Fluids",
         topic: "Pressure",
-        skill: "Argumentation",
-        sciencePractice: "Solve for or approximate a missing value using given data and formulas.",
+        skill: "Solve for or approximate a missing value using given data and formulas.",
         difficulty: "Medium",
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-5-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
@@ -167,8 +162,7 @@ const ap1PracticeExamMCQPoolOne = [
         id: "AP001-OSCIL-BM19Z",
         unit: "Torque and Rotational Dynamics + Energy and Momentum of Rotating Systems",
         topic: "Rotational Inertia and Rotational Kinetic Energy",
-        skill: "Quantitative/Qualitative Translation",
-        sciencePractice: "Determine how a variable changes when another is modified based on their mathematical relationship.",
+        skill: "Determine how a variable changes when another is modified based on their mathematical relationship.",
         difficulty: "Hard",
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-6-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
@@ -195,8 +189,7 @@ const ap1PracticeExamMCQPoolOne = [
         id: "AP001-KINMA-HF62D",
         unit: "Force and Translational Dynamics",
         topic: "Kinetic and Static Friction",
-        skill: "Mathematical Routines",
-        sciencePractice: "Defend a scientific conclusion using laboratory data, graphs, diagrams, or fundamental laws of physics",
+        skill: "Defend a scientific conclusion using laboratory data, graphs, diagrams, or fundamental laws of physics.",
         difficulty: "Medium",
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-7-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
@@ -223,8 +216,7 @@ const ap1PracticeExamMCQPoolOne = [
         id: "AP001-LINMO-SV04R",
         unit: "Oscillations",
         topic: "Frequency and Period of SHM",
-        skill: "Argumentation",
-        sciencePractice: "Determine how a variable changes when another is modified based on their mathematical relationship.",
+        skill: "Determine how a variable changes when another is modified based on their mathematical relationship.",
         difficulty: "Medium",
 
         jpegDiagram: null,
@@ -251,8 +243,7 @@ const ap1PracticeExamMCQPoolOne = [
         id: "AP001-FLUID-EJ37A",
         unit: "Work, Energy, and Power + Linear Momentum",
         topic: "Elastic and Inelastic Collisions and Kinetic Energy Changes",
-        skill: "Quantitative/Qualitative Translation",
-        sciencePractice: "Contrast how values change across different situations, moments in time, or positions within a system.",
+        skill: "Contrast how values change across different situations, moments in time, or positions within a system.",
         difficulty: "Hard",
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-9-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
@@ -291,8 +282,7 @@ const ap1PracticeExamMCQPoolOne = [
         id: "AP001-ROTEN-LQ28S",
         unit: "Energy and Momentum of Rotating Systems",
         topic: "Rotational Kinetic Energy",
-        skill: "Mathematical Routines",
-        sciencePractice: "2.B â€“ Calculate an unknown quantity.",
+        skill: "Use established physics laws, theories, or models to make an accurate scientific assertion.",
         difficulty: "Medium",
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-10-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
