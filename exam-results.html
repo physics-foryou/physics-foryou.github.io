@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Exam Results</title>
+	<script src="settings/theme.js"></script>
+	<script>
+		(function () {
+			const themes = {
+				navy: { bg: '#f3f6fb', panel: '#ffffff', header: '#1f3a5f', text: '#1d2a39', dim: '#5b6775', border: '#d8e1ec', selBg: '#1f3a5f', selText: '#ffffff' },
+				slate: { bg: '#f5f7fa', panel: '#ffffff', header: '#374151', text: '#111827', dim: '#6b7280', border: '#d1d5db', selBg: '#111827', selText: '#ffffff' },
+				paper: { bg: '#f6f1e8', panel: '#fffdfa', header: '#6b4f2c', text: '#2d2418', dim: '#74644f', border: '#e2d8c7', selBg: '#2d2418', selText: '#fffdfa' },
+				repose: { bg: '#1f232a', panel: '#2a3038', header: '#3d4754', text: '#e8edf5', dim: '#9aa4b2', border: '#4b5563', selBg: '#e8edf5', selText: '#2a3038' }
+			};
+			const savedTheme = localStorage.getItem('site-theme') || 'paper';
+			const theme = themes[savedTheme] || themes.paper;
+			const root = document.documentElement;
+			root.style.setProperty('--bg-color', theme.bg);
+			root.style.setProperty('--panel-bg', theme.panel);
+			root.style.setProperty('--header-bg', theme.header);
+			root.style.setProperty('--text-main', theme.text);
+			root.style.setProperty('--text-dim', theme.dim);
+			root.style.setProperty('--border-color', theme.border);
+			root.style.setProperty('--selected-bg', theme.selBg || theme.text);
+			root.style.setProperty('--selected-text', theme.selText || theme.panel);
+		})();
+	</script>
+	<style>
+		:root {
+			--ring-accent: var(--header-bg);
+			--ok: #16a34a;
+			--warn: #d97706;
+			--bad: #dc2626;
+			--empty: #9ca3af;
+		}
+
+		body {
+			margin: 0;
+			font-family: 'Consolas', 'Courier New', monospace;
+			background: var(--bg-color);
+			color: var(--text-main);
+		}
+
+		.top-strip {
+			background-color: var(--header-bg);
+			color: var(--panel-bg);
+			border-bottom: 1px solid var(--border-color);
+			box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+		}
+
+		.top-strip-inner {
+			padding: 14px 40px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 13px;
+			font-weight: bold;
+			letter-spacing: 0.5px;
+		}
+
+		.home-btn {
+			background-color: rgba(255, 255, 255, 0.15);
+			border: 1px solid rgba(255, 255, 255, 0.25);
+			color: var(--panel-bg);
+			padding: 6px 18px;
+			border-radius: 4px;
+			cursor: pointer;
+			font-family: inherit;
+			font-size: 11px;
+			font-weight: bold;
+			text-transform: uppercase;
+			letter-spacing: 0.25px;
+			transition: all 0.2s;
+		}
+
+		.home-btn:hover {
+			background-color: rgba(255, 255, 255, 0.25);
+		}
+
+		.page {
+			max-width: 1500px;
+			margin: 24px auto;
+			padding: 0 20px 28px;
+			box-sizing: border-box;
+		}
+
+		.results-grid {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1fr);
+			gap: 18px;
+		}
+
+		.card {
+			border: 1px solid var(--border-color);
+			border-radius: 8px;
+			background: var(--panel-bg);
+			box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+			overflow: hidden;
+		}
+
+		.card-head {
+			background: var(--header-bg);
+			color: var(--panel-bg);
+			padding: 10px 14px;
+			font-size: 13px;
+			font-weight: bold;
+			letter-spacing: 0.45px;
+		}
+
+		.estimate-card-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 10px;
+		}
+
+		.score-req-info {
+			position: relative;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 18px;
+			height: 18px;
+			border: 1px solid rgba(255,255,255,0.7);
+			border-radius: 999px;
+			font-size: 12px;
+			line-height: 1;
+			font-weight: bold;
+			cursor: help;
+			user-select: none;
+		}
+
+		.score-req-info:focus-visible {
+			outline: 2px solid rgba(255,255,255,0.95);
+			outline-offset: 2px;
+		}
+
+		.score-req-tooltip {
+			position: absolute;
+			right: 0;
+			top: calc(100% + 10px);
+			min-width: 230px;
+			max-width: 320px;
+			padding: 10px 12px;
+			border-radius: 8px;
+			background: var(--panel-bg);
+			color: var(--text-main);
+			border: 1px solid var(--border-color);
+			box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+			font-size: 12px;
+			line-height: 1.45;
+			letter-spacing: 0;
+			white-space: normal;
+			opacity: 0;
+			transform: translateY(-3px);
+			pointer-events: none;
+			transition: opacity 0.16s ease, transform 0.16s ease;
+			z-index: 20;
+		}
+
+		.score-req-info:hover .score-req-tooltip,
+		.score-req-info:focus-within .score-req-tooltip {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		.score-req-tooltip-title {
+			font-weight: bold;
+			margin-bottom: 6px;
+		}
+
+		.score-req-tooltip-table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 12px;
+			border: 1px solid var(--border-color);
+			background: var(--panel-bg);
+			border-radius: 2px;
+			overflow: hidden;
+		}
+
+		.score-req-tooltip-table thead th {
+			background: color-mix(in srgb, var(--header-bg) 16%, var(--panel-bg));
+			font-weight: bold;
+		}
+
+		.score-req-tooltip-table th,
+		.score-req-tooltip-table td {
+			padding: 5px 6px;
+			text-align: left;
+			border: 1px solid var(--border-color);
+		}
+
+		.score-req-tooltip-table th:last-child,
+		.score-req-tooltip-table td:last-child {
+			text-align: right;
+		}
+
+		.score-req-tooltip-empty {
+			margin: 2px 0;
+		}
+
+		.card-body {
+			padding: 16px;
+		}
+
+		.estimate-layout {
+			display: grid;
+			grid-template-columns: 220px 1fr;
+			align-items: center;
+			gap: 16px;
+		}
+
+		.ring {
+			width: 180px;
+			height: 180px;
+			border-radius: 999px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0 auto;
+			position: relative;
+		}
+
+		.ring-svg {
+			position: absolute;
+			inset: 0;
+			width: 180px;
+			height: 180px;
+			transform: rotate(-90deg);
+		}
+
+		.ring-thin {
+			fill: none;
+			stroke: var(--border-color);
+			stroke-width: 2;
+		}
+
+		.ring-progress {
+			fill: none;
+			stroke: var(--ring-accent);
+			stroke-width: 12;
+			stroke-linecap: butt;
+			stroke-dasharray: 0;
+			stroke-dashoffset: 0;
+		}
+
+		.ring-value {
+			position: relative;
+			z-index: 1;
+			font-size: 68px;
+			font-weight: bold;
+			line-height: 1;
+			background: var(--panel-bg);
+			width: 112px;
+			height: 112px;
+			border-radius: 999px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.score-lines {
+			font-size: 15px;
+			line-height: 1.7;
+		}
+
+		.bank-section-label {
+			margin: 4px 0 10px;
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		.bank-grid {
+			display: grid;
+			grid-template-columns: repeat(10, minmax(0, 1fr));
+			gap: 8px;
+			margin-bottom: 14px;
+		}
+
+		.bank-grid.frq {
+			grid-template-columns: repeat(4, minmax(34px, 1fr));
+			max-width: 220px;
+		}
+
+		.q-cell {
+			height: 30px;
+			border: 1px solid var(--border-color);
+			border-radius: 4px;
+			font-size: 12px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			font-weight: bold;
+			background: rgba(0,0,0,0.02);
+			cursor: pointer;
+			font-family: inherit;
+			color: var(--text-main);
+		}
+
+		button.q-cell {
+			appearance: none;
+			-webkit-appearance: none;
+		}
+
+		.q-cell.correct { background: rgba(0,0,0,0.02); border-color: var(--ok); }
+		.q-cell.wrong { background: rgba(0,0,0,0.02); border-color: var(--bad); }
+		.q-cell.unanswered { background: rgba(0,0,0,0.02); border-color: var(--empty); }
+		.q-cell:hover { background: rgba(0,0,0,0.08); }
+		.q-cell.flagged::after {
+			content: "⚐";
+			position: absolute;
+			top: 2px;
+			right: 4px;
+			font-size: 12px;
+			color: var(--bad);
+			font-weight: bold;
+			line-height: 1;
+		}
+
+		.legend {
+			margin-top: 8px;
+			font-size: 12px;
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, max-content));
+			gap: 8px 20px;
+			color: var(--text-dim);
+		}
+
+		.legend-item {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.legend-swatch {
+			width: 16px;
+			height: 16px;
+			border-radius: 3px;
+			background: transparent;
+			box-sizing: border-box;
+		}
+
+		.legend-swatch.correct { border: 2px solid var(--ok); }
+		.legend-swatch.wrong { border: 2px solid var(--bad); }
+		.legend-swatch.unanswered { border: 2px solid var(--empty); }
+
+		.legend-flag {
+			font-size: 16px;
+			color: #ef4444;
+			font-weight: bold;
+			line-height: 1;
+			transform: translateY(-1px);
+		}
+
+		.articles-list, .units-list {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.articles-list li {
+			margin-bottom: 12px;
+			line-height: 1.5;
+			font-size: 14px;
+		}
+
+		.articles-list a {
+			color: var(--text-main);
+			text-decoration: none;
+			border-bottom: 1px solid var(--border-color);
+		}
+
+		.units-list li {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			gap: 12px;
+			font-size: 16px;
+			padding: 5px 0;
+			border-bottom: 1px dashed var(--border-color);
+		}
+
+		.units-list .unit-label {
+			flex: 1 1 auto;
+			min-width: 0;
+			line-height: 1.35;
+			overflow-wrap: anywhere;
+		}
+
+		.units-list .unit-score {
+			flex: 0 0 auto;
+			white-space: nowrap;
+			font-weight: bold;
+		}
+
+		#mcq-unit-card {
+			grid-column: 1;
+		}
+
+		#frq-score-card {
+			grid-column: 1;
+		}
+
+		#feedback-card {
+			grid-column: 2;
+			grid-row: 2;
+		}
+
+		#extra-card {
+			grid-column: 3;
+			grid-row: 2;
+		}
+
+		.feedback-text {
+			font-size: 15px;
+			line-height: 1.75;
+			color: var(--text-main);
+		}
+
+		.feedback-text p {
+			margin-top: 0;
+			margin-bottom: 14px;
+		}
+
+		.empty-note {
+			font-size: 14px;
+			color: var(--text-dim);
+		}
+
+		.unit-section-title {
+			margin: 0 0 10px;
+			font-size: 14px;
+			font-weight: bold;
+			letter-spacing: 0.3px;
+		}
+
+		.unit-section-gap {
+			margin-top: 18px;
+		}
+
+		.question-preview-overlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.45);
+			display: none;
+			align-items: center;
+			justify-content: center;
+			z-index: 9999;
+			padding: 18px;
+			box-sizing: border-box;
+		}
+
+		.question-preview-shell {
+			width: min(1500px, 100%);
+			height: min(92vh, 980px);
+			background: var(--panel-bg);
+			border: 1px solid var(--border-color);
+			border-radius: 8px;
+			overflow: hidden;
+			display: grid;
+			grid-template-rows: auto 1fr auto;
+		}
+
+		.question-preview-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 10px 14px;
+			background: var(--header-bg);
+			color: var(--panel-bg);
+			font-size: 13px;
+			font-weight: bold;
+		}
+
+		#question-preview-label {
+			font-size: 16px;
+			font-weight: 700;
+			letter-spacing: 0.2px;
+		}
+
+		#question-preview-label .preview-flag-indicator {
+			margin-left: 6px;
+			font-size: 18px;
+			font-weight: 800;
+			color: var(--bad);
+			vertical-align: middle;
+		}
+
+		.question-preview-close {
+			border: 1px solid rgba(255,255,255,0.25);
+			background: rgba(255,255,255,0.15);
+			color: var(--panel-bg);
+			font-family: inherit;
+			font-size: 11px;
+			font-weight: bold;
+			padding: 6px 18px;
+			border-radius: 4px;
+			cursor: pointer;
+			text-transform: uppercase;
+			letter-spacing: 0.25px;
+			transition: all 0.2s;
+		}
+
+		.question-preview-close:hover {
+			background-color: rgba(255, 255, 255, 0.25);
+		}
+
+		.question-preview-frame {
+			width: 100%;
+			height: 100%;
+			border: 0;
+		}
+
+		.question-preview-footer {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px 14px;
+			border-top: 1px solid var(--border-color);
+			background: var(--panel-bg);
+		}
+
+		.preview-nav-btn {
+			border: 1px solid var(--border-color);
+			background: rgba(0,0,0,0.03);
+			color: var(--text-main);
+			font-family: inherit;
+			font-size: 12px;
+			font-weight: bold;
+			padding: 7px 12px;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		.preview-nav-btn:disabled {
+			opacity: 0.5;
+			cursor: default;
+		}
+
+		.celebration-layer {
+			position: fixed;
+			inset: 0;
+			overflow: hidden;
+			pointer-events: none;
+			z-index: 9000;
+		}
+
+		.confetti-piece {
+			position: absolute;
+			top: -24px;
+			width: 8px;
+			height: 14px;
+			border-radius: 2px;
+			opacity: 0.95;
+			animation-name: confetti-fall;
+			animation-timing-function: linear;
+			animation-fill-mode: forwards;
+			will-change: transform, opacity;
+		}
+
+		.rave-light {
+			position: absolute;
+			inset: 0;
+			pointer-events: none;
+		}
+
+		.rave-light.dimmer {
+			background: radial-gradient(circle at 50% 40%, rgba(0, 0, 0, 0) 0%, rgba(3, 6, 16, 0.52) 76%);
+			opacity: 0;
+			animation: rave-dim 4200ms ease-in-out forwards;
+		}
+
+		.rave-light.wash {
+			inset: -24%;
+			opacity: 0;
+			mix-blend-mode: screen;
+			filter: blur(20px) saturate(1.35);
+			animation: rave-wash 3600ms ease-in-out forwards;
+			will-change: transform, opacity;
+		}
+
+		.rave-light.beam {
+			inset: auto;
+			width: 30vw;
+			height: 132vh;
+			bottom: -12vh;
+			opacity: 0;
+			mix-blend-mode: screen;
+			filter: blur(10px) saturate(1.2);
+			clip-path: polygon(49% 100%, 51% 100%, 100% 0%, 0% 0%);
+			-webkit-mask-image: radial-gradient(ellipse at 50% 92%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.92) 36%, rgba(0, 0, 0, 0.35) 76%, rgba(0, 0, 0, 0) 100%);
+			mask-image: radial-gradient(ellipse at 50% 92%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.92) 36%, rgba(0, 0, 0, 0.35) 76%, rgba(0, 0, 0, 0) 100%);
+			animation: rave-beam 3400ms cubic-bezier(0.2, 0.75, 0.3, 1) forwards;
+			transform-origin: 50% 100%;
+		}
+
+		.rave-light.orb {
+			inset: auto;
+			width: 14vmin;
+			height: 14vmin;
+			border-radius: 999px;
+			opacity: 0;
+			mix-blend-mode: screen;
+			filter: blur(8px) saturate(1.25);
+			animation: rave-orb 3400ms ease-in-out forwards;
+		}
+
+		.rave-light.flare {
+			inset: auto;
+			width: 18vmin;
+			height: 18vmin;
+			border-radius: 999px;
+			opacity: 0;
+			mix-blend-mode: screen;
+			filter: blur(6px) saturate(1.22);
+			animation: rave-flare 2600ms ease-out forwards;
+		}
+
+		@keyframes confetti-fall {
+			0% {
+				transform: translate3d(0, -16px, 0) rotate(0deg);
+				opacity: 0.95;
+			}
+			85% {
+				opacity: 0.95;
+			}
+			100% {
+				transform: translate3d(var(--drift, 0px), 108vh, 0) rotate(780deg);
+				opacity: 0;
+			}
+		}
+
+		@keyframes rave-dim {
+			0% {
+				opacity: 0;
+			}
+			22% {
+				opacity: 0.62;
+			}
+			100% {
+				opacity: 0;
+			}
+		}
+
+		@keyframes rave-wash {
+			0% {
+				opacity: 0;
+				transform: translate3d(-2vw, -1vh, 0) scale(0.92);
+			}
+			20% {
+				opacity: 0.13;
+			}
+			58% {
+				opacity: 0.09;
+			}
+			100% {
+				opacity: 0;
+				transform: translate3d(3vw, 1vh, 0) scale(1.12);
+			}
+		}
+
+		@keyframes rave-beam {
+			0% {
+				opacity: 0;
+				transform: translateX(0) rotate(var(--beam-start, -28deg)) translateY(0) scaleX(0.86);
+			}
+			20% {
+				opacity: 0.16;
+			}
+			56% {
+				opacity: 0.1;
+			}
+			100% {
+				opacity: 0;
+				transform: translateX(var(--beam-drift, 0vw)) rotate(var(--beam-end, 28deg)) translateY(-9vh) scaleX(1.26);
+			}
+		}
+
+		@keyframes rave-orb {
+			0% {
+				opacity: 0;
+				transform: scale(0.6) translate3d(0, 1vh, 0);
+			}
+			24% {
+				opacity: 0.14;
+			}
+			70% {
+				opacity: 0.08;
+			}
+			100% {
+				opacity: 0;
+				transform: scale(1.2) translate3d(0, -1vh, 0);
+			}
+		}
+
+		@keyframes rave-flare {
+			0% {
+				opacity: 0;
+				transform: scale(0.5);
+			}
+			28% {
+				opacity: 0.14;
+			}
+			100% {
+				opacity: 0;
+				transform: scale(1.35);
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.rave-light {
+				display: none;
+			}
+		}
+
+		@media (max-width: 1200px) {
+			.results-grid { grid-template-columns: 1fr; }
+			.estimate-layout { grid-template-columns: 1fr; }
+			.bank-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+			.legend { grid-template-columns: 1fr; }
+		}
+	</style>
+</head>
+<body>
+	<div class="top-strip">
+		<div class="top-strip-inner">
+			<span id="results-page-title">Exam Results</span>
+			<button class="home-btn" onclick="window.location.href='home-page.html'">Home</button>
+		</div>
+	</div>
+
+	<main class="page">
+		<div class="results-grid">
+			<section class="card" id="estimate-card">
+				<div class="card-head estimate-card-head">
+					<span>Estimated Score</span>
+					<span class="score-req-info" tabindex="0" aria-label="View score requirements">i
+						<span class="score-req-tooltip" role="tooltip">
+							<div class="score-req-tooltip-title">Score Requirements</div>
+							<div id="score-req-tooltip-content">Loading requirements...</div>
+						</span>
+					</span>
+				</div>
+				<div class="card-body estimate-layout">
+					<div class="ring" id="score-ring">
+						<svg class="ring-svg" viewBox="0 0 180 180" aria-hidden="true">
+							<circle class="ring-thin" cx="90" cy="90" r="74"></circle>
+							<circle id="score-progress" class="ring-progress" cx="90" cy="90" r="74"></circle>
+						</svg>
+						<span class="ring-value" id="score-value">-</span>
+					</div>
+					<div class="score-lines">
+						<div>Composite: <span id="composite-pct">-%</span></div>
+						<div>Raw MCQ: <span id="raw-mcq">- / -</span></div>
+						<div>Raw FRQ: <span id="raw-frq">- / -</span></div>
+					</div>
+				</div>
+			</section>
+
+			<section class="card" id="question-bank-card">
+				<div class="card-head">Question Bank</div>
+				<div class="card-body">
+					<div class="bank-section-label">MCQ</div>
+					<div id="mcq-bank-grid" class="bank-grid mcq"></div>
+					<div class="bank-section-label">FRQ</div>
+					<div id="frq-bank-grid" class="bank-grid frq"></div>
+					<div class="legend">
+						<div class="legend-item"><span class="legend-swatch correct"></span><span>Correct</span></div>
+						<div class="legend-item"><span class="legend-swatch wrong"></span><span>Wrong</span></div>
+						<div class="legend-item"><span class="legend-swatch unanswered"></span><span>Unanswered</span></div>
+						<div class="legend-item"><span class="legend-flag">⚐</span><span>Marked for Review</span></div>
+					</div>
+				</div>
+			</section>
+
+			<section class="card" id="articles-card">
+				<div class="card-head">Articles</div>
+				<div class="card-body">
+					<ul class="articles-list">
+						<li><a href="https://apstudents.collegeboard.org/courses/ap-physics-1/exam" target="_blank" rel="noopener">General AP Physics 1 test-taking strategy</a></li>
+						<li><a href="https://apstudents.collegeboard.org/courses/ap-physics-1/exam-tips" target="_blank" rel="noopener">General MCQ strategy guide</a></li>
+						<li><a href="https://apstudents.collegeboard.org/courses/ap-physics-1/exam#free-response" target="_blank" rel="noopener">General FRQ strategy guide</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="card" id="mcq-unit-card">
+				<div class="card-head">Raw MCQ Unit Scores</div>
+				<div class="card-body">
+					<ul id="mcq-units-list" class="units-list"></ul>
+					<p id="mcq-units-empty" class="empty-note" style="display:none;">No MCQ unit breakdown available.</p>
+				</div>
+			</section>
+
+			<section class="card" id="frq-score-card">
+				<div class="card-head">FRQ Question Scores</div>
+				<div class="card-body">
+					<ul id="frq-scores-list" class="units-list"></ul>
+					<p id="frq-scores-empty" class="empty-note" style="display:none;">No FRQ score breakdown available.</p>
+				</div>
+			</section>
+
+			<section class="card" id="feedback-card">
+				<div class="card-head">Feedback</div>
+				<div class="card-body feedback-text" id="feedback-content"></div>
+			</section>
+
+			<section class="card" id="extra-card">
+				<div class="card-head">Extra Feedback</div>
+				<div class="card-body feedback-text" id="extra-feedback"></div>
+			</section>
+		</div>
+	</main>
+
+	<div id="celebration-layer" class="celebration-layer" aria-hidden="true"></div>
+
+	<div id="question-preview-overlay" class="question-preview-overlay" onclick="closeQuestionPreview(event)">
+		<div class="question-preview-shell" onclick="event.stopPropagation()">
+			<div class="question-preview-header">
+				<span id="question-preview-label">Question 1</span>
+				<button class="question-preview-close" type="button" onclick="closeQuestionPreview()">Close</button>
+			</div>
+			<iframe id="question-preview-frame" class="question-preview-frame" title="Practice Exam Question Preview" src="about:blank"></iframe>
+			<div class="question-preview-footer">
+				<button id="question-preview-prev" class="preview-nav-btn" type="button" onclick="stepQuestionPreview(-1)">◀ Back</button>
+				<button id="question-preview-next" class="preview-nav-btn" type="button" onclick="stepQuestionPreview(1)">Next ▶</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		const params = new URLSearchParams(window.location.search);
+		const subjectCode = params.get('subject') || 'ap1';
+		const examIdentity = params.get('exam') || '1';
+		const storageKey = `exam_results_${subjectCode}_${examIdentity}`;
+		const scoreRequirementKey = `${subjectCode}-${examIdentity}`;
+		let activeResultsPayload = null;
+		let previewState = { phase: 'MCQ', index: 1, total: 0 };
+		let activeScoreRequirements = null;
+		let celebrationClearTimer = null;
+
+		function clearCelebrationLayer() {
+			const layer = document.getElementById('celebration-layer');
+			if (!layer) return;
+			if (celebrationClearTimer) {
+				clearTimeout(celebrationClearTimer);
+				celebrationClearTimer = null;
+			}
+			layer.innerHTML = '';
+		}
+
+		function spawnConfetti(layer, config) {
+			const colors = ['#ff006e', '#ffbe0b', '#3a86ff', '#8338ec', '#06d6a0', '#fb5607', '#00f5ff', '#9ef01a'];
+			const count = config.count || 100;
+			const minDuration = config.minDuration || 1400;
+			const maxDuration = config.maxDuration || 2400;
+			const spreadMs = config.spreadMs || 900;
+
+			for (let i = 0; i < count; i += 1) {
+				const piece = document.createElement('span');
+				piece.className = 'confetti-piece';
+				piece.style.left = `${Math.random() * 100}vw`;
+				piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+				const width = 6 + Math.random() * 8;
+				const height = 8 + Math.random() * 12;
+				piece.style.width = `${width}px`;
+				piece.style.height = `${height}px`;
+				piece.style.borderRadius = Math.random() > 0.55 ? '999px' : `${1 + Math.random() * 3}px`;
+				piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+				piece.style.setProperty('--drift', `${(Math.random() * 320) - 160}px`);
+				const duration = minDuration + Math.random() * (maxDuration - minDuration);
+				piece.style.animationDuration = `${duration}ms`;
+				piece.style.animationDelay = `${Math.random() * spreadMs}ms`;
+				layer.appendChild(piece);
+
+				setTimeout(() => {
+					if (piece.parentNode) piece.parentNode.removeChild(piece);
+				}, duration + 500);
+			}
+		}
+
+		function spawnRaveLights(layer) {
+			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				return;
+			}
+
+			const washColors = ['#2ec4ff', '#5b8cff', '#7b61ff', '#b16cff', '#2dd4bf', '#6ee7ff', '#4f46e5', '#22d3ee', '#34d399', '#a78bfa', '#38bdf8', '#14b8a6'];
+			const dimmer = document.createElement('span');
+			dimmer.className = 'rave-light dimmer';
+			layer.appendChild(dimmer);
+
+			for (let i = 0; i < 10; i += 1) {
+				const wash = document.createElement('span');
+				wash.className = 'rave-light wash';
+				const c1 = washColors[Math.floor(Math.random() * washColors.length)];
+				const c2 = washColors[Math.floor(Math.random() * washColors.length)];
+				wash.style.background = `radial-gradient(circle at ${8 + ((i * 11) % 90)}% ${14 + ((i * 7) % 72)}%, ${c1} 0%, rgba(0,0,0,0) 52%), radial-gradient(circle at ${86 - ((i * 9) % 80)}% ${20 + ((i * 6) % 70)}%, ${c2} 0%, rgba(0,0,0,0) 50%)`;
+				wash.style.animationDelay = `${i * 220}ms`;
+				wash.style.animationDuration = `${3000 + (i * 180)}ms`;
+				layer.appendChild(wash);
+			}
+
+			for (let i = 0; i < 12; i += 1) {
+				const side = i % 2 === 0 ? -1 : 1;
+				const lane = Math.floor(i / 2);
+				const centerOffset = side * (1.8 + (lane * 2.9));
+				const spread = side * (16 + (lane * 6.8));
+
+				const leftBeam = document.createElement('span');
+				leftBeam.className = 'rave-light beam';
+				leftBeam.style.left = `calc(50vw - 15vw + ${centerOffset}vw)`;
+				leftBeam.style.background = `linear-gradient(to top, rgba(255,255,255,0.1) 0%, ${washColors[(i + 1) % washColors.length]} 36%, rgba(255,255,255,0.005) 100%), radial-gradient(ellipse at 50% 98%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 58%)`;
+				leftBeam.style.setProperty('--beam-start', `${side * (8 + (lane * 2.2))}deg`);
+				leftBeam.style.setProperty('--beam-end', `${side * (26 + (lane * 3.2))}deg`);
+				leftBeam.style.setProperty('--beam-drift', `${spread}vw`);
+				leftBeam.style.animationDelay = `${i * 210}ms`;
+				leftBeam.style.animationDuration = `${3000 + (i * 240)}ms`;
+				layer.appendChild(leftBeam);
+			}
+
+			const centerX = 50;
+			const centerY = 48;
+			for (let i = 0; i < 18; i += 1) {
+				const orb = document.createElement('span');
+				orb.className = 'rave-light orb';
+				const angle = (i / 18) * Math.PI * 2;
+				const radiusX = 22 + ((i % 4) * 4);
+				const radiusY = 14 + ((i % 5) * 2.5);
+				const x = centerX + (Math.cos(angle) * radiusX);
+				const y = centerY + (Math.sin(angle) * radiusY);
+				orb.style.left = `${x}vw`;
+				orb.style.top = `${y}vh`;
+				orb.style.background = `radial-gradient(circle, rgba(255,255,255,0.24) 0%, ${washColors[i % washColors.length]} 34%, rgba(0,0,0,0) 72%)`;
+				orb.style.animationDelay = `${160 + (i * 110)}ms`;
+				orb.style.animationDuration = `${3000 + ((i % 6) * 200)}ms`;
+				layer.appendChild(orb);
+			}
+
+			for (let i = 0; i < 5; i += 1) {
+				const flare = document.createElement('span');
+				flare.className = 'rave-light flare';
+				flare.style.left = `${10 + (Math.random() * 80)}vw`;
+				flare.style.top = `${18 + (Math.random() * 56)}vh`;
+				flare.style.background = `radial-gradient(circle, rgba(255,255,255,0.42) 0%, ${washColors[Math.floor(Math.random() * washColors.length)]} 28%, rgba(0,0,0,0) 70%)`;
+				flare.style.animationDelay = `${420 + (i * 260)}ms`;
+				flare.style.animationDuration = `${2200 + (Math.random() * 320)}ms`;
+				layer.appendChild(flare);
+			}
+		}
+
+		function playScoreCelebration(score) {
+			const layer = document.getElementById('celebration-layer');
+			if (!layer) return;
+
+			clearCelebrationLayer();
+
+			if (score === 4) {
+				spawnConfetti(layer, { count: 110, minDuration: 2200, maxDuration: 4300, spreadMs: 1400 });
+				celebrationClearTimer = setTimeout(() => {
+					clearCelebrationLayer();
+				}, 5000);
+				return;
+			}
+
+			if (score === 5) {
+				spawnConfetti(layer, { count: 180, minDuration: 2600, maxDuration: 5200, spreadMs: 1800 });
+				setTimeout(() => {
+					spawnConfetti(layer, { count: 120, minDuration: 2400, maxDuration: 4800, spreadMs: 1600 });
+				}, 520);
+				spawnRaveLights(layer);
+				celebrationClearTimer = setTimeout(() => {
+					clearCelebrationLayer();
+				}, 9800);
+			}
+		}
+
+		function loadScoreRequirementsConfig() {
+			return new Promise((resolve) => {
+				const extrasPath = `${subjectCode}/${subjectCode}-practice-exam-frq-extras/${subjectCode}-practice-exam-${examIdentity}-extras.js`;
+				const script = document.createElement('script');
+				script.src = extrasPath;
+				script.async = true;
+
+				script.onload = () => {
+					const allConfigs = window.practiceExamScoreRequirements || {};
+					activeScoreRequirements = allConfigs[scoreRequirementKey] || null;
+					resolve();
+				};
+
+				script.onerror = () => {
+					activeScoreRequirements = null;
+					resolve();
+				};
+
+				document.head.appendChild(script);
+			});
+		}
+
+		function loadResultsPayload() {
+			const raw = localStorage.getItem(storageKey);
+			if (!raw) return null;
+			try {
+				return JSON.parse(raw);
+			} catch (_err) {
+				return null;
+			}
+		}
+
+		function renderScoreRequirementsTooltip() {
+			const contentNode = document.getElementById('score-req-tooltip-content');
+			if (!contentNode) return;
+
+			const bands = activeScoreRequirements && Array.isArray(activeScoreRequirements.scoreBands)
+				? activeScoreRequirements.scoreBands
+				: [];
+
+			if (!bands.length) {
+				contentNode.innerHTML = '<div class="score-req-tooltip-empty">No score requirements found for this exam.</div>';
+				return;
+			}
+
+			const rows = bands
+				.filter((band) => band && Number.isFinite(band.score))
+				.sort((a, b) => b.score - a.score)
+				.map((band) => {
+					const minPoints = Number.isFinite(band.minPoints) ? band.minPoints : null;
+					const maxPoints = Number.isFinite(band.maxPoints) ? band.maxPoints : null;
+
+					let rangeText = 'Any points';
+					if (minPoints !== null && maxPoints !== null) {
+						rangeText = `${minPoints}-${maxPoints}`;
+					} else if (minPoints !== null) {
+						rangeText = `${minPoints}+`;
+					} else if (maxPoints !== null) {
+						rangeText = `0-${maxPoints}`;
+					}
+
+					return `<tr><td>${band.score}</td><td>${rangeText}</td></tr>`;
+				});
+
+			contentNode.innerHTML = `
+				<table class="score-req-tooltip-table" aria-label="Score requirements table">
+					<thead>
+						<tr><th>Score</th><th>Points</th></tr>
+					</thead>
+					<tbody>${rows.join('')}</tbody>
+				</table>
+			`;
+		}
+
+		function renderRing(score) {
+			const progress = document.getElementById('score-progress');
+			const value = document.getElementById('score-value');
+			const radius = Number(progress.getAttribute('r')) || 74;
+			const circumference = 2 * Math.PI * radius;
+			progress.style.strokeDasharray = `${circumference}`;
+			progress.style.strokeDashoffset = `${circumference}`;
+
+			if (!Number.isFinite(score)) {
+				value.innerText = '-';
+				return;
+			}
+
+			const clampedScore = Math.max(1, Math.min(5, score));
+			const targetFraction = clampedScore / 5;
+			const targetOffset = circumference * (1 - targetFraction);
+			const durationMs = 750;
+			const startOffset = circumference;
+			const animationStart = performance.now();
+
+			value.innerText = clampedScore;
+
+			function tick(now) {
+				const elapsed = now - animationStart;
+				const progressRatio = Math.min(1, elapsed / durationMs);
+				const eased = 1 - Math.pow(1 - progressRatio, 3); // ease-out cubic
+				const currentOffset = startOffset - ((startOffset - targetOffset) * eased);
+				progress.style.strokeDashoffset = `${currentOffset}`;
+				if (progressRatio < 1) requestAnimationFrame(tick);
+			}
+
+			requestAnimationFrame(tick);
+		}
+
+		function getPreviewQuestionList(phase) {
+			if (!activeResultsPayload) return [];
+			if (phase === 'FRQ') return (activeResultsPayload.frq && activeResultsPayload.frq.questions) || [];
+			return (activeResultsPayload.mcq && activeResultsPayload.mcq.questions) || [];
+		}
+
+		function buildPreviewUrl(phase, questionIndex, selectedOption, crossedOutOptions) {
+			const selectedParam = Number.isInteger(selectedOption)
+				? `&selected=${encodeURIComponent(selectedOption)}`
+				: '';
+			const crossedList = Array.isArray(crossedOutOptions)
+				? crossedOutOptions.filter((value) => Number.isInteger(value) && value >= 0)
+				: [];
+			const crossedParam = crossedList.length
+				? `&crossed=${encodeURIComponent(crossedList.join(','))}`
+				: '';
+			return `practice-exam-session.html?subject=${encodeURIComponent(subjectCode)}&exam=${encodeURIComponent(examIdentity)}&view=question&phase=${encodeURIComponent(phase)}&q=${encodeURIComponent(questionIndex)}${selectedParam}${crossedParam}`;
+		}
+
+		function syncPreviewChrome() {
+			const label = document.getElementById('question-preview-label');
+			const prevBtn = document.getElementById('question-preview-prev');
+			const nextBtn = document.getElementById('question-preview-next');
+			if (!label || !prevBtn || !nextBtn) return;
+
+			const questions = getPreviewQuestionList(previewState.phase);
+			const activeQuestion = questions[previewState.index - 1] || null;
+			const flaggedMarkup = activeQuestion && activeQuestion.flagged
+				? '<span class="preview-flag-indicator" aria-label="Marked for review">⚐</span>'
+				: '';
+
+			label.innerHTML = `Question ${previewState.index}${flaggedMarkup}`;
+			prevBtn.disabled = previewState.index <= 1;
+			nextBtn.disabled = previewState.index >= previewState.total;
+		}
+
+		function stepQuestionPreview(step) {
+			const frame = document.getElementById('question-preview-frame');
+			if (!frame) return;
+
+			const nextIndex = previewState.index + step;
+			if (nextIndex < 1 || nextIndex > previewState.total) return;
+
+			const questions = getPreviewQuestionList(previewState.phase);
+			const question = questions[nextIndex - 1] || null;
+			previewState.index = nextIndex;
+			syncPreviewChrome();
+			frame.src = buildPreviewUrl(
+				previewState.phase,
+				nextIndex,
+				question ? question.selectedOption : null,
+				question ? question.crossedOutOptions : []
+			);
+		}
+
+		function openQuestionPreview(phase, questionIndex, selectedOption, crossedOutOptions) {
+			const overlay = document.getElementById('question-preview-overlay');
+			const frame = document.getElementById('question-preview-frame');
+			if (!overlay || !frame) return;
+
+			const normalizedPhase = String(phase || 'MCQ').toUpperCase() === 'FRQ' ? 'FRQ' : 'MCQ';
+			const questions = getPreviewQuestionList(normalizedPhase);
+			previewState.phase = normalizedPhase;
+			previewState.total = questions.length || Math.max(1, questionIndex);
+			previewState.index = Math.max(1, Math.min(previewState.total, questionIndex));
+			syncPreviewChrome();
+
+			const firstQuestion = questions[previewState.index - 1] || null;
+			frame.src = buildPreviewUrl(
+				normalizedPhase,
+				previewState.index,
+				firstQuestion ? firstQuestion.selectedOption : selectedOption,
+				firstQuestion ? firstQuestion.crossedOutOptions : crossedOutOptions
+			);
+			overlay.style.display = 'flex';
+		}
+
+		function closeQuestionPreview(event) {
+			if (event && event.target && event.target.id && event.target.id !== 'question-preview-overlay') {
+				return;
+			}
+			const overlay = document.getElementById('question-preview-overlay');
+			const frame = document.getElementById('question-preview-frame');
+			if (overlay) overlay.style.display = 'none';
+			if (frame) frame.src = 'about:blank';
+			previewState = { phase: 'MCQ', index: 1, total: 0 };
+		}
+
+		function renderQuestionGrid(containerId, questions, phase) {
+			const container = document.getElementById(containerId);
+			container.innerHTML = '';
+
+			(questions || []).forEach((question) => {
+				const cell = document.createElement('button');
+				const state = question.state || 'unanswered';
+				cell.type = 'button';
+				cell.className = `q-cell ${state}${question.flagged ? ' flagged' : ''}`;
+				cell.innerText = question.index;
+				cell.onclick = () => openQuestionPreview(phase, question.index, question.selectedOption, question.crossedOutOptions || []);
+				container.appendChild(cell);
+			});
+		}
+
+		function renderUnitBreakdown(units, frqQuestions) {
+			const frqTypeByQuestion = {
+				1: 'Mathematical Routines',
+				2: 'Translation Between Representations',
+				3: 'Experimental Design and Analysis',
+				4: 'Qualitative/Quantitative Translation'
+			};
+
+			const list = document.getElementById('mcq-units-list');
+			const empty = document.getElementById('mcq-units-empty');
+			const frqList = document.getElementById('frq-scores-list');
+			const frqEmpty = document.getElementById('frq-scores-empty');
+			list.innerHTML = '';
+			frqList.innerHTML = '';
+
+			if (!Array.isArray(units) || !units.length) {
+				empty.style.display = 'block';
+			} else {
+				empty.style.display = 'none';
+				units
+					.slice()
+					.sort((a, b) => a.unit.localeCompare(b.unit))
+					.forEach((item) => {
+						const li = document.createElement('li');
+						li.innerHTML = `<span class="unit-label">${item.unit}</span><span class="unit-score">${item.correct} / ${item.total}</span>`;
+						list.appendChild(li);
+					});
+			}
+
+			if (!Array.isArray(frqQuestions) || !frqQuestions.length) {
+				frqEmpty.style.display = 'block';
+				return;
+			}
+
+			frqEmpty.style.display = 'none';
+			frqQuestions.forEach((item) => {
+				const li = document.createElement('li');
+				const questionType = frqTypeByQuestion[item.index] || 'Free-Response';
+				li.innerHTML = `<span class="unit-label">Question ${item.index}: ${questionType}</span><span class="unit-score">${item.earned} / ${item.max}</span>`;
+				frqList.appendChild(li);
+			});
+		}
+
+		function renderFeedback(payload) {
+			const feedbackNode = document.getElementById('feedback-content');
+			const extraNode = document.getElementById('extra-feedback');
+
+			if (!payload) {
+				feedbackNode.innerHTML = '<p>No saved exam results were found for this attempt.</p>';
+				extraNode.innerHTML = '<p>Take one more practice exam in this course to generate personalized feedback.</p>';
+				return;
+			}
+
+			const units = Array.isArray(payload.units) ? payload.units : [];
+			const sortedByPercent = units.slice().sort((a, b) => a.percent - b.percent);
+			const weakest = sortedByPercent[0];
+			const strongest = sortedByPercent[sortedByPercent.length - 1];
+
+			const mcqPct = payload.mcq && Number.isFinite(payload.mcq.percent) ? payload.mcq.percent : 0;
+			const frqPct = payload.frq && Number.isFinite(payload.frq.percent) ? payload.frq.percent : 0;
+
+			feedbackNode.innerHTML = `
+				<p>Your strongest MCQ unit was <strong>${strongest ? strongest.unit : 'N/A'}</strong>${strongest ? ` (${strongest.correct}/${strongest.total})` : ''}.</p>
+				<p>Your weakest MCQ unit was <strong>${weakest ? weakest.unit : 'N/A'}</strong>.</p>
+			`;
+
+			extraNode.innerHTML = `
+				<p>Take one more practice exam in this course to receive additional feedback.</p>
+			`;
+		}
+
+		function deriveEstimatedScoreFromRequirements(payload) {
+			if (!payload) return null;
+
+			const mcqPoints = payload.mcq && Number.isFinite(payload.mcq.correct)
+				? payload.mcq.correct
+				: null;
+			const frqPoints = payload.frq && Number.isFinite(payload.frq.earned)
+				? payload.frq.earned
+				: null;
+
+			if (mcqPoints === null || frqPoints === null) {
+				return Number.isFinite(payload.estimatedScore) ? payload.estimatedScore : null;
+			}
+
+			const totalPointsEarned = mcqPoints + frqPoints;
+
+			const bands = activeScoreRequirements && Array.isArray(activeScoreRequirements.scoreBands)
+				? activeScoreRequirements.scoreBands
+				: null;
+
+			if (!bands || bands.length === 0) {
+				return Number.isFinite(payload.estimatedScore) ? payload.estimatedScore : null;
+			}
+
+			const matchedBand = bands.find((band) => {
+				if (!band || !Number.isFinite(band.score)) return false;
+				const minPoints = Number.isFinite(band.minPoints) ? band.minPoints : Number.NEGATIVE_INFINITY;
+				const maxPoints = Number.isFinite(band.maxPoints) ? band.maxPoints : Number.POSITIVE_INFINITY;
+				return totalPointsEarned >= minPoints && totalPointsEarned <= maxPoints;
+			});
+
+			if (matchedBand) {
+				return Math.max(1, Math.min(5, Math.round(matchedBand.score)));
+			}
+
+			return Number.isFinite(payload.estimatedScore) ? payload.estimatedScore : null;
+		}
+
+		function renderPage() {
+			const payload = loadResultsPayload();
+			activeResultsPayload = payload;
+			const title = document.getElementById('results-page-title');
+			title.innerText = `Exam Results - ${subjectCode.toUpperCase()} Test ${examIdentity}`;
+
+			if (!payload) {
+				renderRing(null);
+				clearCelebrationLayer();
+				document.getElementById('raw-mcq').innerText = '- / -';
+				document.getElementById('raw-frq').innerText = '- / -';
+				document.getElementById('composite-pct').innerText = '-%';
+				renderQuestionGrid('mcq-bank-grid', [], 'MCQ');
+				renderQuestionGrid('frq-bank-grid', [], 'FRQ');
+				renderUnitBreakdown([], []);
+				renderFeedback(null);
+				return;
+			}
+
+			const resolvedEstimatedScore = deriveEstimatedScoreFromRequirements(payload);
+			renderRing(resolvedEstimatedScore);
+			if (resolvedEstimatedScore === 4 || resolvedEstimatedScore === 5) {
+				playScoreCelebration(resolvedEstimatedScore);
+			} else {
+				clearCelebrationLayer();
+			}
+			document.getElementById('raw-mcq').innerText = `${payload.mcq.correct} / ${payload.mcq.total}`;
+			document.getElementById('raw-frq').innerText = `${payload.frq.earned} / ${payload.frq.max}`;
+			document.getElementById('composite-pct').innerText = `${payload.compositePercent}%`;
+
+			renderQuestionGrid('mcq-bank-grid', payload.mcq.questions || [], 'MCQ');
+			renderQuestionGrid('frq-bank-grid', payload.frq.questions || [], 'FRQ');
+			renderUnitBreakdown(payload.units || [], (payload.frq && payload.frq.questions) || []);
+			renderFeedback(payload);
+		}
+
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape') closeQuestionPreview();
+		});
+
+		loadScoreRequirementsConfig().then(() => {
+			renderScoreRequirementsTooltip();
+			renderPage();
+		});
+	</script>
+</body>
+</html>

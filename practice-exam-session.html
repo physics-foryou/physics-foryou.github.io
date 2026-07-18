@@ -9,6 +9,11 @@
     
     <script>
         (function() {
+            const viewMode = new URLSearchParams(window.location.search).get('view');
+            if (viewMode === 'question') {
+                document.documentElement.classList.add('question-preview-mode');
+            }
+
             const themes = {
                 navy: { bg: "#eef2f5", panel: "#ffffff", header: "#1b2a47", text: "#1c2533", dim: "#626f80", border: "rgba(0,0,0,0.15)", selBg: "#1b2a47", selText: "#ffffff" },
                 dark: { bg: "#1c1a27", panel: "#2f2b42", header: "#3c3957", text: "#d1d2d6", dim: "#9ba1a6", border: "#4e4a6e", selBg: "#d1d2d6", selText: "#1c1a27" },
@@ -71,6 +76,10 @@
             cursor: col-resize;
         }
 
+        .question-preview-mode body {
+            padding: 0;
+        }
+
         .full-width-top-strip {
             width: 100%;
             background-color: var(--header-bg);
@@ -78,6 +87,20 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
             margin-bottom: 30px;
             box-sizing: border-box;
+        }
+
+        .question-preview-mode .full-width-top-strip {
+            display: none !important;
+        }
+
+        .question-preview-mode #welcome-modal-overlay,
+        .question-preview-mode #screen-pause-overlay,
+        .question-preview-mode #break-screen-overlay,
+        .question-preview-mode #submission-loading-overlay,
+        .question-preview-mode #submission-success-overlay,
+        .question-preview-mode .footer-belt,
+        .question-preview-mode #dropup-navigation-wrapper {
+            display: none !important;
         }
 
         .top-strip-inner-grid {
@@ -207,6 +230,42 @@
             padding: 0 20px;
             box-sizing: border-box;
             transition: max-width 0.3s ease;
+        }
+
+        .question-preview-mode #master-workspace-container {
+            max-width: none !important;
+            width: 100% !important;
+            height: 100vh;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box;
+        }
+
+        .question-preview-mode #master-workspace-container .panel {
+            width: 100%;
+            height: 100vh;
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-preview-mode #master-workspace-container .panel-header {
+            display: none !important;
+        }
+
+        .question-preview-mode #master-workspace-container .panel.resizable-question-shell {
+            left: 0;
+            transform: none;
+            width: 100% !important;
+            height: 100vh !important;
+        }
+
+        .question-preview-mode #question-panel-content {
+            flex: 1 1 auto;
+            min-height: 0;
         }
 
         .workspace-wrapper.mcq-split-active {
@@ -482,6 +541,18 @@
         .header-action-toggle:hover {
             color: var(--panel-bg);
         }
+
+        .question-preview-mode .header-action-toggle,
+        .question-preview-mode #review-flag-trigger {
+            pointer-events: none !important;
+            cursor: default !important;
+        }
+
+        .question-preview-mode .header-action-toggle:hover,
+        .question-preview-mode #review-flag-trigger:hover {
+            color: rgba(255, 255, 255, 0.75) !important;
+        }
+
         .header-action-toggle.flagged-active {
             color: var(--flag-red) !important;
         }
@@ -547,6 +618,32 @@
         .choice-btn:hover { 
             background-color: rgba(0,0,0,0.06); 
         }
+
+        .question-preview-mode .choice-btn {
+            pointer-events: none !important;
+            cursor: default !important;
+        }
+
+        .question-preview-mode .choice-btn:hover {
+            background-color: transparent !important;
+        }
+
+        .question-preview-mode .choice-btn.selected:hover {
+            background-color: rgba(0,0,0,0.12) !important;
+        }
+
+        .choice-strike-indicator {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1;
+            pointer-events: none;
+        }
+
         .choice-btn.selected { 
             border-color: var(--text-main) !important; 
             background-color: rgba(0,0,0,0.12) !important; 
@@ -1716,7 +1813,7 @@
         <div id="ref-ap1" class="course-ref-container" style="display: flex; flex-direction: column; flex-grow: 1; overflow: hidden;">
             <div class="drawer-page-toggle">
                 <button id="btn-page-1" class="toggle-page-btn active" onclick="switchRefPage(1, 'ap1')">Table of Information</button>
-                <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2, 'ap1')">Mechanics & Fluids</button>
+                <button id="btn-page-2" class="toggle-page-btn" onclick="switchRefPage(2, 'ap1')">Equations</button>
             </div>
 
             <div class="drawer-scroll-body tex2jax_process">
@@ -1836,7 +1933,7 @@
 
                 <div id="ref-page-2" class="ref-page-content">
                     <h2 style="font-size: 14px; text-align: center; margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--header-bg); padding-bottom: 10px; font-weight: bold;">
-                        MECHANICS & FLUIDS EQUATIONS
+                        AP PHYSICS 1 EQUATIONS
                     </h2>
                     <div class="official-two-col-container">
                         <div class="equations-column">
@@ -3043,7 +3140,7 @@
             </div>
 
             <div class="submission-footer-belt">
-                <button class="action-btn" type="button" onclick="returnToHomePage()">Finish</button>
+                <button class="action-btn" type="button" onclick="finishSubmissionAndShowResults()">Finish</button>
             </div>
         </div>
 
@@ -3074,9 +3171,15 @@
         const searchParameters = new URLSearchParams(window.location.search);
         const subjectCode = searchParameters.get('subject') || 'ap1';
         const examIdentity = searchParameters.get('exam') || '1';
+        const directViewMode = (searchParameters.get('view') || '').toLowerCase();
+        const deepLinkPhaseParam = (searchParameters.get('phase') || '').toUpperCase();
+        const deepLinkQuestionParam = parseInt(searchParameters.get('q') || '', 10);
+        const deepLinkSelectedOptionParam = parseInt(searchParameters.get('selected') || '', 10);
+        const deepLinkCrossedParam = searchParameters.get('crossed') || '';
         const mapAlphaIntegerWord = ["Zero", "One", "Two", "Three", "Four", "Five"];
 
         const localStorageStateKey = `exam_state_${subjectCode}_${examIdentity}`;
+        const examResultsStorageKey = `exam_results_${subjectCode}_${examIdentity}`;
 
         // Phase Tracking Setup
         let currentActivePhase = 'MCQ'; // 'MCQ' or 'FRQ'
@@ -3115,7 +3218,7 @@
                 1: { A: 7, B: 3 },
                 2: { A: 3, B: 4, C: 3, D: 2 },
                 3: { A: 2, B: 2, C: 3, D: 3 },
-                4: { A: 3, B: 3, C: 3 }
+                4: { A: 3, B: 3, C: 2 }
             }
         };
 
@@ -3123,6 +3226,8 @@
         let activeSubmissionQuestionTabIndex = 0;
         let activeSubmissionRubricTabIndex = 0;
         let submissionPartScores = {};
+        let suppressWelcomeModalForDeepLink = false;
+        let isReadOnlyQuestionPreviewMode = false;
 
         let questionPanelSizingState = { width: null, height: null };
         
@@ -3276,6 +3381,7 @@
             examinationPool = poolMCQ;
 
             loadSavedExamProgressState();
+            applyDirectQuestionLinkOverrides();
             startSessionTimerLoop();
             generateMatrices();
             
@@ -3287,11 +3393,51 @@
             }
         }
 
+        function applyDirectQuestionLinkOverrides() {
+            if (directViewMode !== 'question') return;
+
+            const normalizedPhase = deepLinkPhaseParam === 'FRQ' ? 'FRQ' : 'MCQ';
+            const targetPool = normalizedPhase === 'FRQ' ? poolFRQ : poolMCQ;
+            if (!Array.isArray(targetPool) || targetPool.length === 0) return;
+
+            const requestedIndex = Number.isFinite(deepLinkQuestionParam) ? deepLinkQuestionParam - 1 : 0;
+            const clampedIndex = Math.max(0, Math.min(targetPool.length - 1, requestedIndex));
+
+            currentActivePhase = normalizedPhase;
+            examinationPool = targetPool;
+            currentProblemIndex = clampedIndex;
+            suppressWelcomeModalForDeepLink = true;
+            isReadOnlyQuestionPreviewMode = true;
+
+            if (
+                normalizedPhase === 'MCQ' &&
+                Number.isInteger(deepLinkSelectedOptionParam) &&
+                deepLinkSelectedOptionParam >= 0
+            ) {
+                catalogedUserResponses[clampedIndex] = deepLinkSelectedOptionParam;
+            }
+
+            if (normalizedPhase === 'MCQ' && deepLinkCrossedParam) {
+                const recoveredCrossed = deepLinkCrossedParam
+                    .split(',')
+                    .map((token) => parseInt(token, 10))
+                    .filter((idx) => Number.isInteger(idx) && idx >= 0);
+                optionCrossoutMatrix[clampedIndex] = Array.from(new Set(recoveredCrossed));
+            }
+
+            const welcomeOverlay = document.getElementById('welcome-modal-overlay');
+            if (welcomeOverlay) welcomeOverlay.style.display = 'none';
+
+            const headerStrip = document.querySelector('.full-width-top-strip');
+            if (headerStrip) headerStrip.style.display = 'none';
+        }
+
         remoteScriptAsset.onerror = frqScriptAsset.onerror = function() {
             document.getElementById('target-question-box').innerText = `Failed to load integrated script assets references.`;
         };
 
         function saveActiveExamProgressState() {
+            if (isReadOnlyQuestionPreviewMode) return;
             try {
                 const packagedData = {
                     currentPhase: currentActivePhase,
@@ -3450,6 +3596,7 @@
         }
 
         function startSessionTimerLoop() {
+            if (isReadOnlyQuestionPreviewMode) return;
             if (processingTickerInterval) clearInterval(processingTickerInterval);
             processingTickerInterval = setInterval(() => {
                 if (isTimerPausedActive) return;
@@ -3734,6 +3881,7 @@
         }
 
         function toggleDropupMatrixNavigationView(event) {
+            if (isReadOnlyQuestionPreviewMode) return;
             if (event) event.stopPropagation();
             isDropupMatrixOpen = !isDropupMatrixOpen;
             const dropupPanel = document.getElementById('dropup-nav-matrix-panel');
@@ -3765,6 +3913,10 @@
         };
 
         function showReviewScreen() {
+            if (isReadOnlyQuestionPreviewMode) {
+                renderTargetQuestionBlock();
+                return;
+            }
             isDropupMatrixOpen = false;
             document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
             
@@ -3932,6 +4084,7 @@
             };
 
             const bindQuestionPanelResizeInteractions = () => {
+                if (isReadOnlyQuestionPreviewMode) return;
                 if (!questionShellNode || questionShellNode.dataset.resizeBound === 'true') return;
 
                 const extractClientPoint = (evt) => {
@@ -4129,20 +4282,32 @@
                         choiceHTML += `<div class="choice-diagram-wrap" style="margin-top: 10px;">${choiceDiagram}</div>`;
                     }
                     targetBtnNode.innerHTML = choiceHTML;
-                    
-                    targetBtnNode.onclick = () => selectTargetOptionIndex(stringIdx);
-                    
-                    targetBtnNode.oncontextmenu = (event) => {
-                        event.preventDefault();
-                        toggleIndividualOptionElimination(stringIdx);
-                    };
+
+                    if (isReadOnlyQuestionPreviewMode) {
+                        targetBtnNode.disabled = true;
+                        targetBtnNode.style.cursor = 'default';
+                    } else {
+                        targetBtnNode.onclick = () => selectTargetOptionIndex(stringIdx);
+
+                        targetBtnNode.oncontextmenu = (event) => {
+                            event.preventDefault();
+                            toggleIndividualOptionElimination(stringIdx);
+                        };
+                    }
 
                     if (catalogedUserResponses[currentProblemIndex] === stringIdx) {
                         targetBtnNode.classList.add('selected');
                     }
                     const currentCrossouts = optionCrossoutMatrix[currentProblemIndex] || [];
                     if (currentCrossouts.includes(stringIdx)) {
-                        choiceWrapperNode.classList.add('eliminated');
+                        if (isReadOnlyQuestionPreviewMode) {
+                            const strikeIndicator = document.createElement('span');
+                            strikeIndicator.className = 'choice-strike-indicator';
+                            strikeIndicator.innerText = 'Ꞩ';
+                            targetBtnNode.appendChild(strikeIndicator);
+                        } else {
+                            choiceWrapperNode.classList.add('eliminated');
+                        }
                     }
 
                     choiceWrapperNode.appendChild(targetBtnNode);
@@ -4202,17 +4367,19 @@
             ensureResizableQuestionPanel();
 
             document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ${isDropupMatrixOpen ? '▾' : '▴'}`;
-            
-            document.getElementById('footer-prev-btn').disabled = currentProblemIndex === 0;
-            document.getElementById('footer-prev-btn').onclick = () => changeActiveQuestion(-1);
-            
-            const nextBtn = document.getElementById('footer-next-btn');
-            if (currentProblemIndex === examinationPool.length - 1) {
-                nextBtn.innerText = 'Review';
-            } else {
-                nextBtn.innerText = 'Next ▶';
+
+            if (!isReadOnlyQuestionPreviewMode) {
+                document.getElementById('footer-prev-btn').disabled = currentProblemIndex === 0;
+                document.getElementById('footer-prev-btn').onclick = () => changeActiveQuestion(-1);
+
+                const nextBtn = document.getElementById('footer-next-btn');
+                if (currentProblemIndex === examinationPool.length - 1) {
+                    nextBtn.innerText = 'Review';
+                } else {
+                    nextBtn.innerText = 'Next ▶';
+                }
+                nextBtn.onclick = () => changeActiveQuestion(1);
             }
-            nextBtn.onclick = () => changeActiveQuestion(1);
 
             updateConsoleMatrixHighlights();
 
@@ -4224,6 +4391,7 @@
         }
 
         function selectTargetOptionIndex(optionIdx) {
+            if (isReadOnlyQuestionPreviewMode) return;
             const currentCrossouts = optionCrossoutMatrix[currentProblemIndex] || [];
             if (currentCrossouts.includes(optionIdx)) return;
             catalogedUserResponses[currentProblemIndex] = optionIdx;
@@ -4242,6 +4410,7 @@
         }
 
         function toggleIndividualOptionElimination(choiceOptionIdx) {
+            if (isReadOnlyQuestionPreviewMode) return;
             if (!Array.isArray(optionCrossoutMatrix[currentProblemIndex])) {
                 optionCrossoutMatrix[currentProblemIndex] = [];
             }
@@ -4276,6 +4445,7 @@
         }
 
         function toggleQuestionReviewMark() {
+            if (isReadOnlyQuestionPreviewMode) return;
             const activeFlags = (currentActivePhase === 'MCQ') ? markedReviewMatrix : markedFRQReviewMatrix;
             activeFlags[currentProblemIndex] = !activeFlags[currentProblemIndex];
             renderTargetQuestionBlock();
@@ -4283,6 +4453,7 @@
         }
 
         function changeActiveQuestion(directionValue) {
+            if (isReadOnlyQuestionPreviewMode) return;
             currentProblemIndex += directionValue;
             if (currentProblemIndex >= examinationPool.length) {
                 currentProblemIndex = examinationPool.length; 
@@ -4318,6 +4489,7 @@
                 cellElementNode.appendChild(flagIndicator);
 
                 cellElementNode.onclick = (event) => {
+                    if (isReadOnlyQuestionPreviewMode) return;
                     event.stopPropagation();
                     currentProblemIndex = stepIndex;
                     renderTargetQuestionBlock();
@@ -4346,10 +4518,12 @@
         }
 
         function closeWelcomeInstructionsModal() {
+            if (isReadOnlyQuestionPreviewMode) return;
             document.getElementById('welcome-modal-overlay').style.display = 'none';
         }
 
         function terminateActiveSessionInstance() {
+            if (isReadOnlyQuestionPreviewMode) return;
             // Instantly clear saved progress and halt the main timer
             clearInterval(processingTickerInterval);
             
@@ -4358,6 +4532,7 @@
         }
 
         function startBreakSequence() {
+            if (isReadOnlyQuestionPreviewMode) return;
             document.getElementById('break-screen-overlay').style.display = 'flex';
             breakCountdownSeconds = 600; // 10 minute break
             
@@ -4378,6 +4553,7 @@
         }
 
         function startFRQSection() {
+            if (isReadOnlyQuestionPreviewMode) return;
             if (breakTimerInterval) {
                 clearInterval(breakTimerInterval);
             }
@@ -4402,7 +4578,12 @@
             document.getElementById('elimination-badge-tip').style.display = 'none';
 
             applyInstructionsToModal('frq');
-            document.getElementById('welcome-modal-overlay').style.display = 'flex';
+            if (suppressWelcomeModalForDeepLink) {
+                const welcomeOverlay = document.getElementById('welcome-modal-overlay');
+                if (welcomeOverlay) welcomeOverlay.style.display = 'none';
+            } else {
+                document.getElementById('welcome-modal-overlay').style.display = 'flex';
+            }
 
             generateMatrices();
             if (currentProblemIndex >= examinationPool.length) showReviewScreen();
@@ -4410,6 +4591,7 @@
         }
 
         function executeFinalSubmissionRedirect() {
+            if (isReadOnlyQuestionPreviewMode) return;
             clearInterval(processingTickerInterval);
             if (breakTimerInterval) clearInterval(breakTimerInterval);
             clearSavedExamProgressState();
@@ -4748,8 +4930,159 @@
             if (overlay) overlay.style.display = 'none';
         }
 
-        function returnToHomePage() {
-            window.location.href = 'home-page.html';
+        function buildAndStoreExamResultsPayload() {
+            const mcqQuestions = Array.isArray(poolMCQ) ? poolMCQ : [];
+            const frqQuestions = Array.isArray(poolFRQ) ? poolFRQ : [];
+
+            let mcqCorrect = 0;
+            let mcqWrong = 0;
+            let mcqUnanswered = 0;
+            let mcqMarkedForReview = 0;
+
+            const unitBreakdownMap = {};
+            const mcqQuestionStates = mcqQuestions.map((question, idx) => {
+                const userAnswer = Number.isInteger(catalogedUserResponses[idx])
+                    ? catalogedUserResponses[idx]
+                    : null;
+                const isCorrect = userAnswer !== null && userAnswer === question.correctIndex;
+                const isFlagged = !!markedReviewMatrix[idx];
+
+                let state = 'unanswered';
+                if (userAnswer === null) {
+                    mcqUnanswered++;
+                } else if (isCorrect) {
+                    state = 'correct';
+                    mcqCorrect++;
+                } else {
+                    state = 'wrong';
+                    mcqWrong++;
+                }
+
+                if (isFlagged) mcqMarkedForReview++;
+
+                const primaryUnit = ((question.unit || 'Uncategorized').split('+')[0] || 'Uncategorized').trim();
+                if (!unitBreakdownMap[primaryUnit]) {
+                    unitBreakdownMap[primaryUnit] = { total: 0, correct: 0 };
+                }
+                unitBreakdownMap[primaryUnit].total += 1;
+                if (isCorrect) unitBreakdownMap[primaryUnit].correct += 1;
+
+                return {
+                    index: idx + 1,
+                    state,
+                    flagged: isFlagged,
+                    selectedOption: userAnswer,
+                    crossedOutOptions: Array.isArray(optionCrossoutMatrix[idx])
+                        ? optionCrossoutMatrix[idx]
+                            .filter((value) => Number.isInteger(value) && value >= 0)
+                            .slice()
+                            .sort((a, b) => a - b)
+                        : []
+                };
+            });
+
+            const frqQuestionStates = [];
+            let frqEarnedTotal = 0;
+            let frqMaxTotal = 0;
+
+            frqQuestions.forEach((question, idx) => {
+                const totals = getSubmissionQuestionTotals(question, idx);
+                frqEarnedTotal += totals.earnedPoints;
+                frqMaxTotal += totals.maxPoints;
+
+                const hasScoredPart = !!(submissionPartScores[idx] && Object.keys(submissionPartScores[idx]).length);
+                const isFlagged = !!markedFRQReviewMatrix[idx];
+                let state = 'unanswered';
+                if (hasScoredPart) {
+                    state = (totals.maxPoints > 0 && totals.earnedPoints === totals.maxPoints) ? 'correct' : 'wrong';
+                }
+
+                frqQuestionStates.push({
+                    index: idx + 1,
+                    state,
+                    flagged: isFlagged,
+                    earned: totals.earnedPoints,
+                    max: totals.maxPoints
+                });
+            });
+
+            const unitBreakdown = Object.keys(unitBreakdownMap).map((unitName) => {
+                const item = unitBreakdownMap[unitName];
+                return {
+                    unit: unitName,
+                    correct: item.correct,
+                    total: item.total,
+                    percent: item.total > 0 ? Math.round((item.correct / item.total) * 100) : 0
+                };
+            });
+
+            const mcqPercent = mcqQuestions.length > 0
+                ? Math.round((mcqCorrect / mcqQuestions.length) * 100)
+                : 0;
+            const frqPercent = frqMaxTotal > 0
+                ? Math.round((frqEarnedTotal / frqMaxTotal) * 100)
+                : 0;
+
+            const compositePercent = Math.round((mcqPercent + frqPercent) / 2);
+            const estimatedScore = Math.max(1, Math.min(5, Math.round(1 + ((compositePercent / 100) * 4))));
+
+            const payload = {
+                savedAt: new Date().toISOString(),
+                subject: subjectCode,
+                exam: examIdentity,
+                estimatedScore,
+                compositePercent,
+                mcq: {
+                    total: mcqQuestions.length,
+                    correct: mcqCorrect,
+                    wrong: mcqWrong,
+                    unanswered: mcqUnanswered,
+                    markedForReview: mcqMarkedForReview,
+                    percent: mcqPercent,
+                    questions: mcqQuestionStates
+                },
+                frq: {
+                    total: frqQuestions.length,
+                    earned: frqEarnedTotal,
+                    max: frqMaxTotal,
+                    percent: frqPercent,
+                    questions: frqQuestionStates
+                },
+                units: unitBreakdown
+            };
+
+            localStorage.setItem(examResultsStorageKey, JSON.stringify(payload));
+        }
+
+        function finishSubmissionAndShowResults() {
+            if (isReadOnlyQuestionPreviewMode) return;
+            clearInterval(processingTickerInterval);
+            if (breakTimerInterval) clearInterval(breakTimerInterval);
+
+            buildAndStoreExamResultsPayload();
+
+            const loadingOverlay = document.getElementById('submission-loading-overlay');
+            const successOverlay = document.getElementById('submission-success-overlay');
+            const submissionInstructionsOverlay = document.getElementById('submission-instructions-overlay');
+            const submissionOptionsMenu = document.getElementById('submission-header-options-menu');
+
+            isSubmissionOptionsMenuOpen = false;
+            if (submissionOptionsMenu) submissionOptionsMenu.style.display = 'none';
+            if (submissionInstructionsOverlay) submissionInstructionsOverlay.style.display = 'none';
+
+            if (!loadingOverlay || !successOverlay) {
+                window.location.href = `exam-results.html?subject=${encodeURIComponent(subjectCode)}&exam=${encodeURIComponent(examIdentity)}`;
+                return;
+            }
+
+            successOverlay.style.display = 'none';
+            loadingOverlay.style.display = 'flex';
+            clearSavedExamProgressState();
+
+            if (submissionFlowTimeoutReference) clearTimeout(submissionFlowTimeoutReference);
+            submissionFlowTimeoutReference = setTimeout(() => {
+                window.location.href = `exam-results.html?subject=${encodeURIComponent(subjectCode)}&exam=${encodeURIComponent(examIdentity)}`;
+            }, SUBMISSION_LOADING_DELAY_MS);
         }
 
         // Reference Sheet and Calculator Functions
