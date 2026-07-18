@@ -3134,7 +3134,7 @@
             <div style="padding: 20px;">
                 <p id="modal-welcome-message" style="margin-top: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">Welcome to your uniform practice testing environment.</p>
                 <ul id="modal-instructions-bulletpoints">
-                    <li>You have an uninterrupted clock countdown allocation of <strong>80 minutes</strong>.</li>
+                    <li>You have an uninterrupted clock countdown allocation of <strong>20 minutes</strong>.</li>
                     <li><strong>Elimination Mode:</strong> Right-click (or hold down on touchscreens) directly onto any option row to cross it out instantly.</li>
                     <li>Left-click any uneliminated answer option to select it normally.</li>
                 </ul>
@@ -3245,7 +3245,11 @@
         let isOptionsMenuOpen = false;
         let isSubmissionOptionsMenuOpen = false;
 
-        let continuousCountdownSeconds = 80 * 60;
+        const MCQ_DURATION_SECONDS = 20 * 60;
+        const FRQ_DURATION_SECONDS = 95 * 60;
+
+        //clock
+        let continuousCountdownSeconds = MCQ_DURATION_SECONDS;
         let hideClockStateActive = false;
         let isTimerPausedActive = false;
         let processingTickerInterval = null;
@@ -3289,7 +3293,7 @@
                     welcome: 'Section I: Multiple Choice Questions',
                     bullets: [
                         'The directions provided is not exactly what you will see on the actual exam. This is a mock exam that is intended to represent the different kinds of questions and functionality you could encounter on exam day.',
-                        'Section I has 42 multiple-choice questions and lasts 85 minutes',
+                        'Section I has 42 multiple-choice questions and lasts 20 minutes',
                         'Each question or incomplete statements is followed by four answer choices or completions. Select the one that best answers the question or incomplete statement.',
                         'To simplify calculations, you may use g = 10 m/s² in all problems.',
                         'The following tools, either digital or physical, are allowed: a calculator, ruler, and straightedge. You may use a handheld four-function, scientific, or graphing calculator, or the calculator provided on the left-hand side.',
@@ -3317,7 +3321,7 @@
                     title: 'AP Physics 2 Practice Exam Instructions',
                     welcome: 'Welcome to AP Physics 2 practice testing.',
                     bullets: [
-                        'You have an uninterrupted countdown of <strong>80 minutes</strong> for Section I.',
+                        'You have an uninterrupted countdown of <strong>20 minutes</strong> for Section I.',
                         '<strong>Elimination Mode:</strong> Right-click (or hold on touchscreens) on any option row to cross it out.',
                         'Section I emphasizes fluids, thermodynamics, electricity, magnetism, optics, and modern physics topics.'
                     ]
@@ -3337,7 +3341,7 @@
                     title: 'AP Physics C: Mechanics Practice Exam Instructions',
                     welcome: 'Welcome to AP Physics C: Mechanics practice testing.',
                     bullets: [
-                        'You have an uninterrupted countdown of <strong>80 minutes</strong> for Section I.',
+                        'You have an uninterrupted countdown of <strong>20 minutes</strong> for Section I.',
                         '<strong>Elimination Mode:</strong> Right-click (or hold on touchscreens) on any option row to cross it out.',
                         'Section I is calculus-based mechanics; expect derivatives, integrals, and multi-step quantitative reasoning.'
                     ]
@@ -3357,7 +3361,7 @@
                     title: 'AP Physics C: Electricity & Magnetism Practice Exam Instructions',
                     welcome: 'Welcome to AP Physics C: Electricity & Magnetism practice testing.',
                     bullets: [
-                        'You have an uninterrupted countdown of <strong>80 minutes</strong> for Section I.',
+                        'You have an uninterrupted countdown of <strong>20 minutes</strong> for Section I.',
                         '<strong>Elimination Mode:</strong> Right-click (or hold on touchscreens) on any option row to cross it out.',
                         'Section I is calculus-based E&M; expect field integrals, flux, circuits, and electromagnetic induction.'
                     ]
@@ -3542,11 +3546,17 @@
                         return Array.isArray(row) ? row : [];
                     });
                     
-                    // Safety check: if loaded state is FRQ but time is cached higher than 80 mins, force reset it to 80 mins
-                    if (currentActivePhase === 'FRQ' && typeof parsed.timeLeft === 'number' && parsed.timeLeft > 80 * 60) {
-                        continuousCountdownSeconds = 80 * 60;
+                    const defaultPhaseDurationSeconds = currentActivePhase === 'FRQ'
+                        ? FRQ_DURATION_SECONDS
+                        : MCQ_DURATION_SECONDS;
+                    if (
+                        typeof parsed.timeLeft === 'number' &&
+                        parsed.timeLeft > 0 &&
+                        parsed.timeLeft <= defaultPhaseDurationSeconds
+                    ) {
+                        continuousCountdownSeconds = parsed.timeLeft;
                     } else {
-                        continuousCountdownSeconds = typeof parsed.timeLeft === 'number' ? parsed.timeLeft : 80 * 60;
+                        continuousCountdownSeconds = defaultPhaseDurationSeconds;
                     }
 
                     mcqLayoutMode = (parsed.mcqLayout === 'split' || parsed.mcqLayout === 'stacked')
@@ -4693,7 +4703,7 @@
             
             // Reset Timing Parameters & Set Phase State to Section II
             currentActivePhase = 'FRQ';
-            continuousCountdownSeconds = 80 * 60; // 80 minutes for Free Response
+            continuousCountdownSeconds = FRQ_DURATION_SECONDS;
             currentProblemIndex = 0;
             examinationPool = poolFRQ;
 
