@@ -82,7 +82,7 @@ const ap1PracticeExamFRQPoolOne = [
         setupId: "APPHY-EX001-SU002",
         problemNumber: 2,
         problemType: "Translation Between Representations",
-        problemSetup: "A uniform drawbridge of mass $M$ and length $L$ is attached to a vertical castle wall by an axle at its base. A winded cable attached to the castle wall holds the drawbridge at rest. The cable is attached to the outer end of the drawbridge and is oriented perpendicular to the drawbridge. The angle $\\theta_0$ is measured between the vertical castle wall and the drawbridge, as shown in the diagram above.",
+        problemSetup: "A uniform drawbridge of mass $M$ and length $L$ is attached to a vertical castle wall by an axle at its base. A winded cable attached to the castle wall holds the drawbridge at rest. The cable is attached to the outer end of the drawbridge and is oriented perpendicular to the drawbridge. The angle $\\theta_0$ is measured between the vertical castle wall and the drawbridge, as shown in the diagram.",
         pngDiagram: `<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-2.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />`,
         dataTable: null,
         parts: [
