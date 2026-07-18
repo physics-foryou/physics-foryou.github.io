@@ -893,6 +893,41 @@
             box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
         }
 
+        .mcq-resize-hint-popout {
+            position: absolute;
+            left: 14px;
+            bottom: 14px;
+            max-width: 260px;
+            padding: 9px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--panel-bg);
+            color: var(--text-main);
+            font-size: 12px;
+            line-height: 1.35;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+            z-index: 4;
+            display: none;
+            pointer-events: none;
+        }
+
+        .mcq-resize-hint-popout::after {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 16px;
+            width: 0;
+            height: 0;
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent;
+            border-right: 8px solid var(--panel-bg);
+            filter: drop-shadow(-1px 0 0 var(--border-color));
+        }
+
+        .question-preview-mode .mcq-resize-hint-popout {
+            display: none !important;
+        }
+
         .nav-btn { 
             background-color: var(--panel-bg); 
             border: 1px solid var(--text-dim); 
@@ -3046,6 +3081,10 @@
                     </div>
                 </div>
             </div>
+
+            <div id="mcq-resize-hint" class="mcq-resize-hint-popout" role="status" aria-live="polite">
+                Drag the edges to resize the window.
+            </div>
         </div>
 
     </div>
@@ -3186,6 +3225,8 @@
 
         const localStorageStateKey = `exam_state_${subjectCode}_${examIdentity}`;
         const examResultsStorageKey = `exam_results_${subjectCode}_${examIdentity}`;
+        const mcqResizeHintDismissedKey = 'mcq_resize_hint_dismissed_v1';
+        let hasDismissedMcqResizeHint = false;
 
         // Phase Tracking Setup
         let currentActivePhase = 'MCQ'; // 'MCQ' or 'FRQ'
@@ -3602,6 +3643,39 @@
             localStorage.removeItem(localStorageStateKey);
         }
 
+        function loadMcqResizeHintState() {
+            try {
+                hasDismissedMcqResizeHint = localStorage.getItem(mcqResizeHintDismissedKey) === '1';
+            } catch (_err) {
+                hasDismissedMcqResizeHint = false;
+            }
+        }
+
+        function dismissMcqResizeHintForever() {
+            if (hasDismissedMcqResizeHint) return;
+            hasDismissedMcqResizeHint = true;
+            try {
+                localStorage.setItem(mcqResizeHintDismissedKey, '1');
+            } catch (_err) {
+                // Ignore storage failures and still hide for this session.
+            }
+            updateMcqResizeHintVisibility();
+        }
+
+        function updateMcqResizeHintVisibility() {
+            const hintNode = document.getElementById('mcq-resize-hint');
+            const questionPanelContentNode = document.getElementById('question-panel-content');
+            if (!hintNode || !questionPanelContentNode) return;
+
+            const shouldShow =
+                !hasDismissedMcqResizeHint &&
+                !isReadOnlyQuestionPreviewMode &&
+                currentActivePhase === 'MCQ' &&
+                questionPanelContentNode.style.display !== 'none';
+
+            hintNode.style.display = shouldShow ? 'block' : 'none';
+        }
+
         function startSessionTimerLoop() {
             if (isReadOnlyQuestionPreviewMode) return;
             if (processingTickerInterval) clearInterval(processingTickerInterval);
@@ -3951,6 +4025,8 @@
                 document.getElementById('review-panel-description').innerHTML = "On exam day, you won't be able to submit before the timer runs out. For this practice exam, you can submit and finish your exam whenver you are ready.";
             }
 
+            updateMcqResizeHintVisibility();
+
             updateConsoleMatrixHighlights();
         }
 
@@ -4121,11 +4197,13 @@
                     evt.stopPropagation();
 
                     const startRect = questionShellNode.getBoundingClientRect();
+                    let hasDismissedOnThisDrag = false;
 
                     const updateResize = (moveEvt) => {
                         const movePoint = extractClientPoint(moveEvt);
                         const nextSizing = { ...questionPanelSizingState };
                         const resizeBounds = getQuestionPanelResizeBounds();
+                        const dragDistance = Math.abs(movePoint.x - startPoint.x) + Math.abs(movePoint.y - startPoint.y);
 
                         if (resizeMode.includes('width')) {
                             const deltaX = movePoint.x - startPoint.x;
@@ -4147,6 +4225,10 @@
                         }
 
                         questionPanelSizingState = nextSizing;
+                        if (!hasDismissedOnThisDrag && currentActivePhase === 'MCQ' && dragDistance > 2) {
+                            hasDismissedOnThisDrag = true;
+                            dismissMcqResizeHintForever();
+                        }
                         if (moveEvt.cancelable) moveEvt.preventDefault();
                     };
 
@@ -4396,6 +4478,7 @@
             }
 
             ensureResizableQuestionPanel();
+            updateMcqResizeHintVisibility();
 
             document.getElementById('footer-progress-label').innerText = `Question ${currentProblemIndex + 1} of ${examinationPool.length} ${isDropupMatrixOpen ? '▾' : '▴'}`;
 
@@ -4637,6 +4720,8 @@
             generateMatrices();
             if (currentProblemIndex >= examinationPool.length) showReviewScreen();
             else renderTargetQuestionBlock();
+
+            updateMcqResizeHintVisibility();
         }
 
         function executeFinalSubmissionRedirect() {
@@ -5197,6 +5282,7 @@
 
         // Initialize Reference Sheet and Calculator on page load
         document.addEventListener('DOMContentLoaded', function() {
+            loadMcqResizeHintState();
             applyInstructionsToModal('mcq');
             document.getElementById('ref-tab-trigger').style.display = 'block';
             document.getElementById('desmos-tab-trigger').style.display = 'block';
@@ -5231,6 +5317,8 @@
                 refSelect.value = selectVal;
                 switchCourseRef();
             }
+
+            updateMcqResizeHintVisibility();
         });
     </script>
 </body>
