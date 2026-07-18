@@ -229,7 +229,7 @@ const ap1PracticeExamFRQPoolOne = [
                     {
                         subpartId: "APPHY-EX001-SU003-P0004-S0002",
                         subpartLabel: "ii.",
-                        subpartQuestion: "On a grid, create a graph that can be used to determine the average force. <br> - Plot the data from Table 1 on the grid below. <br> - Draw a best-fit line for the data points. <br> - Label the axes with the appropriate quantities and units.",
+                        subpartQuestion: "On a grid, create a graph that can be used to determine the average force. <br> - Plot the data from Table 1 on the grid below.",
                         pngDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-frq-images/ap1-PE1-FRQ-3C.png" alt="N/A" style="display:block; margin:auto; max-width:360px; height:auto;" />'
                     },
                     {

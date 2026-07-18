@@ -611,13 +611,14 @@
 
         .zoomable-image {
             cursor: zoom-in;
+            pointer-events: auto !important;
         }
 
         .image-zoom-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 7000;
+            z-index: 9200;
             background: rgba(0, 0, 0, 0.82);
             align-items: center;
             justify-content: center;
@@ -1029,6 +1030,317 @@
             padding-left: 20px;
             line-height: 1.6;
             font-size: 13px;
+        }
+
+        .submission-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-color);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 8000;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .submission-card {
+            width: min(94vw, 640px);
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+            padding: 34px 28px;
+            text-align: center;
+            color: var(--text-main);
+        }
+
+        .submission-title {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            color: var(--text-main);
+        }
+
+        .submission-subtext {
+            margin-top: 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-dim);
+        }
+
+        .submission-spinner {
+            width: 56px;
+            height: 56px;
+            margin: 24px auto 0;
+            border-radius: 999px;
+            border: 4px solid rgba(0, 0, 0, 0.08);
+            border-top-color: var(--header-bg);
+            animation: submission-spin 1s linear infinite;
+        }
+
+        @keyframes submission-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .submission-actions {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .submission-link-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 210px;
+            text-decoration: none;
+        }
+
+        .submission-workspace-shell {
+            width: 100vw;
+            height: 100vh;
+            background: var(--panel-bg);
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .submission-workspace-header {
+            width: 100%;
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            color: var(--panel-bg);
+            padding: 14px 40px;
+            min-height: 81px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            box-sizing: border-box;
+        }
+
+        .submission-header-left-title {
+            text-align: left;
+            color: var(--panel-bg);
+        }
+
+        .submission-header-right-zone {
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .submission-workspace-grid {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 0;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .submission-pane {
+            min-width: 0;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+            background: var(--panel-bg);
+        }
+
+        .submission-pane:last-child {
+            border-right: none;
+        }
+
+        .submission-tab-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--panel-bg);
+        }
+
+        .submission-tab-btn {
+            border: 1px solid var(--text-dim);
+            background: rgba(0, 0, 0, 0.02);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 7px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submission-tab-btn:hover {
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        .submission-tab-btn.active {
+            background: var(--selected-bg);
+            color: var(--selected-text);
+            border-color: var(--selected-bg);
+        }
+
+        .submission-pane-content {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 20px;
+            color: var(--text-main);
+            line-height: 1.55;
+        }
+
+        .submission-workspace-shell.text-size-small .submission-pane-content,
+        .submission-workspace-shell.text-size-small .submission-pane-content * {
+            font-size: 14px !important;
+        }
+
+        .submission-workspace-shell.text-size-medium .submission-pane-content,
+        .submission-workspace-shell.text-size-medium .submission-pane-content * {
+            font-size: 16px !important;
+        }
+
+        .submission-workspace-shell.text-size-large .submission-pane-content,
+        .submission-workspace-shell.text-size-large .submission-pane-content * {
+            font-size: 18px !important;
+        }
+
+        .submission-rubric-pane-content {
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .submission-pane-content .part-header {
+            margin-top: 22px;
+        }
+
+        .submission-total-score-banner {
+            margin-bottom: 14px;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.03);
+            font-weight: bold;
+        }
+
+        .submission-part-score-row {
+            display: block;
+            margin-top: 8px;
+            margin-bottom: 10px;
+        }
+
+        .submission-part-score-label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 12px;
+            color: var(--text-dim);
+            font-weight: bold;
+        }
+
+        .submission-part-score-boxes {
+            display: flex;
+            width: 100%;
+            gap: 6px;
+        }
+
+        .submission-part-score-btn {
+            border: 1px solid var(--text-dim);
+            background: rgba(0, 0, 0, 0.02);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: bold;
+            flex: 1 1 0;
+            min-width: 0;
+            height: 30px;
+            padding: 0 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submission-part-score-btn:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .submission-part-score-btn.active {
+            background: var(--selected-bg);
+            border-color: var(--selected-bg);
+            color: var(--selected-text);
+        }
+
+        .submission-rubric-frame {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #ffffff;
+        }
+
+        .submission-rubric-fallback {
+            margin: 0;
+            padding: 20px;
+            font-size: 13px;
+            color: var(--text-main);
+        }
+
+        .submission-footer-belt {
+            background-color: var(--panel-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 14px 40px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .submission-instructions-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 8105;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        .submission-instructions-overlay .modal-box {
+            max-width: 560px;
+        }
+
+        @media (max-width: 1100px) {
+            .submission-workspace-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .submission-pane {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .submission-pane:last-child {
+                border-bottom: none;
+            }
+
+            .submission-footer-belt {
+                padding: 12px 16px;
+            }
         }
 
         /* --- Reference Sheet Drawer Styling --- */
@@ -2689,6 +3001,70 @@
         </div>
     </div>
 
+    <div id="submission-loading-overlay" class="submission-overlay" aria-live="polite">
+        <div class="submission-card">
+            <h2 class="submission-title">Submitting Responses...</h2>
+            <p class="submission-subtext">Please wait while we securely finalize your practice exam session.</p>
+            <div class="submission-spinner" aria-hidden="true"></div>
+        </div>
+    </div>
+
+    <div id="submission-success-overlay" class="submission-overlay" aria-live="polite">
+        <div class="submission-workspace-shell">
+            <div class="submission-workspace-header">
+                <span class="submission-header-left-title">FRQ Self-Grading</span>
+                <div class="submission-header-right-zone">
+                    <div class="options-dropdown-container">
+                        <button class="utility-btn" style="padding: 6px 14px; font-size: 11px;" onclick="toggleSubmissionOptionsDropdownMenu(event)">Options ▾</button>
+                        <div id="submission-header-options-menu" class="options-menu-popup">
+                            <button onclick="openSubmissionInstructionsFromMenu(event)">Instructions</button>
+                            <button id="submission-toggle-text-size-btn" onclick="toggleSubmissionTextSizeMode(event)">Text Size: Medium</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submission-workspace-grid">
+                <section class="submission-pane" aria-label="FRQ question review pane">
+                    <div id="submission-question-tabs" class="submission-tab-strip"></div>
+                    <div id="submission-question-content" class="submission-pane-content"></div>
+                </section>
+
+                <section class="submission-pane" aria-label="Rubric review pane">
+                    <div id="submission-rubric-tabs" class="submission-tab-strip"></div>
+                    <div class="submission-pane-content submission-rubric-pane-content">
+                        <iframe id="submission-rubric-frame" class="submission-rubric-frame" title="FRQ Rubric PDF" src="about:blank"></iframe>
+                        <p id="submission-rubric-fallback" class="submission-rubric-fallback" style="display: none;">
+                            Your browser could not display the rubric inline.
+                            <a id="submission-rubric-fallback-link" href="#" target="_blank" rel="noopener">Open the rubric in a new tab.</a>
+                        </p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="submission-footer-belt">
+                <button class="action-btn" type="button" onclick="returnToHomePage()">Finish</button>
+            </div>
+        </div>
+
+        <div id="submission-instructions-overlay" class="submission-instructions-overlay">
+            <div class="modal-box">
+                <div class="panel-header">
+                    <span>FRQ Self-Grading Instructions</span>
+                </div>
+                <div style="padding: 20px;">
+                    <p style="margin-top: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">Use this workspace to review each FRQ and score your response with the rubric.</p>
+                    <ul style="padding-left: 20px; line-height: 1.6; font-size: 13px; margin: 0;">
+                        <li>Use the question tabs on the left to switch between FRQ prompts.</li>
+                        <li>Use the rubric tab on the right to reference the official scoring guide.</li>
+                        <li>Take your time and evaluate each part and subpart before finishing.</li>
+                    </ul>
+                    <button class="action-btn" style="width: 100%; margin-top: 15px; padding: 12px;" type="button" onclick="closeSubmissionInstructionsModal()">Start Grading</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="image-zoom-overlay" class="image-zoom-overlay" onclick="closeImageZoomOverlay(event)">
         <button class="image-zoom-close" onclick="closeImageZoomOverlay(event)" aria-label="Close image preview">×</button>
         <img id="image-zoom-preview" class="image-zoom-image" src="" alt="Expanded preview" />
@@ -2717,6 +3093,7 @@
         
         let isDropupMatrixOpen = false;
         let isOptionsMenuOpen = false;
+        let isSubmissionOptionsMenuOpen = false;
 
         let continuousCountdownSeconds = 80 * 60;
         let hideClockStateActive = false;
@@ -2731,6 +3108,21 @@
         let holdProgressIntervalReference = null;
         let currentHoldElapsedMilliseconds = 0;
         const TARGET_HOLD_DURATION_MS = 3000;
+        const SUBMISSION_LOADING_DELAY_MS = 1800;
+        const SECTION_II_RUBRIC_PDF = 'ap1/ap1-practice-exam-frq-rubrics/ap1-PE-1-FRQ-1-Rubric.pdf';
+        const SUBMISSION_PART_POINT_MAP = {
+            'ap1-1': {
+                1: { A: 7, B: 3 },
+                2: { A: 3, B: 4, C: 3, D: 2 },
+                3: { A: 2, B: 2, C: 3, D: 3 },
+                4: { A: 3, B: 3, C: 3 }
+            }
+        };
+
+        let submissionFlowTimeoutReference = null;
+        let activeSubmissionQuestionTabIndex = 0;
+        let activeSubmissionRubricTabIndex = 0;
+        let submissionPartScores = {};
 
         let questionPanelSizingState = { width: null, height: null };
         
@@ -3112,11 +3504,26 @@
             document.getElementById('header-options-menu').style.display = isOptionsMenuOpen ? 'block' : 'none';
         }
 
+        function toggleSubmissionOptionsDropdownMenu(event) {
+            event.stopPropagation();
+            isSubmissionOptionsMenuOpen = !isSubmissionOptionsMenuOpen;
+            const menu = document.getElementById('submission-header-options-menu');
+            if (menu) menu.style.display = isSubmissionOptionsMenuOpen ? 'block' : 'none';
+        }
+
         function openInstructionsFromMenu() {
             isOptionsMenuOpen = false;
             document.getElementById('header-options-menu').style.display = 'none';
             applyInstructionsToModal(currentActivePhase === 'FRQ' ? 'frq' : 'mcq');
             document.getElementById('welcome-modal-overlay').style.display = 'flex';
+        }
+
+        function openSubmissionInstructionsFromMenu(event) {
+            if (event) event.stopPropagation();
+            isSubmissionOptionsMenuOpen = false;
+            const menu = document.getElementById('submission-header-options-menu');
+            if (menu) menu.style.display = 'none';
+            showSubmissionInstructionsModal();
         }
 
         function updateMCQLayoutMenuLabel() {
@@ -3162,6 +3569,45 @@
             setTimeout(() => {
                 isOptionsMenuOpen = true;
                 const optionsMenu = document.getElementById('header-options-menu');
+                if (optionsMenu) optionsMenu.style.display = 'block';
+            }, 0);
+        }
+
+        function applySubmissionTextSizeMode() {
+            const shellNode = document.querySelector('.submission-workspace-shell');
+            if (!shellNode) return;
+
+            shellNode.classList.remove('text-size-small', 'text-size-medium', 'text-size-large');
+            shellNode.classList.add(`text-size-${textSizeMode}`);
+        }
+
+        function updateSubmissionTextSizeMenuLabel() {
+            const toggleBtn = document.getElementById('submission-toggle-text-size-btn');
+            if (!toggleBtn) return;
+
+            const labelMap = {
+                small: 'Small',
+                medium: 'Medium',
+                large: 'Large'
+            };
+
+            toggleBtn.innerText = `Text Size: ${labelMap[textSizeMode] || 'Medium'}`;
+        }
+
+        function toggleSubmissionTextSizeMode(event) {
+            if (event) event.stopPropagation();
+
+            const sizeOrder = ['small', 'medium', 'large'];
+            const currentIndex = sizeOrder.indexOf(textSizeMode);
+            textSizeMode = sizeOrder[(currentIndex + 1) % sizeOrder.length];
+
+            updateSubmissionTextSizeMenuLabel();
+            applySubmissionTextSizeMode();
+            saveActiveExamProgressState();
+
+            setTimeout(() => {
+                isSubmissionOptionsMenuOpen = true;
+                const optionsMenu = document.getElementById('submission-header-options-menu');
                 if (optionsMenu) optionsMenu.style.display = 'block';
             }, 0);
         }
@@ -3304,7 +3750,12 @@
 
         window.onclick = function() {
             isOptionsMenuOpen = false;
-            document.getElementById('header-options-menu').style.display = 'none';
+            const headerOptionsMenu = document.getElementById('header-options-menu');
+            if (headerOptionsMenu) headerOptionsMenu.style.display = 'none';
+
+            isSubmissionOptionsMenuOpen = false;
+            const submissionOptionsMenu = document.getElementById('submission-header-options-menu');
+            if (submissionOptionsMenu) submissionOptionsMenu.style.display = 'none';
             
             isDropupMatrixOpen = false;
             document.getElementById('dropup-nav-matrix-panel').style.display = 'none';
@@ -3960,7 +4411,344 @@
 
         function executeFinalSubmissionRedirect() {
             clearInterval(processingTickerInterval);
+            if (breakTimerInterval) clearInterval(breakTimerInterval);
             clearSavedExamProgressState();
+
+            const loadingOverlay = document.getElementById('submission-loading-overlay');
+            const successOverlay = document.getElementById('submission-success-overlay');
+
+            if (!loadingOverlay || !successOverlay) {
+                window.location.href = 'home-page.html';
+                return;
+            }
+
+            loadingOverlay.style.display = 'flex';
+            successOverlay.style.display = 'none';
+
+            if (submissionFlowTimeoutReference) clearTimeout(submissionFlowTimeoutReference);
+            submissionFlowTimeoutReference = setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+                renderSubmissionWorkspace();
+                successOverlay.style.display = 'flex';
+            }, SUBMISSION_LOADING_DELAY_MS);
+        }
+
+        function getSubmissionRubricTabs() {
+            const rubricTabMap = {
+                'ap1-1': [{ label: 'Rubric', href: SECTION_II_RUBRIC_PDF }]
+            };
+
+            return rubricTabMap[`${subjectCode}-${examIdentity}`] || [{ label: 'Rubric', href: SECTION_II_RUBRIC_PDF }];
+        }
+
+        function bindSubmissionZoomableImageClicks() {
+            const container = document.getElementById('submission-question-content');
+            if (!container) return;
+
+            container.querySelectorAll('img').forEach((imgNode) => {
+                imgNode.classList.add('zoomable-image');
+            });
+
+            // Delegate click handling so zoom continues working even if content is re-rendered.
+            if (!container.dataset.zoomHandlerBound) {
+                const handleSubmissionImageZoom = (event) => {
+                    const targetImage = event.target && event.target.closest
+                        ? event.target.closest('img')
+                        : null;
+                    if (!targetImage) return;
+
+                    event.preventDefault();
+                    event.stopPropagation();
+                    openImageZoomOverlay(targetImage.src, targetImage.alt);
+                };
+
+                container.addEventListener('click', handleSubmissionImageZoom);
+                container.addEventListener('touchend', handleSubmissionImageZoom, { passive: false });
+                container.dataset.zoomHandlerBound = 'true';
+            }
+        }
+
+        function getSubmissionPartLetter(part) {
+            const title = (part && typeof part.partTitle === 'string') ? part.partTitle.trim() : '';
+            const letterMatch = title.match(/^Part\s+([A-Z])/i);
+            return letterMatch ? letterMatch[1].toUpperCase() : null;
+        }
+
+        function getSubmissionQuestionPointConfig(questionRecord) {
+            const examConfig = SUBMISSION_PART_POINT_MAP[`${subjectCode}-${examIdentity}`];
+            if (!examConfig || !questionRecord) return null;
+
+            const problemNumber = Number(questionRecord.problemNumber);
+            if (!Number.isFinite(problemNumber)) return null;
+
+            return examConfig[problemNumber] || null;
+        }
+
+        function getSubmissionPartMaxPoints(part, questionRecord) {
+            const configuredQuestionPoints = getSubmissionQuestionPointConfig(questionRecord);
+            if (configuredQuestionPoints) {
+                const partLetter = getSubmissionPartLetter(part);
+                if (!partLetter) return null;
+
+                const configuredPartPoints = configuredQuestionPoints[partLetter];
+                if (!Number.isFinite(configuredPartPoints)) return null;
+                return Math.max(0, Math.round(configuredPartPoints));
+            }
+
+            if (part && Number.isFinite(part.maxPoints) && part.maxPoints >= 0) {
+                return Math.round(part.maxPoints);
+            }
+
+            const subpartCount = Array.isArray(part && part.subparts) ? part.subparts.length : 0;
+            return Math.max(1, subpartCount);
+        }
+
+        function getSubmissionPartScore(questionIndex, partIndex) {
+            if (!submissionPartScores[questionIndex]) return 0;
+            const storedValue = submissionPartScores[questionIndex][partIndex];
+            return Number.isFinite(storedValue) ? storedValue : 0;
+        }
+
+        function getSubmissionQuestionTotals(questionRecord, questionIndex) {
+            const parts = Array.isArray(questionRecord && questionRecord.parts) ? questionRecord.parts : [];
+            let earnedPoints = 0;
+            let maxPoints = 0;
+
+            parts.forEach((part, partIndex) => {
+                const partMax = getSubmissionPartMaxPoints(part, questionRecord);
+                if (!Number.isFinite(partMax)) return;
+                const selectedScore = Math.min(partMax, Math.max(0, getSubmissionPartScore(questionIndex, partIndex)));
+                earnedPoints += selectedScore;
+                maxPoints += partMax;
+            });
+
+            return { earnedPoints, maxPoints };
+        }
+
+        function setSubmissionPartScore(questionIndex, partIndex, score) {
+            const questionList = Array.isArray(poolFRQ) ? poolFRQ : [];
+            const questionRecord = questionList[questionIndex];
+            const parts = Array.isArray(questionRecord && questionRecord.parts) ? questionRecord.parts : [];
+            const part = parts[partIndex];
+            if (!part) return;
+
+            const partMax = getSubmissionPartMaxPoints(part, questionRecord);
+            if (!Number.isFinite(partMax)) return;
+            const sanitizedScore = Math.min(partMax, Math.max(0, score));
+
+            if (!submissionPartScores[questionIndex]) submissionPartScores[questionIndex] = {};
+            submissionPartScores[questionIndex][partIndex] = sanitizedScore;
+
+            const scoreButtons = Array.from(document.querySelectorAll(`[data-score-question="${questionIndex}"][data-score-part="${partIndex}"]`));
+            scoreButtons.forEach((buttonRef) => {
+                const buttonScore = Number(buttonRef.getAttribute('data-score-value'));
+                buttonRef.classList.toggle('active', buttonScore === sanitizedScore);
+            });
+
+            const totalNode = document.getElementById('submission-total-score-value');
+            if (totalNode) {
+                const totals = getSubmissionQuestionTotals(questionRecord, questionIndex);
+                totalNode.innerText = `${totals.earnedPoints} / ${totals.maxPoints}`;
+            }
+        }
+
+        function buildSubmissionQuestionHTML(questionRecord, questionIndex) {
+            if (!questionRecord || typeof questionRecord !== 'object') {
+                return '<p>No FRQ question data is available for this exam.</p>';
+            }
+
+            const decorateSubmissionDiagramMarkup = (markup) => {
+                if (!markup || typeof markup !== 'string') return markup;
+
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = markup;
+                wrapper.querySelectorAll('img').forEach((imgNode) => {
+                    imgNode.classList.add('zoomable-image');
+                    imgNode.style.cursor = 'zoom-in';
+                    imgNode.style.pointerEvents = 'auto';
+                    imgNode.setAttribute(
+                        'onclick',
+                        'event.preventDefault(); event.stopPropagation(); openImageZoomOverlay(this.src, this.alt);'
+                    );
+                });
+                return wrapper.innerHTML;
+            };
+
+            const resolveDiagramMarkup = (nodeRef) => {
+                if (!nodeRef || typeof nodeRef !== 'object') return null;
+                const markup = nodeRef.pngDiagram || nodeRef.jpegDiagram || null;
+                if (!markup || markup.includes('pcq-problem-images')) return null;
+                return decorateSubmissionDiagramMarkup(markup);
+            };
+
+            const questionTotals = getSubmissionQuestionTotals(questionRecord, questionIndex);
+
+            let setupHtml = `<div class="submission-total-score-banner">Total Points Earned for This Problem: <strong id="submission-total-score-value">${questionTotals.earnedPoints} / ${questionTotals.maxPoints}</strong></div>`;
+            setupHtml += `<div><strong>${questionRecord.problemType || 'Free Response'}</strong></div>`;
+            if (questionRecord.problemSetup) setupHtml += `<p>${questionRecord.problemSetup}</p>`;
+
+            const setupDiagram = resolveDiagramMarkup(questionRecord);
+            if (setupDiagram) setupHtml += `<div style="margin: 16px 0;">${setupDiagram}</div>`;
+
+            if (questionRecord.dataTable) setupHtml += buildTableHTML(questionRecord.dataTable);
+
+            let partHtml = '';
+            const parts = Array.isArray(questionRecord.parts) ? questionRecord.parts : [];
+            parts.forEach((part, partIndex) => {
+                if (part.partTitle) partHtml += `<div class="part-header">${part.partTitle}</div>`;
+
+                const maxPartPoints = getSubmissionPartMaxPoints(part, questionRecord);
+                if (Number.isFinite(maxPartPoints)) {
+                    const selectedPartScore = Math.min(maxPartPoints, Math.max(0, getSubmissionPartScore(questionIndex, partIndex)));
+                    const pointButtons = Array.from({ length: maxPartPoints + 1 }, (_, scoreValue) => {
+                        const activeClass = scoreValue === selectedPartScore ? ' active' : '';
+                        return `<button type="button" class="submission-part-score-btn${activeClass}" data-score-question="${questionIndex}" data-score-part="${partIndex}" data-score-value="${scoreValue}" onclick="setSubmissionPartScore(${questionIndex}, ${partIndex}, ${scoreValue})">${scoreValue}</button>`;
+                    }).join('');
+
+                    partHtml += `<div class="submission-part-score-row"><span class="submission-part-score-label">Points:</span><div class="submission-part-score-boxes">${pointButtons}</div></div>`;
+                }
+
+                if (part.partIntroText) partHtml += `<p>${part.partIntroText}</p>`;
+
+                const partDiagram = resolveDiagramMarkup(part);
+                if (partDiagram) partHtml += `<div style="margin: 14px 0;">${partDiagram}</div>`;
+
+                if (part.partMidText) partHtml += `<p>${part.partMidText}</p>`;
+                if (part.dataTable) partHtml += buildTableHTML(part.dataTable);
+                if (part.partEndText) partHtml += `<p>${part.partEndText}</p>`;
+
+                const subparts = Array.isArray(part.subparts) ? part.subparts : [];
+                subparts.forEach((subpart) => {
+                    partHtml += '<div class="subpart-block">';
+                    if (subpart.subpartLabel) partHtml += `<strong>${subpart.subpartLabel}</strong> `;
+                    if (subpart.subpartQuestion) partHtml += `<span>${subpart.subpartQuestion}</span>`;
+                    const subpartDiagram = resolveDiagramMarkup(subpart);
+                    if (subpartDiagram) partHtml += `<div style="margin: 14px 0;">${subpartDiagram}</div>`;
+                    partHtml += '</div>';
+                });
+            });
+
+            return setupHtml + partHtml;
+        }
+
+        function switchSubmissionQuestionTab(nextIndex) {
+            const questionList = Array.isArray(poolFRQ) ? poolFRQ : [];
+            if (!questionList.length) return;
+
+            activeSubmissionQuestionTabIndex = Math.min(questionList.length - 1, Math.max(0, nextIndex));
+            const content = document.getElementById('submission-question-content');
+            const tabs = Array.from(document.querySelectorAll('#submission-question-tabs .submission-tab-btn'));
+
+            tabs.forEach((btn, idx) => btn.classList.toggle('active', idx === activeSubmissionQuestionTabIndex));
+
+            if (content) {
+                content.innerHTML = buildSubmissionQuestionHTML(questionList[activeSubmissionQuestionTabIndex], activeSubmissionQuestionTabIndex);
+                content.scrollTop = 0;
+                bindSubmissionZoomableImageClicks();
+            }
+
+            if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+                window.MathJax.typesetPromise([content]).catch(() => {});
+            }
+        }
+
+        function switchSubmissionRubricTab(nextIndex) {
+            const rubricTabs = getSubmissionRubricTabs();
+            if (!rubricTabs.length) return;
+
+            activeSubmissionRubricTabIndex = Math.min(rubricTabs.length - 1, Math.max(0, nextIndex));
+
+            const tabs = Array.from(document.querySelectorAll('#submission-rubric-tabs .submission-tab-btn'));
+            const frame = document.getElementById('submission-rubric-frame');
+            const fallback = document.getElementById('submission-rubric-fallback');
+            const fallbackLink = document.getElementById('submission-rubric-fallback-link');
+            const activeRubric = rubricTabs[activeSubmissionRubricTabIndex];
+
+            tabs.forEach((btn, idx) => btn.classList.toggle('active', idx === activeSubmissionRubricTabIndex));
+
+            if (frame) {
+                frame.src = activeRubric.href;
+            }
+
+            if (fallbackLink) {
+                fallbackLink.setAttribute('href', activeRubric.href);
+            }
+
+            if (fallback) {
+                fallback.style.display = 'none';
+            }
+        }
+
+        function renderSubmissionWorkspace() {
+            const questionTabsContainer = document.getElementById('submission-question-tabs');
+            const rubricTabsContainer = document.getElementById('submission-rubric-tabs');
+            const questionList = Array.isArray(poolFRQ) ? poolFRQ : [];
+            const rubricTabs = getSubmissionRubricTabs();
+
+            syncSubmissionHeaderSizing();
+            updateSubmissionTextSizeMenuLabel();
+            applySubmissionTextSizeMode();
+
+            if (questionTabsContainer) {
+                questionTabsContainer.innerHTML = '';
+
+                if (questionList.length) {
+                    questionList.forEach((questionItem, idx) => {
+                        const questionButton = document.createElement('button');
+                        questionButton.type = 'button';
+                        questionButton.className = 'submission-tab-btn';
+                        questionButton.textContent = `Question ${questionItem.problemNumber || (idx + 1)}`;
+                        questionButton.onclick = () => switchSubmissionQuestionTab(idx);
+                        questionTabsContainer.appendChild(questionButton);
+                    });
+
+                    switchSubmissionQuestionTab(activeSubmissionQuestionTabIndex);
+                } else {
+                    const content = document.getElementById('submission-question-content');
+                    if (content) {
+                        content.innerHTML = '<p>FRQ questions are unavailable for this practice exam.</p>';
+                    }
+                }
+            }
+
+            if (rubricTabsContainer) {
+                rubricTabsContainer.innerHTML = '';
+                rubricTabs.forEach((rubricTab, idx) => {
+                    const rubricButton = document.createElement('button');
+                    rubricButton.type = 'button';
+                    rubricButton.className = 'submission-tab-btn';
+                    rubricButton.textContent = rubricTab.label;
+                    rubricButton.onclick = () => switchSubmissionRubricTab(idx);
+                    rubricTabsContainer.appendChild(rubricButton);
+                });
+            }
+
+            switchSubmissionRubricTab(activeSubmissionRubricTabIndex);
+            showSubmissionInstructionsModal();
+        }
+
+        function syncSubmissionHeaderSizing() {
+            const sourceHeader = document.querySelector('.full-width-top-strip');
+            const targetHeader = document.querySelector('.submission-workspace-header');
+            if (!targetHeader) return;
+
+            const sourceHeight = sourceHeader ? Math.round(sourceHeader.getBoundingClientRect().height) : 81;
+            const syncedHeight = Number.isFinite(sourceHeight) && sourceHeight > 0 ? sourceHeight : 81;
+            targetHeader.style.height = `${syncedHeight}px`;
+            targetHeader.style.minHeight = `${syncedHeight}px`;
+        }
+
+        function showSubmissionInstructionsModal() {
+            const overlay = document.getElementById('submission-instructions-overlay');
+            if (overlay) overlay.style.display = 'flex';
+        }
+
+        function closeSubmissionInstructionsModal() {
+            const overlay = document.getElementById('submission-instructions-overlay');
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        function returnToHomePage() {
             window.location.href = 'home-page.html';
         }
 
