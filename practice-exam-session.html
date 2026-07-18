@@ -3660,6 +3660,10 @@
                     }
                 } else {
                     hasRecoveredSavedProgress = false;
+                    currentSectionStage = SECTION_STAGE_MCQ;
+                    submissionPartScores = {};
+                    activeSubmissionQuestionTabIndex = 0;
+                    activeSubmissionRubricTabIndex = 0;
                 }
 
                 updateMCQLayoutMenuLabel();
@@ -4793,6 +4797,11 @@
                 clearInterval(breakTimerInterval);
             }
             document.getElementById('break-screen-overlay').style.display = 'none';
+
+            // Start each FRQ section with a clean self-grading state for this attempt.
+            submissionPartScores = {};
+            activeSubmissionQuestionTabIndex = 0;
+            activeSubmissionRubricTabIndex = 0;
             
             // Reset Timing Parameters & Set Phase State to Section II
             currentSectionStage = SECTION_STAGE_FRQ;
