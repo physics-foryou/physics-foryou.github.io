@@ -7,18 +7,26 @@
 	<script src="settings/theme.js"></script>
 	<script>
 		(function () {
-			const themes = {
-				navy: { bg: '#f3f6fb', panel: '#ffffff', header: '#1f3a5f', text: '#1d2a39', dim: '#5b6775', border: '#d8e1ec', selBg: '#1f3a5f', selText: '#ffffff' },
-				slate: { bg: '#f5f7fa', panel: '#ffffff', header: '#374151', text: '#111827', dim: '#6b7280', border: '#d1d5db', selBg: '#111827', selText: '#ffffff' },
-				paper: { bg: '#f6f1e8', panel: '#fffdfa', header: '#6b4f2c', text: '#2d2418', dim: '#74644f', border: '#e2d8c7', selBg: '#2d2418', selText: '#fffdfa' },
-				repose: { bg: '#1f232a', panel: '#2a3038', header: '#3d4754', text: '#e8edf5', dim: '#9aa4b2', border: '#4b5563', selBg: '#e8edf5', selText: '#2a3038' }
-			};
+			const availableThemes = (typeof themes !== 'undefined' && themes)
+				? themes
+				: {
+					navy: { bg: '#eef2f5', panel: '#ffffff', header: '#1b2a47', headerText: '#ffffff', headerTextDim: '#d7deef', text: '#1c2533', dim: '#626f80', border: 'rgba(0,0,0,0.15)', selBg: '#1b2a47', selText: '#ffffff' },
+					dark: { bg: '#1c1a27', panel: '#2f2b42', header: '#3c3957', headerText: '#f3f4ff', headerTextDim: '#c9cbe3', text: '#d1d2d6', dim: '#9ba1a6', border: '#4e4a6e', selBg: '#d1d2d6', selText: '#1c1a27' },
+					purple: { bg: '#120e16', panel: '#1f1926', header: '#5c3d75', headerText: '#f8f2ff', headerTextDim: '#dacceb', text: '#f3eff5', dim: '#c0b1cb', border: '#3d2e4d', selBg: '#f3eff5', selText: '#120e16' },
+					dollar: { bg: '#d0d0c5', panel: '#e2e2d9', header: '#667a66', headerText: '#f3f6ef', headerTextDim: '#d7e0cf', text: '#2f3c4f', dim: '#626958', border: '#b5b5a7', selBg: '#2f3c4f', selText: '#e2e2d9' },
+					dots: { bg: '#282a36', panel: '#1f212b', header: '#bd93f9', headerText: '#1f212b', headerTextDim: '#323648', text: '#c8d3ff', dim: '#8a95be', border: '#44475a', selBg: '#bd93f9', selText: '#1f212b' },
+					paper: { bg: '#eeeeee', panel: '#ffffff', header: '#444444', headerText: '#ffffff', headerTextDim: '#dddddd', text: '#2f2f2f', dim: '#767676', border: '#cccccc', selBg: '#2f2f2f', selText: '#ffffff' },
+					repose_dark: { bg: '#2f3338', panel: '#3f444a', header: '#8f96a0', headerText: '#1f252c', headerTextDim: '#36404a', text: '#e6ebef', dim: '#b3bcc6', border: '#565e66', selBg: '#e6ebef', selText: '#2f3338' },
+					alpine: { bg: '#fafafa', panel: '#ffffff', header: '#6c6f93', headerText: '#ffffff', headerTextDim: '#d9ddf2', text: '#4f5475', dim: '#757ca1', border: '#e0e0e6', selBg: '#4f5475', selText: '#ffffff' }
+				};
 			const savedTheme = localStorage.getItem('site-theme') || 'paper';
-			const theme = themes[savedTheme] || themes.paper;
+			const theme = availableThemes[savedTheme] || availableThemes.paper || availableThemes.navy;
 			const root = document.documentElement;
 			root.style.setProperty('--bg-color', theme.bg);
 			root.style.setProperty('--panel-bg', theme.panel);
 			root.style.setProperty('--header-bg', theme.header);
+			root.style.setProperty('--header-text', theme.headerText || theme.panel);
+			root.style.setProperty('--header-text-dim', theme.headerTextDim || theme.headerText || theme.panel);
 			root.style.setProperty('--text-main', theme.text);
 			root.style.setProperty('--text-dim', theme.dim);
 			root.style.setProperty('--border-color', theme.border);
@@ -29,6 +37,8 @@
 	<style>
 		:root {
 			--ring-accent: var(--header-bg);
+			--header-text: #ffffff;
+			--header-text-dim: rgba(255, 255, 255, 0.75);
 			--ok: #16a34a;
 			--warn: #d97706;
 			--bad: #dc2626;
@@ -44,7 +54,7 @@
 
 		.top-strip {
 			background-color: var(--header-bg);
-			color: var(--panel-bg);
+			color: var(--header-text);
 			border-bottom: 1px solid var(--border-color);
 			box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 		}
@@ -60,9 +70,9 @@
 		}
 
 		.home-btn {
-			background-color: rgba(255, 255, 255, 0.15);
-			border: 1px solid rgba(255, 255, 255, 0.25);
-			color: var(--panel-bg);
+			background-color: color-mix(in srgb, var(--header-text) 14%, transparent);
+			border: 1px solid color-mix(in srgb, var(--header-text) 30%, transparent);
+			color: var(--header-text);
 			padding: 6px 18px;
 			border-radius: 4px;
 			cursor: pointer;
@@ -75,7 +85,7 @@
 		}
 
 		.home-btn:hover {
-			background-color: rgba(255, 255, 255, 0.25);
+			background-color: color-mix(in srgb, var(--header-text) 24%, transparent);
 		}
 
 		.page {
@@ -101,7 +111,7 @@
 
 		.card-head {
 			background: var(--header-bg);
-			color: var(--panel-bg);
+			color: var(--header-text);
 			padding: 10px 14px;
 			font-size: 13px;
 			font-weight: bold;
@@ -122,7 +132,7 @@
 			justify-content: center;
 			width: 18px;
 			height: 18px;
-			border: 1px solid rgba(255,255,255,0.7);
+			border: 1px solid color-mix(in srgb, var(--header-text) 70%, transparent);
 			border-radius: 999px;
 			font-size: 12px;
 			line-height: 1;
@@ -132,7 +142,7 @@
 		}
 
 		.score-req-info:focus-visible {
-			outline: 2px solid rgba(255,255,255,0.95);
+			outline: 2px solid color-mix(in srgb, var(--header-text) 95%, transparent);
 			outline-offset: 2px;
 		}
 
@@ -477,7 +487,7 @@
 			justify-content: space-between;
 			padding: 10px 14px;
 			background: var(--header-bg);
-			color: var(--panel-bg);
+			color: var(--header-text);
 			font-size: 13px;
 			font-weight: bold;
 		}
@@ -497,9 +507,9 @@
 		}
 
 		.question-preview-close {
-			border: 1px solid rgba(255,255,255,0.25);
-			background: rgba(255,255,255,0.15);
-			color: var(--panel-bg);
+			border: 1px solid color-mix(in srgb, var(--header-text) 30%, transparent);
+			background: color-mix(in srgb, var(--header-text) 14%, transparent);
+			color: var(--header-text);
 			font-family: inherit;
 			font-size: 11px;
 			font-weight: bold;
@@ -512,7 +522,7 @@
 		}
 
 		.question-preview-close:hover {
-			background-color: rgba(255, 255, 255, 0.25);
+			background-color: color-mix(in srgb, var(--header-text) 24%, transparent);
 		}
 
 		.question-preview-frame {
@@ -730,6 +740,87 @@
 			.legend { grid-template-columns: 1fr; }
 		}
 
+		@media (max-width: 900px) {
+			.top-strip-inner {
+				padding: 12px 14px;
+				gap: 10px;
+				flex-wrap: wrap;
+			}
+
+			.page {
+				margin: 16px auto;
+				padding: 0 10px 16px;
+			}
+
+			.card-body {
+				padding: 12px;
+			}
+
+			.ring,
+			.ring-svg {
+				width: 150px;
+				height: 150px;
+			}
+
+			.ring-value {
+				width: 96px;
+				height: 96px;
+				font-size: 56px;
+			}
+
+			.score-lines {
+				font-size: 14px;
+			}
+
+			.bank-grid {
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+			}
+
+			.bank-grid.frq {
+				grid-template-columns: repeat(2, minmax(34px, 1fr));
+				max-width: none;
+			}
+
+			.question-preview-shell {
+				width: 100%;
+				height: min(94vh, 980px);
+			}
+
+			.question-preview-overlay {
+				padding: 10px;
+			}
+
+			.dev-tools {
+				right: 10px;
+				bottom: 10px;
+			}
+		}
+
+		@media (max-width: 640px) {
+			.top-strip-inner {
+				font-size: 12px;
+			}
+
+			.home-btn {
+				width: 100%;
+			}
+
+			.bank-grid {
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+			}
+
+			.q-cell {
+				height: 28px;
+				font-size: 11px;
+			}
+
+			.score-req-tooltip {
+				left: 0;
+				right: auto;
+				max-width: min(88vw, 320px);
+			}
+		}
+
 		.dev-tools {
 			position: fixed;
 			right: 18px;
@@ -739,7 +830,7 @@
 
 		.dev-tools-btn {
 			background: var(--header-bg);
-			color: var(--panel-bg);
+			color: var(--header-text);
 			border: 1px solid var(--border-color);
 			border-radius: 999px;
 			padding: 10px 14px;

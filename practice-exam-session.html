@@ -15,14 +15,14 @@
             }
 
             const themes = {
-                navy: { bg: "#eef2f5", panel: "#ffffff", header: "#1b2a47", text: "#1c2533", dim: "#626f80", border: "rgba(0,0,0,0.15)", selBg: "#1b2a47", selText: "#ffffff" },
-                dark: { bg: "#1c1a27", panel: "#2f2b42", header: "#3c3957", text: "#d1d2d6", dim: "#9ba1a6", border: "#4e4a6e", selBg: "#d1d2d6", selText: "#1c1a27" },
-                purple: { bg: "#120e16", panel: "#1f1926", header: "#5c3d75", text: "#f3eff5", dim: "#a89cb3", border: "#3d2e4d", selBg: "#5c3d75", selText: "#f3eff5" },
-                dollar: { bg: "#d0d0c5", panel: "#e2e2d9", header: "#667a66", text: "#4c5470", dim: "#828274", border: "#b5b5a7", selBg: "#667a66", selText: "#e2e2d9" },
-                dots: { bg: "#282a36", panel: "#1f212b", header: "#bd93f9", text: "#a4b3db", dim: "#6272a4", border: "#44475a", selBg: "#bd93f9", selText: "#1f212b" },
-                paper: { bg: "#eeeeee", panel: "#ffffff", header: "#444444", text: "#444444", dim: "#b2b2b2", border: "#cccccc", selBg: "#444444", selText: "#ffffff" },
-                repose_dark: { bg: "#2f3338", panel: "#3f444a", header: "#8f96a0", text: "#d6dbdf", dim: "#8f96a0", border: "#565e66", selBg: "#d6dbdf", selText: "#2f3338" },
-                alpine: { bg: "#fafafa", panel: "#ffffff", header: "#6c6f93", text: "#6c6f93", dim: "#a4a7c5", border: "#e0e0e6", selBg: "#6c6f93", selText: "#ffffff" }
+                navy: { bg: "#eef2f5", panel: "#ffffff", header: "#1b2a47", headerText: "#ffffff", headerTextDim: "#d7deef", text: "#1c2533", dim: "#626f80", border: "rgba(0,0,0,0.15)", selBg: "#1b2a47", selText: "#ffffff" },
+                dark: { bg: "#1c1a27", panel: "#2f2b42", header: "#3c3957", headerText: "#f3f4ff", headerTextDim: "#c9cbe3", text: "#d1d2d6", dim: "#9ba1a6", border: "#4e4a6e", selBg: "#d1d2d6", selText: "#1c1a27" },
+                purple: { bg: "#120e16", panel: "#1f1926", header: "#5c3d75", headerText: "#f8f2ff", headerTextDim: "#dacceb", text: "#f3eff5", dim: "#c0b1cb", border: "#3d2e4d", selBg: "#f3eff5", selText: "#120e16" },
+                dollar: { bg: "#d0d0c5", panel: "#e2e2d9", header: "#667a66", headerText: "#f3f6ef", headerTextDim: "#d7e0cf", text: "#2f3c4f", dim: "#626958", border: "#b5b5a7", selBg: "#2f3c4f", selText: "#e2e2d9" },
+                dots: { bg: "#282a36", panel: "#1f212b", header: "#bd93f9", headerText: "#1f212b", headerTextDim: "#323648", text: "#c8d3ff", dim: "#8a95be", border: "#44475a", selBg: "#bd93f9", selText: "#1f212b" },
+                paper: { bg: "#eeeeee", panel: "#ffffff", header: "#444444", headerText: "#ffffff", headerTextDim: "#dddddd", text: "#2f2f2f", dim: "#767676", border: "#cccccc", selBg: "#2f2f2f", selText: "#ffffff" },
+                repose_dark: { bg: "#2f3338", panel: "#3f444a", header: "#8f96a0", headerText: "#1f252c", headerTextDim: "#36404a", text: "#e6ebef", dim: "#b3bcc6", border: "#565e66", selBg: "#e6ebef", selText: "#2f3338" },
+                alpine: { bg: "#fafafa", panel: "#ffffff", header: "#6c6f93", headerText: "#ffffff", headerTextDim: "#d9ddf2", text: "#4f5475", dim: "#757ca1", border: "#e0e0e6", selBg: "#4f5475", selText: "#ffffff" }
             };
             const savedTheme = localStorage.getItem('site-theme') || 'paper';
             const theme = themes[savedTheme] || themes.paper;
@@ -30,6 +30,8 @@
             root.style.setProperty('--bg-color', theme.bg);
             root.style.setProperty('--panel-bg', theme.panel);
             root.style.setProperty('--header-bg', theme.header);
+            root.style.setProperty('--header-text', theme.headerText || theme.panel);
+            root.style.setProperty('--header-text-dim', theme.headerTextDim || theme.headerText || theme.panel);
             root.style.setProperty('--text-main', theme.text);
             root.style.setProperty('--text-dim', theme.dim);
             root.style.setProperty('--border-color', theme.border);
@@ -61,6 +63,9 @@
             --choice-image-width: 360px;
             --choice-image-height: 240px;
             --mcq-left-pane-width: 50%;
+            --header-text: #ffffff;
+            --header-text-dim: rgba(255, 255, 255, 0.75);
+            --side-drawer-width: min(680px, 92vw);
         }
 
         body {
@@ -108,7 +113,7 @@
             padding: 14px 40px;
             font-size: 13px;
             font-weight: bold;
-            color: var(--panel-bg);
+            color: var(--header-text);
             letter-spacing: 0.5px;
             display: grid;
             grid-template-columns: 1fr auto 1fr;
@@ -118,7 +123,7 @@
 
         .header-left-title {
             text-align: left;
-            color: var(--panel-bg);
+            color: var(--header-text);
         }
 
         .timer-zone {
@@ -131,7 +136,7 @@
 
         .timer-box { 
             font-size: 24px; 
-            color: var(--panel-bg); 
+            color: var(--header-text); 
             font-weight: 900; 
             letter-spacing: 1px;
             font-family: monospace;
@@ -148,7 +153,7 @@
             border-radius: 999px;
             background: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.25);
-            color: var(--panel-bg);
+            color: var(--header-text);
             font-size: 10px;
             font-weight: bold;
             letter-spacing: 0.4px;
@@ -160,7 +165,7 @@
         .utility-btn {
             background-color: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.25);
-            color: var(--panel-bg);
+            color: var(--header-text);
             padding: 2px 10px;
             font-family: inherit;
             font-size: 10px;
@@ -331,7 +336,7 @@
             padding: 12px 16px;
             font-size: 13px;
             font-weight: bold;
-            color: var(--panel-bg);
+            color: var(--header-text);
             letter-spacing: 0.5px;
             display: flex;
             justify-content: space-between;
@@ -440,7 +445,7 @@
             position: relative;
             font-size: 9px;
             font-weight: bold;
-            color: var(--panel-bg);
+            color: var(--header-text);
             background: var(--header-bg);
             border-radius: 999px;
             width: 18px;
@@ -552,7 +557,7 @@
         .header-action-toggle {
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.75);
+            color: var(--header-text-dim);
             font-family: inherit;
             font-size: 13px;
             font-weight: bold;
@@ -563,7 +568,7 @@
             transition: color 0.2s;
         }
         .header-action-toggle:hover {
-            color: var(--panel-bg);
+            color: var(--header-text);
         }
 
         .question-preview-mode .header-action-toggle,
@@ -574,7 +579,7 @@
 
         .question-preview-mode .header-action-toggle:hover,
         .question-preview-mode #review-flag-trigger:hover {
-            color: rgba(255, 255, 255, 0.75) !important;
+            color: var(--header-text-dim) !important;
         }
 
         .header-action-toggle.flagged-active {
@@ -653,7 +658,8 @@
         }
 
         .question-preview-mode .choice-btn.selected:hover {
-            background-color: rgba(0,0,0,0.12) !important;
+            background-color: var(--selected-bg) !important;
+            color: var(--selected-text) !important;
         }
 
         .choice-strike-indicator {
@@ -669,9 +675,19 @@
         }
 
         .choice-btn.selected { 
-            border-color: var(--text-main) !important; 
-            background-color: rgba(0,0,0,0.12) !important; 
-            font-weight: bold; 
+            border-color: var(--selected-bg) !important;
+            background-color: var(--selected-bg) !important;
+            color: var(--selected-text) !important;
+            box-shadow: 0 0 0 2px var(--panel-bg), 0 0 0 4px var(--selected-bg);
+            font-weight: bold;
+        }
+
+        .choice-btn.selected * {
+            color: var(--selected-text) !important;
+        }
+
+        .choice-btn.selected .choice-strike-indicator {
+            color: var(--selected-text);
         }
 
         .choice-btn .mjx-container {
@@ -680,7 +696,7 @@
         }
 
         .choice-row.eliminated .choice-btn {
-            opacity: 0.25;
+            opacity: 0.4;
             background-color: rgba(0,0,0,0.04);
             border-color: rgba(0,0,0,0.1);
         }
@@ -975,7 +991,7 @@
         .action-btn { 
             background-color: var(--header-bg); 
             border: 1px solid var(--header-bg); 
-            color: var(--panel-bg); 
+            color: var(--header-text); 
             padding: 10px 22px; 
             cursor: pointer; 
             font-family: inherit; 
@@ -998,7 +1014,7 @@
         .dropup-label-tab-btn {
             font-size: 13px; 
             font-weight: bold; 
-            color: var(--panel-bg);
+            color: var(--header-text);
             background-color: var(--header-bg);
             border: 1px solid var(--header-bg);
             cursor: pointer;
@@ -1030,7 +1046,7 @@
 
         .tab-panel-header {
             background-color: var(--header-bg);
-            color: var(--panel-bg);
+            color: var(--header-text);
             padding: 12px 16px;
             font-size: 13px;
             font-weight: bold;
@@ -1274,7 +1290,7 @@
             background: var(--header-bg);
             border-bottom: 1px solid var(--border-color);
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            color: var(--panel-bg);
+            color: var(--header-text);
             padding: 14px 40px;
             min-height: 81px;
             display: grid;
@@ -1288,7 +1304,7 @@
 
         .submission-header-left-title {
             text-align: left;
-            color: var(--panel-bg);
+            color: var(--header-text);
         }
 
         .submission-header-right-zone {
@@ -1486,6 +1502,31 @@
             max-width: 560px;
         }
 
+        .submission-confirm-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .submission-confirm-cancel-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 14px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .submission-confirm-cancel-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
         @media (max-width: 1100px) {
             .submission-workspace-grid {
                 grid-template-columns: 1fr;
@@ -1530,14 +1571,14 @@
         }
 
         .ref-sheet-tab.drawer-open {
-            right: 680px; 
+            right: var(--side-drawer-width);
         }
 
         .ref-drawer {
             position: fixed;
             top: 0;
-            right: -720px; 
-            width: 680px; 
+            right: calc(-1 * var(--side-drawer-width) - 40px);
+            width: var(--side-drawer-width);
             height: 100%;
             background-color: var(--panel-bg);
             border-left: 2px solid var(--header-bg);
@@ -1821,13 +1862,13 @@
             transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .desmos-tab.drawer-open { left: 680px; }
+        .desmos-tab.drawer-open { left: var(--side-drawer-width); }
 
         .desmos-drawer {
             position: fixed;
             top: 0;
-            left: -720px; 
-            width: 680px; 
+            left: calc(-1 * var(--side-drawer-width) - 40px);
+            width: var(--side-drawer-width);
             height: 100%;
             background-color: var(--panel-bg);
             border-right: 2px solid var(--header-bg);
@@ -1844,6 +1885,91 @@
             flex-grow: 1;
             width: 100%;
             height: 100%;
+        }
+
+        @media (max-width: 1280px) {
+            .top-strip-inner-grid {
+                padding: 12px 20px;
+            }
+
+            .workspace-wrapper {
+                padding: 0 14px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding-bottom: 114px;
+            }
+
+            .top-strip-inner-grid {
+                grid-template-columns: 1fr;
+                justify-items: center;
+                text-align: center;
+                gap: 8px;
+                padding: 10px 12px;
+            }
+
+            .header-left-title,
+            .header-right-zone {
+                justify-self: center;
+            }
+
+            .workspace-wrapper {
+                padding: 0 10px;
+            }
+
+            .panel-content {
+                padding: 14px;
+            }
+
+            .dropup-nav-panel {
+                width: min(94vw, 520px);
+            }
+
+            .footer-belt {
+                padding: 10px 10px;
+                gap: 8px;
+            }
+
+            .nav-btn,
+            .action-btn,
+            .dropup-label-tab-btn {
+                font-size: 12px;
+                padding: 9px 12px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            :root {
+                --side-drawer-width: 100vw;
+            }
+
+            .timer-box {
+                font-size: 21px;
+            }
+
+            .drawer-page-toggle {
+                flex-wrap: wrap;
+            }
+
+            .toggle-page-btn {
+                min-width: 46%;
+            }
+
+            .ref-table {
+                font-size: 12px;
+            }
+
+            .ref-table th,
+            .ref-table td {
+                padding: 8px;
+            }
+
+            .official-two-col-container {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
         }
     </style>
     <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=d833b47ebb4744f09e6a1e4358dcb7fb"></script>
@@ -3228,6 +3354,22 @@
                         <li>Take your time and evaluate all problems before finishing.</li>
                     </ul>
                     <button class="action-btn" style="width: 100%; margin-top: 15px; padding: 12px;" type="button" onclick="closeSubmissionInstructionsModal()">Start Grading</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="submission-finish-confirm-overlay" class="submission-instructions-overlay" onclick="closeSubmissionFinishConfirmModal(event)">
+            <div class="modal-box" onclick="event.stopPropagation()">
+                <div class="panel-header">
+                    <span>Self-Grading</span>
+                </div>
+                <div style="padding: 20px;">
+                    <p style="margin-top: 0; font-size: 13px; font-weight: bold; line-height: 1.5;">Are you sure you want to finish your self-grading?</p>
+                    <p style="margin: 0; font-size: 13px; line-height: 1.6; color: var(--text-dim);">After you finish, your scores will be saved and you will be redirected to view your results. You won't be able to change your scores if you do submit them.</p>
+                    <div class="submission-confirm-actions">
+                        <button class="submission-confirm-cancel-btn" type="button" onclick="closeSubmissionFinishConfirmModal(event)">Keep Grading</button>
+                        <button class="action-btn" type="button" onclick="confirmSubmissionFinishAndShowResults(event)">Finish</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -5219,6 +5361,18 @@
             if (overlay) overlay.style.display = 'none';
         }
 
+        function closeSubmissionFinishConfirmModal(event) {
+            if (event) event.stopPropagation();
+            const overlay = document.getElementById('submission-finish-confirm-overlay');
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        function confirmSubmissionFinishAndShowResults(event) {
+            if (event) event.stopPropagation();
+            closeSubmissionFinishConfirmModal();
+            executeSubmissionFinishFlow();
+        }
+
         function buildAndStoreExamResultsPayload() {
             const mcqQuestions = Array.isArray(poolMCQ) ? poolMCQ : [];
             const frqQuestions = Array.isArray(poolFRQ) ? poolFRQ : [];
@@ -5356,6 +5510,18 @@
 
         function finishSubmissionAndShowResults() {
             if (isReadOnlyQuestionPreviewMode) return;
+            const overlay = document.getElementById('submission-finish-confirm-overlay');
+            if (!overlay) {
+                executeSubmissionFinishFlow();
+                return;
+            }
+
+            overlay.style.display = 'flex';
+        }
+
+        function executeSubmissionFinishFlow() {
+            if (isReadOnlyQuestionPreviewMode) return;
+
             clearInterval(processingTickerInterval);
             if (breakTimerInterval) clearInterval(breakTimerInterval);
 
