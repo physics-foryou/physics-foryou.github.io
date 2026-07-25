@@ -678,7 +678,7 @@
             border-color: var(--selected-bg) !important;
             background-color: var(--selected-bg) !important;
             color: var(--selected-text) !important;
-            box-shadow: 0 0 0 2px var(--panel-bg), 0 0 0 4px var(--selected-bg);
+            box-shadow: none;
             font-weight: bold;
         }
 
@@ -1602,6 +1602,22 @@
             border-bottom: 1px solid var(--border-color);
         }
 
+        .desmos-drawer .drawer-header {
+            overflow: hidden;
+        }
+
+        .desmos-drawer-title {
+            display: block;
+            min-width: 0;
+            max-width: 100%;
+            font-size: 13px;
+            font-weight: bold;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         #course-ref-select {
             width: 100%;
             padding: 8px 30px 8px 12px;
@@ -1849,7 +1865,7 @@
             border: 1px solid var(--border-color);
             border-left: none;
             padding: 15px 10px;
-            cursor: pointer;
+            cursor: ew-resize;
             border-top-right-radius: 6px;
             border-bottom-right-radius: 6px;
             writing-mode: vertical-rl;
@@ -1860,6 +1876,8 @@
             box-shadow: 2px 4px 12px rgba(0,0,0,0.1);
             display: none; 
             transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            touch-action: none;
+            user-select: none;
         }
 
         .desmos-tab.drawer-open { left: var(--side-drawer-width); }
@@ -1877,9 +1895,15 @@
             z-index: 1000;
             display: flex;
             flex-direction: column;
+            touch-action: none;
         }
 
         .desmos-drawer.open { left: 0; }
+
+        .desmos-tab.dragging,
+        .desmos-drawer.dragging {
+            transition: none !important;
+        }
 
         .desmos-container {
             flex-grow: 1;
@@ -1986,7 +2010,7 @@
 
     <div id="desmos-drawer-panel" class="desmos-drawer">
         <div class="drawer-header">
-            <span style="font-size: 13px; font-weight: bold; color: #ffffff;">Desmos Graphing Calculator</span>
+            <span class="desmos-drawer-title">Desmos Graphing Calculator</span>
         </div>
         <div id="desmos-calculator" class="desmos-container"></div>
     </div>
@@ -5553,6 +5577,114 @@
 
         // Reference Sheet and Calculator Functions
         let desmosCalcInstance = null;
+        let desmosDrawerWidthPx = 420;
+        let desmosDrawerIsOpen = false;
+        let isDesmosDrawerDragging = false;
+        let desmosDragStartX = 0;
+        let desmosDragStartWidth = 0;
+        let desmosDragMovedPixels = 0;
+        let suppressNextDesmosToggle = false;
+
+        const DESMOS_DRAWER_OPEN_THRESHOLD_PX = 120;
+        const DESMOS_DRAWER_MIN_WIDTH_PX = 180;
+        const DESMOS_DRAWER_MAX_WIDTH_RATIO = 0.92;
+
+        function getDesmosDrawerMaxWidth() {
+            return Math.max(DESMOS_DRAWER_MIN_WIDTH_PX, Math.floor(window.innerWidth * DESMOS_DRAWER_MAX_WIDTH_RATIO));
+        }
+
+        function applyDesmosDrawerLayout() {
+            const drawer = document.getElementById('desmos-drawer-panel');
+            const tabTrigger = document.getElementById('desmos-tab-trigger');
+            if (!drawer || !tabTrigger) return;
+
+            const maxWidth = getDesmosDrawerMaxWidth();
+            desmosDrawerWidthPx = Math.max(1, Math.min(maxWidth, desmosDrawerWidthPx));
+
+            drawer.style.width = `${desmosDrawerWidthPx}px`;
+            drawer.style.left = desmosDrawerIsOpen ? '0px' : `-${desmosDrawerWidthPx + 40}px`;
+            tabTrigger.style.left = desmosDrawerIsOpen ? `${desmosDrawerWidthPx}px` : '0px';
+
+            drawer.classList.toggle('open', desmosDrawerIsOpen);
+            tabTrigger.classList.toggle('drawer-open', desmosDrawerIsOpen);
+        }
+
+        function initializeDesmosDrawerDrag() {
+            const drawer = document.getElementById('desmos-drawer-panel');
+            const tabTrigger = document.getElementById('desmos-tab-trigger');
+            if (!drawer || !tabTrigger || tabTrigger.dataset.dragBound === 'true') return;
+
+            const getClientX = (event) => {
+                if (event.touches && event.touches.length) return event.touches[0].clientX;
+                if (event.changedTouches && event.changedTouches.length) return event.changedTouches[0].clientX;
+                return event.clientX;
+            };
+
+            const stopDrag = () => {
+                if (!isDesmosDrawerDragging) return;
+                isDesmosDrawerDragging = false;
+                drawer.classList.remove('dragging');
+                tabTrigger.classList.remove('dragging');
+
+                const shouldOpen = desmosDrawerWidthPx >= DESMOS_DRAWER_OPEN_THRESHOLD_PX;
+                desmosDrawerIsOpen = shouldOpen;
+                if (shouldOpen) {
+                    desmosDrawerWidthPx = Math.max(DESMOS_DRAWER_MIN_WIDTH_PX, desmosDrawerWidthPx);
+                }
+                applyDesmosDrawerLayout();
+
+                if (desmosDragMovedPixels > 5) {
+                    suppressNextDesmosToggle = true;
+                    window.setTimeout(() => {
+                        suppressNextDesmosToggle = false;
+                    }, 250);
+                }
+
+                if (desmosCalcInstance && desmosDrawerIsOpen) {
+                    setTimeout(() => desmosCalcInstance.resize(), 40);
+                }
+
+                window.removeEventListener('mousemove', onDragMove);
+                window.removeEventListener('mouseup', stopDrag);
+                window.removeEventListener('touchmove', onDragMove);
+                window.removeEventListener('touchend', stopDrag);
+            };
+
+            const onDragMove = (event) => {
+                if (!isDesmosDrawerDragging) return;
+                const clientX = getClientX(event);
+                const rawWidth = desmosDragStartWidth + (clientX - desmosDragStartX);
+                desmosDragMovedPixels = Math.max(desmosDragMovedPixels, Math.abs(clientX - desmosDragStartX));
+
+                const clampedWidth = Math.max(1, Math.min(getDesmosDrawerMaxWidth(), rawWidth));
+                desmosDrawerWidthPx = clampedWidth;
+                desmosDrawerIsOpen = clampedWidth >= 2;
+                applyDesmosDrawerLayout();
+
+                if (event.cancelable) event.preventDefault();
+            };
+
+            const startDrag = (event) => {
+                const clientX = getClientX(event);
+                isDesmosDrawerDragging = true;
+                desmosDragStartX = clientX;
+                desmosDragStartWidth = desmosDrawerIsOpen ? desmosDrawerWidthPx : 0;
+                desmosDragMovedPixels = 0;
+                drawer.classList.add('dragging');
+                tabTrigger.classList.add('dragging');
+
+                window.addEventListener('mousemove', onDragMove);
+                window.addEventListener('mouseup', stopDrag);
+                window.addEventListener('touchmove', onDragMove, { passive: false });
+                window.addEventListener('touchend', stopDrag);
+
+                if (event.cancelable) event.preventDefault();
+            };
+
+            tabTrigger.addEventListener('mousedown', startDrag);
+            tabTrigger.addEventListener('touchstart', startDrag, { passive: false });
+            tabTrigger.dataset.dragBound = 'true';
+        }
 
         function toggleRefDrawer() {
             const drawer = document.getElementById('ref-drawer-panel');
@@ -5563,16 +5695,21 @@
         }
 
         function toggleDesmosDrawer() {
+            if (suppressNextDesmosToggle) {
+                suppressNextDesmosToggle = false;
+                return;
+            }
             const drawer = document.getElementById('desmos-drawer-panel');
             const tabTrigger = document.getElementById('desmos-tab-trigger');
+            if (!drawer || !tabTrigger) return;
 
-            drawer.classList.toggle('open');
-            tabTrigger.classList.toggle('drawer-open');
+            desmosDrawerIsOpen = !desmosDrawerIsOpen;
+            applyDesmosDrawerLayout();
 
             if (desmosCalcInstance) {
                 setTimeout(() => {
                     desmosCalcInstance.resize();
-                }, 310);
+                }, 120);
             }
         }
 
@@ -5608,6 +5745,15 @@
             document.getElementById('ref-tab-trigger').style.display = 'block';
             document.getElementById('desmos-tab-trigger').style.display = 'block';
             initializeMCQSplitDividerDrag();
+            initializeDesmosDrawerDrag();
+            applyDesmosDrawerLayout();
+
+            window.addEventListener('resize', () => {
+                if (desmosDrawerIsOpen) {
+                    desmosDrawerWidthPx = Math.min(desmosDrawerWidthPx, getDesmosDrawerMaxWidth());
+                }
+                applyDesmosDrawerLayout();
+            });
 
             // Disable context menu on rendered MathJax text to prevent menu-based tampering tools.
             document.addEventListener('contextmenu', (event) => {

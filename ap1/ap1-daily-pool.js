@@ -17,7 +17,7 @@ const ap1DailyPool = [
         ],
         correctIndex: 2,
         explanation: {
-            correct: "Angular momentum is conserved: \\(I_{disk}\\omega_0 = (I_{disk} + mR^2)\\omega_f\\). \\(I_{disk} = \\frac{1}{2}(2.0)(0.50)^2 = 0.25\\) kg·m². \\(I_{clay} = (0.50)(0.50)^2 = 0.125\\) kg·m². So \\(\\omega_f = \\frac{0.25 \\times 8.0}{0.25 + 0.125} = \\frac{2.0}{0.375} \\approx 6.4\\) rad/s."
+            correct: "\\(I_{disk}\\omega_0=(I_{disk}+mR^2)\\omega_f\\) ; \\(\\tau_{ext}=0\\).\n\\(I_{disk}=\\frac{1}{2}MR^2\\).\n\\(I_f=I_{disk}+mR^2\\).\n\\(\\omega_f=\\frac{I_{disk}\\omega_0}{I_f}\\approx 6.4\\,\\text{rad/s}\\)."
         }
     },
     // Q2: Medium | Force and Translational Dynamics | ans=A (idx=0)
@@ -38,7 +38,7 @@ const ap1DailyPool = [
         ],
         correctIndex: 0,
         explanation: {
-            correct: "The friction force is \\(f_k = \\mu_k mg = 0.25 \\times 12 \\times 10 = 30\\) N. Net force: \\(F_{net} = 54 - 30 = 24\\) N. Acceleration: \\(a = \\frac{F_{net}}{m} = \\frac{24}{12} = 2.0\\) m/s²."
+            correct: "\\(a=\\frac{F_{net}}{m}\\) ; \\(\\sum F_x=ma\\).\n\\(f_k=\\mu_kmg=0.25(12)(10)=30\\,\\text{N}\\).\n\\(F_{net}=54-30=24\\,\\text{N}\\).\n\\(a=\\frac{24}{12}=2.0\\,\\text{m/s}^2\\)."
         }
     },
     // Q3: Easy | Work, Energy, and Power | ans=D (idx=3)
@@ -59,7 +59,7 @@ const ap1DailyPool = [
         ],
         correctIndex: 3,
         explanation: {
-            correct: "By the work-energy theorem, the net work equals the change in kinetic energy. Since the backpack moves at constant velocity, \\(\\Delta KE = 0\\), so the net work done on it is zero. The individual forces (gravity, normal, applied) may do work, but they cancel out."
+            correct: "\\(W_{net}=\\Delta KE\\).\nConstant velocity ; \\(\\Delta KE=0\\).\n\\(W_{net}=0\\)."
         }
     },
     // Q4: Medium | Force and Translational Dynamics | ans=D (idx=3)
@@ -80,7 +80,7 @@ const ap1DailyPool = [
         ],
         correctIndex: 3,
         explanation: {
-            correct: "Applying Newton's second law to the system: the only unbalanced external force is the weight of block B: \\(F = m_B g = 30\\) N. Total mass being accelerated: \\(m_A + m_B = 8.0\\) kg. Thus \\(a = \\frac{30}{8.0} = 3.75\\) m/s²."
+            correct: "\\(a=\\frac{F_{net}}{m_A+m_B}\\) ; system = both blocks.\n\\(F_{net}=m_Bg=3.0(10)=30\\,\\text{N}\\).\n\\(m_A+m_B=5.0+3.0=8.0\\,\\text{kg}\\).\n\\(a=\\frac{30}{8.0}=3.75\\,\\text{m/s}^2\\)."
         }
     }
 ];

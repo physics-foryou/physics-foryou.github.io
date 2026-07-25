@@ -61,7 +61,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 1,
 
         explanation: {
-            correct: "At constant speed, net radial force = mvÂ²/R everywhere. At the bottom (Pt 1): F_N1 âˆ’ mg = mvÂ²/R â†’ F_N1 = mvÂ²/R + mg. At the sides (Pts 2 & 4): gravity is tangential, so F_N2 = F_N4 = mvÂ²/R. At the top (Pt 3): F_N3 + mg = mvÂ²/R â†’ F_N3 = mvÂ²/R âˆ’ mg. Therefore F_N1 > F_N2 = F_N4 > F_N3."
+            correct: "At constant speed, net radial force = mv^2/R everywhere. At the bottom (Pt 1): F_N1 - mg = mv^2/R -> F_N1 = mv^2/R + mg. At the sides (Pts 2 and 4): gravity is tangential, so F_N2 = F_N4 = mv^2/R. At the top (Pt 3): F_N3 + mg = mv^2/R -> F_N3 = mv^2/R - mg. Therefore F_N1 > F_N2 = F_N4 > F_N3."
         }
     },
 
@@ -88,7 +88,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 0,
 
         explanation: {
-            correct: "By conservation of mechanical energy: (1/2)mvâ‚€Â² = (1/2)mv_pÂ² + mgh. Dividing by m and solving: v_p = âˆš(vâ‚€Â² âˆ’ 2gh). The launch angle Î¸ does not appear in the final expression because the formula uses total speed, not components."
+            correct: "By conservation of mechanical energy: (1/2)mv_0^2 = (1/2)mv_p^2 + mgh. Dividing by m and solving gives v_p = sqrt(v_0^2 - 2gh). The launch angle theta does not appear in the final expression because the formula uses total speed, not components."
         }
     },
 
@@ -127,7 +127,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 2,
 
         explanation: {
-            correct: "Setting net torque about the hinge = 0 for each scenario: Scenario A: T_A Â· L Â· sin(30Â°) = Mg(L/2) â†’ T_AÂ·(1/2) = Mg/2 â†’ T_A = Mg. Scenario B: T_B Â· (L/2) Â· sin(60Â°) = Mg(L/2) â†’ T_B Â· (âˆš3/2) = Mg â†’ T_B = (2/âˆš3)Mg. Ratio: T_A/T_B = Mg / [(2/âˆš3)Mg] = âˆš3/2. Therefore T_A = (âˆš3/2)T_B."
+            correct: "Setting net torque about the hinge = 0 for each scenario: Scenario A: T_A * L * sin(30 deg) = Mg(L/2) -> T_A*(1/2) = Mg/2 -> T_A = Mg. Scenario B: T_B * (L/2) * sin(60 deg) = Mg(L/2) -> T_B * (sqrt(3)/2) = Mg -> T_B = (2/sqrt(3))Mg. Ratio: T_A/T_B = Mg / [(2/sqrt(3))Mg] = sqrt(3)/2. Therefore T_A = (sqrt(3)/2)T_B."
         }
     },
 
@@ -154,7 +154,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 1,
 
         explanation: {
-            correct: "The central axle must exert an external force on the disk during collision to keep it from translating, so linear momentum is NOT conserved. However, this axle force acts at r = 0 from the pivot, producing zero torque (Ï„ = rFÂ·sinÎ¸ = 0). With no external torques about the axle, angular momentum about the axle IS conserved."
+            correct: "The central axle must exert an external force on the disk during collision to keep it from translating, so linear momentum is not conserved. However, this axle force acts at r = 0 from the pivot, producing zero torque (tau = rF*sin(theta) = 0). With no external torque about the axle, angular momentum about the axle is conserved."
         }
     },
 
@@ -181,7 +181,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 3,
 
         explanation: {
-            correct: "Velocity is the derivative of position. Since x(t) = AÂ·cos(Ï‰t), then v(t) = âˆ’AÏ‰Â·sin(Ï‰t). At t = 0 the slope of x(t) is zero (flat peak), so v = 0. Just after t = 0, position decreases (slope is negative), making velocity negative. At t = T/4, the cosine curve crosses zero at its steepest downward slope, giving v = âˆ’v_max. This matches a negative sine curve."
+            correct: "Velocity is the derivative of position. Since x(t) = A*cos(omega t), then v(t) = -A*omega*sin(omega t). At t = 0 the slope of x(t) is zero (flat peak), so v = 0. Just after t = 0, position decreases (slope is negative), making velocity negative. At t = T/4, the cosine curve crosses zero at its steepest downward slope, giving v = -v_max. This matches a negative sine curve."
         }
     },
 
@@ -208,7 +208,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 1,
 
         explanation: {
-            correct: "Applying Newton's second law along the incline: a = gÂ·sinÎ¸ âˆ’ Î¼kÂ·gÂ·cosÎ¸ = (10)(0.60) âˆ’ (0.25)(10)(0.80) = 6.0 âˆ’ 2.0 = 4.0 m/sÂ². The mass cancels out entirely."
+            correct: "Applying Newton's second law along the incline: a = g*sin(theta) - mu_k*g*cos(theta) = (10)(0.60) - (0.25)(10)(0.80) = 6.0 - 2.0 = 4.0 m/s^2. The mass cancels out entirely."
         }
     },
 
@@ -274,12 +274,12 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 1,
 
         explanation: {
-            correct: "Hydrostatic pressure depends only on vertical depth: P = P_atm + Ïgh. Points X and Y are both at depth h = 5 cm, so P_X = P_Y regardless of horizontal position. Point Z is at h = 15 cm, giving a larger pressure. Therefore P_X = P_Y < P_Z."
+            correct: "Hydrostatic pressure depends only on vertical depth: P = P_atm + rho gh. Points X and Y are both at depth h = 5 cm, so P_X = P_Y regardless of horizontal position. Point Z is at h = 15 cm, giving a larger pressure. Therefore P_X = P_Y < P_Z."
         }
     },
 
-    {//10
-        id: "AP001-ROTEN-LQ28S",
+    {//11
+        id: "AP001-FLUID-LQ28S",
         unit: "Energy and Momentum of Rotating Systems",
         topic: "Rotational Kinetic Energy",
         skill: "Use established physics laws, theories, or models to make an accurate scientific assertion.",
@@ -301,7 +301,137 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 3,
 
         explanation: {
-            correct: "K_trans = (1/2)MvÂ², K_rot = (1/2)Â·(1/2)MRÂ²Â·(v/R)Â² = (1/4)MvÂ². Total KE = (3/4)MvÂ². Fraction that is rotational: K_rot / K_total = (1/4)MvÂ² / (3/4)MvÂ² = 1/3."
+            correct: "K_trans = (1/2)Mv^2, K_rot = (1/2)*(1/2)MR^2*(v/R)^2 = (1/4)Mv^2. Total KE = (3/4)Mv^2. Fraction that is rotational: K_rot / K_total = (1/4)Mv^2 / (3/4)Mv^2 = 1/3."
+        }
+    },
+    {//11
+        id: "AP001-ROTEN-LQ28S",
+        unit: "Fluids",
+        topic: "Fluids and Newton's Laws",
+        skill: "Solve for or approximate a missing value (complete with correct units) using given data and formulas.",
+        difficulty: "Medium",
+
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-11-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
+
+
+        problemSetup: "A solid rectangular block with mass $m = 4.5\\text{ kg}$ and density $\\rho_b = 3000\\text{ kg/m}^3$ is completely submerged in a cylinder filled with water with density $\\rho_w = 1000\\text{ kg/m}^3$. The block is suspended at rest from an overhead spring balance by a thin string of negligible mass and does not touch the walls or bottom of the cylinder.",
+        problemPrompt: "What is the reading on the spring balance?",
+
+        choices: [
+            { text: "$15\\text{ N}$", jpegDiagram: null },
+            { text: "$20\\text{ N}$", jpegDiagram: null },
+            { text: "$25\\text{ N}$", jpegDiagram: null },
+            { text: "$30\\text{ N}$", jpegDiagram: null }
+        ],
+
+        correctIndex: 3,
+
+        explanation: {
+            correct: "K_trans = (1/2)Mv^2, K_rot = (1/2)*(1/2)MR^2*(v/R)^2 = (1/4)Mv^2. Total KE = (3/4)Mv^2. Fraction that is rotational: K_rot / K_total = (1/4)Mv^2 / (3/4)Mv^2 = 1/3."
+        }
+    },
+    {//12
+        id: "AP001-ROTEN-LQ28S",
+        unit: "Force and Translational Dynamics",
+        topic: "Gravitational Force",
+        skill: "Use established physics laws, theories, or models to make an accurate scientific assertion.",
+        difficulty: "Easy",
+
+        jpegDiagram: null,
+
+
+        problemSetup: "Planet X has mass $M_0$ and radius $R_0$. Planet Y has a mass of $2M_0$ and a radius of $2R_0$. A research probe of mass $m$ rests on the surface of Planet X, where the gravitational force exerted on it by Planet X has a magnitude of $F_0$.",
+        problemPrompt: "If the same probe is moved to the surface of Planet Y, what is the magnitude of the gravitational force exerted on the probe by Planet Y?",
+
+        choices: [
+            { text: "$\\frac{1}{2} F_0$", jpegDiagram: null },
+            { text: "$F_0$", jpegDiagram: null },
+            { text: "$2 F_0$", jpegDiagram: null },
+            { text: "$4 F_0$", jpegDiagram: null }
+        ],
+
+        correctIndex: 0,
+
+        explanation: {
+            correct: "K_trans = (1/2)Mv^2, K_rot = (1/2)*(1/2)MR^2*(v/R)^2 = (1/4)Mv^2. Total KE = (3/4)Mv^2. Fraction that is rotational: K_rot / K_total = (1/4)Mv^2 / (3/4)Mv^2 = 1/3."
+        }
+    },
+    {//13
+        id: "AP001-ROTEN-LQ28S",
+        unit: "Work, Energy, and Power",
+        topic: "Work",
+        skill: "Create algebraic formulas by combining known variables through a step-by-step mathematical proof.",
+        difficulty: "Medium",
+
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-13-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
+
+
+        problemSetup: "A block of mass $m$ is pulled along a rough, horizontal floor by a motor. The motor's cable maintains a constant tension force $T$ directed at an angle $\\theta$ above the horizontal. The coefficient of kinetic friction between the block and the floor is $\\mu_k$. The block moves a horizontal distance $d$ to the right.",
+        problemPrompt: "Which of the following expressions correctly represents the work $W_f$ done by kinetic friction on the block?",
+
+        choices: [
+            { text: "$-\\mu_k mg d$", jpegDiagram: null },
+            { text: "$-\\mu_k (mg + T \\sin\\theta) d$", jpegDiagram: null },
+            { text: "$-\\mu_k (mg - T \\cos\\theta) d$", jpegDiagram: null },
+            { text: "$-\\mu_k (mg - T \\sin\\theta) d$", jpegDiagram: null }
+        ],
+
+        correctIndex: 0,
+
+        explanation: {
+            correct: "K_trans = (1/2)Mv^2, K_rot = (1/2)*(1/2)MR^2*(v/R)^2 = (1/4)Mv^2. Total KE = (3/4)Mv^2. Fraction that is rotational: K_rot / K_total = (1/4)Mv^2 / (3/4)Mv^2 = 1/3."
+        }
+    },
+    {//14
+        id: "AP001-ROTEN-LQ28S",
+        unit: "Energy and Momentum of Rotating Systems",
+        topic: "Conservation of Angular Momentum",
+        skill: "Use established physics laws, theories, or models to make an accurate scientific assertion.",
+        difficulty: "Hard",
+
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-14-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
+
+
+        problemSetup: "An athlete of mass $M$, modeled as a point mass, stands on a circular platform that rotates with negligible friction about a fixed vertical axis through its center. Initially, the athlete stands at a distance $\\frac{d}{2}$ from the central axis, and the athlete-platform system rotates with total angular momentum $L_0$ and total rotational kinetic energy $K_0$. The athlete then walks inward to a new position at a distance $\\frac{d}{4}$ from the axis, and the system rotates with total angular momentum $L_f$ and total rotational kinetic energy $K_f$. Assume the moment of inertia of the platform itself is negligible.",
+        problemPrompt: "Which of the following correctly compares the final angular momentum $L_f$ and final rotational kinetic energy $K_f$ of the system to their initial values?",
+
+        choices: [
+            { text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Final Angular Momentum $L_f$</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Final Rotational Kinetic Energy $K_f$</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$L_f = L_0$</td><td style='border:1px solid #999; padding:4px;'>$K_f = 2K_0$</td></tr></tbody></table>", jpegDiagram: null },
+            { text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Final Angular Momentum $L_f$</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Final Rotational Kinetic Energy $K_f$</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$L_f = \\frac{1}{2}L_0$</td><td style='border:1px solid #999; padding:4px;'>$K_f = K_0$</td></tr></tbody></table>", jpegDiagram: null },
+            { text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Final Angular Momentum $L_f$</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Final Rotational Kinetic Energy $K_f$</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$L_f = L_0$</td><td style='border:1px solid #999; padding:4px;'>$K_f = 4K_0$</td></tr></tbody></table>", jpegDiagram: null },
+            { text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Final Angular Momentum $L_f$</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Final Rotational Kinetic Energy $K_f$</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$L_f = 4L_0$</td><td style='border:1px solid #999; padding:4px;'>$K_f = 4K_0$</td></tr></tbody></table>", jpegDiagram: null }
+        ],
+
+        correctIndex: 2,
+
+        explanation: {
+            correct: "K_trans = (1/2)Mv^2, K_rot = (1/2)*(1/2)MR^2*(v/R)^2 = (1/4)Mv^2. Total KE = (3/4)Mv^2. Fraction that is rotational: K_rot / K_total = (1/4)Mv^2 / (3/4)Mv^2 = 1/3."
+        }
+    },
+    {//15
+        id: "AP001-ROTEN-LQ28S",
+        unit: "Kinematics",
+        topic: "Vectors and Motion in Two Dimensions",
+        skill: "Solve for or approximate a missing value (complete with correct units) using given data and formulas.",
+        difficulty: "Medium",
+
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-15-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
+
+
+        problemSetup: "A small marble with mass $m$ rolls horizontally off the edge of a flat desk of height $h = 1.25\\text{ m}$ with a constant speed $v_0 = 3.0\\text{ m/s}$. The marble lands on the floor below.",
+        problemPrompt: "What is the horizontal distance traveled by the marble from the edge of the desk to the point where it lands?",
+
+        choices: [
+            { text: "$0.75\\text{ m}$", jpegDiagram: null },
+            { text: "$1.25\\text{ m}$", jpegDiagram: null },
+            { text: "$1.50\\text{ m}$", jpegDiagram: null },
+            { text: "$3.00\\text{ m}$", jpegDiagram: null }
+        ],
+
+        correctIndex: 2,
+
+        explanation: {
+            correct: "K_trans = (1/2)Mv^2, K_rot = (1/2)*(1/2)MR^2*(v/R)^2 = (1/4)Mv^2. Total KE = (3/4)Mv^2. Fraction that is rotational: K_rot / K_total = (1/4)Mv^2 / (3/4)Mv^2 = 1/3."
         }
     }
 
