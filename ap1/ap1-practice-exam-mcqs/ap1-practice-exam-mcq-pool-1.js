@@ -433,6 +433,58 @@ const ap1PracticeExamMCQPoolOne = [
         explanation: {
             correct: "K_trans = (1/2)Mv^2, K_rot = (1/2)*(1/2)MR^2*(v/R)^2 = (1/4)Mv^2. Total KE = (3/4)Mv^2. Fraction that is rotational: K_rot / K_total = (1/4)Mv^2 / (3/4)Mv^2 = 1/3."
         }
+    },
+    {//16
+        id: "AP001-ROTEN-LQ28S",
+        unit: "Force and Translational Dynamics + Oscillations",
+        topic: "Spring Forces + SHM Representations",
+        skill: "Create algebraic formulas by combining known variables through a step-by-step mathematical proof.",
+        difficulty: "Medium",
+
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-16-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
+
+
+        problemSetup: "A small block of mass $m$ is suspended vertically from two parallel springs attached to an overhead support. Spring 1 has a spring constant $k_1$, and Spring 2 has a spring constant $k_2$. When the block is in static equilibrium, it hangs at a vertical position $y = 0$. The block is then pulled downward to an initial position $y = -y_0$ and released from rest, undergoing simple harmonic motion along the vertical axis.",
+        problemPrompt: "In terms of the given quantities, what is the magnitude of the block's acceleration when it passes through the position $y = +\frac{1}{2}y_0$?",
+
+        choices: [
+            { text: "$\frac{(k_1 + k_2) y_0}{2m}$", jpegDiagram: null },
+            { text: "$\frac{(k_1 + k_2) y_0}{m}$", jpegDiagram: null },
+            { text: "$\frac{(k_1 - k_2) y_0}{2m}$", jpegDiagram: null },
+            { text: "$g - \frac{(k_1 + k_2) y_0}{2m}$", jpegDiagram: null }
+        ],
+
+        correctIndex: 0,
+
+        explanation: {
+            correct: "K_trans = (1/2)Mv^2, K_rot = (1/2)*(1/2)MR^2*(v/R)^2 = (1/4)Mv^2. Total KE = (3/4)Mv^2. Fraction that is rotational: K_rot / K_total = (1/4)Mv^2 / (3/4)Mv^2 = 1/3."
+        }
+    },
+    {//17
+        id: "AP001-ROTEN-LQ28S",
+        unit: "Torque and Rotational Dynamics",
+        topic: "Torque",
+        skill: "Use established physics laws, theories, or models to make an accurate scientific assertion.",
+        difficulty: "Medium",
+
+        jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-17-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
+
+
+        problemSetup: "A top-down view shows a heavy door of width $L$ that is free to rotate about a vertical axis through its hinged left edge. Four individual forces, $F_A$, $F_B$, $F_C$, and $F_D$, are applied independently to the door. All four forces have the exact same magnitude $F$.",
+        problemPrompt: "Which of the applied forces produces the greatest magnitude of torque about the hinge axis?",
+
+        choices: [
+            { text: "$\frac{(k_1 + k_2) y_0}{2m}$", jpegDiagram: null },
+            { text: "$\frac{(k_1 + k_2) y_0}{m}$", jpegDiagram: null },
+            { text: "$\frac{(k_1 - k_2) y_0}{2m}$", jpegDiagram: null },
+            { text: "$g - \frac{(k_1 + k_2) y_0}{2m}$", jpegDiagram: null }
+        ],
+
+        correctIndex: 3,
+
+        explanation: {
+            correct: "K_trans = (1/2)Mv^2, K_rot = (1/2)*(1/2)MR^2*(v/R)^2 = (1/4)Mv^2. Total KE = (3/4)Mv^2. Fraction that is rotational: K_rot / K_total = (1/4)Mv^2 / (3/4)Mv^2 = 1/3."
+        }
     }
 
 ];
