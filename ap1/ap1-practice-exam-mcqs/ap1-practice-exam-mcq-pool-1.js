@@ -522,7 +522,7 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-19-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "Glider A ($m_A = 2.0\\text{ kg}$) moves right at $6.0\\text{ m/s}$ on an air track toward Glider B of unknown mass $m_B$, which moves left at $3.0\\text{ m/s}$. A motion sensor records the position $x_{\\text{cm}}$ of the system's center of mass over time $t$, as shown in the graph.",
+        problemSetup: "Glider A with mass $m_A = 2.0\\text{ kg}$ moves right at $6.0\\text{ m/s}$ on an air track toward Glider B of unknown mass $m_B$, which moves left at $3.0\\text{ m/s}$. A motion sensor records the position $x_{\\text{cm}}$ of the system's center of mass over time $t$, as shown in the graph.",
         problemPrompt: "What is the mass $m_B$ of Glider B?",
 
         choices: [
