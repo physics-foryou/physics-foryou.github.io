@@ -981,6 +981,7 @@
 					</div>
 					<div class="score-lines">
 						<div>Composite: <span id="composite-pct">-%</span></div>
+						<div>Raw Net: <span id="raw-net">- / -</span></div>
 						<div>Raw MCQ: <span id="raw-mcq">- / -</span></div>
 						<div>Raw FRQ: <span id="raw-frq">- / -</span></div>
 					</div>
@@ -1007,9 +1008,9 @@
 				<div class="card-head">Articles</div>
 				<div class="card-body">
 					<ul class="articles-list">
-						<li><a href="https://apstudents.collegeboard.org/courses/ap-physics-1/exam" target="_blank" rel="noopener">General AP Physics 1 test-taking strategy</a></li>
-						<li><a href="https://apstudents.collegeboard.org/courses/ap-physics-1/exam-tips" target="_blank" rel="noopener">General MCQ strategy guide</a></li>
-						<li><a href="https://apstudents.collegeboard.org/courses/ap-physics-1/exam#free-response" target="_blank" rel="noopener">General FRQ strategy guide</a></li>
+						<li>General AP Physics 1 test-taking strategy</li>
+						<li>General MCQ strategy guide</li>
+						<li>General FRQ strategy guide</li>
 					</ul>
 				</div>
 			</section>
@@ -1556,7 +1557,7 @@
 			(mcqQuestions || []).forEach((question, index) => {
 				const payloadSkill = question && typeof question.skill === 'string' ? question.skill.trim() : '';
 				const lookupSkill = activeMcqSkillLookup[index] || '';
-				const skillName = payloadSkill || lookupSkill || 'Uncategorized Skill';
+				const skillName = normalizeMcqSkillLabel(payloadSkill || lookupSkill || 'Uncategorized Skill');
 
 				if (!skillMap[skillName]) {
 					skillMap[skillName] = { correct: 0, total: 0 };
@@ -1568,6 +1569,20 @@
 				}
 			});
 			return skillMap;
+		}
+
+		function normalizeMcqSkillLabel(skillLabel) {
+			if (typeof skillLabel !== 'string') return 'Uncategorized Skill';
+			const trimmed = skillLabel.trim();
+			if (!trimmed) return 'Uncategorized Skill';
+
+			const targetWithParentheses = 'Solve for or approximate a missing value (complete with correct units) using given data and formulas.';
+			const targetWithoutParentheses = 'Solve for or approximate a missing value using given data and formulas.';
+			if (trimmed === targetWithParentheses || trimmed === targetWithoutParentheses) {
+				return targetWithoutParentheses;
+			}
+
+			return trimmed;
 		}
 
 		function normalizeLabelForSentence(label) {
@@ -1695,6 +1710,7 @@
 			if (!payload) {
 				renderRing(null);
 				clearCelebrationLayer();
+				document.getElementById('raw-net').innerText = '- / -';
 				document.getElementById('raw-mcq').innerText = '- / -';
 				document.getElementById('raw-frq').innerText = '- / -';
 				document.getElementById('composite-pct').innerText = '-%';
@@ -1713,6 +1729,14 @@
 			} else {
 				clearCelebrationLayer();
 			}
+			const mcqCorrect = Number.isFinite(payload.mcq && payload.mcq.correct) ? payload.mcq.correct : 0;
+			const mcqTotal = Number.isFinite(payload.mcq && payload.mcq.total) ? payload.mcq.total : 0;
+			const frqEarned = Number.isFinite(payload.frq && payload.frq.earned) ? payload.frq.earned : 0;
+			const frqMax = Number.isFinite(payload.frq && payload.frq.max) ? payload.frq.max : 0;
+			const rawNetEarned = mcqCorrect + frqEarned;
+			const rawNetMax = mcqTotal + frqMax;
+
+			document.getElementById('raw-net').innerText = `${rawNetEarned} / ${rawNetMax}`;
 			document.getElementById('raw-mcq').innerText = `${payload.mcq.correct} / ${payload.mcq.total}`;
 			document.getElementById('raw-frq').innerText = `${payload.frq.earned} / ${payload.frq.max}`;
 			document.getElementById('composite-pct').innerText = `${payload.compositePercent}%`;

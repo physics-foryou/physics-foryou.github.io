@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Score Calculator</title>
+    <script src="settings/theme.js"></script>
+    <script>
+        (function () {
+            const availableThemes = (typeof themes !== 'undefined' && themes)
+                ? themes
+                : {
+                    navy: { bg: '#eef2f5', panel: '#ffffff', header: '#1b2a47', headerText: '#ffffff', headerTextDim: '#d7deef', text: '#1c2533', dim: '#626f80', border: 'rgba(0,0,0,0.15)', selBg: '#1b2a47', selText: '#ffffff' },
+                    paper: { bg: '#eeeeee', panel: '#ffffff', header: '#444444', headerText: '#ffffff', headerTextDim: '#dddddd', text: '#2f2f2f', dim: '#767676', border: '#cccccc', selBg: '#2f2f2f', selText: '#ffffff' }
+                };
+            const savedTheme = localStorage.getItem('site-theme') || 'paper';
+            const theme = availableThemes[savedTheme] || availableThemes.paper || availableThemes.navy;
+            const root = document.documentElement;
+            root.style.setProperty('--bg-color', theme.bg);
+            root.style.setProperty('--panel-bg', theme.panel);
+            root.style.setProperty('--header-bg', theme.header);
+            root.style.setProperty('--header-text', theme.headerText || '#ffffff');
+            root.style.setProperty('--header-text-dim', theme.headerTextDim || theme.headerText || '#ffffff');
+            root.style.setProperty('--text-main', theme.text);
+            root.style.setProperty('--text-dim', theme.dim);
+            root.style.setProperty('--border-color', theme.border);
+            root.style.setProperty('--selected-bg', theme.selBg || theme.text);
+            root.style.setProperty('--selected-text', theme.selText || theme.panel);
+        })();
+    </script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 15px;
+            background: var(--bg-color);
+            color: var(--text-main);
+            padding: 0 0 86px 0;
+        }
+
+        .top-strip {
+            background: var(--header-bg);
+            color: var(--header-text);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .top-strip-inner {
+            max-width: none;
+            margin: 0;
+            padding: 14px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            min-height: 56px;
+            box-sizing: border-box;
+        }
+
+        .page {
+            max-width: 1500px;
+            margin: 24px auto;
+            padding: 0 20px 28px;
+            box-sizing: border-box;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.8fr) minmax(300px, 1fr);
+            gap: 18px;
+            align-items: center;
+        }
+
+        .left-stack {
+            display: grid;
+            gap: 18px;
+        }
+
+        .card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--panel-bg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+        }
+
+        .card-head {
+            background: var(--header-bg);
+            color: var(--header-text);
+            padding: 10px 14px;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 0.45px;
+        }
+
+        .card-body {
+            padding: 16px;
+            font-size: 15px;
+        }
+
+        #mcq-card .card-body,
+        #frq-card .card-body {
+            font-weight: 700;
+        }
+
+        .frq-problem-name {
+            font-weight: 400;
+        }
+
+        .muted {
+            color: var(--text-dim);
+        }
+
+        .disclaimer-list {
+            margin: 10px 0 0;
+            padding-left: 18px;
+            line-height: 1.55;
+            font-size: 15px;
+        }
+
+        .slider-group {
+            display: grid;
+            gap: 20px;
+        }
+
+        .slider-item {
+            padding: 2px 0;
+        }
+
+        .slider-item-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .slider-item-label {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .slider-item-value {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .mcq-slider-head {
+            justify-content: flex-end;
+        }
+
+        .score-slider {
+            width: 100%;
+            appearance: none;
+            -webkit-appearance: none;
+            height: 12px;
+            border-radius: 999px;
+            border: 1px solid var(--border-color);
+            background: linear-gradient(to right, var(--selected-bg) 0%, var(--selected-bg) 0%, color-mix(in srgb, var(--panel-bg) 70%, var(--bg-color)) 0%, color-mix(in srgb, var(--panel-bg) 70%, var(--bg-color)) 100%);
+        }
+
+        .score-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 28px;
+            border-radius: 3px;
+            background: var(--selected-bg);
+            border: 2px solid var(--panel-bg);
+            box-shadow: 0 0 0 1px var(--border-color);
+            cursor: pointer;
+        }
+
+        .score-slider::-moz-range-thumb {
+            width: 12px;
+            height: 28px;
+            border-radius: 3px;
+            background: var(--selected-bg);
+            border: 2px solid var(--panel-bg);
+            box-shadow: 0 0 0 1px var(--border-color);
+            cursor: pointer;
+        }
+
+        .right-score-card {
+            align-self: center;
+        }
+
+        .score-main {
+            padding: 8px 0 12px;
+            text-align: center;
+        }
+
+        .score-main-label {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .score-pill {
+            display: block;
+            font-weight: 800;
+            font-size: 64px;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .results-plain {
+            margin-top: 12px;
+            padding-top: 6px;
+        }
+
+        .results-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 5px 0;
+            border-bottom: 1px dashed var(--border-color);
+            font-size: 15px;
+        }
+
+        .results-line:last-child {
+            border-bottom: 0;
+        }
+
+        .results-label {
+            font-weight: 700;
+        }
+
+        .footer-belt {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--panel-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 14px 40px;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 1000;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.03);
+            min-height: 56px;
+        }
+
+        .footer-actions {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .action-btn {
+            background-color: var(--header-bg);
+            border: 1px solid var(--header-bg);
+            color: var(--header-text);
+            padding: 10px 22px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: opacity 0.2s;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 1200px) {
+            .layout {
+                grid-template-columns: 1fr;
+                align-items: start;
+            }
+
+            .right-score-card {
+                align-self: auto;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .top-strip-inner {
+                padding: 10px 10px;
+                min-height: 48px;
+            }
+
+            .page {
+                margin: 16px auto;
+                padding: 0 10px 16px;
+            }
+
+            .card-body {
+                padding: 12px;
+            }
+
+            .footer-belt {
+                padding: 10px 10px;
+                min-height: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-strip">
+        <div class="top-strip-inner">
+            <span id="page-title">Exam Score Calculator</span>
+        </div>
+    </div>
+
+    <main class="page">
+        <div class="layout">
+            <div class="left-stack">
+                <section class="card" id="instructions-card">
+                    <div class="card-head" id="subject-header">Instructions and Disclaimer</div>
+                    <div class="card-body">
+                        <p id="subject-line" style="margin-top: 0;"></p>
+                    </div>
+                </section>
+
+                <section class="card" id="mcq-card">
+                    <div class="card-head">Section I: Multiple Choice Questions</div>
+                    <div class="card-body">
+                        <div class="slider-group">
+                            <div class="slider-item">
+                                <div class="slider-item-head mcq-slider-head">
+                                    <span id="mcq-value" class="slider-item-value">0 / 42</span>
+                                </div>
+                                <input id="mcq-slider" class="score-slider" type="range" min="0" max="42" step="1" value="0" aria-label="MCQ score slider" />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card" id="frq-card">
+                    <div class="card-head">Section II: Free Response Questions</div>
+                    <div class="card-body">
+                        <div class="slider-group">
+                            <div class="slider-item">
+                                <div class="slider-item-head">
+                                    <span class="slider-item-label">Problem 1: <span class="frq-problem-name">Mathematical Routines</span></span>
+                                    <span id="frq-math-value" class="slider-item-value">0 / 10</span>
+                                </div>
+                                <input id="frq-math-slider" class="score-slider" type="range" min="0" max="10" step="1" value="0" aria-label="FRQ Mathematical Routines slider" />
+                            </div>
+
+                            <div class="slider-item">
+                                <div class="slider-item-head">
+                                    <span class="slider-item-label">Problem 2: <span class="frq-problem-name">Translation Between Representations</span></span>
+                                    <span id="frq-translation-value" class="slider-item-value">0 / 12</span>
+                                </div>
+                                <input id="frq-translation-slider" class="score-slider" type="range" min="0" max="12" step="1" value="0" aria-label="FRQ Translation Between Representations slider" />
+                            </div>
+
+                            <div class="slider-item">
+                                <div class="slider-item-head">
+                                    <span class="slider-item-label">Problem 3: <span class="frq-problem-name">Experimental Design and Analysis</span></span>
+                                    <span id="frq-experimental-value" class="slider-item-value">0 / 10</span>
+                                </div>
+                                <input id="frq-experimental-slider" class="score-slider" type="range" min="0" max="10" step="1" value="0" aria-label="FRQ Experimental Design and Analysis slider" />
+                            </div>
+
+                            <div class="slider-item">
+                                <div class="slider-item-head">
+                                    <span class="slider-item-label">Problem 4: <span class="frq-problem-name">Qualitative/Quantitative Translation</span></span>
+                                    <span id="frq-qualitative-value" class="slider-item-value">0 / 8</span>
+                                </div>
+                                <input id="frq-qualitative-slider" class="score-slider" type="range" min="0" max="8" step="1" value="0" aria-label="FRQ Qualitative Quantitative Translation slider" />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="card right-score-card" id="estimated-score-card">
+                <div class="card-head">Estimated Exam Score</div>
+                <div class="card-body">
+                    <div class="score-main">
+                        <div class="score-main-label">Exam Score</div>
+                        <div id="predicted-score" class="score-pill">1</div>
+                    </div>
+
+                    <div class="results-plain">
+                        <div class="results-line"><span class="results-label">MCQ Subtotal</span><span id="raw-mcq">0 / 42</span></div>
+                        <div class="results-line"><span class="results-label">FRQ Subtotal</span><span id="raw-frq">0 / 40</span></div>
+                        <div class="results-line"><span class="results-label">Raw Net</span><span id="raw-net">0 / 82</span></div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <div class="footer-belt">
+        <div class="footer-actions">
+            <button class="action-btn" type="button" onclick="window.location.href='home-page.html'">Home</button>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const subjectCode = (params.get('subject') || 'ap1').toLowerCase();
+        const subjectNameByCode = {
+            ap1: 'AP Physics 1',
+            ap2: 'AP Physics 2',
+            mech: 'AP C: Mechanics',
+            em: 'AP C: E&M'
+        };
+
+        const scoreFloorsBySubject = {
+            ap1: { s5: 58, s4: 48, s3: 40, s2: 29 },
+            ap2: { s5: 56, s4: 47, s3: 38, s2: 30 },
+            mech: { s5: 57, s4: 48, s3: 39, s2: 30 },
+            em: { s5: 58, s4: 50, s3: 40, s2: 29 }
+        };
+
+        function predictScoreFromRawNet(subject, rawNet) {
+            const floors = scoreFloorsBySubject[subject] || scoreFloorsBySubject.ap1;
+            if (rawNet >= floors.s5) return 5;
+            if (rawNet >= floors.s4) return 4;
+            if (rawNet >= floors.s3) return 3;
+            if (rawNet >= floors.s2) return 2;
+            return 1;
+        }
+
+        function paintSlider(track, min, max, value) {
+            if (!track) return;
+            const bounded = Math.max(min, Math.min(max, value));
+            const percent = ((bounded - min) / (max - min)) * 100;
+            track.style.background = `linear-gradient(to right, var(--selected-bg) 0%, var(--selected-bg) ${percent}%, color-mix(in srgb, var(--panel-bg) 70%, var(--bg-color)) ${percent}%, color-mix(in srgb, var(--panel-bg) 70%, var(--bg-color)) 100%)`;
+        }
+
+        function getSliderValue(id) {
+            const slider = document.getElementById(id);
+            if (!slider) return 0;
+            return Math.round(Number(slider.value) || 0);
+        }
+
+        function recalculateScore() {
+            const mcq = getSliderValue('mcq-slider');
+            const frqMath = getSliderValue('frq-math-slider');
+            const frqTranslation = getSliderValue('frq-translation-slider');
+            const frqExperimental = getSliderValue('frq-experimental-slider');
+            const frqQualitative = getSliderValue('frq-qualitative-slider');
+
+            const rawFrq = frqMath + frqTranslation + frqExperimental + frqQualitative;
+            const rawNet = mcq + rawFrq;
+            const predicted = predictScoreFromRawNet(subjectCode, rawNet);
+
+            document.getElementById('mcq-value').innerText = `${mcq} / 42`;
+            document.getElementById('frq-math-value').innerText = `${frqMath} / 10`;
+            document.getElementById('frq-translation-value').innerText = `${frqTranslation} / 12`;
+            document.getElementById('frq-experimental-value').innerText = `${frqExperimental} / 10`;
+            document.getElementById('frq-qualitative-value').innerText = `${frqQualitative} / 8`;
+
+            document.getElementById('raw-mcq').innerText = `${mcq} / 42`;
+            document.getElementById('raw-frq').innerText = `${rawFrq} / 40`;
+            document.getElementById('raw-net').innerText = `${rawNet} / 82`;
+            document.getElementById('predicted-score').innerText = String(predicted);
+
+            paintSlider(document.getElementById('mcq-slider'), 0, 42, mcq);
+            paintSlider(document.getElementById('frq-math-slider'), 0, 10, frqMath);
+            paintSlider(document.getElementById('frq-translation-slider'), 0, 12, frqTranslation);
+            paintSlider(document.getElementById('frq-experimental-slider'), 0, 10, frqExperimental);
+            paintSlider(document.getElementById('frq-qualitative-slider'), 0, 8, frqQualitative);
+        }
+
+        const subjectLabel = subjectNameByCode[subjectCode] || 'Selected Course';
+        document.getElementById('page-title').innerText = `Exam Score Calculator: ${subjectLabel}`;
+        document.getElementById('subject-header').innerText = 'Instructions and Disclaimer';
+        document.getElementById('subject-line').innerText = 'Use the sliders to enter your section scores. This calculator is only an estimate and is not fully accurate. College Board does not release official score cutoffs, and cutoffs can fluctuate each year.';
+        document.title = `${subjectLabel} Score Calculator`;
+
+        [
+            'mcq-slider',
+            'frq-math-slider',
+            'frq-translation-slider',
+            'frq-experimental-slider',
+            'frq-qualitative-slider'
+        ].forEach((id) => {
+            const slider = document.getElementById(id);
+            if (!slider) return;
+            slider.addEventListener('input', recalculateScore);
+            slider.addEventListener('change', recalculateScore);
+        });
+
+        recalculateScore();
+    </script>
+</body>
+</html>

@@ -468,6 +468,111 @@
             margin-bottom: 14px;
         }
 
+        .daily-solution-card {
+            border: none;
+            border-radius: 0;
+            background: color-mix(in srgb, var(--panel-bg) 96%, #6b7280 4%);
+            padding: 0;
+            color: var(--text-main);
+            margin-top: 14px;
+        }
+
+        .daily-solution-shell {
+            display: grid;
+            grid-template-columns: 3px minmax(0, 1fr);
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .daily-solution-accent {
+            align-self: stretch;
+            width: 3px;
+            background: var(--header-bg);
+        }
+
+        .daily-solution-content {
+            min-width: 0;
+            border: none;
+            background: transparent;
+            padding: 10px 10px 12px 0;
+        }
+
+        .daily-solution-title {
+            margin: 0 0 9px;
+            padding-bottom: 0;
+            border-bottom: none;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        .daily-solution-field {
+            display: block;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .daily-solution-field + .daily-solution-field {
+            margin-top: 6px;
+        }
+
+        .daily-solution-field-gap {
+            margin-top: 12px !important;
+        }
+
+        .daily-solution-field-inline {
+            white-space: normal;
+        }
+
+        .daily-solution-label {
+            color: var(--text-dim);
+            font-weight: 700;
+            text-transform: none;
+            margin-right: 6px;
+        }
+
+        .daily-solution-value {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .daily-solution-meta-label {
+            font-weight: 700;
+        }
+
+        .daily-solution-meta-value {
+            font-weight: 400;
+        }
+
+        .daily-solution-explanation {
+            color: var(--text-main);
+            font-size: 14px;
+            line-height: 1.72;
+            word-break: break-word;
+            margin-top: 9px;
+        }
+
+        .daily-solution-explanation .mjx-container {
+            font-size: 130% !important;
+        }
+
+        .daily-solution-explanation p {
+            margin: 0;
+        }
+
+        .daily-solution-explanation p + p {
+            margin-top: 14px;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .daily-solution-empty {
+            color: var(--text-dim);
+            font-style: italic;
+            font-size: 14px;
+        }
+
         .mcq-setup-image {
             margin-top: 14px;
         }
@@ -688,6 +793,47 @@
 
         .choice-btn.selected .choice-strike-indicator {
             color: var(--selected-text);
+        }
+
+        .choice-btn.daily-result-correct {
+            border-color: #16a34a !important;
+            background: #dcfce7 !important;
+            color: #14532d !important;
+            box-shadow: none !important;
+            font-weight: bold;
+        }
+
+        .choice-btn.daily-result-incorrect {
+            border-color: #dc2626 !important;
+            background: #fee2e2 !important;
+            color: #7f1d1d !important;
+            box-shadow: none !important;
+            font-weight: bold;
+        }
+
+        .choice-btn.daily-result-correct *,
+        .choice-btn.daily-result-incorrect * {
+            color: inherit !important;
+        }
+
+        .choice-btn.daily-review-locked {
+            cursor: default;
+        }
+
+        .choice-btn.daily-review-locked:hover {
+            background-color: inherit;
+        }
+
+        .daily-unanswered-note {
+            margin-top: 14px;
+            padding: 10px 12px;
+            border: 1px solid #d97706;
+            border-radius: 4px;
+            background: #fff7ed;
+            color: #9a3412;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.45;
         }
 
         .choice-btn .mjx-container {
@@ -4601,6 +4747,52 @@
                     };
                 };
 
+                const buildDailySolutionMarkup = (record) => {
+                    const solutionSource = typeof record?.explanation === 'object'
+                        ? (record.explanation.correct || '')
+                        : String(record?.explanation || '');
+                    const trimmedSolution = solutionSource.trim();
+                    const solutionSegments = trimmedSolution
+                        ? trimmedSolution
+                            .split(/\n+/)
+                            .map((segment) => segment.trim())
+                            .filter(Boolean)
+                        : [];
+                    const explanationMarkup = solutionSegments.length
+                        ? solutionSegments.map((segment) => `<p>${segment}</p>`).join('')
+                        : '<p class="daily-solution-empty">No written solution was provided for this problem.</p>';
+                    const skillLabel = Array.isArray(record?.skill)
+                        ? record.skill.join(', ')
+                        : (record?.skill || record?.skills || record?.learningObjective || 'Unspecified skill');
+
+                    return `
+                        <div class="daily-solution-card">
+                            <div class="daily-solution-shell">
+                                <div class="daily-solution-accent" aria-hidden="true"></div>
+                                <div class="daily-solution-content">
+                                    <h3 class="daily-solution-title">Solution</h3>
+                                    <div class="daily-solution-field daily-solution-field-inline">
+                                        <span class="daily-solution-label daily-solution-meta-label">Unit:</span>
+                                        <span class="daily-solution-value daily-solution-meta-value">${record.unit || 'Uncategorized'}</span>
+                                    </div>
+                                    <div class="daily-solution-field daily-solution-field-inline">
+                                        <span class="daily-solution-label daily-solution-meta-label">Topic:</span>
+                                        <span class="daily-solution-value daily-solution-meta-value">${record.topic || 'Unspecified topic'}</span>
+                                    </div>
+                                    <div class="daily-solution-field daily-solution-field-inline">
+                                        <span class="daily-solution-label daily-solution-meta-label">Skill:</span>
+                                        <span class="daily-solution-value daily-solution-meta-value">${skillLabel}</span>
+                                    </div>
+                                    <div class="daily-solution-field daily-solution-field-gap">
+                                        <span class="daily-solution-label">Explanation:</span>
+                                        <div class="daily-solution-explanation">${explanationMarkup}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                };
+
                 const questionDiagram = resolveDiagramMarkup(questionRecord);
                 const mcqContentSegments = splitMCQQuestionContent(questionRecord);
 
@@ -4619,6 +4811,9 @@
                 optionsContentBox.innerHTML = `<div class="mcq-prompt-text">${mcqContentSegments.promptText}</div>`;
 
                 const alphaPrefixes = ['A', 'B', 'C', 'D'];
+                const selectedChoiceIndex = Number.isInteger(catalogedUserResponses[currentProblemIndex])
+                    ? catalogedUserResponses[currentProblemIndex]
+                    : null;
                 questionRecord.choices.forEach((choiceData, stringIdx) => {
                     const choiceWrapperNode = document.createElement('div');
                     choiceWrapperNode.className = 'choice-row';
@@ -4646,6 +4841,7 @@
                     targetBtnNode.innerHTML = choiceHTML;
 
                     if (isReadOnlyQuestionPreviewMode) {
+                        targetBtnNode.classList.add('daily-review-locked');
                         targetBtnNode.disabled = true;
                         targetBtnNode.style.cursor = 'default';
                     } else {
@@ -4657,9 +4853,22 @@
                         };
                     }
 
-                    if (catalogedUserResponses[currentProblemIndex] === stringIdx) {
+                    if (!isReadOnlyQuestionPreviewMode && selectedChoiceIndex === stringIdx) {
                         targetBtnNode.classList.add('selected');
                     }
+
+                    if (isReadOnlyQuestionPreviewMode) {
+                        const isSelectedChoice = selectedChoiceIndex === stringIdx;
+                        const isCorrectChoice = questionRecord.correctIndex === stringIdx;
+                        if (isSelectedChoice && isCorrectChoice) {
+                            targetBtnNode.classList.add('daily-result-correct');
+                        } else if (isSelectedChoice && !isCorrectChoice) {
+                            targetBtnNode.classList.add('daily-result-incorrect');
+                        } else if (isCorrectChoice) {
+                            targetBtnNode.classList.add('daily-result-correct');
+                        }
+                    }
+
                     const currentCrossouts = optionCrossoutMatrix[currentProblemIndex] || [];
                     if (currentCrossouts.includes(stringIdx)) {
                         if (isReadOnlyQuestionPreviewMode) {
@@ -4675,6 +4884,19 @@
                     choiceWrapperNode.appendChild(targetBtnNode);
                     optionsContentBox.appendChild(choiceWrapperNode);
                 });
+
+                if (isReadOnlyQuestionPreviewMode) {
+                    if (selectedChoiceIndex === null) {
+                        const unansweredNoticeNode = document.createElement('div');
+                        unansweredNoticeNode.className = 'daily-unanswered-note';
+                        unansweredNoticeNode.innerText = 'You did not answer this problem';
+                        optionsContentBox.appendChild(unansweredNoticeNode);
+                    }
+
+                    const solutionCardNode = document.createElement('div');
+                    solutionCardNode.innerHTML = buildDailySolutionMarkup(questionRecord);
+                    optionsContentBox.appendChild(solutionCardNode.firstElementChild);
+                }
             } else {
                 questionPanelContentNode.classList.remove('mcq-two-column');
                 questionPanelContentNode.classList.add('frq-image-scale-active');
