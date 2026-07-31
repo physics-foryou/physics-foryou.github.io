@@ -3684,6 +3684,21 @@
             else if (window[`${subjectCode}PracticeExamPool${mapAlphaIntegerWord[parseInt(examIdentity)] || 'One'}`]) poolMCQ = window[`${subjectCode}PracticeExamPool${mapAlphaIntegerWord[parseInt(examIdentity)] || 'One'}`];
             else if (typeof ap1PracticeExamMCQPoolOne !== 'undefined') poolMCQ = ap1PracticeExamMCQPoolOne;
 
+            if (!Array.isArray(poolMCQ) || poolMCQ.length === 0) {
+                document.getElementById('target-question-box').innerText = `No questions were loaded for subject "${subjectCode}" and exam "${examIdentity}".`;
+                document.getElementById('target-choices-container').innerHTML = '<div class="mcq-prompt-text">Check script path or pool export format.</div>';
+                return;
+            }
+
+            const firstInvalidIndex = poolMCQ.findIndex((item) => {
+                return !item || !Array.isArray(item.choices) || item.choices.length === 0;
+            });
+            if (firstInvalidIndex !== -1) {
+                document.getElementById('target-question-box').innerText = `Question data is malformed at index ${firstInvalidIndex + 1}.`;
+                document.getElementById('target-choices-container').innerHTML = '<div class="mcq-prompt-text">Each question needs a non-empty choices array.</div>';
+                return;
+            }
+
             // Instantiation arrays
             catalogedUserResponses = new Array(poolMCQ.length).fill(null);
             markedReviewMatrix = new Array(poolMCQ.length).fill(false);
@@ -3699,8 +3714,10 @@
 
             currentActivePhase = 'MCQ';
             currentSectionStage = SECTION_STAGE_MCQ;
-            if (currentProblemIndex >= examinationPool.length) showReviewScreen();
-            else renderTargetQuestionBlock();
+            if (currentProblemIndex >= examinationPool.length) {
+                currentProblemIndex = 0;
+            }
+            renderTargetQuestionBlock();
 
             if (hasRecoveredSavedProgress && !isReadOnlyQuestionPreviewMode) {
                 if (currentSectionStage === SECTION_STAGE_MCQ) {
