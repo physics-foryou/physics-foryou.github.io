@@ -9,8 +9,8 @@ const ap1PracticeExamMCQPoolOne = [
 
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-1-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
-        problemSetup: "A toy car moves along a straight, horizontal track aligned with the x-axis. The graph shown tracks the car's position, x, as a function of time t, over a 6 second interval.",
-        problemPrompt: "What is the car's velocity during this time interval?",
+        problemSetup: "A toy car moves along the x-axis. The graph shows its position $x$ as a function of time $t$.",
+        problemPrompt: "What is the car's velocity over the interval shown?",
 
         choices: [
             { text: "$-2.0\\text{ m/s}$", jpegDiagram: null },
@@ -22,7 +22,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 1,
 
         explanation: {
-            correct: "The car's velocity is the slope of the position vs. time graph. From the graph, the car moves from x = 2 m to x = 1 m over 2 s, so v = (1 - 2) / 2 = -0.5 m/s."
+            correct: "We're trying to find the car's velocity $v$.\n\nOn a position-time graph, velocity is the slope, so\n$v=\\frac{\\Delta x}{\\Delta t}=\\frac{x-x_0}{t-t_0}$.\n\nFrom the graph, $x$ changes from $2\\text{ m}$ to $1\\text{ m}$ in $2\\text{ s}$, so\n$v=\\frac{1-2}{2}=-0.5\\text{ m/s}$.\n\nTherefore, the velocity is $-0.5\\text{ m/s}$."
         }
     },
 
@@ -36,8 +36,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-2-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A block of mass $m$ is attached to a light, inextensible string wrapped securely around a solid, uniform cylindrical pulley of mass $M$, radius $R$, and rotational inertia $I = \\frac{1}{2}MR^2$. The pulley is mounted on a frictionless horizontal axle. The block is released from rest.",
-        problemPrompt: "What is the linear acceleration a of the falling block?",
+        problemSetup: "A block of mass $m$ hangs from a string wrapped around a solid cylindrical pulley of mass $M$ and radius $R$, with rotational inertia $I=\\frac{1}{2}MR^2$. The block is released from rest.",
+        problemPrompt: "What is the block's linear acceleration $a$?",
 
         choices: [
             {
@@ -61,7 +61,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 1,
 
         explanation: {
-            correct: "Apply Newton's second law to the block: $mg - T = ma$. For the pulley, the torque from the string is $TR = I\\alpha = \\frac{1}{2}MR^2\\left(\\frac{a}{R}\\right)$, so $T = \\frac{1}{2}Ma$. Substituting into the block equation gives $mg - \\frac{1}{2}Ma = ma$, so $mg = \\left(m + \\frac{1}{2}M\\right)a$ and $a = \\frac{2mg}{2m+M}$."
+            correct: "We're trying to find the block's acceleration $a$.\n\nWe start with Newton's second law for the block because the block's motion is translational and this directly links forces to $a$:\n$\\Sigma F=ma\\Rightarrow mg-T=ma$.\n\nThis equation still has two unknowns, $T$ and $a$, so we need a second equation from the pulley.\nFor rotation, Newton's second law is the torque form:\n$\\Sigma\\tau=I\\alpha$.\nHere the string provides torque $TR$, so\n$TR=I\\alpha$.\nUsing $I=\\frac{1}{2}MR^2$ and $\\alpha=\\frac{a}{R}$,\n$TR=\\frac{1}{2}MR^2\\left(\\frac{a}{R}\\right)$, therefore $T=\\frac{1}{2}Ma$.\n\nSubstitute into the block equation:\n$mg-\\frac{1}{2}Ma=ma$.\nTherefore,\n$mg=\\left(m+\\frac{1}{2}M\\right)a$, so $a=\\frac{2mg}{2m+M}$."
         }
     },
 
@@ -75,8 +75,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-3-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A roller coaster car of mass $m$ is released from rest at Point $A$, which is at a height $H$ above the ground, as shown in the diagram. The car travels along a frictionless track. Point $B$ is at a height of $\\frac{2}{3}H$ above the ground, and Point $C$ is at a height of $\\frac{1}{3}H$ above the ground. Let $K_B$ and $K_C$ represent the kinetic energy of the car at points $B$ and $C$, respectively.",
-        problemPrompt: "Which of the following correctly compares $K_B$ and $K_C$?",
+        problemSetup: "A roller coaster car of mass $m$ is released from rest at point $A$ at height $H$. Point $B$ is at height $\\frac{2}{3}H$, and point $C$ is at height $\\frac{1}{3}H$. Let $K_B$ and $K_C$ be the car's kinetic energies at $B$ and $C$.",
+        problemPrompt: "How do $K_B$ and $K_C$ compare?",
 
         choices: [
             { text: "$K_C = 2K_B$", jpegDiagram: null },
@@ -88,7 +88,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 0,
 
         explanation: {
-            correct: "The car starts from rest, so each point's kinetic energy equals the drop in gravitational potential energy from height $H$. At point $B$, $K_B = mg\\left(H-\\frac{2}{3}H\\right)=\\frac{1}{3}mgH$. At point $C$, $K_C = mg\\left(H-\\frac{1}{3}H\\right)=\\frac{2}{3}mgH$. Therefore $K_C = 2K_B$."
+            correct: "We're trying to compare $K_B$ and $K_C$.\n\nUse conservation of mechanical energy:\n$K_i+U_i=K_f+U_f$.\nThe car starts from rest, so $K_i=0$. Therefore at any lower point,\n$K_f=U_i-U_f=mg(h_i-h_f)=mg\\Delta h$.\n\nSo this is consistent with $K=\\frac{1}{2}mv^2$, but we can find $K$ directly from the height drop.\n\nAt point $B$, the drop is $H-\\frac{2}{3}H=\\frac{1}{3}H$, so\n$K_B=\\frac{1}{3}mgH$.\n\nAt point $C$, the drop is $H-\\frac{1}{3}H=\\frac{2}{3}H$, so\n$K_C=\\frac{2}{3}mgH$.\n\nTherefore, $K_C=2K_B$."
         }
     },
 
@@ -102,8 +102,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-4-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A block of mass $m$ moves to the right along a frictionless surface with a constant speed $v_0$. It collides head-on with a rigid vertical wall and bounces back elastically. The graph shows the magnitude of the force $F$ exerted on the block by the wall as a function of time $t$ during the collision window from $t = 0$ to $t = t_1$. The total area under the force-time graph is equal to $A$. Take the initial direction of the block's motion as the positive direction.",
-        problemPrompt: "Which of the following correctly identifies the change in momentum of the block and the relationship between the area $A$, mass $m$, and initial speed $v_0$?",
+        problemSetup: "A block of mass $m$ moves right with speed $v_0$, collides elastically with a wall, and rebounds. The graph shows the magnitude of the force on the block during the collision, and the area under the graph is $A$. Take Right as Positive.",
+        problemPrompt: "Which choice correctly gives the block's momentum change and the relationship between $A$, $m$, and $v_0$?",
 
         choices: [
             {
@@ -127,7 +127,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 2,
 
         explanation: {
-            correct: "Impulse equals the change in momentum, and the signed impulse is the area under the force-time graph with direction included. The block starts with momentum $+mv_0$ and rebounds elastically with momentum $-mv_0$, so $\\Delta p = -mv_0 - (+mv_0) = -2mv_0$. Because the graph shows the magnitude of the force, its area is $A = 2mv_0$, so the matching choice is $\\Delta p = -A$ with $A = 2mv_0$."
+            correct: "We're trying to find the signed momentum change $\\Delta p$ and relate it to area $A$.\n\nUse the impulse-momentum theorem:\n$J=\\Delta p=\\int F\\,dt$.\nThis means area under an $F$-$t$ graph gives impulse.\n\nFor sign, use momentum directly:\n$\\Delta p=p_f-p_i$.\nTaking right as positive, $p_i=+mv_0$ and after the elastic rebound $p_f=-mv_0$, so\n$\\Delta p=-mv_0-(+mv_0)=-2mv_0$.\n\nThe graph shows force magnitude, so\n$A=|\\Delta p|=2mv_0$.\n\nTherefore, $\\Delta p=-A$ and $A=2mv_0$."
         }
     },
 
@@ -141,8 +141,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-5-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A vertical cylindrical storage tank with a radius of $2.0\\text{ m}$ and a total height of $10\\text{ m}$ is open to the atmosphere at the top. The tank is completely filled with an ideal fluid. The total weight of the fluid contained within the tank is $1.25 \\times 10^6\\text{ N}$.",
-        problemPrompt: "What is the absolute pressure exerted at the inner bottom surface of the tank?",
+        problemSetup: "A vertical cylindrical tank has radius $2.0\\text{ m}$ and height $10\\text{ m}$. It is open at the top and filled with fluid whose total weight is $1.25\\times10^6\\text{ N}$.",
+        problemPrompt: "What is the absolute pressure at the bottom of the tank?",
 
         choices: [
             { text: "$1.0 \\times 10^5\\text{ Pa}$", jpegDiagram: null },
@@ -154,7 +154,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 1,
 
         explanation: {
-            correct: "The fluid pressure at the bottom is $P = P_{\\text{atm}} + \\rho gh$. Since the tank is cylindrical, $\\rho gh$ can be found from the fluid's weight divided by the base area: $\\rho gh = W/A$. The base area is $A = \\pi r^2 = \\pi(2.0)^2 \\approx 12.6\\text{ m}^2$, so $W/A \\approx 1.25\\times10^6 / 12.6 \\approx 1.0\\times10^5\\text{ Pa}$. Adding atmospheric pressure gives $P \\approx 2.0\\times10^5\\text{ Pa}$."
+            correct: "We're trying to find the absolute pressure at the bottom, $P$.\n\nFor a fluid open to air, use hydrostatic pressure:\n$P=P_{\\text{atm}}+\\rho gh$.\n\nSo we need $\\rho gh$. Since fluid weight is $W=\\rho gV$ and $V=Ah$,\n$W=\\rho gAh$, therefore $\\rho gh=\\frac{W}{A}$.\n\nCompute area:\n$A=\\pi r^2=\\pi(2.0)^2\\approx12.6\\text{ m}^2$.\nThen\n$\\frac{W}{A}\\approx\\frac{1.25\\times10^6}{12.6}\\approx1.0\\times10^5\\text{ Pa}$.\n\nTherefore,\n$P\\approx1.0\\times10^5+1.0\\times10^5=2.0\\times10^5\\text{ Pa}$."
         }
     },
 
@@ -168,8 +168,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-6-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A thin-walled hoop and a solid cylinder each have mass $M$ and radius $R$. Their moments of inertia are $I_{\\text{hoop}} = MR^2$ and $I_{\\text{cyl}} = \\frac{1}{2}MR^2$. They are released from rest from the same height $h$ and roll without slipping, as shown. Let $X = \\frac{K_{\\text{rot, hoop}}}{K_{\\text{rot, cyl}}}$ at the bottom.",
-        problemPrompt: "If the setup is repeated, which change would make the new ratio $Y$ equal to $2X$?",
+        problemSetup: "A thin hoop and a solid cylinder each have mass $M$ and radius $R$, with $I_{\\text{hoop}}=MR^2$ and $I_{\\text{cyl}}=\\frac{1}{2}MR^2$. Both are released from rest from the same height $h$. Define $X=\\frac{K_{\\text{rot, hoop}}}{K_{\\text{rot, cyl}}}$ at the bottom.",
+        problemPrompt: "Which change would make the new ratio $Y$ equal to $2X$?",
 
         choices: [
             {text: "Doubling the mass $M$ of both the cylinder and the hoop.", jpegDiagram: null},
@@ -181,7 +181,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 3,
 
         explanation: {
-            correct: "For rolling without slipping, $mgh = K_{\\text{trans}} + K_{\\text{rot}}$ and $K_{\\text{rot}} = \\tfrac{1}{2}I\\omega^2$ with $v=\\omega R$. Using $I_{\\text{hoop}}=MR^2$ gives $K_{\\text{rot, hoop}}=\\tfrac{1}{2}mgh$. Using $I_{\\text{cyl}}=\\tfrac{1}{2}MR^2$ gives $K_{\\text{rot, cyl}}=\\tfrac{1}{3}mgh$. So $X=\\frac{1/2}{1/3}=\\tfrac{3}{2}$. Changing $M$ or $h$ scales both energies equally, so the ratio does not double. Replacing the cylinder with another hoop makes the ratio $1$, not $2X$."
+            correct: "We're trying to decide whether any change can make $Y=2X$.\n\nFirst find\n$X=\\frac{K_{\\text{rot, hoop}}}{K_{\\text{rot, cyl}}}$.\nFor rolling from height $h$, mechanical energy conservation gives\n$mgh=K_{\\text{trans}}+K_{\\text{rot}}$, with $K_{\\text{rot}}=\\frac{1}{2}I\\omega^2$ and $v=\\omega R$.\nUsing the given moments of inertia gives\n$K_{\\text{rot, hoop}}=\\frac{1}{2}mgh$ and $K_{\\text{rot, cyl}}=\\frac{1}{3}mgh$.\nTherefore,\n$X=\\frac{1/2}{1/3}=\\frac{3}{2}$.\n\nDoubling $M$ or $h$ scales both rotational energies equally, so the ratio does not change.\nReplacing the cylinder with another hoop makes the ratio $1$, not $2X$.\n\nTherefore, no listed modification can make $Y=2X$."
         }
     },
 
@@ -195,8 +195,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-7-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A heavy wooden shipping crate of mass $m$ rests on a flat, rough platform. An electric pump slowly and continuously raises one end of the platform to form an incline of angle $\\theta$ with the horizontal, as shown in the diagram. An experimenter notes that the crate remains completely stationary until the platform reaches a critical angle $\\theta_c$, at which point the crate is on the verge of slipping.",
-        problemPrompt: "Which of the following correctly represents the free-body diagram for the crate at the instant $\\theta = \\theta_c$?",
+        problemSetup: "A heavy shipping crate of mass $m$ rests on a rough platform. An electric pump slowly raises one end of the platform, increasing the incline angle to $\\theta$. The crate remains at rest until a critical angle $\\theta_c$, where it is about to slip.",
+        problemPrompt: "Which free-body diagram is correct at $\\theta=\\theta_c$?",
 
         choices: [
             { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-1.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' },
@@ -205,10 +205,10 @@ const ap1PracticeExamMCQPoolOne = [
             { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-4.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' }
         ],
 
-        correctIndex: 1,
+        correctIndex: 2,
 
         explanation: {
-            correct: "At the instant the crate is about to slip, it is still at rest, so the friction force is static friction, not kinetic friction. Because the crate would tend to slide down the incline, the static friction force must point up the incline. The correct free-body diagram therefore has weight straight down, the normal force perpendicular to the surface, and static friction up the ramp."
+            correct: "We're trying to choose the correct free-body diagram at $\\theta_c$.\n\nAt the threshold of motion, the crate is still at rest, so friction is static, not kinetic.\nThe crate would start to move down the incline, therefore static friction must point up the incline.\n\nAt this instant, forces along the ramp balance, so $f_s=mg\\sin\\theta_c$.\nThe normal force is $N=mg\\cos\\theta_c$. Since the crate is not near a vertical ramp at this threshold (so $\\theta_c<45^\\circ$ in this setup), $\\cos\\theta_c>\\sin\\theta_c$, which means $N>f_s$.\n\nTherefore, the correct free-body diagram must show weight straight down, normal force perpendicular to the surface, and static friction up the ramp, with the normal-force arrow longer than the friction arrow."
         }
     },
 
@@ -222,8 +222,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: null,
 
 
-        problemSetup: "An astronaut on Earth sets up a simple pendulum of length $L$ that oscillates with a period $T_0$. The astronaut then travels to a distant planet and alters the setup, decreasing the length of the pendulum string to $\\frac{1}{2}L$. On this planet, the acceleration due to gravity is exactly $\\frac{1}{8}$ of the acceleration due to gravity on Earth.",
-        problemPrompt: "What is the new period of oscillation for the pendulum on this planet in terms of $T_0$?",
+        problemSetup: "A pendulum of length $L$ has period $T_0$ on Earth. On another planet, the pendulum length is changed to $\\frac{1}{2}L$, and the local gravitational acceleration is $\\frac{1}{8}$ of Earth's.",
+        problemPrompt: "What is the new period in terms of $T_0$?",
 
         choices: [
             { text: "$\\frac{1}{4}T_0$", jpegDiagram: null },
@@ -235,7 +235,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 2,
 
         explanation: {
-            correct: "The period of a simple pendulum is given by $T = 2\\pi\\sqrt{\\frac{L}{g}}$. On the distant planet, the new period $T$ is $2\\pi\\sqrt{\\frac{L/2}{g/8}} = 2\\pi\\sqrt{\\frac{4L}{g}} = 2T_0$."
+            correct: "We're trying to find the new period in terms of $T_0$.\n\nStart with the pendulum equation:\n$T=2\\pi\\sqrt{\\frac{L}{g}}$.\n\nLet the planet values be $L_{\\text{planet}}=\\frac{1}{2}L$ and $g_{\\text{planet}}=\\frac{1}{8}g$.\nThen\n$T_{\\text{planet}}=2\\pi\\sqrt{\\frac{L_{\\text{planet}}}{g_{\\text{planet}}}}=2\\pi\\sqrt{\\frac{L/2}{g/8}}=2\\pi\\sqrt{\\frac{4L}{g}}=2T_0$.\n\nTherefore, the new period is $2T_0$."
         }
     },
 
@@ -249,8 +249,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-9-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "Two identical carts, each of mass $m$, are on a horizontal, low-friction track. Initially, Cart 1 moves to the right with speed $v_0$ and Cart 2 is at rest. The carts collide and stick together, moving with a common final speed $v_f$.",
-        problemPrompt: "Which of the following correctly relates the total mechanical energy $E$ and total linear momentum $p$ of the two-cart system after the collision to the system's initial values before the collision?",
+        problemSetup: "Two carts of equal mass $m$ are on a horizontal track. Cart 1 moves right with speed $v_0$, and Cart 2 is at rest. They collide and stick, moving together at speed $v_f$.",
+        problemPrompt: "How do the system's total mechanical energy $E$ and linear momentum $p$ after the collision compare with their initial values?",
 
         choices: [
             {
@@ -274,7 +274,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 1,
 
         explanation: {
-            correct: "Linear momentum is conserved, so $mv_0 = (2m)v_f$, giving $v_f = \\frac{v_0}{2}$. The initial mechanical energy is $E_{\\text{before}} = \\frac{1}{2}mv_0^2$. After the perfectly inelastic collision, $E_{\\text{after}} = \\frac{1}{2}(2m)\\left(\\frac{v_0}{2}\\right)^2 = \\frac{1}{4}mv_0^2 = \\frac{1}{2}E_{\\text{before}}$. Momentum stays the same, so $p_{\\text{after}} = p_{\\text{before}}$."
+            correct: "We're trying to compare $E_{\\text{after}}$ and $p_{\\text{after}}$ with their initial values.\n\nBecause the carts stick together, this is a perfectly inelastic collision.\nIn this type of collision, momentum is conserved but mechanical energy is not conserved.\n\nUse momentum conservation to find final speed:\n$mv_0=(2m)v_f$, so $v_f=\\frac{v_0}{2}$.\n\nNow compute energies using $K=\\frac{1}{2}mv^2$:\n$E_{\\text{before}}=\\frac{1}{2}mv_0^2$,\n$E_{\\text{after}}=\\frac{1}{2}(2m)\\left(\\frac{v_0}{2}\\right)^2=\\frac{1}{4}mv_0^2=\\frac{1}{2}E_{\\text{before}}$.\n\nTherefore, $p_{\\text{after}}=p_{\\text{before}}$ and $E_{\\text{after}}=\\frac{1}{2}E_{\\text{before}}$."
         }
     },
 
@@ -288,8 +288,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-10-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A small projectile is launched horizontally to the right with an initial speed $v_0$ from the top of a high platform. The projectile experiences an air resistance force. The magnitude of this resistive force is governed by the equation $F_D = kv$, where $v$ is the speed of the projectile and $k$ is a non-zero positive constant.",
-        problemPrompt: "Which of the following graphs best represents the horizontal component of the projectile's velocity, $v_x$, as a function of time $t$ from the moment it is launched until it reaches the ground far below?",
+        problemSetup: "A projectile is launched horizontally with speed $v_0$ from a high platform. Air resistance acts with magnitude $F_D=kv$, where $k>0$.",
+        problemPrompt: "Which graph best represents the horizontal velocity component $v_x$ versus time $t$ until the projectile reaches the ground?",
 
         choices: [
             { text: null, jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-choice-images/ap1-PE1-choice-5.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />' },
@@ -301,7 +301,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 3,
 
         explanation: {
-            correct: "The drag force always opposes the projectile's motion, so its horizontal component makes $v_x$ decrease continuously from its initial positive value. Because the drag magnitude is proportional to speed, the rate of decrease becomes smaller as the projectile slows, so the graph should curve downward toward zero without crossing the axis. That matches the fourth graph."
+            correct: "We're trying to choose the correct shape of $v_x(t)$.\n\nDrag always opposes the projectile's motion, so in the horizontal direction:\n$m a_x=-k v_x$, therefore\n$a_x=-\\frac{k}{m}v_x<0$.\nSo $v_x$ must decrease from its initial positive value.\n\nNow compare curve shape possibilities. A straight-line decrease would mean constant slope, so constant $a_x$. But here $a_x$ depends on $v_x$, and as $v_x$ gets smaller, $|a_x|$ also gets smaller. That means the slope starts more negative and then flattens toward zero.\n\nTherefore, $v_x(t)$ is a decreasing curve that levels off toward zero (not a straight line), which matches the fourth graph."
         }
     },
     {//11
@@ -314,8 +314,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-11-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A solid rectangular block with mass $m = 4.5\\text{ kg}$ and density $\\rho_b = 3000\\text{ kg/m}^3$ is completely submerged in a cylinder filled with water with density $\\rho_w = 1000\\text{ kg/m}^3$. The block is suspended at rest from an overhead spring balance by a thin string of negligible mass and does not touch the walls or bottom of the cylinder.",
-        problemPrompt: "What is the reading on the spring balance?",
+        problemSetup: "A block has mass $m=4.5\\text{ kg}$ and density $\\rho_b=3000\\text{ kg/m}^3$. It is fully submerged in water of density $\\rho_w=1000\\text{ kg/m}^3$ and held at rest by a spring balance.",
+        problemPrompt: "What does the spring balance read?",
 
         choices: [
             { text: "$15\\text{ N}$", jpegDiagram: null },
@@ -327,7 +327,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 3,
 
         explanation: {
-            correct: "The block's volume is $V = m/\\rho_b = 4.5/3000 = 1.5\\times10^{-3}\\text{ m}^3$. The buoyant force is then $F_B = \\rho_w gV = (1000)(10)(1.5\\times10^{-3}) = 15\\text{ N}$. Since the block is in equilibrium, the spring balance reads the tension $T = mg - F_B = 45 - 15 = 30\\text{ N}$."
+            correct: "We're trying to find the spring balance reading $T$.\n\nThe block is at rest, so vertical forces balance:\n$T+F_B=mg$, therefore $T=mg-F_B$.\n\nNow find $F_B$ using Archimedes' principle:\n$F_B=\\rho_w gV$.\nThe block's volume is\n$V=\\frac{m}{\\rho_b}=\\frac{4.5}{3000}=1.5\\times10^{-3}\\text{ m}^3$.\nSo\n$F_B=(1000)(10)(1.5\\times10^{-3})=15\\text{ N}$.\n\nTherefore,\n$T=45-15=30\\text{ N}$."
         }
     },
     {//12
@@ -340,8 +340,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: null,
 
 
-        problemSetup: "Planet X has mass $M_0$ and radius $R_0$. Planet Y has a mass of $2M_0$ and a radius of $2R_0$. A research probe of mass $m$ rests on the surface of Planet X, where the gravitational force exerted on it by Planet X has a magnitude of $F_0$.",
-        problemPrompt: "If the same probe is moved to the surface of Planet Y, what is the magnitude of the gravitational force exerted on the probe by Planet Y?",
+        problemSetup: "Planet X has mass $M_0$ and radius $R_0$. Planet Y has mass $2M_0$ and radius $2R_0$. A probe of mass $m$ experiences force $F_0$ at the surface of Planet X.",
+        problemPrompt: "What gravitational force does the same probe experience at the surface of Planet Y?",
 
         choices: [
             { text: "$\\frac{1}{2} F_0$", jpegDiagram: null },
@@ -353,7 +353,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 0,
 
         explanation: {
-            correct: "Use $F = \\frac{GMm}{R^2}$. On Planet X, $F_0 = \\frac{GM_0m}{R_0^2}$. On Planet Y, $F_Y = \\frac{G(2M_0)m}{(2R_0)^2} = \\frac{2GM_0m}{4R_0^2} = \\frac{1}{2}F_0$."
+            correct: "We're trying to find the force on Planet Y in terms of $F_0$.\n\nStart with\n$F=\\frac{GMm}{R^2}$.\nGiven\n$F_0=\\frac{GM_0m}{R_0^2}$ on Planet X, then on Planet Y:\n$F_Y=\\frac{G(2M_0)m}{(2R_0)^2}=\\frac{2GM_0m}{4R_0^2}=\\frac{1}{2}F_0$.\n\nTherefore, the force is $\\frac{1}{2}F_0$."
         }
     },
     {//13
@@ -366,8 +366,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-13-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A block of mass $m$ is pulled along a rough, horizontal floor by a motor. The motor's cable maintains a constant tension force $T$ directed at an angle $\\theta$ above the horizontal. The coefficient of kinetic friction between the block and the floor is $\\mu_k$. The block moves a horizontal distance $d$ to the right.",
-        problemPrompt: "Which of the following expressions correctly represents the work $W_f$ done by kinetic friction on the block?",
+        problemSetup: "A block of mass $m$ is pulled across a rough horizontal surface by a cable with constant tension $T$ at angle $\\theta$ above horizontal. The coefficient of kinetic friction is $\\mu_k$. The block moves distance $d$.",
+        problemPrompt: "Which expression gives the work $W_f$ done by kinetic friction?",
 
         choices: [
             { text: "$-\\mu_k mg d$", jpegDiagram: null },
@@ -379,7 +379,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 3,
 
         explanation: {
-            correct: "The kinetic friction force has magnitude $f_k = \\mu_k N$. Because the tension has an upward component, the normal force is reduced to $N = mg - T\\sin\\theta$. Therefore the work done by friction over distance $d$ is $W_f = -f_k d = -\\mu_k(mg - T\\sin\\theta)d$."
+            correct: "We're trying to find the friction work $W_f$.\n\nWork by a constant force is\n$W=Fd\\cos\\phi$.\nFriction points opposite the displacement, so $\\phi=180^\\circ$ and\n$W_f=-f_kd$.\n\nNow find $f_k$:\n$f_k=\\mu_kN$.\nFrom vertical force balance, the upward tension component reduces the normal force:\n$N=mg-T\\sin\\theta$.\n\nSubstitute:\n$W_f=-\\mu_k(mg-T\\sin\\theta)d$."
         }
     },
     {//14
@@ -392,8 +392,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-14-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "An athlete of mass $M$, modeled as a point mass, stands on a circular platform that rotates with negligible friction about a fixed vertical axis through its center. Initially, the athlete stands at a distance $\\frac{d}{2}$ from the central axis, and the athlete-platform system rotates with total angular momentum $L_0$ and total rotational kinetic energy $K_0$. The athlete then walks inward to a new position at a distance $\\frac{d}{4}$ from the axis, and the system rotates with total angular momentum $L_f$ and total rotational kinetic energy $K_f$. Assume the moment of inertia of the platform itself is negligible.",
-        problemPrompt: "Which of the following correctly compares the final angular momentum $L_f$ and final rotational kinetic energy $K_f$ of the system to their initial values?",
+        problemSetup: "An athlete of mass $M$ stands on a rotating platform at radius $\\frac{d}{2}$. The system initially has angular momentum $L_0$ and rotational kinetic energy $K_0$. The athlete moves inward to radius $\\frac{d}{4}$, giving final values $L_f$ and $K_f$.",
+        problemPrompt: "How do $L_f$ and $K_f$ compare with their initial values?",
 
         choices: [
             { text: "<table style='width:100%; border-collapse:collapse; font-size:20px; font-family:inherit; line-height:1.55;'><thead><tr><th style='border:1px solid #999; padding:4px; font-weight:400;'>Final Angular Momentum $L_f$</th><th style='border:1px solid #999; padding:4px; font-weight:400;'>Final Rotational Kinetic Energy $K_f$</th></tr></thead><tbody><tr><td style='border:1px solid #999; padding:4px;'>$L_f = L_0$</td><td style='border:1px solid #999; padding:4px;'>$K_f = 2K_0$</td></tr></tbody></table>", jpegDiagram: null },
@@ -405,7 +405,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 2,
 
         explanation: {
-            correct: "With negligible external torque, angular momentum is conserved, so $L_f = L_0$. The athlete's moment of inertia changes from $I_i = M\\left(\\frac{d}{2}\\right)^2 = \\frac{Md^2}{4}$ to $I_f = M\\left(\\frac{d}{4}\\right)^2 = \\frac{Md^2}{16}$, which is four times smaller. Since $K = \\frac{L^2}{2I}$ at fixed $L$, reducing $I$ by a factor of 4 makes the rotational kinetic energy increase by a factor of 4, so $K_f = 4K_0$."
+            correct: "We're trying to compare $L_f$ and $K_f$ with $L_0$ and $K_0$.\n\nThere is negligible external torque, so angular momentum is conserved:\n$L_f=L_0$.\n\nTo relate energy to inertia, use\n$K=\\frac{L^2}{2I}$.\nThis comes from combining $L=I\\omega$ with $K=\\frac{1}{2}I\\omega^2$.\n\nNow find how $I$ changes:\n$I_i=M\\left(\\frac{d}{2}\\right)^2=\\frac{Md^2}{4}$,\n$I_f=M\\left(\\frac{d}{4}\\right)^2=\\frac{Md^2}{16}$.\nSo $I$ decreases by a factor of 4.\n\nAt fixed $L$, smaller $I$ means larger $K$, therefore $K_f=4K_0$."
         }
     },
     {//15
@@ -418,8 +418,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-15-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A small marble with mass $m$ rolls horizontally off the edge of a flat desk of height $h = 1.25\\text{ m}$ with a constant speed $v_0 = 3.0\\text{ m/s}$. The marble lands on the floor below.",
-        problemPrompt: "What is the horizontal distance traveled by the marble from the edge of the desk to the point where it lands?",
+        problemSetup: "A marble leaves a fridge of height $h=1.25\\text{ m}$ horizontally with speed $v_0=3.0\\text{ m/s}$.",
+        problemPrompt: "How far horizontally from the fridge edge does it land?",
 
         choices: [
             { text: "$0.75\\text{ m}$", jpegDiagram: null },
@@ -431,7 +431,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 2,
 
         explanation: {
-            correct: "The marble's vertical motion determines the time in the air: $h = \\frac{1}{2}gt^2$, so $1.25 = \\frac{1}{2}(10)t^2$ and $t = 0.50\\text{ s}$. Its horizontal speed stays at $3.0\\text{ m/s}$, so the horizontal distance is $x = v_0 t = (3.0)(0.50) = 1.50\\text{ m}$."
+            correct: "We're trying to find the horizontal distance $x$.\n\nStart with\n$x=v_0t$.\nSo we need the flight time from vertical motion:\n$h=\\frac{1}{2}gt^2$.\nSubstitute values:\n$1.25=\\frac{1}{2}(10)t^2$, giving $t=0.50\\text{ s}$.\n\nTherefore,\n$x=(3.0)(0.50)=1.50\\text{ m}$."
         }
     },
     {//16
@@ -444,8 +444,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-16-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A small block of mass $m$ is suspended vertically from two parallel springs attached to an overhead support. Spring 1 has a spring constant $k_1$, and Spring 2 has a spring constant $k_2$. When the block is in static equilibrium, it hangs at a vertical position $y = 0$. The block is then pulled downward to an initial position $y = -y_0$ and released from rest, undergoing simple harmonic motion along the vertical axis.",
-        problemPrompt: "In terms of the given quantities, what is the magnitude of the block's acceleration when it passes through the position $y = +\\frac{1}{2}y_0$?",
+        problemSetup: "A block of mass $m$ hangs from two parallel springs with constants $k_1$ and $k_2$. Take equilibrium as $y=0$. The block is pulled to $y=-y_0$ and released, then undergoes simple harmonic motion.",
+        problemPrompt: "In terms of the given quantities, what is the acceleration magnitude when the block passes $y=+\\frac{1}{2}y_0$?",
 
         choices: [
             { text: "$\\frac{(k_1 + k_2) y_0}{2m}$", jpegDiagram: null },
@@ -457,7 +457,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 0,
 
         explanation: {
-            correct: "Measured from equilibrium, the two parallel springs act like a single spring with constant $k_1 + k_2$. In SHM, the restoring force is $F = -(k_1+k_2)y$, so the acceleration magnitude is $a = \\frac{(k_1+k_2)|y|}{m}$. At $y = +\\frac{1}{2}y_0$, this becomes $a = \\frac{(k_1+k_2)y_0}{2m}$."
+            correct: "We're trying to find the acceleration magnitude at $y=+\\frac{1}{2}y_0$.\n\nFor two springs in parallel, the effective spring constant is\n$k_{\\text{eq}}=k_1+k_2$.\nHooke's law gives restoring force\n$F=-k_{\\text{eq}}y=-(k_1+k_2)y$.\n\nUsing Newton's second law,\n$a=\\frac{F}{m}$, so the magnitude is\n$|a|=\\frac{|F|}{m}=\\frac{(k_1+k_2)|y|}{m}$.\n\nAt $y=+\\frac{1}{2}y_0$,\n$a=\\frac{(k_1+k_2)y_0}{2m}$."
         }
     },
     {//17
@@ -470,8 +470,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-17-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "A top-down view shows a heavy door of width $L$ that is free to rotate about a vertical axis through its hinged left edge. Four individual forces, $F_A$, $F_B$, $F_C$, and $F_D$, are applied independently to the door. All four forces have the exact same magnitude $F$.",
-        problemPrompt: "Which of the applied forces produces the greatest magnitude of torque about the hinge axis?",
+        problemSetup: "A top view shows a door of width $L$ rotating about its hinge. Four forces, $F_A$, $F_B$, $F_C$, and $F_D$, are each applied separately with equal magnitude $F$.",
+        problemPrompt: "Which force produces the greatest torque magnitude about the hinge?",
 
         choices: [
             { text: "$F_A$", jpegDiagram: null },
@@ -483,7 +483,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 3,
 
         explanation: {
-            correct: "Torque magnitude is $\\tau = rF\\sin\\phi$, where $\\phi$ is the angle between the force and the door. For $F_A$, $\\tau_A = LF\\sin 30^\\circ = 0.5LF$. For $F_B$, $\\tau_B = \\frac{3L}{4}F$. For $F_C$, $\\tau_C = \\frac{L}{2}F$. For $F_D$, $\\tau_D = LF\\sin 60^\\circ = \\frac{\\sqrt{3}}{2}LF$, which is the largest."
+            correct: "We're trying to find which force gives the greatest torque magnitude.\n\nStart with\n$\\tau=rF\\sin\\theta$.\nAll four forces have the same $F$, therefore we compare $r\\sin\\theta$ values:\n$\\tau_A=LF\\sin30^\\circ=0.5LF$,\n$\\tau_B=\\frac{3L}{4}F$,\n$\\tau_C=\\frac{L}{2}F$,\n$\\tau_D=LF\\sin60^\\circ=\\frac{\\sqrt{3}}{2}LF$.\n\nTherefore $\\tau_D$ is largest, so $F_D$ is correct."
         }
     },
     {//18
@@ -496,8 +496,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-18-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "An ideal fluid of density $\\rho$ flows smoothly through a horizontal, tapered pipe. At Region 1, the pipe has a circular cross-sectional radius $R_1$, and the fluid has speed $v_1$ and pressure $P_1$. At Region 2, the pipe smoothly narrows to a circular cross-sectional radius $R_2 = \\frac{1}{2}R_1$, where the fluid pressure is $P_2$.",
-        problemPrompt: "What is the pressure difference between Region 1 and Region 2?",
+        problemSetup: "An ideal fluid of density $\\rho$ flows through a horizontal tapered pipe. At region 1, the radius is $R_1$, speed is $v_1$, and pressure is $P_1$. At region 2, the radius is $R_2=\\frac{1}{2}R_1$ and pressure is $P_2$.",
+        problemPrompt: "What is $P_1-P_2$?",
 
         choices: [
             { text: "$\\frac{15}{2} \\rho v_1^2$", jpegDiagram: null },
@@ -509,7 +509,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 0,
 
         explanation: {
-            correct: "Continuity gives $A_1v_1=A_2v_2$. Since $R_2=\\frac{1}{2}R_1$, the area at Region 2 is one-fourth as large, so $v_2=4v_1$. For a horizontal pipe, Bernoulli's equation gives $P_1 + \\frac{1}{2}\\rho v_1^2 = P_2 + \\frac{1}{2}\\rho v_2^2$. Substituting $v_2=4v_1$ gives $P_1-P_2 = \\frac{1}{2}\\rho(16v_1^2-v_1^2)=\\frac{15}{2}\\rho v_1^2$."
+            correct: "We're trying to find the pressure difference $P_1-P_2$.\n\nFor steady ideal flow in a horizontal pipe, use Bernoulli:\n$P_1+\\frac{1}{2}\\rho v_1^2=P_2+\\frac{1}{2}\\rho v_2^2$.\nSo we need $v_2$.\n\nUse continuity (flow rate conserved):\n$A_1v_1=A_2v_2$.\nBecause $R_2=\\frac{1}{2}R_1$, area scales as $R^2$, so $A_2=\\frac{1}{4}A_1$ and therefore $v_2=4v_1$.\n\nSubstitute into Bernoulli:\n$P_1-P_2=\\frac{1}{2}\\rho(16v_1^2-v_1^2)=\\frac{15}{2}\\rho v_1^2$."
         }
     },
     {//19
@@ -522,8 +522,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: '<img src="ap1/ap1-practice-exam-images/ap1-practice-exam-1-images/ap1-practice-exam-1-mcq-problem-images/ap1-PE1-MCQ-19-problem.png" alt="N/A" style="max-width:100%; height:auto; border-radius:4px;" />',
 
 
-        problemSetup: "Glider A with mass $m_A = 2.0\\text{ kg}$ moves right at $6.0\\text{ m/s}$ on an air track toward Glider B of unknown mass $m_B$, which moves left at $3.0\\text{ m/s}$. A motion sensor records the position $x_{\\text{cm}}$ of the system's center of mass over time $t$, as shown in the graph.",
-        problemPrompt: "What is the mass $m_B$ of Glider B?",
+        problemSetup: "Glider A has mass $m_A=2.0\\text{ kg}$ and speed $+6.0\\text{ m/s}$. Glider B has unknown mass $m_B$ and speed $-3.0\\text{ m/s}$. The graph shows center-of-mass position $x_{\\text{cm}}$ versus time.",
+        problemPrompt: "What is the mass $m_B$?",
 
         choices: [
             { text: "$0.50\\text{ kg}$", jpegDiagram: null },
@@ -535,7 +535,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 0,
 
         explanation: {
-            correct: "The slope of the center-of-mass graph gives the constant center-of-mass speed: $v_{\\text{cm}} = \\frac{3.0\\text{ m}}{2.0\\text{ s}} = 1.5\\text{ m/s}$. For two gliders, $v_{\\text{cm}} = \\frac{m_Av_A + m_Bv_B}{m_A + m_B} = \\frac{(2.0)(6.0) + m_B(-3.0)}{2.0 + m_B}$. Setting this equal to 1.5 and solving gives $1.5(2+m_B)=12-3m_B$, so $m_B=0.50\\text{ kg}$."
+            correct: "We're trying to find the unknown mass $m_B$.\n\nStart with center-of-mass speed:\n$v_{\\text{cm}}=\\frac{m_Av_A+m_Bv_B}{m_A+m_B}$.\nFrom the graph slope,\n$v_{\\text{cm}}=\\frac{3.0\\text{ m}}{2.0\\text{ s}}=1.5\\text{ m/s}$.\n\nSubstitute known values:\n$1.5=\\frac{(2.0)(6.0)+m_B(-3.0)}{2.0+m_B}$.\nSolve:\n$1.5(2+m_B)=12-3m_B$, so $m_B=0.50\\text{ kg}$."
         }
     },
     {//20
@@ -548,8 +548,8 @@ const ap1PracticeExamMCQPoolOne = [
         jpegDiagram: null,
 
 
-        problemSetup: "A motor exerts a constant horizontal force $F$ to accelerate a block of mass $m$ from rest along a horizontal surface. During the time interval from $t = 0$ to $t = T$, the average power delivered to the block by the motor is $P_0$.",
-        problemPrompt: "What is the average power delivered to the block by the motor during the time interval from $t = T$ to $t = 3T$?",
+        problemSetup: "A motor applies a constant horizontal force $F$ to a block of mass $m$, starting from rest. The average power from $t=0$ to $t=T$ is $P_0$.",
+        problemPrompt: "What is the average power from $t=T$ to $t=3T$?",
 
         choices: [
             { text: "$P_0$", jpegDiagram: null },
@@ -561,7 +561,7 @@ const ap1PracticeExamMCQPoolOne = [
         correctIndex: 2,
 
         explanation: {
-            correct: "The constant force gives a constant acceleration $a=F/m$. From $t=0$ to $t=T$, the block reaches speed $aT$, so the work done is $\\Delta K = \\frac{1}{2}m(aT)^2 = \\frac{1}{2}ma^2T^2$. Dividing by the time interval gives $P_0 = \\frac{1}{2}ma^2T$. From $t=T$ to $t=3T$, the speed changes from $aT$ to $3aT$, so the work done is $\\frac{1}{2}m[(3aT)^2-(aT)^2] = 4ma^2T^2$. Over a time interval of $2T$, the average power is $\\frac{4ma^2T^2}{2T}=2ma^2T = 4P_0$."
+            correct: "We're trying to find the average power from $t=T$ to $t=3T$.\n\nAverage power is work per time, and by the work-energy theorem $W=\\Delta K$, so\n$P_{\\text{avg}}=\\frac{\\Delta K}{\\Delta t}$.\n\nWith constant force, acceleration is constant:\n$a=\\frac{F}{m}$.\nSo\n$v(T)=aT$ and $v(3T)=3aT$.\nThen\n$\\Delta K=\\frac{1}{2}m[(3aT)^2-(aT)^2]=4ma^2T^2$, with $\\Delta t=2T$.\nTherefore,\n$P_{\\text{avg}}=\\frac{4ma^2T^2}{2T}=2ma^2T$.\n\nFrom the first interval, $P_0=\\frac{1}{2}ma^2T$, therefore\n$P_{\\text{avg}}=4P_0$."
         }
     }
 
